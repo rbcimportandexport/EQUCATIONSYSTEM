@@ -444,13 +444,32 @@ export const ModuleScreen: React.FC = () => {
                                     window.speechSynthesis.cancel();
                                     return;
                                   }
-                                  const text = [
-                                    lesson.title,
-                                    lesson.content?.definition,
-                                    lesson.content?.simpleExplanation,
-                                    lesson.content?.whyItMatters,
-                                    ...(lesson.content?.keyPoints || [])
-                                  ].filter(Boolean).join('. ');
+                                  const textParts = [lesson.title];
+                                  if (lesson.content?.definition) {
+                                    textParts.push(`${t.definition}: ${lesson.content.definition}`);
+                                  }
+                                  if (lesson.content?.writtenExplanation) {
+                                    textParts.push(`${t.simpleExplanation}: ${lesson.content.writtenExplanation}`);
+                                  }
+                                  if (lesson.content?.businessExample) {
+                                    textParts.push(`${t.realBusinessExample}: ${lesson.content.businessExample}`);
+                                  }
+                                  if (lesson.content?.whyImportant) {
+                                    textParts.push(`${t.whyImportant}: ${lesson.content.whyImportant}`);
+                                  }
+                                  if (lesson.content?.importantNotes && lesson.content.importantNotes.length > 0) {
+                                    textParts.push(`${t.importantPoints}: ${lesson.content.importantNotes.join('. ')}`);
+                                  }
+                                  if (lesson.content?.commonMistakes && lesson.content.commonMistakes.length > 0) {
+                                    textParts.push(`${t.commonMistakes}: ${lesson.content.commonMistakes.join('. ')}`);
+                                  }
+                                  if (lesson.content?.practicalTips && lesson.content.practicalTips.length > 0) {
+                                    textParts.push(`${t.practicalTip}: ${lesson.content.practicalTips.join('. ')}`);
+                                  }
+                                  if (lesson.content?.summary) {
+                                    textParts.push(`${t.topicSummary}: ${lesson.content.summary}`);
+                                  }
+                                  const text = textParts.join('. ');
                                   const utter = new SpeechSynthesisUtterance(text);
                                   
                                   const voices = window.speechSynthesis.getVoices();
