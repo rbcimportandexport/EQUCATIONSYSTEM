@@ -317,6 +317,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
             <ArrowRight size={16} />
           </button>
         )}
+      </div>
     </div>
   );
 };

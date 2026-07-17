@@ -33,9 +33,6 @@ const AppShell: React.FC = () => {
           onEnded={() => setShowSplash(false)}
           onError={() => setShowSplash(false)}
         />
-        <button className="skip-splash-btn" onClick={() => setShowSplash(false)}>
-          Skip Intro
-        </button>
       </div>
     );
   }
