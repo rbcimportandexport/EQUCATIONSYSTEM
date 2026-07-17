@@ -173,11 +173,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const savedCurrentUser = localStorage.getItem('lms_current_user_ie');
     if (savedCurrentUser) {
       setCurrentUserState(JSON.parse(savedCurrentUser));
-    } else {
-      const defaultUser: User = { id: 'u-1', name: 'Jane Doe', email: 'jane.doe@edu.org', role: 'student', progressPercentage: 20 };
-      setCurrentUserState(defaultUser);
-      localStorage.setItem('lms_current_user_ie', JSON.stringify(defaultUser));
     }
+    // No default user — stays null until real user sets their profile
 
     // Default select first course
     const firstCourse = savedCourses ? JSON.parse(savedCourses)[0] : initialCourses[0];

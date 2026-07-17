@@ -187,12 +187,9 @@ export const initialModules: Module[] = [
   { id: 'mod-15', courseId: 'import-export-master', title: 'RBC Import & Export Internal Process', description: 'Internal operating procedures: supplier audit, payment execution, and fulfillment tracking.', order: 15 }
 ];
 
-// Mock Users
-export const initialUsers: User[] = [
-  { id: 'u-1', name: 'Jane Doe', email: 'jane.doe@edu.org', role: 'student', progressPercentage: 20 },
-  { id: 'u-2', name: 'Rajesh Kumar', email: 'rajesh.k@logistics.com', role: 'student', progressPercentage: 85 },
-  { id: 'u-3', name: 'Alice Smith', email: 'alice.s@sourcing.org', role: 'student', progressPercentage: 100 }
-];
+// No seed users — only real registered users will appear
+export const initialUsers: User[] = [];
+
 
 // Static map of syllabus lessons per module
 export const moduleLessonsMap: { [moduleId: string]: string[] } = {
