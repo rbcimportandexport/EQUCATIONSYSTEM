@@ -34,18 +34,24 @@ export const LessonScreen: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeFaqIndex, setActiveFaqIndex] = useState<number | null>(null);
 
+  // Modules & Lessons scoping
+  const courseModules = modules.filter(m => m.courseId === selectedCourseId);
+  const rawModuleLessons = lessons.filter(l => l.moduleId === selectedModuleId);
+  const moduleLessons = rawModuleLessons.map(l => getTranslatedLesson(l, language));
+
   // Active state objects
   const activeCourse = courses.find(c => c.id === selectedCourseId);
   const activeModule = modules.find(m => m.id === selectedModuleId);
   
-  const rawActiveLesson = lessons.find(l => l.id === selectedLessonId);
+  const rawActiveLesson = lessons.find(l => l.id === (selectedLessonId || rawModuleLessons[0]?.id));
   const activeLesson = rawActiveLesson ? getTranslatedLesson(rawActiveLesson, language) : undefined;
 
-  // Modules & Lessons scoping
-  const courseModules = modules.filter(m => m.courseId === selectedCourseId);
-  
-  const rawModuleLessons = lessons.filter(l => l.moduleId === selectedModuleId);
-  const moduleLessons = rawModuleLessons.map(l => getTranslatedLesson(l, language));
+  // Auto-select first lesson if selectedLessonId is missing
+  useEffect(() => {
+    if (!selectedLessonId && rawModuleLessons.length > 0) {
+      setSelectedLessonId(rawModuleLessons[0].id);
+    }
+  }, [selectedLessonId, rawModuleLessons, setSelectedLessonId]);
 
   // Scroll to top on lesson change
   useEffect(() => {
@@ -54,6 +60,20 @@ export const LessonScreen: React.FC = () => {
     }
     setActiveFaqIndex(null);
   }, [selectedLessonId]);
+
+  // Scroll to quiz section if redirecting from "Take Chapter Quiz"
+  useEffect(() => {
+    const isQuizRedirect = sessionStorage.getItem('redirect_to_quiz');
+    if (isQuizRedirect && scrollRef.current && activeLesson) {
+      sessionStorage.removeItem('redirect_to_quiz');
+      setTimeout(() => {
+        const quizElement = document.getElementById('practice-quiz-section');
+        if (quizElement) {
+          quizElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 400);
+    }
+  }, [selectedLessonId, activeLesson]);
 
   if (!activeCourse || !activeModule || !activeLesson) {
     return (
@@ -390,7 +410,7 @@ export const LessonScreen: React.FC = () => {
 
           {/* Practice Quiz Section */}
           {activeLesson.content.quiz && activeLesson.content.quiz.length > 0 && (
-            <div className="practice-quiz-section">
+            <div className="practice-quiz-section" id="practice-quiz-section">
               <h3 className="section-subtitle">{t.takeChapterQuiz}</h3>
               <QuizView
                 lessonId={activeLesson.id}

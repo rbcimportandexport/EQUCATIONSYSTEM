@@ -14,6 +14,8 @@ export const ModuleScreen: React.FC = () => {
     progress,
     selectedModuleId,
     setSelectedModuleId,
+    selectedLessonId,
+    setSelectedLessonId,
     setActiveView,
     markLessonComplete,
     bookmarks,
@@ -662,7 +664,13 @@ export const ModuleScreen: React.FC = () => {
 
             <button 
               className="btn btn-secondary"
-              onClick={() => setActiveView('Lessons')}
+              onClick={() => {
+                if (translatedLessons.length > 0) {
+                  setSelectedLessonId(translatedLessons[0].id);
+                  sessionStorage.setItem('redirect_to_quiz', 'true');
+                  setActiveView('Lessons');
+                }
+              }}
             >
               <span>{t.takeChapterQuiz}</span>
               <Award size={16} />
