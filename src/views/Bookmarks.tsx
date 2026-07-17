@@ -5,11 +5,11 @@ import {
   Trash2, ExternalLink, Search
 } from 'lucide-react';
 
-const TYPE_CONFIG: Record<string, { label: string; color: string; bg: string; icon: React.ReactNode }> = {
-  lesson: { label: 'Lesson', color: '#60a5fa', bg: 'rgba(96,165,250,0.12)', icon: <FileText size={18} color="#60a5fa" /> },
-  video:  { label: 'Video',  color: '#a78bfa', bg: 'rgba(167,139,250,0.12)', icon: <PlayCircle size={18} color="#a78bfa" /> },
-  pdf:    { label: 'PDF',    color: '#f97316', bg: 'rgba(249,115,22,0.12)',  icon: <FileText size={18} color="#f97316" /> },
-  image:  { label: 'Image',  color: '#34d399', bg: 'rgba(52,211,153,0.12)', icon: <FileImage size={18} color="#34d399" /> },
+const TYPE_CONFIG: Record<string, { label: string; color: string; bg: string; border: string; icon: React.ReactNode }> = {
+  lesson: { label: 'Lesson', color: '#2563eb', bg: '#eff6ff', border: '#bfdbfe', icon: <FileText size={18} color="#2563eb" /> },
+  video:  { label: 'Video',  color: '#7c3aed', bg: '#f5f3ff', border: '#ddd6fe', icon: <PlayCircle size={18} color="#7c3aed" /> },
+  pdf:    { label: 'PDF',    color: '#ea580c', bg: '#fff7ed', border: '#fed7aa', icon: <FileText size={18} color="#ea580c" /> },
+  image:  { label: 'Image',  color: '#059669', bg: '#ecfdf5', border: '#a7f3d0', icon: <FileImage size={18} color="#059669" /> },
 };
 
 const FILTER_TABS = ['all', 'lesson', 'video', 'pdf'] as const;
@@ -46,23 +46,24 @@ export const Bookmarks: React.FC = () => {
   return (
     <div style={{
       minHeight: '100%',
-      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #0f172a 100%)',
+      background: '#f8fafc',
       padding: '32px',
     }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '28px' }}>
         <div style={{
           width: '48px', height: '48px', borderRadius: '14px',
-          background: 'linear-gradient(135deg, #fbbf24, #f97316)',
+          background: 'linear-gradient(135deg, #f59e0b, #f97316)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
+          boxShadow: '0 4px 12px rgba(245,158,11,0.3)'
         }}>
           <Bookmark size={22} color="#fff" />
         </div>
         <div>
-          <h2 style={{ margin: 0, fontSize: '22px', fontWeight: '800', color: '#f1f5f9' }}>
+          <h2 style={{ margin: 0, fontSize: '22px', fontWeight: '800', color: '#0f172a' }}>
             My Bookmarks
           </h2>
-          <p style={{ margin: 0, fontSize: '13px', color: 'rgba(255,255,255,0.5)' }}>
+          <p style={{ margin: 0, fontSize: '13px', color: '#64748b' }}>
             {bookmarks.length} saved item{bookmarks.length !== 1 ? 's' : ''}
           </p>
         </div>
@@ -70,19 +71,20 @@ export const Bookmarks: React.FC = () => {
 
       {/* Search + Filter Bar */}
       <div style={{
-        background: 'rgba(255,255,255,0.05)',
-        border: '1px solid rgba(255,255,255,0.1)',
-        borderRadius: '16px',
-        padding: '16px 20px',
+        background: '#ffffff',
+        border: '1px solid #e2e8f0',
+        borderRadius: '14px',
+        padding: '14px 20px',
         marginBottom: '24px',
         display: 'flex',
         gap: '16px',
         alignItems: 'center',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        boxShadow: '0 1px 4px rgba(0,0,0,0.06)'
       }}>
         {/* Search */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, minWidth: '200px' }}>
-          <Search size={16} color="rgba(255,255,255,0.4)" />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, minWidth: '180px' }}>
+          <Search size={16} color="#94a3b8" />
           <input
             type="text"
             placeholder="Search bookmarks..."
@@ -92,12 +94,15 @@ export const Bookmarks: React.FC = () => {
               background: 'transparent',
               border: 'none',
               outline: 'none',
-              color: '#f1f5f9',
+              color: '#1e293b',
               fontSize: '14px',
               width: '100%',
             }}
           />
         </div>
+
+        {/* Divider */}
+        <div style={{ width: '1px', height: '24px', background: '#e2e8f0' }} />
 
         {/* Filter Tabs */}
         <div style={{ display: 'flex', gap: '6px' }}>
@@ -110,11 +115,11 @@ export const Bookmarks: React.FC = () => {
                 style={{
                   padding: '6px 14px',
                   borderRadius: '20px',
-                  border: isActive ? 'none' : '1px solid rgba(255,255,255,0.15)',
+                  border: isActive ? 'none' : '1px solid #e2e8f0',
                   background: isActive
-                    ? 'linear-gradient(135deg, #fbbf24, #f97316)'
-                    : 'transparent',
-                  color: isActive ? '#1e293b' : 'rgba(255,255,255,0.6)',
+                    ? 'linear-gradient(135deg, #f59e0b, #f97316)'
+                    : '#f8fafc',
+                  color: isActive ? '#fff' : '#64748b',
                   fontWeight: isActive ? '700' : '500',
                   fontSize: '12px',
                   cursor: 'pointer',
@@ -135,27 +140,27 @@ export const Bookmarks: React.FC = () => {
         <div style={{
           display: 'flex', flexDirection: 'column', alignItems: 'center',
           justifyContent: 'center', padding: '80px 20px', gap: '16px',
-          border: '2px dashed rgba(255,255,255,0.1)', borderRadius: '20px',
-          textAlign: 'center'
+          border: '2px dashed #e2e8f0', borderRadius: '20px',
+          background: '#ffffff', textAlign: 'center'
         }}>
           <div style={{
             width: '72px', height: '72px', borderRadius: '50%',
-            background: 'rgba(251,191,36,0.1)',
+            background: '#fff7ed',
             display: 'flex', alignItems: 'center', justifyContent: 'center'
           }}>
-            <Bookmark size={32} color="rgba(251,191,36,0.5)" />
+            <Bookmark size={32} color="#f59e0b" />
           </div>
-          <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '700', color: '#f1f5f9' }}>
+          <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '700', color: '#0f172a' }}>
             No Bookmarks Yet
           </h3>
-          <p style={{ margin: 0, color: 'rgba(255,255,255,0.4)', fontSize: '14px', maxWidth: '360px', lineHeight: 1.6 }}>
+          <p style={{ margin: 0, color: '#94a3b8', fontSize: '14px', maxWidth: '360px', lineHeight: 1.6 }}>
             While studying a lesson, click the bookmark icon to save any resource here for quick access.
           </p>
         </div>
       ) : (
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
           gap: '16px'
         }}>
           {filteredBookmarks.map(b => {
@@ -165,21 +170,23 @@ export const Bookmarks: React.FC = () => {
 
             return (
               <div key={b.id} style={{
-                background: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.1)',
+                background: '#ffffff',
+                border: `1px solid ${cfg.border}`,
                 borderRadius: '16px',
                 padding: '20px',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '14px',
-                transition: 'transform 0.15s, box-shadow 0.15s',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+                transition: 'box-shadow 0.2s',
               }}>
                 {/* Top row: icon + title */}
                 <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
                   <div style={{
                     width: '44px', height: '44px', borderRadius: '12px',
                     background: cfg.bg, flexShrink: 0,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    border: `1px solid ${cfg.border}`
                   }}>
                     {cfg.icon}
                   </div>
@@ -192,7 +199,7 @@ export const Bookmarks: React.FC = () => {
                     </span>
                     <h4 style={{
                       margin: '4px 0 0', fontSize: '14px', fontWeight: '700',
-                      color: '#f1f5f9', lineHeight: 1.3,
+                      color: '#0f172a', lineHeight: 1.3,
                       overflow: 'hidden', textOverflow: 'ellipsis',
                       display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical'
                     }}>
@@ -204,10 +211,10 @@ export const Bookmarks: React.FC = () => {
                 {/* Module reference */}
                 {lesson && (
                   <div style={{
-                    fontSize: '11px', color: 'rgba(255,255,255,0.45)',
-                    background: 'rgba(255,255,255,0.04)',
+                    fontSize: '11px', color: '#64748b',
+                    background: '#f8fafc',
                     borderRadius: '8px', padding: '8px 10px',
-                    lineHeight: 1.4
+                    lineHeight: 1.4, border: '1px solid #f1f5f9'
                   }}>
                     📂 {moduleObj?.title} → {lesson.title}
                   </div>
@@ -218,10 +225,12 @@ export const Bookmarks: React.FC = () => {
                   <button
                     onClick={() => handleNavigateToBookmark(b)}
                     style={{
-                      flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                      flex: 1, display: 'flex', alignItems: 'center',
+                      justifyContent: 'center', gap: '6px',
                       padding: '9px', borderRadius: '10px', border: 'none',
-                      background: 'linear-gradient(135deg, #3b82f6, #6366f1)',
-                      color: '#fff', fontWeight: '600', fontSize: '13px', cursor: 'pointer'
+                      background: 'linear-gradient(135deg, #1d4ed8, #4f46e5)',
+                      color: '#fff', fontWeight: '600', fontSize: '13px', cursor: 'pointer',
+                      boxShadow: '0 2px 6px rgba(29,78,216,0.25)'
                     }}
                   >
                     <ExternalLink size={13} /> Go to Lesson
@@ -230,9 +239,9 @@ export const Bookmarks: React.FC = () => {
                     onClick={() => removeBookmark(b.id)}
                     style={{
                       width: '40px', height: '40px', borderRadius: '10px',
-                      border: '1px solid rgba(239,68,68,0.3)',
-                      background: 'rgba(239,68,68,0.08)',
-                      color: '#f87171', cursor: 'pointer',
+                      border: '1px solid #fecaca',
+                      background: '#fff5f5',
+                      color: '#ef4444', cursor: 'pointer',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       flexShrink: 0
                     }}
