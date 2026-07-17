@@ -18,6 +18,26 @@ import { AdminPanel } from './views/AdminPanel';
 const AppShell: React.FC = () => {
   const { activeView } = useApp();
   const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
+
+  if (showSplash) {
+    return (
+      <div className="splash-screen-container">
+        <video 
+          className="splash-video"
+          src="/splash.mp4"
+          autoPlay
+          muted
+          playsInline
+          onEnded={() => setShowSplash(false)}
+          onError={() => setShowSplash(false)}
+        />
+        <button className="skip-splash-btn" onClick={() => setShowSplash(false)}>
+          Skip Intro
+        </button>
+      </div>
+    );
+  }
 
   const renderActiveView = () => {
     switch (activeView) {

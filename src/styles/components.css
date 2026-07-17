@@ -1810,3 +1810,49 @@
   font-size: var(--font-size-body-medium);
   color: var(--md-sys-color-success);
 }
+
+/* ==========================================================================
+   SPLASH SCREEN OVERLAY STYLING
+   ========================================================================== */
+.splash-screen-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  overflow: hidden;
+}
+
+.splash-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.skip-splash-btn {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 30px;
+  color: #ffffff;
+  font-family: var(--font-family);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.skip-splash-btn:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
