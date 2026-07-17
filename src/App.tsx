@@ -60,7 +60,6 @@ const AppShell: React.FC = () => {
             }}
           >
             <span className="play-icon">▶</span>
-            <span>RBC Academy</span>
           </button>
         )}
       </div>
