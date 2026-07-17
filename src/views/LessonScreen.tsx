@@ -34,14 +34,18 @@ export const LessonScreen: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeFaqIndex, setActiveFaqIndex] = useState<number | null>(null);
 
+  // Fallback state IDs to handle null/missing parameters defensively
+  const fallbackCourseId = selectedCourseId || courses[0]?.id || 'import-export-master';
+  const fallbackModuleId = selectedModuleId || modules[0]?.id || 'mod-1';
+
   // Modules & Lessons scoping
-  const courseModules = modules.filter(m => m.courseId === selectedCourseId);
-  const rawModuleLessons = lessons.filter(l => l.moduleId === selectedModuleId);
+  const courseModules = modules.filter(m => m.courseId === fallbackCourseId);
+  const rawModuleLessons = lessons.filter(l => l.moduleId === fallbackModuleId);
   const moduleLessons = rawModuleLessons.map(l => getTranslatedLesson(l, language));
 
   // Active state objects
-  const activeCourse = courses.find(c => c.id === selectedCourseId);
-  const activeModule = modules.find(m => m.id === selectedModuleId);
+  const activeCourse = courses.find(c => c.id === fallbackCourseId);
+  const activeModule = modules.find(m => m.id === fallbackModuleId);
   
   const rawActiveLesson = lessons.find(l => l.id === (selectedLessonId || rawModuleLessons[0]?.id));
   const activeLesson = rawActiveLesson ? getTranslatedLesson(rawActiveLesson, language) : undefined;

@@ -64,6 +64,13 @@ export const ModuleScreen: React.FC = () => {
 
   const isModuleCompleted = completionPercentage === 100;
 
+  // Sync selectedModuleId if null to avoid null states in downstream views
+  useEffect(() => {
+    if (!selectedModuleId && modules.length > 0) {
+      setSelectedModuleId(modules[0].id);
+    }
+  }, [selectedModuleId, modules, setSelectedModuleId]);
+
   // Set default active topic & clear accordion on module change
   useEffect(() => {
     if (translatedLessons.length > 0) {
