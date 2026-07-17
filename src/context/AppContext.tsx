@@ -16,7 +16,8 @@ export type ViewType =
   | 'Search' 
   | 'Profile' 
   | 'Settings' 
-  | 'AdminPanel';
+  | 'AdminPanel'
+  | 'Quiz';
 
 export type RoleType = 'student' | 'admin';
 

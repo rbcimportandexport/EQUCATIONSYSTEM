@@ -670,13 +670,7 @@ export const ModuleScreen: React.FC = () => {
 
             <button 
               className="btn btn-secondary"
-              onClick={() => {
-                if (translatedLessons.length > 0) {
-                  setSelectedLessonId(translatedLessons[0].id);
-                  sessionStorage.setItem('redirect_to_quiz', 'true');
-                  setActiveView('Lessons');
-                }
-              }}
+              onClick={() => setActiveView('Quiz')}
             >
               <span>{t.takeChapterQuiz}</span>
               <Award size={16} />

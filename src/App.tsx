@@ -14,6 +14,7 @@ import { Search } from './views/Search';
 import { Profile } from './views/Profile';
 import { Settings } from './views/Settings';
 import { AdminPanel } from './views/AdminPanel';
+import { QuizScreen } from './views/QuizScreen';
 
 const AppShell: React.FC = () => {
   const { activeView } = useApp();
@@ -61,6 +62,8 @@ const AppShell: React.FC = () => {
         return <Settings />;
       case 'AdminPanel':
         return <AdminPanel />;
+      case 'Quiz':
+        return <QuizScreen />;
       default:
         return <ModuleScreen />;
     }
