@@ -124,7 +124,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const savedCourses = localStorage.getItem('lms_courses_ie');
     const savedModules = localStorage.getItem('lms_modules_ie');
     const savedLessons = localStorage.getItem('lms_lessons_ie');
-    const savedUsers = localStorage.getItem('lms_users_ie');
+    const savedUsers = localStorage.getItem('lms_users_v2_ie');
     const savedCerts = localStorage.getItem('lms_certs_ie');
     const savedProgress = localStorage.getItem('lms_progress_ie');
     const savedBookmarks = localStorage.getItem('lms_bookmarks_ie');
@@ -154,7 +154,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (savedUsers) setUsers(JSON.parse(savedUsers));
     else {
       setUsers(initialUsers);
-      localStorage.setItem('lms_users_ie', JSON.stringify(initialUsers));
+      localStorage.setItem('lms_users_v2_ie', JSON.stringify(initialUsers));
     }
 
     if (savedCerts) setCertificates(JSON.parse(savedCerts));
@@ -170,7 +170,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (savedRole) setUserRole(savedRole as RoleType);
     if (savedLang) setLanguageState(savedLang as 'en' | 'hi' | 'gu' | 'mr');
 
-    const savedCurrentUser = localStorage.getItem('lms_current_user_ie');
+    const savedCurrentUser = localStorage.getItem('lms_current_user_v2_ie');
     if (savedCurrentUser) {
       setCurrentUserState(JSON.parse(savedCurrentUser));
     }
@@ -193,7 +193,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     localStorage.removeItem('lms_courses_ie');
     localStorage.removeItem('lms_modules_ie');
     localStorage.removeItem('lms_lessons_ie');
-    localStorage.removeItem('lms_users_ie');
+    localStorage.removeItem('lms_users_v2_ie');
     localStorage.removeItem('lms_certs_ie');
     localStorage.removeItem('lms_progress_ie');
     localStorage.removeItem('lms_bookmarks_ie');
@@ -332,7 +332,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       } else {
         updated = [...prev, user];
       }
-      saveToLocal('lms_users_ie', updated);
+      saveToLocal('lms_users_v2_ie', updated);
       return updated;
     });
   };
@@ -577,12 +577,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     
     setUsers(prev => {
       const updated = [...prev.filter(u => u.email !== email), newUser];
-      saveToLocal('lms_users_ie', updated);
+      saveToLocal('lms_users_v2_ie', updated);
       return updated;
     });
 
     setCurrentUserState(newUser);
-    localStorage.setItem('lms_current_user_ie', JSON.stringify(newUser));
+    localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(newUser));
   };
 
   return (
