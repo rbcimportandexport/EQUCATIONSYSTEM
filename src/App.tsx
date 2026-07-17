@@ -20,48 +20,31 @@ const AppShell: React.FC = () => {
   const { activeView } = useApp();
   const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
-  const [isBlocked, setIsBlocked] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     if (showSplash && videoRef.current) {
-      // First attempt: try playing unmuted (with sound)
-      videoRef.current.muted = false;
-      const playPromise = videoRef.current.play();
-
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Autoplay was blocked by browser policies! Show play overlay
-          setIsBlocked(true);
-        });
-      }
+      // Muted autoplay — browser always allows this, no overlay needed
+      videoRef.current.muted = true;
+      videoRef.current.play().catch(() => {
+        // If even muted play fails, just skip splash
+        setShowSplash(false);
+      });
     }
   }, [showSplash]);
 
   if (showSplash) {
     return (
       <div className="splash-screen-container">
-        <video 
+        <video
           ref={videoRef}
           className="splash-video"
           src="/splash.mp4"
+          muted
           playsInline
           onEnded={() => setShowSplash(false)}
           onError={() => setShowSplash(false)}
         />
-        {isBlocked && (
-          <button 
-            className="play-splash-btn"
-            onClick={() => {
-              if (videoRef.current) {
-                videoRef.current.play();
-                setIsBlocked(false);
-              }
-            }}
-          >
-            <span className="play-icon">▶</span>
-          </button>
-        )}
       </div>
     );
   }
