@@ -1,7 +1,7 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
 import { QuizView } from '../components/QuizView';
-import { uiTranslations, translateModuleTitle } from '../utils/translator';
+import { translateModuleTitle, getTranslatedLesson } from '../utils/translator';
 import { ArrowLeft, Award } from 'lucide-react';
 
 export const QuizScreen: React.FC = () => {
@@ -12,8 +12,6 @@ export const QuizScreen: React.FC = () => {
     language, 
     setActiveView 
   } = useApp();
-
-  const t = uiTranslations[language];
 
   // Resolve active module
   const activeModule = modules.find(m => m.id === selectedModuleId) || modules[0];

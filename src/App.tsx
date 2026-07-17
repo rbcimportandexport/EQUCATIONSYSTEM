@@ -7,7 +7,6 @@ import { TopAppBar } from './components/TopAppBar';
 import { Dashboard } from './views/Dashboard';
 import { Courses } from './views/Courses';
 import { ModuleScreen } from './views/ModuleScreen';
-import { LessonScreen } from './views/LessonScreen';
 import { Bookmarks } from './views/Bookmarks';
 import { Downloads } from './views/Downloads';
 import { Search } from './views/Search';
