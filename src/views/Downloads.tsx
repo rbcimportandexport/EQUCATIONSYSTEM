@@ -34,7 +34,7 @@ export const Downloads: React.FC = () => {
     setSelectedCourseId('import-export-master'); // Default
     setSelectedModuleId(lesson.moduleId);
     setSelectedLessonId(d.lessonId);
-    setActiveView('Lessons');
+    setActiveView('Chapters');
   };
 
   const getIcon = (type: string) => {

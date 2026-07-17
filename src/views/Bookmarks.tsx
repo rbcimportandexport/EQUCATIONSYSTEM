@@ -43,7 +43,7 @@ export const Bookmarks: React.FC = () => {
     setSelectedLessonId(b.lessonId);
     
     // Switch view
-    setActiveView('Lessons');
+    setActiveView('Chapters');
   };
 
   const getIcon = (type: string) => {

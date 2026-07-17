@@ -64,7 +64,7 @@ export const Dashboard: React.FC = () => {
     setSelectedCourseId(lessonModule.courseId);
     setSelectedModuleId(lessonModule.id);
     setSelectedLessonId(continueLesson.id);
-    setActiveView('Lessons');
+    setActiveView('Chapters');
   };
 
   const handleStartCourse = (courseId: string) => {

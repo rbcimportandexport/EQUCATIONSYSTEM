@@ -14,6 +14,7 @@ export const ModuleScreen: React.FC = () => {
     progress,
     selectedModuleId,
     setSelectedModuleId,
+    selectedLessonId,
     setSelectedLessonId,
     setActiveView,
     markLessonComplete,
@@ -70,6 +71,30 @@ export const ModuleScreen: React.FC = () => {
       setSelectedModuleId(modules[0].id);
     }
   }, [selectedModuleId, modules, setSelectedModuleId]);
+
+  // If selectedLessonId is set from outside (like Search, Dashboard, Bookmarks, etc.),
+  // auto-expand it and scroll to it.
+  useEffect(() => {
+    if (selectedLessonId) {
+      // Find if this lesson belongs to the active module
+      const hasLesson = translatedLessons.some(l => l.id === selectedLessonId);
+      if (hasLesson) {
+        setExpandedTopics(prev => ({
+          ...prev,
+          [selectedLessonId]: true
+        }));
+        setActiveTopicId(selectedLessonId);
+        
+        // Scroll to it
+        setTimeout(() => {
+          handleScrollToTopic(selectedLessonId);
+        }, 150);
+        
+        // Reset selectedLessonId to null in global state so that it doesn't trigger scroll on subsequent transitions
+        setSelectedLessonId(null);
+      }
+    }
+  }, [selectedLessonId, translatedLessons, setSelectedLessonId]);
 
   // Set default active topic & clear accordion on module change
   useEffect(() => {

@@ -49,7 +49,7 @@ const AppShell: React.FC = () => {
       case 'Chapters':
         return <ModuleScreen />;
       case 'Lessons':
-        return <LessonScreen />;
+        return <ModuleScreen />;
       case 'Bookmarks':
         return <Bookmarks />;
       case 'Downloads':

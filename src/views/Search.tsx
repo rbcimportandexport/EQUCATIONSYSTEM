@@ -151,7 +151,7 @@ export const Search: React.FC = () => {
     } else {
       setSelectedModuleId(res.moduleId || null);
       setSelectedLessonId(res.lessonId || null);
-      setActiveView('Lessons');
+      setActiveView('Chapters');
     }
   };
 
