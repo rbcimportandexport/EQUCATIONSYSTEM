@@ -90,7 +90,7 @@ interface AppContextType {
   // Login & Session profiles
   currentUser: User | null;
   setCurrentUser: (user: User | null) => void;
-  loginUser: (name: string, email: string, role: string) => void;
+  loginUser: (name: string, email: string, role: RoleType) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -174,7 +174,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (savedCurrentUser) {
       setCurrentUserState(JSON.parse(savedCurrentUser));
     } else {
-      const defaultUser = { id: 'u-1', name: 'Jane Doe', email: 'jane.doe@edu.org', role: 'student', progressPercentage: 20 };
+      const defaultUser: User = { id: 'u-1', name: 'Jane Doe', email: 'jane.doe@edu.org', role: 'student', progressPercentage: 20 };
       setCurrentUserState(defaultUser);
       localStorage.setItem('lms_current_user_ie', JSON.stringify(defaultUser));
     }
@@ -569,12 +569,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     localStorage.setItem('lms_language_ie', lang);
   };
 
-  const loginUser = (name: string, email: string, role: string) => {
+  const loginUser = (name: string, email: string, role: RoleType) => {
     const newUser: User = {
       id: `u-${Date.now()}`,
       name,
       email,
-      role: 'student',
+      role,
       progressPercentage: 0
     };
     

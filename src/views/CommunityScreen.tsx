@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
-import { MessageSquare, Users, Send, Check, ShieldCheck, HelpCircle } from 'lucide-react';
+import { MessageSquare, Users, Send, ShieldCheck } from 'lucide-react';
 
 interface Expert {
   id: string;
@@ -60,7 +60,7 @@ export const CommunityScreen: React.FC = () => {
   }, [messages, isTyping, selectedExpert]);
 
   // Expert answer simulator
-  const getExpertReply = (query: string, expertName: string): string => {
+  const getExpertReply = (query: string, _expertName: string): string => {
     const q = query.toLowerCase();
     
     if (language === 'hi') {
@@ -198,7 +198,6 @@ export const CommunityScreen: React.FC = () => {
                       color: 'var(--md-sys-color-primary)',
                       display: 'flex',
                       alignItems: 'center',
-                      justifyPosition: 'center',
                       justifyContent: 'center',
                       fontWeight: 'bold',
                       fontSize: '14px',
@@ -328,7 +327,7 @@ export const CommunityScreen: React.FC = () => {
               
               {/* Default Greeting Message */}
               <div style={{ display: 'flex', gap: '12px', maxWidth: '80%' }}>
-                <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: 'var(--md-sys-color-primary)', color: '#ffffff', display: 'flex', alignItems: 'center', justifyPosition: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '12px', flexShrink: 0 }}>
+                <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: 'var(--md-sys-color-primary)', color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '12px', flexShrink: 0 }}>
                   {selectedExpert.avatarText}
                 </div>
                 <div style={{ padding: '12px 16px', borderRadius: '0 16px 16px 16px', backgroundColor: 'var(--md-sys-color-surface)', border: '1px solid var(--md-sys-color-outline-variant)' }}>

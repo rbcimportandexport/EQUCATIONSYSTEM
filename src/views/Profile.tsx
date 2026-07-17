@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext';
 import { Award, Shield, User, Clock, FileText } from 'lucide-react';
 
 export const Profile: React.FC = () => {
-  const { courses, progress, getCourseCompletionPercentage, currentUser, loginUser, language } = useApp();
+  const { courses, progress, getCourseCompletionPercentage, currentUser, loginUser } = useApp();
   const [showCertificate, setShowCertificate] = useState(false);
   const [certCourseTitle, setCertCourseTitle] = useState('');
   const [isEditing, setIsEditing] = useState(false);
