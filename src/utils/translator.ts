@@ -682,6 +682,112 @@ export const getTranslatedLesson = (
   const override = lessonTextTranslations[lang]?.[lesson.id];
   const translatedTitle = override?.title || translateModuleTitle(lesson.title, lang);
 
+  // Translate the quiz array if present
+  let translatedQuiz = undefined;
+  if (lesson.content.quiz && lesson.content.quiz.length > 0) {
+    translatedQuiz = lesson.content.quiz.map((q: any) => {
+      let translatedQuestion = q.question;
+      let translatedExplanation = q.explanation;
+      let translatedOptions = q.options;
+
+      // Handle the generic auto-generated question
+      if (q.question.includes('Correctly understanding')) {
+        if (lang === 'hi') {
+          translatedQuestion = `${translatedTitle} को सही ढंग से समझने से लॉजिस्टिक्स एजेंसियों को देरी और सीमा शुल्क जुर्माना शुल्क से बचने में मदद मिलती है।`;
+          translatedExplanation = `व्यापार और कार्गो शर्तों का सटीक अनुप्रयोग सीमा शुल्क विवादों, लोडिंग विसंगतियों और माल ढुलाई दर के जुर्माने को रोकता है।`;
+        } else if (lang === 'gu') {
+          translatedQuestion = `${translatedTitle} ને યોગ્ય રીતે સમજવાથી લોજિસ્ટિક્સ એજન્સીઓને વિલંબ અને કસ્ટમ્સ દંડના શુલ્ક ટાળવામાં મદદ મળે છે.`;
+          translatedExplanation = `વેપાર અને કાગો શરતોનો સચોટ ઉપયોગ કસ્ટમ્સ વિવાદો, લોડિંગની વિસંગતતાઓ અને નૂર દરના દંડને અટકાવે છે.`;
+        } else if (lang === 'mr') {
+          translatedQuestion = `${translatedTitle} अचूकपणे समजून घेतल्याने लॉजिस्टिक्स एजन्सींना उशीर आणि सीमा शुल्क दंड शुल्क टाळण्यास मदत होते.`;
+          translatedExplanation = `व्यापार आणि मालवाहतूक अटींचा अचूक वापर सीमा शुल्क विवाद, लोडिंगमधील तफावत आणि मालवाहतूक दराचे दंड प्रतिबंधित करतो.`;
+        }
+      }
+      // Handle "What constitutes a 'Landed Cost' in importing?"
+      else if (q.question.includes('Landed Cost')) {
+        if (lang === 'hi') {
+          translatedQuestion = `आयात में "लैंडेड कॉस्ट" (Landed Cost) में क्या शामिल होता है?`;
+          translatedOptions = [
+            'केवल विदेशी सप्लायर को भुगतान की गई कीमत।',
+            'माल की कुल लागत + माल ढुलाई (Freight) + सीमा शुल्क (Customs) + कर (Duties) + स्थानीय परिवहन।',
+            'केवल पोर्ट टर्मिनल शुल्क।',
+            'उत्पाद का खुदरा बाजार मूल्य (Retail Price)।'
+          ];
+          translatedExplanation = `लैंडेड कॉस्ट में उत्पाद को फैक्ट्री से लेकर अंतिम गंतव्य गोदाम तक लाने से जुड़ी सभी लागतें शामिल होती हैं।`;
+        } else if (lang === 'gu') {
+          translatedQuestion = `આયાતમાં "લેન્ડેડ કોસ્ટ" (Landed Cost) માં શું શામેલ છે?`;
+          translatedOptions = [
+            'ફક્ત વિદેશી સપ્લાયરને ચૂકવેલ કિંમત.',
+            'માલની કુલ કિંમત + નૂર (Freight) + કસ્ટમ્સ ક્લિયરન્સ + કરવેરા + સ્થાનિક પરિવહન.',
+            'ફક્ત પોર્ટ ટર્મિનલ શુલ્ક.',
+            'પ્રોડક્ટની બજાર છૂટક કિંમત.'
+          ];
+          translatedExplanation = `લેન્ડેડ કોસ્ટમાં ઉત્પાદનને ફેક્ટરીથી લઈને અંતિમ ગંતવ્ય વેરહાઉસ સુધી લાવવા સાથે સંકળાયેલા તમામ ખર્ચનો સમાવેશ થાય છે.`;
+        } else if (lang === 'mr') {
+          translatedQuestion = `आयातीमध्ये "लँडेड कॉप्ट" (Landed Cost) मध्ये कशाचा समावेश होतो?`;
+          translatedOptions = [
+            'केवळ परदेशी सप्लायरला दिलेली किंमत.',
+            'मालाची एकूण किंमत + मालवाहतूक (Freight) + सीमा शुल्क क्लिअरन्स + कर + स्थानिक वाहतूक.',
+            'केवळ पोर्ट टर्मिनल शुल्क.',
+            'उत्पादनाची किरकोळ बाजारातील किंमत.'
+          ];
+          translatedExplanation = `लँडेड कॉस्टमध्ये उत्पादनाला फॅक्टरीमधून अंतिम गंतव्य गोदामापर्यंत आणण्यासाठी लागणाऱ्या सर्व खर्चांचा समावेश होतो.`;
+        }
+      }
+      // Handle "Under FOB terms, at what exact point does risk transfer..."
+      else if (q.question.includes('FOB terms')) {
+        if (lang === 'hi') {
+          translatedQuestion = `FOB शर्तों के तहत, किस सटीक बिंदु पर जोखिम विक्रेता से खरीदार को हस्तांतरित होता है?`;
+          translatedOptions = [
+            'जब माल विक्रेता के गोदाम से निकलता है।',
+            'जब माल मूल बंदरगाह पर जहाज पर लाद दिया जाता है।',
+            'जब माल गंतव्य बंदरगाह पर पहुंचता है।',
+            'जब खरीदार के देश में माल का सीमा शुल्क क्लियर हो जाता है।'
+          ];
+          translatedExplanation = `FOB (Free On Board) यह निर्देश देता है कि शिपमेंट के निर्दिष्ट बंदरगाह पर जहाज पर माल लोड होते ही जोखिम विक्रेता से खरीदार के पास चला जाता है।`;
+        } else if (lang === 'gu') {
+          translatedQuestion = `FOB શરતો હેઠળ, કયા ચોક્કસ બિંદુએ જોખમ વિક્રેતાથી ખરીદારને સ્થાનાંતરિત થાય છે?`;
+          translatedOptions = [
+            'જ્યારે માલ વિક્રેતાના વેરહાઉસમાંથી બહાર નીકળે છે.',
+            'જ્યારે માલ મૂળ બંદર પર જહાજ પર ચડાવવામાં આવે છે.',
+            'જ્યારે માલ ગંતવ્ય બંદર પર પહોંચે છે.',
+            'જ્યારે ખરીદારના દેશમાં માલની કસ્ટમ્સ ક્લિયરન્સ પૂર્ણ થાય છે.'
+          ];
+          translatedExplanation = `FOB (Free On Board) સૂચવે છે કે શિપમેન્ટના નિયત બંદર પર જહાજ પર માલ લોડ થતાં જ જોખમ વિક્રેતાથી ખરીદાર પાસે જાય છે.`;
+        } else if (lang === 'mr') {
+          translatedQuestion = `FOB अटींनुसार, कोणत्या अचूक टप्प्यावर जोखीम विक्रेत्याकडून खरेदीदाराकडे हस्तांतरित होते?`;
+          translatedOptions = [
+            'जेव्हा माल विक्रेत्याच्या गोदामातून बाहेर पडतो.',
+            'जेव्हा माल मूळ बंदरावर जहाजावर चढविला जातो.',
+            'जेव्हा माल अंतिम बंदरावर पोहोचतो.',
+            'जेव्हा खरेदीदाराच्या देशात मालाचे सीमा शुल्क क्लिअरन्स पूर्ण होते.'
+          ];
+          translatedExplanation = `FOB (Free On Board) दर्शवते की शिपमेंटच्या निर्दिष्ट बंदरावर जहाजावर माल चढवताच जोखीम विक्रेत्याकडून खरेदीदाराकडे जाते.`;
+        }
+      }
+      // Handle "pay your deposit to a supplier’s personal account"
+      else if (q.question.includes('personal account')) {
+        if (lang === 'hi') {
+          translatedQuestion = `यदि कोई सप्लायर छूट का वादा करता है, तो उसके व्यक्तिगत (Personal) खाते में जमा राशि का भुगतान करना एक सुरक्षित व्यावसायिक अभ्यास है।`;
+          translatedExplanation = `व्यक्तिगत बैंक खाते में भुगतान करने से कोई कानूनी सुरक्षा नहीं मिलती है। हमेशा निर्माता के ऑडिटेड, पंजीकृत कॉर्पोरेट बैंक खाते में ही भुगतान करें।`;
+        } else if (lang === 'gu') {
+          translatedQuestion = `જો કોઈ સપ્લાયર ડિસ્કાઉન્ટનું વચન આપે છે, તો તેના વ્યક્તિગત (Personal) ખાતામાં ડિપોઝિટ ચૂકવવી એ એક સુરક્ષિત વ્યવસાયિક પદ્ધતિ છે.`;
+          translatedExplanation = `વ્યક્તિગત બેંક ખાતામાં ચૂકવણી કરવાથી કોઈ કાનૂની રક્ષણ મળતું નથી. હંમેશા ઉત્પાદકના ઓડિટેડ, રજિસ્ટર્ડ કોર્પોરેટ બેંક ખાતામાં જ ચૂકવણી કરો.`;
+        } else if (lang === 'mr') {
+          translatedQuestion = `जर एखाद्या सप्लायरने डिस्काउंटचे आश्वासन दिले तर त्याच्या वैयक्तिक (Personal) खात्यात अनामत रक्कम भरणे ही एक सुरक्षित व्यावसायिक पद्धत आहे.`;
+          translatedExplanation = `वैयक्तिक बँक खात्यात पैसे भरल्यास कोणतेही कायदेशीर संरक्षण मिळत नाही. नेहमी उत्पादकाच्या ऑडिट केलेल्या, नोंदणीकृत कॉर्पोरेट बँक खात्यातच पैसे भरा.`;
+        }
+      }
+
+      return {
+        ...q,
+        question: translatedQuestion,
+        options: translatedOptions,
+        explanation: translatedExplanation
+      };
+    });
+  }
+
   const translatedLesson = {
     ...lesson,
     title: translatedTitle,
@@ -696,6 +802,7 @@ export const getTranslatedLesson = (
       importantNotes: override?.importantNotes || lesson.content.importantNotes?.map((n: string) => translateDynamicContent(n, lesson.title, lang)) || [],
       commonMistakes: override?.commonMistakes || lesson.content.commonMistakes?.map((m: string) => translateDynamicContent(m, lesson.title, lang)) || [],
       practicalTips: override?.practicalTips || lesson.content.practicalTips?.map((t: string) => translateDynamicContent(t, lesson.title, lang)) || [],
+      quiz: translatedQuiz || lesson.content.quiz,
       relatedTopics: lesson.content.relatedTopics?.map((topic: string) => {
         if (lang === 'hi') {
           if (topic === 'What is Export?') return 'निर्यात (Export) क्या है?';
