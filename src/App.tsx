@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import { Sidebar } from './components/Sidebar';
 import { TopAppBar } from './components/TopAppBar';
@@ -19,19 +19,49 @@ const AppShell: React.FC = () => {
   const { activeView } = useApp();
   const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
+  const [isBlocked, setIsBlocked] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (showSplash && videoRef.current) {
+      // First attempt: try playing unmuted (with sound)
+      videoRef.current.muted = false;
+      const playPromise = videoRef.current.play();
+
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay was blocked by browser policies! Show play overlay
+          setIsBlocked(true);
+        });
+      }
+    }
+  }, [showSplash]);
 
   if (showSplash) {
     return (
       <div className="splash-screen-container">
         <video 
+          ref={videoRef}
           className="splash-video"
           src="/splash.mp4"
-          autoPlay
-          muted
           playsInline
           onEnded={() => setShowSplash(false)}
           onError={() => setShowSplash(false)}
         />
+        {isBlocked && (
+          <button 
+            className="play-splash-btn"
+            onClick={() => {
+              if (videoRef.current) {
+                videoRef.current.play();
+                setIsBlocked(false);
+              }
+            }}
+          >
+            <span className="play-icon">▶</span>
+            <span>RBC Academy</span>
+          </button>
+        )}
       </div>
     );
   }
