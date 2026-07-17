@@ -1,15 +1,15 @@
 /* Material Design 3 Light Theme Tokens & Layout Config */
 :root {
-  /* MD3 Color Palette (Light Theme Textbook Redesign) */
-  --md-sys-color-primary: #1D4ED8;
+  /* MD3 Color Palette (Light Theme Textbook Redesign - Orange, White & Blue) */
+  --md-sys-color-primary: #EA580C; /* RBC Brand Orange */
   --md-sys-color-on-primary: #ffffff;
-  --md-sys-color-primary-container: #EFF6FF;
-  --md-sys-color-on-primary-container: #1D4ED8;
+  --md-sys-color-primary-container: #FFF7ED; /* Light Orange Container */
+  --md-sys-color-on-primary-container: #C2410C;
   
-  --md-sys-color-secondary: #6B7280;
+  --md-sys-color-secondary: #2563EB; /* RBC Royal Blue */
   --md-sys-color-on-secondary: #ffffff;
-  --md-sys-color-secondary-container: #F3F4F6;
-  --md-sys-color-on-secondary-container: #111827;
+  --md-sys-color-secondary-container: #EFF6FF; /* Soft Blue Container */
+  --md-sys-color-on-secondary-container: #1E40AF;
 
   --md-sys-color-error: #DC2626;
   --md-sys-color-on-error: #ffffff;
@@ -21,16 +21,16 @@
   --md-sys-color-success-container: #F0FDF4;
   --md-sys-color-on-success-container: #166534;
 
-  --md-sys-color-background: #F7F8FA;
-  --md-sys-color-on-background: #111827;
+  --md-sys-color-background: #F8FAFC; /* Clean White/Grey background */
+  --md-sys-color-on-background: #0F172A;
   
   --md-sys-color-surface: #ffffff;
-  --md-sys-color-on-surface: #111827;
-  --md-sys-color-surface-variant: #F3F4F6;
-  --md-sys-color-on-surface-variant: #6B7280;
+  --md-sys-color-on-surface: #0F172A;
+  --md-sys-color-surface-variant: #F1F5F9;
+  --md-sys-color-on-surface-variant: #475569;
   
-  --md-sys-color-outline: #E5E7EB;
-  --md-sys-color-outline-variant: #E5E7EB;
+  --md-sys-color-outline: #E2E8F0;
+  --md-sys-color-outline-variant: #E2E8F0;
 
   /* Typography Scale */
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;

@@ -15,7 +15,9 @@ export const Dashboard: React.FC = () => {
     setSelectedModuleId, 
     setSelectedLessonId, 
     setActiveView,
-    getCourseCompletionPercentage
+    getCourseCompletionPercentage,
+    currentUser,
+    language
   } = useApp();
 
   // Aggregate statistics
@@ -83,8 +85,20 @@ export const Dashboard: React.FC = () => {
     <div className="dashboard-view">
       <div className="welcome-banner card">
         <div className="welcome-left">
-          <h1>Welcome back, Jane!</h1>
-          <p>Ready to continue your education? Expand your engineering and architecture credentials today.</p>
+          <h1>
+            {language === 'hi' 
+              ? `स्वागत है, ${currentUser?.name || 'विद्यार्थी'}!` 
+              : language === 'gu'
+                ? `સ્વાગત છે, ${currentUser?.name || 'વિદ્યાર્થી'}!`
+                : `Welcome back, ${currentUser?.name || 'Student'}!`}
+          </h1>
+          <p>
+            {language === 'hi' 
+              ? 'क्या आप अपनी पढ़ाई जारी रखने के लिए तैयार हैं?' 
+              : language === 'gu'
+                ? 'શું તમે તમારો અભ્યાસ ચાલુ રાખવા માટે તૈયાર છો?'
+                : 'Ready to continue your education?'}
+          </p>
           
           {continueLesson && (
             <button className="btn btn-primary continue-btn" onClick={handleContinueLearning}>

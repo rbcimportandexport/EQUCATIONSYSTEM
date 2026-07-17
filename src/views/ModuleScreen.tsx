@@ -289,19 +289,83 @@ export const ModuleScreen: React.FC = () => {
 
               {isDownloadOpen && (
                 <div className="download-dropdown-panel card">
-                  <button onClick={() => { alert('Downloading Chapter PDF...'); setIsDownloadOpen(false); }}>
+                  <button onClick={() => {
+                    // Generate full module content as HTML and download
+                    const moduleTitle = activeModule ? translateModuleTitle(activeModule.title, language) : 'Module';
+                    const lessonsHtml = translatedLessons.map((lesson, idx) => `
+                      <div style="margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid #e5e7eb;">
+                        <h2 style="font-size:18px;color:#1d4ed8;margin-bottom:8px;">${idx + 1}. ${lesson.title}</h2>
+                        ${lesson.content?.definition ? `<p><strong>Definition:</strong> ${lesson.content.definition}</p>` : ''}
+                        ${lesson.content?.simpleExplanation ? `<p><strong>Simple Explanation:</strong> ${lesson.content.simpleExplanation}</p>` : ''}
+                        ${lesson.content?.whyItMatters ? `<p><strong>Why It Matters:</strong> ${lesson.content.whyItMatters}</p>` : ''}
+                        ${lesson.content?.realBusinessExample ? `<blockquote style="border-left:4px solid #3b82f6;padding-left:12px;color:#374151;"><strong>Real Example:</strong> ${lesson.content.realBusinessExample}</blockquote>` : ''}
+                        ${(lesson.content?.keyPoints?.length ?? 0) > 0 ? `<ul>${lesson.content!.keyPoints!.map((p: string) => `<li>${p}</li>`).join('')}</ul>` : ''}
+                        ${(lesson.content?.commonMistakes?.length ?? 0) > 0 ? `<div style="background:#fef2f2;border-left:4px solid #ef4444;padding:8px 12px;"><strong>Common Mistakes:</strong><ul>${lesson.content!.commonMistakes!.map((m: string) => `<li>${m}</li>`).join('')}</ul></div>` : ''}
+                      </div>`).join('');
+                    const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${moduleTitle}</title>
+                      <style>body{font-family:Arial,sans-serif;max-width:800px;margin:40px auto;padding:20px;color:#111827;line-height:1.7;}
+                      h1{color:#1e3a8a;border-bottom:3px solid #1d4ed8;padding-bottom:8px;}
+                      h2{color:#1d4ed8;}p,li{font-size:15px;}blockquote{background:#eff6ff;}</style>
+                      </head><body><h1>${moduleTitle} — RBC Import & Export Academy</h1>${lessonsHtml}</body></html>`;
+                    const blob = new Blob([html], { type: 'text/html' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url; a.download = `${moduleTitle.replace(/\s+/g,'-')}.html`;
+                    a.click(); URL.revokeObjectURL(url);
+                    setIsDownloadOpen(false);
+                  }}>
                     {t.downloadChapterPdf}
                   </button>
-                  <button onClick={() => { alert('Downloading Images Pack...'); setIsDownloadOpen(false); }}>
+                  <button onClick={() => {
+                    // Download all key points as a text summary
+                    const moduleTitle = activeModule ? translateModuleTitle(activeModule.title, language) : 'Module';
+                    const text = translatedLessons.map((lesson, idx) =>
+                      `${idx + 1}. ${lesson.title}\n${lesson.content?.keyPoints?.map((p: string) => `   • ${p}`).join('\n') || '   (No key points)'}`
+                    ).join('\n\n');
+                    const blob = new Blob([`${moduleTitle} — Key Points Summary\n\n${text}`], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url; a.download = `${moduleTitle.replace(/\s+/g,'-')}-notes.txt`;
+                    a.click(); URL.revokeObjectURL(url);
+                    setIsDownloadOpen(false);
+                  }}>
                     {t.downloadImages}
                   </button>
-                  <button onClick={() => { alert('Downloading Video Lecture...'); setIsDownloadOpen(false); }}>
+                  <button onClick={() => {
+                    const moduleTitle = activeModule ? translateModuleTitle(activeModule.title, language) : 'Module';
+                    alert(`${moduleTitle} — Video lecture download is not available yet. Please use the Watch Video tab to stream online.`);
+                    setIsDownloadOpen(false);
+                  }}>
                     {t.downloadVideo}
                   </button>
-                  <button onClick={() => { alert('Downloading Complete Module...'); setIsDownloadOpen(false); }}>
+                  <button onClick={() => {
+                    // Download complete module content as comprehensive HTML
+                    const moduleTitle = activeModule ? translateModuleTitle(activeModule.title, language) : 'Module';
+                    const allLessonsHtml = translatedLessons.map((lesson, idx) => `
+                      <section style="page-break-inside:avoid;margin-bottom:40px;padding:24px;border:1px solid #e5e7eb;border-radius:8px;">
+                        <h2 style="color:#1d4ed8;">${idx + 1}. ${lesson.title}</h2>
+                        ${lesson.content?.definition ? `<p><strong>Definition:</strong> ${lesson.content.definition}</p>` : ''}
+                        ${lesson.content?.simpleExplanation ? `<p><strong>Simple Explanation:</strong> ${lesson.content.simpleExplanation}</p>` : ''}
+                        ${lesson.content?.whyItMatters ? `<p><strong>Why It Matters:</strong> ${lesson.content.whyItMatters}</p>` : ''}
+                        ${lesson.content?.realBusinessExample ? `<blockquote style="border-left:4px solid #3b82f6;padding:8px 12px;background:#eff6ff;"><strong>Real Example:</strong> ${lesson.content.realBusinessExample}</blockquote>` : ''}
+                        ${(lesson.content?.keyPoints?.length ?? 0) > 0 ? `<div><strong>Key Points:</strong><ul>${lesson.content!.keyPoints!.map((p: string) => `<li>${p}</li>`).join('')}</ul></div>` : ''}
+                        ${(lesson.content?.commonMistakes?.length ?? 0) > 0 ? `<div style="background:#fef2f2;border-left:4px solid #ef4444;padding:8px 12px;"><strong>Common Mistakes:</strong><ul>${lesson.content!.commonMistakes!.map((m: string) => `<li>${m}</li>`).join('')}</ul></div>` : ''}
+                      </section>`).join('');
+                    const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${moduleTitle} — Complete Module</title>
+                      <style>body{font-family:Arial,sans-serif;max-width:900px;margin:40px auto;padding:20px;color:#111827;line-height:1.8;}
+                      h1{color:#1e3a8a;border-bottom:3px solid #1d4ed8;padding-bottom:12px;margin-bottom:32px;}
+                      @media print{section{page-break-inside:avoid;}}</style>
+                      </head><body><h1>📗 ${moduleTitle}<br><small style="font-size:14px;color:#6b7280;">RBC Import & Export Academy — Complete Module Notes</small></h1>${allLessonsHtml}</body></html>`;
+                    const blob = new Blob([html], { type: 'text/html' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url; a.download = `${moduleTitle.replace(/\s+/g,'-')}-complete.html`;
+                    a.click(); URL.revokeObjectURL(url);
+                    setIsDownloadOpen(false);
+                  }}>
                     {t.downloadCompleteModule}
                   </button>
-                  <button onClick={() => { alert('Saving for Offline Reading...'); setIsDownloadOpen(false); }}>
+                  <button onClick={() => { setIsDownloadOpen(false); setActiveView('Downloads'); }}>
                     {t.saveOffline}
                   </button>
                 </div>

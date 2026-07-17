@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { translateModuleTitle, uiTranslations } from '../utils/translator';
+import { translateModuleTitle } from '../utils/translator';
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -22,15 +22,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => 
     if (onClose) onClose();
   };
 
-  // Get active translation keys
-  const t = uiTranslations[language];
-
   return (
     <aside className={`sidebar-redesign ${isOpen ? 'mobile-open' : ''}`}>
       {/* Top Section */}
-      <div className="sidebar-academy-header">
-        <h2 className="academy-title">{t.academyTitle}</h2>
-        <h3 className="course-subtitle">{t.courseSubtitle}</h3>
+      <div className="sidebar-academy-header" style={{ display: 'flex', justifyContent: 'center', padding: '16px', borderBottom: '1px solid #E5E7EB' }}>
+        <img 
+          src="/logo_full.png" 
+          alt="RBC Academy" 
+          style={{ 
+            maxWidth: '100%', 
+            height: 'auto', 
+            maxHeight: '60px', 
+            objectFit: 'contain' 
+          }} 
+        />
       </div>
 
       {/* Modules List Navigation */}

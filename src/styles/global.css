@@ -1589,3 +1589,282 @@ a:hover {
   }
 }
 
+
+/* ====================================================================
+   FULL MOBILE RESPONSIVE STYLES
+   Breakpoints: 768px (tablet), 480px (mobile)
+   ==================================================================== */
+
+/* ---------- Meta viewport fix ---------- */
+html { overflow-x: hidden; }
+
+/* ---------- Sidebar: off-canvas on mobile ---------- */
+@media (max-width: 768px) {
+  .sidebar-redesign {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 260px;
+    z-index: 1000;
+    transform: translateX(-100%);
+    box-shadow: none;
+    overflow-y: auto;
+  }
+
+  .sidebar-redesign.mobile-open {
+    transform: translateX(0);
+    box-shadow: 4px 0 24px rgba(0,0,0,0.18);
+  }
+
+  /* Backdrop when sidebar is open */
+  .sidebar-backdrop-active {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 999;
+  }
+
+  /* App layout becomes column */
+  .app-layout {
+    flex-direction: column;
+  }
+
+  /* Main panel takes full width */
+  .main-content-panel {
+    width: 100%;
+    height: 100vh;
+  }
+
+  /* ---- TopAppBar mobile ---- */
+  .top-app-bar-redesign {
+    padding: 0 12px;
+    height: 52px;
+    min-height: 52px;
+  }
+
+  .textbook-breadcrumbs {
+    display: none; /* Hide on mobile, too cramped */
+  }
+
+  .mobile-menu-trigger-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--md-sys-color-on-surface);
+  }
+
+  .top-bar-right {
+    gap: 4px;
+  }
+
+  /* Hide language selector label on mobile */
+  .lang-label-text {
+    display: none;
+  }
+
+  /* Compact icon buttons on mobile */
+  .top-bar-right .icon-action-btn {
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+  }
+
+  /* ---- Main viewport ---- */
+  .main-viewport-container {
+    overflow-y: auto;
+  }
+
+  /* ---- Textbook / ModuleScreen on mobile ---- */
+  .textbook-view-redesign {
+    flex-direction: column !important;
+    height: auto !important;
+  }
+
+  /* Hide the right "On this page" TOC sidebar on mobile */
+  .textbook-toc-sidebar-right {
+    display: none !important;
+  }
+
+  /* Module header action toolbar — wrap on mobile */
+  .module-toolbar-row {
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    padding: 10px 12px !important;
+  }
+
+  .toolbar-btn {
+    padding: 6px 10px !important;
+    font-size: 11px !important;
+  }
+
+  /* Module main content pane — no side padding */
+  .textbook-workspace-content-pane {
+    padding: 0 !important;
+  }
+
+  /* Topic list — full width readable on small screens */
+  .topic-link-row {
+    padding: 12px 10px !important;
+  }
+
+  /* Lesson title smaller on mobile */
+  .link-title {
+    font-size: 14px !important;
+  }
+
+  /* Lesson right-side buttons: stack on mobile */
+  .link-right {
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    justify-content: flex-end !important;
+  }
+
+  /* Expanded topic section — reduce padding */
+  .topic-expanded-details {
+    padding: 0 8px 12px 12px !important;
+    max-width: 100% !important;
+  }
+
+  /* ---- Community / Members grid ---- */
+  .community-view-layout {
+    grid-template-columns: 1fr !important;
+    height: auto !important;
+  }
+
+  /* ---- Quiz mobile ---- */
+  .quiz-container,
+  .quiz-result-card {
+    margin: 8px !important;
+    padding: 16px !important;
+  }
+
+  .options-list {
+    gap: 8px;
+  }
+
+  .option-item {
+    padding: 12px 14px !important;
+    font-size: 13px !important;
+  }
+
+  /* ---- Dashboard cards ---- */
+  .dashboard-stats-row,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ---- Profile page mobile ---- */
+  .profile-page-root {
+    padding: 16px !important;
+  }
+
+  /* ---- Bookmarks / Downloads mobile ---- */
+  .bookmarks-view,
+  .downloads-view {
+    padding: 12px !important;
+  }
+
+  /* ---- Admin panel mobile ---- */
+  .admin-panel-layout {
+    flex-direction: column !important;
+  }
+
+  .admin-panel-sidebar {
+    width: 100% !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  }
+
+  /* ---- Breadcrumb on mobile: show module title only ---- */
+  .crumb-course-title,
+  .crumb-arrow {
+    display: none !important;
+  }
+
+  .crumb-module-title {
+    font-size: 13px !important;
+    font-weight: 700;
+    display: block !important;
+  }
+
+  /* Tablet topic navigation: show on mobile */
+  .tablet-topic-navigation-box {
+    display: block !important;
+  }
+
+  /* Download dropdown: adapt for mobile */
+  .download-dropdown-panel {
+    right: 0 !important;
+    left: auto !important;
+    min-width: 200px;
+  }
+}
+
+/* ---- Smaller phones (480px) ---- */
+@media (max-width: 480px) {
+  .module-header-section {
+    padding: 16px 14px !important;
+  }
+
+  .module-title-heading {
+    font-size: 20px !important;
+  }
+
+  .topic-complete-checkbox-btn span {
+    display: none; /* icon only on tiny screens */
+  }
+
+  .quiz-question-text {
+    font-size: 14px !important;
+  }
+
+  /* Full-width toolbar buttons */
+  .module-toolbar-row {
+    flex-direction: column !important;
+  }
+
+  .toolbar-btn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* Bottom nav area bigger hit targets */
+  .bottom-nav-link-btn {
+    padding: 14px !important;
+  }
+
+  /* Profile stats: 2 per row on small phone */
+  .profile-stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* ---- Make hamburger always visible, hide on desktop ---- */
+@media (min-width: 769px) {
+  .mobile-menu-trigger-btn {
+    display: none !important;
+  }
+
+  .sidebar-redesign {
+    transform: none !important;
+    position: relative;
+    box-shadow: none;
+  }
+
+  .sidebar-backdrop-active {
+    display: none !important;
+  }
+}
