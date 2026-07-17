@@ -39,23 +39,11 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onMenuClick }) => {
 
   return (
     <header className="top-app-bar-redesign">
-      <div className="top-bar-left" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <div className="top-bar-left">
         {/* Mobile menu trigger */}
         <button className="mobile-menu-trigger-btn" onClick={onMenuClick}>
           <Menu size={20} />
         </button>
-
-        {/* RBC Emblem Logo */}
-        <img 
-          src="/logo_emblem.png" 
-          alt="RBC Logo" 
-          style={{ 
-            height: '30px', 
-            width: 'auto', 
-            objectFit: 'contain',
-            borderRadius: '4px'
-          }} 
-        />
 
         {/* Textbook Breadcrumb */}
         <div className="textbook-breadcrumbs">
