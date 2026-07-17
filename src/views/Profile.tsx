@@ -3,9 +3,12 @@ import { useApp } from '../context/AppContext';
 import { Award, Shield, User, Clock, FileText } from 'lucide-react';
 
 export const Profile: React.FC = () => {
-  const { courses, progress, getCourseCompletionPercentage } = useApp();
+  const { courses, progress, getCourseCompletionPercentage, currentUser, loginUser, language } = useApp();
   const [showCertificate, setShowCertificate] = useState(false);
   const [certCourseTitle, setCertCourseTitle] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [editName, setEditName] = useState(currentUser?.name || 'Jane Doe');
+  const [editEmail, setEditEmail] = useState(currentUser?.email || 'jane.doe@edu.org');
 
   const completedLessons = Object.values(progress).filter(p => p.completed).length;
   const quizzesAttempted = Object.values(progress).filter(p => Object.keys(p.quizScores).length > 0).length;
@@ -26,25 +29,78 @@ export const Profile: React.FC = () => {
     });
   };
 
+  const handleSave = () => {
+    if (editName.trim() && editEmail.trim()) {
+      loginUser(editName, editEmail, 'student');
+      setIsEditing(false);
+    }
+  };
+
   return (
     <div className="profile-view">
       {/* Profile Bio Card */}
-      <div className="card profile-bio-card">
-        <div className="profile-avatar-large">JD</div>
-        <div className="profile-bio-details">
-          <h2>Jane Doe</h2>
-          <p className="profile-email">jane.doe@edu.org</p>
-          <div className="profile-badges-row">
-            <span className="profile-badge-item student">
-              <User size={12} />
-              <span>Student ID: 489201</span>
-            </span>
-            <span className="profile-badge-item org">
-              <Shield size={12} />
-              <span>Engineering Faculty</span>
-            </span>
-          </div>
+      <div className="card profile-bio-card" style={{ position: 'relative' }}>
+        <div className="profile-avatar-large">
+          {(currentUser?.name || 'Jane Doe').split(' ').map(n => n[0]).join('').toUpperCase()}
         </div>
+        <div className="profile-bio-details" style={{ flexGrow: 1 }}>
+          {isEditing ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxWidth: '300px' }}>
+              <input 
+                type="text" 
+                value={editName}
+                onChange={e => setEditName(e.target.value)}
+                placeholder="Full Name"
+                className="input-field"
+                style={{ padding: '6px 12px', fontSize: '14px' }}
+              />
+              <input 
+                type="email" 
+                value={editEmail}
+                onChange={e => setEditEmail(e.target.value)}
+                placeholder="Email Address"
+                className="input-field"
+                style={{ padding: '6px 12px', fontSize: '14px' }}
+              />
+              <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
+                <button className="btn btn-primary" onClick={handleSave} style={{ padding: '6px 12px', fontSize: '12px' }}>
+                  Save
+                </button>
+                <button className="btn btn-outlined" onClick={() => setIsEditing(false)} style={{ padding: '6px 12px', fontSize: '12px' }}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <>
+              <h2>{currentUser?.name || 'Jane Doe'}</h2>
+              <p className="profile-email">{currentUser?.email || 'jane.doe@edu.org'}</p>
+              <div className="profile-badges-row">
+                <span className="profile-badge-item student">
+                  <User size={12} />
+                  <span>Student ID: {currentUser?.id?.replace('u-', '') || '489201'}</span>
+                </span>
+                <span className="profile-badge-item org">
+                  <Shield size={12} />
+                  <span>Engineering Faculty</span>
+                </span>
+              </div>
+            </>
+          )}
+        </div>
+        {!isEditing && (
+          <button 
+            className="btn btn-outlined" 
+            onClick={() => {
+              setEditName(currentUser?.name || 'Jane Doe');
+              setEditEmail(currentUser?.email || 'jane.doe@edu.org');
+              setIsEditing(true);
+            }}
+            style={{ position: 'absolute', top: '20px', right: '20px', padding: '6px 12px', fontSize: '12px' }}
+          >
+            Edit Profile
+          </button>
+        )}
       </div>
 
       {/* Aggregate Stats Cards */}

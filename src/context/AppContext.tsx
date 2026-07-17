@@ -17,7 +17,8 @@ export type ViewType =
   | 'Profile' 
   | 'Settings' 
   | 'AdminPanel'
-  | 'Quiz';
+  | 'Quiz'
+  | 'Community';
 
 export type RoleType = 'student' | 'admin';
 
@@ -85,6 +86,11 @@ interface AppContextType {
   
   // Utilities
   resetDatabase: () => void;
+
+  // Login & Session profiles
+  currentUser: User | null;
+  setCurrentUser: (user: User | null) => void;
+  loginUser: (name: string, email: string, role: string) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -104,6 +110,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [certificates, setCertificates] = useState<Certificate[]>([]);
+  const [currentUser, setCurrentUserState] = useState<User | null>(null);
 
   // User features states
   const [progress, setProgress] = useState<{ [lessonId: string]: UserProgress }>({});
@@ -162,6 +169,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (savedOffline) setOfflineMode(JSON.parse(savedOffline));
     if (savedRole) setUserRole(savedRole as RoleType);
     if (savedLang) setLanguageState(savedLang as 'en' | 'hi' | 'gu' | 'mr');
+
+    const savedCurrentUser = localStorage.getItem('lms_current_user_ie');
+    if (savedCurrentUser) {
+      setCurrentUserState(JSON.parse(savedCurrentUser));
+    } else {
+      const defaultUser = { id: 'u-1', name: 'Jane Doe', email: 'jane.doe@edu.org', role: 'student', progressPercentage: 20 };
+      setCurrentUserState(defaultUser);
+      localStorage.setItem('lms_current_user_ie', JSON.stringify(defaultUser));
+    }
 
     // Default select first course
     const firstCourse = savedCourses ? JSON.parse(savedCourses)[0] : initialCourses[0];
@@ -553,6 +569,25 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     localStorage.setItem('lms_language_ie', lang);
   };
 
+  const loginUser = (name: string, email: string, role: string) => {
+    const newUser: User = {
+      id: `u-${Date.now()}`,
+      name,
+      email,
+      role: 'student',
+      progressPercentage: 0
+    };
+    
+    setUsers(prev => {
+      const updated = [...prev.filter(u => u.email !== email), newUser];
+      saveToLocal('lms_users_ie', updated);
+      return updated;
+    });
+
+    setCurrentUserState(newUser);
+    localStorage.setItem('lms_current_user_ie', JSON.stringify(newUser));
+  };
+
   return (
     <AppContext.Provider value={{
       activeView,
@@ -607,6 +642,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       globalSearchQuery,
       setGlobalSearchQuery,
       
+      currentUser,
+      setCurrentUser: setCurrentUserState,
+      loginUser,
       resetDatabase
     }}>
       {children}

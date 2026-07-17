@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { Menu, Search, Bookmark, User, ShieldAlert, Globe } from 'lucide-react';
+import { Menu, Search, Bookmark, User, ShieldAlert, Globe, MessageSquare } from 'lucide-react';
 import { translateModuleTitle } from '../utils/translator';
 
 interface TopAppBarProps {
@@ -109,6 +109,15 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onMenuClick }) => {
             <ShieldAlert size={18} />
           </button>
         )}
+
+        {/* Expert Chat & Community button */}
+        <button 
+          className="top-bar-action-icon-btn community-btn" 
+          onClick={() => setActiveView('Community')}
+          title="Expert Connect & Members"
+        >
+          <MessageSquare size={18} />
+        </button>
 
         {/* Profile button */}
         <button 
