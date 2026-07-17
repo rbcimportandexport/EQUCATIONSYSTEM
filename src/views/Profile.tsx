@@ -3,12 +3,16 @@ import { useApp } from '../context/AppContext';
 import { Award, Shield, User, Clock, FileText, Edit3, Save, X, CheckCircle, BookOpen, Star, TrendingUp } from 'lucide-react';
 
 export const Profile: React.FC = () => {
-  const { courses, progress, getCourseCompletionPercentage, currentUser, loginUser } = useApp();
+  const { courses, progress, getCourseCompletionPercentage, currentUser, loginUser, language } = useApp();
   const [showCertificate, setShowCertificate] = useState(false);
   const [certCourseTitle, setCertCourseTitle] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-  const [editName, setEditName] = useState(currentUser?.name || 'Jane Doe');
-  const [editEmail, setEditEmail] = useState(currentUser?.email || 'jane.doe@edu.org');
+
+  const fallbackName = language === 'hi' ? 'विद्यार्थी' : language === 'gu' ? 'વિદ્યાર્થી' : 'Student';
+  const fallbackEmail = 'student@rbcacademy.com';
+
+  const [editName, setEditName] = useState(currentUser?.name || fallbackName);
+  const [editEmail, setEditEmail] = useState(currentUser?.email || fallbackEmail);
 
   const completedLessons = Object.values(progress).filter(p => p.completed).length;
   const quizzesAttempted = Object.values(progress).filter(p => Object.keys(p.quizScores).length > 0).length;
@@ -32,43 +36,43 @@ export const Profile: React.FC = () => {
     }
   };
 
-  const avatarInitials = (currentUser?.name || 'Jane Doe')
+  const avatarInitials = (currentUser?.name || fallbackName)
     .split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
 
   return (
     <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 40%, #0f172a 100%)',
+      minHeight: '100%',
+      background: '#f8fafc',
       padding: '0',
       overflowY: 'auto'
     }}>
-      {/* ── Hero Banner ── */}
+      {/* ── Hero Banner (Blue & Orange Accents) ── */}
       <div style={{
-        background: 'linear-gradient(135deg, #1a365d 0%, #2d5a9e 50%, #1e3a5f 100%)',
+        background: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)',
         padding: '48px 40px 80px',
         position: 'relative',
         overflow: 'hidden'
       }}>
         {/* decorative circles */}
-        <div style={{ position: 'absolute', top: '-40px', right: '-40px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', top: '-40px', right: '-40px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(255,255,255,0.06)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: '-60px', left: '30%', width: '160px', height: '160px', borderRadius: '50%', background: 'rgba(255,255,255,0.04)', pointerEvents: 'none' }} />
 
-        <div style={{ display: 'flex', alignItems: 'flex-end', gap: '28px', position: 'relative', zIndex: 1 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '28px', position: 'relative', zIndex: 1, flexWrap: 'wrap' }}>
           {/* Avatar */}
           <div style={{
             width: '96px', height: '96px', borderRadius: '50%',
-            background: 'linear-gradient(135deg, #fbbf24, #f59e0b)',
+            background: 'linear-gradient(135deg, #fbbf24, #f97316)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '32px', fontWeight: '800', color: '#1e293b',
-            border: '4px solid rgba(255,255,255,0.3)',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+            fontSize: '32px', fontWeight: '800', color: '#fff',
+            border: '4px solid rgba(255,255,255,0.8)',
+            boxShadow: '0 8px 24px rgba(37,99,235,0.2)',
             flexShrink: 0
           }}>
             {avatarInitials}
           </div>
 
           {/* Name / Email */}
-          <div style={{ flexGrow: 1 }}>
+          <div style={{ flexGrow: 1, minWidth: '200px' }}>
             {isEditing ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '320px' }}>
                 <input
@@ -77,8 +81,8 @@ export const Profile: React.FC = () => {
                   onChange={e => setEditName(e.target.value)}
                   placeholder="Full Name"
                   style={{
-                    padding: '10px 16px', borderRadius: '10px', border: '2px solid rgba(255,255,255,0.3)',
-                    background: 'rgba(255,255,255,0.1)', color: '#fff', fontSize: '16px',
+                    padding: '10px 16px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.4)',
+                    background: 'rgba(255,255,255,0.2)', color: '#fff', fontSize: '16px',
                     outline: 'none', backdropFilter: 'blur(8px)'
                   }}
                 />
@@ -88,8 +92,8 @@ export const Profile: React.FC = () => {
                   onChange={e => setEditEmail(e.target.value)}
                   placeholder="Email Address"
                   style={{
-                    padding: '10px 16px', borderRadius: '10px', border: '2px solid rgba(255,255,255,0.3)',
-                    background: 'rgba(255,255,255,0.1)', color: '#fff', fontSize: '14px',
+                    padding: '10px 16px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.4)',
+                    background: 'rgba(255,255,255,0.2)', color: '#fff', fontSize: '14px',
                     outline: 'none', backdropFilter: 'blur(8px)'
                   }}
                 />
@@ -97,14 +101,14 @@ export const Profile: React.FC = () => {
                   <button onClick={handleSave} style={{
                     display: 'flex', alignItems: 'center', gap: '6px',
                     padding: '8px 18px', borderRadius: '8px', border: 'none',
-                    background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                    color: '#fff', fontWeight: '600', fontSize: '13px', cursor: 'pointer'
+                    background: 'linear-gradient(135deg, #10b981, #059669)',
+                    color: '#fff', fontWeight: '700', fontSize: '13px', cursor: 'pointer'
                   }}>
                     <Save size={14} /> Save
                   </button>
                   <button onClick={() => setIsEditing(false)} style={{
                     display: 'flex', alignItems: 'center', gap: '6px',
-                    padding: '8px 18px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.3)',
+                    padding: '8px 18px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.4)',
                     background: 'rgba(255,255,255,0.1)', color: '#fff', fontWeight: '600', fontSize: '13px', cursor: 'pointer'
                   }}>
                     <X size={14} /> Cancel
@@ -114,25 +118,25 @@ export const Profile: React.FC = () => {
             ) : (
               <>
                 <h1 style={{ margin: 0, fontSize: '28px', fontWeight: '800', color: '#fff', letterSpacing: '-0.5px' }}>
-                  {currentUser?.name || 'Jane Doe'}
+                  {currentUser?.name || fallbackName}
                 </h1>
-                <p style={{ margin: '4px 0 12px', fontSize: '14px', color: 'rgba(255,255,255,0.7)' }}>
-                  {currentUser?.email || 'jane.doe@edu.org'}
+                <p style={{ margin: '4px 0 12px', fontSize: '14px', color: 'rgba(255,255,255,0.8)' }}>
+                  {currentUser?.email || fallbackEmail}
                 </p>
                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                   <span style={{
                     display: 'inline-flex', alignItems: 'center', gap: '5px',
                     padding: '4px 12px', borderRadius: '20px',
                     background: 'rgba(251,191,36,0.2)', border: '1px solid rgba(251,191,36,0.4)',
-                    color: '#fbbf24', fontSize: '12px', fontWeight: '600'
+                    color: '#fff', fontSize: '12px', fontWeight: '600'
                   }}>
                     <User size={11} /> RBC Academy Student
                   </span>
                   <span style={{
                     display: 'inline-flex', alignItems: 'center', gap: '5px',
                     padding: '4px 12px', borderRadius: '20px',
-                    background: 'rgba(139,92,246,0.2)', border: '1px solid rgba(139,92,246,0.4)',
-                    color: '#c4b5fd', fontSize: '12px', fontWeight: '600'
+                    background: 'rgba(59,130,246,0.2)', border: '1px solid rgba(59,130,246,0.4)',
+                    color: '#fff', fontSize: '12px', fontWeight: '600'
                   }}>
                     <Shield size={11} /> Import & Export Master
                   </span>
@@ -144,14 +148,15 @@ export const Profile: React.FC = () => {
           {/* Edit button */}
           {!isEditing && (
             <button onClick={() => {
-              setEditName(currentUser?.name || 'Jane Doe');
-              setEditEmail(currentUser?.email || 'jane.doe@edu.org');
+              setEditName(currentUser?.name || fallbackName);
+              setEditEmail(currentUser?.email || fallbackEmail);
               setIsEditing(true);
             }} style={{
+              marginLeft: 'auto',
               display: 'flex', alignItems: 'center', gap: '6px',
               padding: '10px 20px', borderRadius: '10px',
-              border: '1px solid rgba(255,255,255,0.25)',
-              background: 'rgba(255,255,255,0.1)',
+              border: '1px solid rgba(255,255,255,0.4)',
+              background: 'rgba(255,255,255,0.15)',
               backdropFilter: 'blur(8px)',
               color: '#fff', fontWeight: '600', fontSize: '13px', cursor: 'pointer',
               transition: 'all 0.2s'
@@ -167,76 +172,80 @@ export const Profile: React.FC = () => {
 
         {/* Overall Progress Bar Card */}
         <div style={{
-          background: 'linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04))',
-          backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.12)',
+          background: '#ffffff',
+          border: '1px solid #e2e8f0',
           borderRadius: '20px', padding: '24px 28px', marginBottom: '24px',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
+          boxShadow: '0 4px 20px rgba(0,0,0,0.05)'
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <TrendingUp size={18} color="#fbbf24" />
-              <span style={{ color: '#e2e8f0', fontSize: '14px', fontWeight: '600' }}>Overall Course Progress</span>
+              <TrendingUp size={18} color="#f97316" />
+              <span style={{ color: '#0f172a', fontSize: '14px', fontWeight: '700' }}>Overall Course Progress</span>
             </div>
-            <span style={{ color: '#fbbf24', fontSize: '22px', fontWeight: '800' }}>{totalProgress}%</span>
+            <span style={{ color: '#f97316', fontSize: '22px', fontWeight: '800' }}>{totalProgress}%</span>
           </div>
-          <div style={{ height: '10px', background: 'rgba(255,255,255,0.1)', borderRadius: '10px', overflow: 'hidden' }}>
+          <div style={{ height: '10px', background: '#f1f5f9', borderRadius: '10px', overflow: 'hidden' }}>
             <div style={{
               height: '100%', width: `${totalProgress}%`,
-              background: 'linear-gradient(90deg, #fbbf24, #f97316)',
+              background: 'linear-gradient(90deg, #f97316, #fbbf24)',
               borderRadius: '10px',
               transition: 'width 1s ease',
-              boxShadow: '0 0 12px rgba(251,191,36,0.4)'
+              boxShadow: '0 2px 8px rgba(249,115,22,0.2)'
             }} />
           </div>
         </div>
 
         {/* Stats Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '24px' }}>
+        <div className="profile-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '24px' }}>
           {[
-            { icon: <FileText size={22} color="#60a5fa" />, label: 'Lessons Done', value: completedLessons, unit: 'lessons', bg: 'rgba(96,165,250,0.1)', border: 'rgba(96,165,250,0.2)' },
-            { icon: <Award size={22} color="#a78bfa" />, label: 'Quizzes Taken', value: quizzesAttempted, unit: 'quizzes', bg: 'rgba(167,139,250,0.1)', border: 'rgba(167,139,250,0.2)' },
-            { icon: <Clock size={22} color="#34d399" />, label: 'Study Hours', value: (completedLessons * 0.3).toFixed(1), unit: 'hours', bg: 'rgba(52,211,153,0.1)', border: 'rgba(52,211,153,0.2)' },
+            { icon: <FileText size={22} color="#2563eb" />, label: 'Lessons Done', value: completedLessons, unit: 'lessons', bg: '#eff6ff', border: '#bfdbfe' },
+            { icon: <Award size={22} color="#7c3aed" />, label: 'Quizzes Taken', value: quizzesAttempted, unit: 'quizzes', bg: '#f5f3ff', border: '#ddd6fe' },
+            { icon: <Clock size={22} color="#059669" />, label: 'Study Hours', value: (completedLessons * 0.3).toFixed(1), unit: 'hours', bg: '#ecfdf5', border: '#a7f3d0' },
           ].map((stat, i) => (
             <div key={i} style={{
-              background: stat.bg, border: `1px solid ${stat.border}`,
+              background: '#ffffff', border: `1px solid ${stat.border}`,
               borderRadius: '16px', padding: '20px',
-              backdropFilter: 'blur(12px)',
-              boxShadow: '0 4px 16px rgba(0,0,0,0.2)'
+              boxShadow: '0 4px 16px rgba(0,0,0,0.03)'
             }}>
-              <div style={{ marginBottom: '12px' }}>{stat.icon}</div>
-              <div style={{ fontSize: '28px', fontWeight: '800', color: '#f1f5f9', lineHeight: 1 }}>{stat.value}</div>
-              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginTop: '4px' }}>{stat.unit}</div>
-              <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.7)', marginTop: '6px', fontWeight: '500' }}>{stat.label}</div>
+              <div style={{
+                width: '40px', height: '40px', borderRadius: '10px',
+                background: stat.bg, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                marginBottom: '14px'
+              }}>{stat.icon}</div>
+              <div style={{ fontSize: '28px', fontWeight: '800', color: '#0f172a', lineHeight: 1 }}>{stat.value}</div>
+              <div style={{ fontSize: '12px', color: '#64748b', marginTop: '4px' }}>{stat.unit}</div>
+              <div style={{ fontSize: '13px', color: '#334155', marginTop: '8px', fontWeight: '600' }}>{stat.label}</div>
             </div>
           ))}
         </div>
 
         {/* Course Progress List */}
         <div style={{
-          background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-          borderRadius: '20px', padding: '24px', marginBottom: '24px'
+          background: '#ffffff', border: '1px solid #e2e8f0',
+          borderRadius: '20px', padding: '24px', marginBottom: '24px',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.03)'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
-            <BookOpen size={18} color="#60a5fa" />
-            <h3 style={{ margin: 0, color: '#e2e8f0', fontSize: '16px', fontWeight: '700' }}>Course Progress</h3>
+            <BookOpen size={18} color="#2563eb" />
+            <h3 style={{ margin: 0, color: '#0f172a', fontSize: '16px', fontWeight: '700' }}>Course Progress</h3>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {courses.map(course => {
               const pct = getCourseCompletionPercentage(course.id);
               return (
                 <div key={course.id}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-                    <span style={{ fontSize: '13px', color: '#cbd5e1', fontWeight: '500' }}>{course.title}</span>
-                    <span style={{ fontSize: '13px', color: pct === 100 ? '#4ade80' : '#fbbf24', fontWeight: '700' }}>
+                    <span style={{ fontSize: '13px', color: '#334155', fontWeight: '600' }}>{course.title}</span>
+                    <span style={{ fontSize: '13px', color: pct === 100 ? '#10b981' : '#f97316', fontWeight: '700' }}>
                       {pct === 100 ? '✓ Done' : `${pct}%`}
                     </span>
                   </div>
-                  <div style={{ height: '6px', background: 'rgba(255,255,255,0.08)', borderRadius: '6px', overflow: 'hidden' }}>
+                  <div style={{ height: '6px', background: '#f1f5f9', borderRadius: '6px', overflow: 'hidden' }}>
                     <div style={{
                       height: '100%', width: `${pct}%`,
                       background: pct === 100
-                        ? 'linear-gradient(90deg, #22c55e, #4ade80)'
-                        : 'linear-gradient(90deg, #3b82f6, #60a5fa)',
+                        ? 'linear-gradient(90deg, #10b981, #34d399)'
+                        : 'linear-gradient(90deg, #2563eb, #60a5fa)',
                       borderRadius: '6px'
                     }} />
                   </div>
@@ -248,21 +257,22 @@ export const Profile: React.FC = () => {
 
         {/* Certificates Section */}
         <div style={{
-          background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-          borderRadius: '20px', padding: '24px'
+          background: '#ffffff', border: '1px solid #e2e8f0',
+          borderRadius: '20px', padding: '24px',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.03)'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
             <Star size={18} color="#fbbf24" />
-            <h3 style={{ margin: 0, color: '#e2e8f0', fontSize: '16px', fontWeight: '700' }}>Earned Certificates</h3>
+            <h3 style={{ margin: 0, color: '#0f172a', fontSize: '16px', fontWeight: '700' }}>Earned Certificates</h3>
           </div>
 
           {completedCourses.length === 0 ? (
             <div style={{
               textAlign: 'center', padding: '40px 20px',
-              border: '2px dashed rgba(255,255,255,0.1)', borderRadius: '16px'
+              border: '2px dashed #e2e8f0', borderRadius: '16px'
             }}>
-              <Award size={48} color="rgba(255,255,255,0.2)" style={{ marginBottom: '12px' }} />
-              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '14px', margin: 0 }}>
+              <Award size={48} color="#cbd5e1" style={{ marginBottom: '12px' }} />
+              <p style={{ color: '#64748b', fontSize: '14px', margin: 0 }}>
                 No certificates yet. Complete 100% of any course to earn your credential!
               </p>
             </div>
@@ -272,8 +282,8 @@ export const Profile: React.FC = () => {
                 <div key={course.id} style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                   padding: '16px 20px', borderRadius: '14px',
-                  background: 'linear-gradient(135deg, rgba(251,191,36,0.1), rgba(249,115,22,0.1))',
-                  border: '1px solid rgba(251,191,36,0.2)'
+                  background: 'linear-gradient(135deg, #fffbeb, #fef3c7)',
+                  border: '1px solid #fde68a'
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                     <div style={{
@@ -284,14 +294,15 @@ export const Profile: React.FC = () => {
                       <CheckCircle size={22} color="#fff" />
                     </div>
                     <div>
-                      <div style={{ color: '#f1f5f9', fontWeight: '700', fontSize: '14px' }}>Certificate of Excellence</div>
-                      <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>{course.title} · {getLocalDateString()}</div>
+                      <div style={{ color: '#78350f', fontWeight: '700', fontSize: '14px' }}>Certificate of Excellence</div>
+                      <div style={{ color: '#92400e', fontSize: '12px' }}>{course.title} · {getLocalDateString()}</div>
                     </div>
                   </div>
                   <button onClick={() => handleOpenCertificate(course.title)} style={{
                     padding: '8px 18px', borderRadius: '10px', border: 'none',
                     background: 'linear-gradient(135deg, #fbbf24, #f97316)',
-                    color: '#1e293b', fontWeight: '700', fontSize: '13px', cursor: 'pointer'
+                    color: '#fff', fontWeight: '700', fontSize: '13px', cursor: 'pointer',
+                    boxShadow: '0 2px 6px rgba(245,158,11,0.3)'
                   }}>
                     View
                   </button>
@@ -307,7 +318,7 @@ export const Profile: React.FC = () => {
         <div style={{
           position: 'fixed', inset: 0, zIndex: 1000,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)'
+          background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)'
         }}>
           <div onClick={() => setShowCertificate(false)}
             style={{ position: 'absolute', inset: 0 }} />
@@ -315,7 +326,7 @@ export const Profile: React.FC = () => {
             position: 'relative', zIndex: 1,
             background: 'linear-gradient(135deg, #fefce8, #fff7ed)',
             borderRadius: '20px', padding: '4px',
-            boxShadow: '0 24px 80px rgba(0,0,0,0.5)',
+            boxShadow: '0 24px 80px rgba(0,0,0,0.4)',
             maxWidth: '600px', width: '90%'
           }}>
             <div style={{
@@ -335,7 +346,7 @@ export const Profile: React.FC = () => {
                 fontSize: '32px', fontWeight: '800', color: '#1e293b', margin: '0 0 12px',
                 fontFamily: 'Georgia, serif', fontStyle: 'italic'
               }}>
-                {currentUser?.name || 'Jane Doe'}
+                {currentUser?.name || fallbackName}
               </h2>
               <div style={{ height: '2px', background: 'linear-gradient(90deg, transparent, #d97706, transparent)', margin: '0 0 16px' }} />
               <p style={{ color: '#78350f', fontSize: '13px', lineHeight: 1.6, margin: '0 0 16px' }}>
