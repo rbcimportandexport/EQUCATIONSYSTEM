@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext';
 import { 
   BookOpen, Image, Video, FileText, Download, Bookmark, 
   ChevronRight, ChevronDown, Award, Play, Pause, Maximize, 
-  ArrowLeft, ArrowRight, CheckCircle2 
+  ArrowLeft, ArrowRight, CheckCircle2, Volume2
 } from 'lucide-react';
 import { uiTranslations, translateModuleTitle, translateModuleDescription, getTranslatedLesson } from '../utils/translator';
 
@@ -372,6 +372,39 @@ export const ModuleScreen: React.FC = () => {
                           <div className="link-right" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                             {isDone && <span className="completed-badge">{t.completed}</span>}
                             
+                            {/* Listen / Read Aloud button */}
+                            <div onClick={e => e.stopPropagation()}>
+                              <button
+                                onClick={() => {
+                                  if (window.speechSynthesis.speaking) {
+                                    window.speechSynthesis.cancel();
+                                    return;
+                                  }
+                                  const text = [
+                                    lesson.title,
+                                    lesson.content?.definition,
+                                    lesson.content?.simpleExplanation,
+                                    lesson.content?.whyItMatters,
+                                    ...(lesson.content?.keyPoints || [])
+                                  ].filter(Boolean).join('. ');
+                                  const utter = new SpeechSynthesisUtterance(text);
+                                  utter.lang = language === 'hi' ? 'hi-IN' : language === 'gu' ? 'gu-IN' : 'en-US';
+                                  utter.rate = 0.9;
+                                  window.speechSynthesis.speak(utter);
+                                }}
+                                title="Listen to this lesson"
+                                style={{
+                                  display: 'flex', alignItems: 'center', gap: '5px',
+                                  padding: '4px 10px', borderRadius: '8px', border: '1px solid #e2e8f0',
+                                  background: '#f8fafc', cursor: 'pointer',
+                                  fontSize: '12px', color: '#3b82f6', fontWeight: '600'
+                                }}
+                              >
+                                <Volume2 size={13} />
+                                <span>{language === 'hi' ? 'सुनें' : language === 'gu' ? 'સાંભળો' : 'Listen'}</span>
+                              </button>
+                            </div>
+
                             {/* Stop propagation so clicking Complete doesn't collapse row */}
                             <div onClick={e => e.stopPropagation()}>
                               <button 

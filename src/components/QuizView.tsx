@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import type { QuizQuestion } from '../utils/data';
 import { useApp } from '../context/AppContext';
-import { HelpCircle, Check, X, ArrowRight, RotateCcw, Award } from 'lucide-react';
+import { HelpCircle, Check, X, ArrowRight, RotateCcw, Award, Trophy, BookOpen } from 'lucide-react';
 
 interface QuizViewProps {
   lessonId: string;
@@ -169,13 +169,14 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
             }}>
               {/* Trophy / Badge */}
               <div style={{
-                fontSize: '72px',
-                lineHeight: 1,
-                marginBottom: '12px',
+                marginBottom: '16px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
                 filter: 'drop-shadow(0 4px 16px rgba(251,191,36,0.6))',
                 animation: 'trophyBounce 0.8s 0.3s cubic-bezier(0.34,1.56,0.64,1) both'
               }}>
-                {passed ? '🏆' : '📚'}
+                {passed
+                  ? <Trophy size={72} color="#fbbf24" strokeWidth={1.5} />
+                  : <BookOpen size={72} color="#a78bfa" strokeWidth={1.5} />}
               </div>
 
               {/* Congrats text */}
@@ -255,13 +256,15 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
                 <button
                   onClick={resetQuiz}
                   style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                     padding: '12px 28px', borderRadius: '12px', border: 'none',
                     background: 'linear-gradient(135deg, #fbbf24, #f97316)',
                     color: '#1e293b', fontWeight: '800', fontSize: '14px', cursor: 'pointer',
                     boxShadow: '0 4px 16px rgba(251,191,36,0.4)'
                   }}
                 >
-                  🔁 {language === 'hi' ? 'दोबारा खेलें' : language === 'gu' ? 'ફરી રમો' : 'Play Again'}
+                  <RotateCcw size={15} />
+                  {language === 'hi' ? 'दोबारा खेलें' : language === 'gu' ? 'ફરી રમો' : 'Play Again'}
                 </button>
               </div>
             </div>
