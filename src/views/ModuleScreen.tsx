@@ -452,7 +452,36 @@ export const ModuleScreen: React.FC = () => {
                                     ...(lesson.content?.keyPoints || [])
                                   ].filter(Boolean).join('. ');
                                   const utter = new SpeechSynthesisUtterance(text);
-                                  utter.lang = language === 'hi' ? 'hi-IN' : language === 'gu' ? 'gu-IN' : 'en-US';
+                                  
+                                  const voices = window.speechSynthesis.getVoices();
+                                  const langCodes: Record<string, string> = {
+                                    hi: 'hi-IN',
+                                    gu: 'gu-IN',
+                                    mr: 'mr-IN',
+                                    en: 'en-US'
+                                  };
+                                  const targetLang = langCodes[language] || 'en-US';
+
+                                  // 1. Try exact match
+                                  let voice = voices.find(v => v.lang.toLowerCase() === targetLang.toLowerCase());
+                                  
+                                  // 2. Try prefix match (e.g. starts with 'gu' or 'mr')
+                                  if (!voice) {
+                                    voice = voices.find(v => v.lang.toLowerCase().startsWith(language));
+                                  }
+
+                                  // 3. Fallback for Indian languages (Gujarati/Marathi) to Hindi if target voice is missing in OS
+                                  if (!voice && (language === 'gu' || language === 'mr')) {
+                                    voice = voices.find(v => v.lang.toLowerCase().includes('hi-in') || v.lang.toLowerCase().startsWith('hi'));
+                                  }
+
+                                  if (voice) {
+                                    utter.voice = voice;
+                                    utter.lang = voice.lang;
+                                  } else {
+                                    utter.lang = targetLang;
+                                  }
+
                                   utter.rate = 0.9;
                                   window.speechSynthesis.speak(utter);
                                 }}
