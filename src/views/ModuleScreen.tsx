@@ -14,7 +14,6 @@ export const ModuleScreen: React.FC = () => {
     progress,
     selectedModuleId,
     setSelectedModuleId,
-    selectedLessonId,
     setSelectedLessonId,
     setActiveView,
     markLessonComplete,
