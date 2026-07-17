@@ -17,7 +17,8 @@ export const QuizScreen: React.FC = () => {
 
   // Resolve active module
   const activeModule = modules.find(m => m.id === selectedModuleId) || modules[0];
-  const moduleLessons = lessons.filter(l => l.moduleId === (activeModule?.id || ''));
+  const rawModuleLessons = lessons.filter(l => l.moduleId === (activeModule?.id || ''));
+  const moduleLessons = rawModuleLessons.map(l => getTranslatedLesson(l, language));
   
   // Gather all quiz questions for this module
   const questions = moduleLessons.flatMap(l => l.content.quiz || []);

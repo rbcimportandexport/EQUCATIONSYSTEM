@@ -10,7 +10,7 @@ interface QuizViewProps {
 }
 
 export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onComplete }) => {
-  const { saveQuizScore } = useApp();
+  const { saveQuizScore, language } = useApp();
 
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
@@ -107,9 +107,19 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
     return (
       <div className="quiz-result-card card">
         <Award size={48} className={`result-medal ${passed ? 'success' : 'fail'}`} />
-        <h3 className="result-title">{passed ? 'Assessment Completed!' : 'Keep Learning!'}</h3>
+        <h3 className="result-title">
+          {passed 
+            ? (language === 'hi' ? 'मूल्यांकन पूरा हुआ!' : language === 'gu' ? 'મૂલ્યાંકન પૂર્ણ થયું!' : language === 'mr' ? 'मूल्यांकन पूर्ण झाले!' : 'Assessment Completed!')
+            : (language === 'hi' ? 'सीखते रहें!' : language === 'gu' ? 'શીખતા રહો!' : language === 'mr' ? 'शिकत राहा!' : 'Keep Learning!')}
+        </h3>
         <p className="result-score-label">
-          You scored <strong className="score-span">{score}</strong> out of <strong className="score-span">{questions.length}</strong> questions correctly.
+          {language === 'hi' 
+            ? <>आपने <strong className="score-span">{questions.length}</strong> में से <strong className="score-span">{score}</strong> प्रश्नों का सही उत्तर दिया।</>
+            : language === 'gu'
+              ? <>તમે <strong className="score-span">{questions.length}</strong> માંથી <strong className="score-span">{score}</strong> પ્રશ્નોના સાચા જવાબ આપ્યા.</>
+              : language === 'mr'
+                ? <>तुम्ही <strong className="score-span">{questions.length}</strong> पैकी <strong className="score-span">{score}</strong> प्रश्नांची अचूक उत्तरे दिली.</>
+                : <>You scored <strong className="score-span">{score}</strong> out of <strong className="score-span">{questions.length}</strong> questions correctly.</>}
         </p>
         
         <div className="progress-bar-container large">
@@ -122,7 +132,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
         <div className="result-actions">
           <button className="btn btn-outlined" onClick={resetQuiz}>
             <RotateCcw size={16} />
-            <span>Retry Quiz</span>
+            <span>{language === 'hi' ? 'पुनः प्रयास करें' : language === 'gu' ? 'ફરીથી પ્રયાસ કરો' : language === 'mr' ? 'पुन्हा प्रयत्न करा' : 'Retry Quiz'}</span>
           </button>
         </div>
       </div>
@@ -134,9 +144,19 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
       <div className="quiz-header">
         <div className="quiz-meta">
           <HelpCircle size={18} className="meta-icon" />
-          <span className="quiz-count">Question {currentIdx + 1} of {questions.length}</span>
+          <span className="quiz-count">
+            {language === 'hi' 
+              ? `प्रश्न ${currentIdx + 1} / ${questions.length}` 
+              : language === 'gu' 
+                ? `પ્રશ્ન ${currentIdx + 1} / ${questions.length}` 
+                : language === 'mr' 
+                  ? `प्रश्न ${currentIdx + 1} / ${questions.length}` 
+                  : `Question ${currentIdx + 1} of ${questions.length}`}
+          </span>
         </div>
-        <span className="quiz-badge">Practice Check</span>
+        <span className="quiz-badge">
+          {language === 'hi' ? 'अभ्यास जांच' : language === 'gu' ? 'અભ્યાસ ચકાસણી' : language === 'mr' ? 'सराव चाचणी' : 'Practice Check'}
+        </span>
       </div>
 
       <h4 className="quiz-question-text">{currentQuestion.question}</h4>
@@ -147,7 +167,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
           <div className="fill-blank-wrapper">
             <input
               type="text"
-              placeholder="Type your answer here..."
+              placeholder={language === 'hi' ? 'यहाँ अपना उत्तर लिखें...' : language === 'gu' ? 'અહીં તમારો જવાબ લખો...' : language === 'mr' ? 'तुमचे उत्तर येथे लिहा...' : 'Type your answer here...'}
               value={typedAnswer}
               onChange={e => setTypedAnswer(e.target.value)}
               disabled={isAnswered}
@@ -221,7 +241,11 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
                       onClick={() => handleOptionToggle(val)}
                       disabled={isAnswered}
                     >
-                      <span>{val === 'true' ? 'True' : 'False'}</span>
+                      <span>
+                        {val === 'true' 
+                          ? (language === 'hi' ? 'सत्य (True)' : language === 'gu' ? 'સાચું (True)' : language === 'mr' ? 'सत्य (True)' : 'True')
+                          : (language === 'hi' ? 'असत्य (False)' : language === 'gu' ? 'ખોટું (False)' : language === 'mr' ? 'असत्य (False)' : 'False')}
+                      </span>
                     </button>
                   );
                 })}
@@ -238,12 +262,16 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
             {isCorrect ? (
               <>
                 <Check size={18} color="var(--md-sys-color-success)" />
-                <span className="feedback-result-title correct">Correct Answer!</span>
+                <span className="feedback-result-title correct">
+                  {language === 'hi' ? 'सही उत्तर!' : language === 'gu' ? 'સાચો જવાબ!' : language === 'mr' ? 'योग्य उत्तर!' : 'Correct Answer!'}
+                </span>
               </>
             ) : (
               <>
                 <X size={18} color="var(--md-sys-color-error)" />
-                <span className="feedback-result-title incorrect">Incorrect Answer</span>
+                <span className="feedback-result-title incorrect">
+                  {language === 'hi' ? 'गलत उत्तर' : language === 'gu' ? 'ખોટો જવાબ' : language === 'mr' ? 'चुकीचे उत्तर' : 'Incorrect Answer'}
+                </span>
               </>
             )}
           </div>
@@ -251,11 +279,13 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
             <p className="explanation-paragraph">{currentQuestion.explanation}</p>
             {!isCorrect && (
               <p className="correct-revealed-text">
-                Correct answer: <strong>
+                {language === 'hi' ? 'सही उत्तर:' : language === 'gu' ? 'સાચો જવાબ:' : language === 'mr' ? 'योग्य उत्तर:' : 'Correct answer:'} <strong>
                   {currentQuestion.type === 'fill-blank' 
                     ? currentQuestion.correctAnswers.join(' / ') 
                     : currentQuestion.type === 'true-false'
-                      ? currentQuestion.correctAnswers[0] === 'true' ? 'True' : 'False'
+                      ? currentQuestion.correctAnswers[0] === 'true' 
+                        ? (language === 'hi' ? 'सत्य (True)' : language === 'gu' ? 'સાચું (True)' : 'True')
+                        : (language === 'hi' ? 'असत्य (False)' : language === 'gu' ? 'ખોટું (False)' : 'False')
                       : currentQuestion.correctAnswers.map(ansIdx => currentQuestion.options?.[parseInt(ansIdx)]).join(', ')}
                 </strong>
               </p>
@@ -275,15 +305,18 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
               (currentQuestion.type !== 'fill-blank' && selectedOptions.length === 0)
             }
           >
-            <span>Submit Answer</span>
+            <span>{language === 'hi' ? 'उत्तर सबमिट करें' : language === 'gu' ? 'જવાબ સબમિટ કરો' : language === 'mr' ? 'उत्तर सबमिट करा' : 'Submit Answer'}</span>
           </button>
         ) : (
           <button className="btn btn-primary" onClick={handleNext}>
-            <span>{currentIdx < questions.length - 1 ? 'Next Question' : 'Finish Quiz'}</span>
+            <span>
+              {currentIdx < questions.length - 1 
+                ? (language === 'hi' ? 'अगला प्रश्न' : language === 'gu' ? 'આગલો પ્રશ્ન' : language === 'mr' ? 'पुढील प्रश्न' : 'Next Question') 
+                : (language === 'hi' ? 'क्विज़ समाप्त करें' : language === 'gu' ? 'ક્વિઝ પૂર્ણ કરો' : language === 'mr' ? 'क्विझ पूर्ण करा' : 'Finish Quiz')}
+            </span>
             <ArrowRight size={16} />
           </button>
         )}
-      </div>
     </div>
   );
 };
