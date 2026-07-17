@@ -214,7 +214,7 @@ export const LessonScreen: React.FC = () => {
           {/* 3. Detailed Explanation */}
           <div className="written-explanation-section">
             <h3 className="section-subtitle-inner">{t.simpleExplanation}</h3>
-            {activeLesson.content.writtenExplanation.split('\n\n').map((paragraph, i) => (
+            {activeLesson.content.writtenExplanation.split('\n\n').map((paragraph: string, i: number) => (
               <p key={i} className="explanation-paragraph">{paragraph}</p>
             ))}
           </div>
@@ -311,7 +311,7 @@ export const LessonScreen: React.FC = () => {
             <div className="related-topics-section">
               <span className="related-label">{language === 'hi' ? 'संबंधित शब्द:' : language === 'gu' ? 'સંબંધિત શબ્દો:' : language === 'mr' ? 'संबंधित संज्ञा:' : 'Related Terms:'}</span>
               <div className="related-tags-row">
-                {activeLesson.content.relatedTopics.map((topic, idx) => (
+                {activeLesson.content.relatedTopics.map((topic: string, idx: number) => (
                   <span key={idx} className="badge badge-secondary">{topic}</span>
                 ))}
               </div>
@@ -323,7 +323,7 @@ export const LessonScreen: React.FC = () => {
             <div className="faqs-block-section">
               <h3 className="section-subtitle">{language === 'hi' ? 'अक्सर पूछे जाने वाले प्रश्न (FAQ)' : language === 'gu' ? 'વારંવાર પૂછાતા પ્રશ્નો (FAQ)' : language === 'mr' ? 'वारंवार विचारले जाणारे प्रश्न (FAQ)' : 'Frequently Asked Questions (FAQ)'}</h3>
               <div className="faqs-stack">
-                {activeFaqIndex !== undefined && activeLesson.content.faqs.map((faq, idx) => {
+                {activeFaqIndex !== undefined && activeLesson.content.faqs.map((faq: { question: string; answer: string }, idx: number) => {
                   const isOpen = activeFaqIndex === idx;
                   return (
                     <div key={idx} className="faq-item-card card">
@@ -355,7 +355,7 @@ export const LessonScreen: React.FC = () => {
                   <span>{t.commonMistakes}</span>
                 </div>
                 <ul className="mistakes-list">
-                  {activeLesson.content.commonMistakes.map((mistake, idx) => (
+                  {activeLesson.content.commonMistakes.map((mistake: string, idx: number) => (
                     <li key={idx} className="mistake-item">{mistake}</li>
                   ))}
                 </ul>
@@ -371,7 +371,7 @@ export const LessonScreen: React.FC = () => {
                 <span>{t.practicalTip}</span>
               </h3>
               <ul className="tips-list">
-                {activeLesson.content.practicalTips.map((tip, idx) => (
+                {activeLesson.content.practicalTips.map((tip: string, idx: number) => (
                   <li key={idx} className="tip-item">
                     <span className="bullet text-success">✓</span>
                     <span>{tip}</span>
