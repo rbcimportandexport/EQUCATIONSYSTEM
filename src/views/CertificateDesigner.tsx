@@ -1,6 +1,6 @@
 ﻿import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useApp } from '../context/AppContext';
-import { Download, Printer, Edit3, Save, RotateCcw, Share2, FileText, Award, QrCode } from 'lucide-react';
+import { Download, Printer, Edit3, RotateCcw, FileText, Award, QrCode } from 'lucide-react';
 
 interface CertificateData {
   studentName: string;
