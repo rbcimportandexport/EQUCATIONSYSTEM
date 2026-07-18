@@ -474,40 +474,46 @@ export const ModuleScreen: React.FC = () => {
                                     window.speechSynthesis.cancel();
                                     return;
                                   }
-                                  // Always speak the English content of the lesson in Indian English accent/tone
+                                  // Speak the content of the lesson in the active language
                                   const rawLesson = moduleLessons.find(l => l.id === lesson.id) || lesson;
-                                  const lessonEng = getTranslatedLesson(rawLesson, 'en');
-                                  const tEng = uiTranslations['en'];
+                                  const lessonLang = getTranslatedLesson(rawLesson, language);
+                                  const tLang = uiTranslations[language];
 
-                                  const textParts = [lessonEng.title];
-                                  if (lessonEng.content?.definition) {
-                                    textParts.push(`${tEng.definition}: ${lessonEng.content.definition}`);
+                                  const textParts = [lessonLang.title];
+                                  if (lessonLang.content?.definition) {
+                                    textParts.push(`${tLang.definition}: ${lessonLang.content.definition}`);
                                   }
-                                  if (lessonEng.content?.writtenExplanation) {
-                                    textParts.push(`${tEng.simpleExplanation}: ${lessonEng.content.writtenExplanation}`);
+                                  if (lessonLang.content?.writtenExplanation) {
+                                    textParts.push(`${tLang.simpleExplanation}: ${lessonLang.content.writtenExplanation}`);
                                   }
-                                  if (lessonEng.content?.businessExample) {
-                                    textParts.push(`${tEng.realBusinessExample}: ${lessonEng.content.businessExample}`);
+                                  if (lessonLang.content?.businessExample) {
+                                    textParts.push(`${tLang.realBusinessExample}: ${lessonLang.content.businessExample}`);
                                   }
-                                  if (lessonEng.content?.whyImportant) {
-                                    textParts.push(`${tEng.whyImportant}: ${lessonEng.content.whyImportant}`);
+                                  if (lessonLang.content?.whyImportant) {
+                                    textParts.push(`${tLang.whyImportant}: ${lessonLang.content.whyImportant}`);
                                   }
-                                  if (lessonEng.content?.importantNotes && lessonEng.content.importantNotes.length > 0) {
-                                    textParts.push(`${tEng.importantPoints}: ${lessonEng.content.importantNotes.join('. ')}`);
+                                  if (lessonLang.content?.importantNotes && lessonLang.content.importantNotes.length > 0) {
+                                    textParts.push(`${tLang.importantPoints}: ${lessonLang.content.importantNotes.join('. ')}`);
                                   }
-                                  if (lessonEng.content?.commonMistakes && lessonEng.content.commonMistakes.length > 0) {
-                                    textParts.push(`${tEng.commonMistakes}: ${lessonEng.content.commonMistakes.join('. ')}`);
+                                  if (lessonLang.content?.commonMistakes && lessonLang.content.commonMistakes.length > 0) {
+                                    textParts.push(`${tLang.commonMistakes}: ${lessonLang.content.commonMistakes.join('. ')}`);
                                   }
-                                  if (lessonEng.content?.practicalTips && lessonEng.content.practicalTips.length > 0) {
-                                    textParts.push(`${tEng.practicalTip}: ${lessonEng.content.practicalTips.join('. ')}`);
+                                  if (lessonLang.content?.practicalTips && lessonLang.content.practicalTips.length > 0) {
+                                    textParts.push(`${tLang.practicalTip}: ${lessonLang.content.practicalTips.join('. ')}`);
                                   }
-                                  if (lessonEng.content?.summary) {
-                                    textParts.push(`${tEng.topicSummary}: ${lessonEng.content.summary}`);
+                                  if (lessonLang.content?.summary) {
+                                    textParts.push(`${tLang.topicSummary}: ${lessonLang.content.summary}`);
                                   }
                                   const text = textParts.join('. ');
 
                                   const voices = window.speechSynthesis.getVoices();
-                                  const targetLang = 'en-IN';
+                                  const langCodes: Record<string, string> = {
+                                    hi: 'hi-IN',
+                                    gu: 'gu-IN',
+                                    mr: 'mr-IN',
+                                    en: 'en-IN'
+                                  };
+                                  const targetLang = langCodes[language] || 'en-IN';
 
                                   const normalizeLang = (l: string) => l.toLowerCase().replace('_', '-');
 
@@ -519,21 +525,50 @@ export const ModuleScreen: React.FC = () => {
                                     if (name.includes('neural')) score += 8;
                                     if (name.includes('google')) score += 5;
                                     if (name.includes('india') || name.includes('in-')) score += 5;
-                                    if (name.includes('male') || name.includes('david') || name.includes('ravi') || name.includes('hemant')) score += 3;
+                                    if (name.includes('male') || name.includes('david') || name.includes('ravi') || name.includes('hemant') || name.includes('niranjan')) score += 3;
                                     return score;
                                   };
 
-                                  // Find the best English voice, prioritizing en-IN or general en
-                                  const englishVoices = voices.filter(v => {
-                                    const norm = normalizeLang(v.lang);
-                                    return norm.startsWith('en');
-                                  });
-                                  englishVoices.sort((a, b) => getVoiceScore(b) - getVoiceScore(a));
-                                  const voice = englishVoices[0];
+                                  // 1. Try exact match (normalized) sorted by quality score
+                                  const exactMatchingVoices = voices.filter(v => normalizeLang(v.lang) === normalizeLang(targetLang));
+                                  exactMatchingVoices.sort((a, b) => getVoiceScore(b) - getVoiceScore(a));
+                                  let voice = exactMatchingVoices[0];
+                                  
+                                  // 2. Try prefix match (starts with 'gu' or 'mr' or 'hi' or 'en') sorted by quality score
+                                  if (!voice) {
+                                    const prefixVoices = voices.filter(v => normalizeLang(v.lang).startsWith(language.toLowerCase()));
+                                    prefixVoices.sort((a, b) => getVoiceScore(b) - getVoiceScore(a));
+                                    voice = prefixVoices[0];
+                                  }
+
+                                  // 3. Fallback to Hindi if target voice is completely missing on user device (e.g. for Gujarati/Marathi)
+                                  let isHindiFallback = false;
+                                  if (!voice && (language === 'gu' || language === 'mr')) {
+                                    const fallbackVoices = voices.filter(v => {
+                                      const norm = normalizeLang(v.lang);
+                                      return norm.startsWith('hi') || norm.includes('hi-in');
+                                    });
+                                    fallbackVoices.sort((a, b) => getVoiceScore(b) - getVoiceScore(a));
+                                    voice = fallbackVoices[0];
+                                    if (voice) {
+                                      isHindiFallback = true;
+                                    }
+                                  }
 
                                   // Local SpeechSynthesis Fallback Function
                                   function playLocalTTS() {
-                                    const utter = new SpeechSynthesisUtterance(text);
+                                    let finalUtteranceText = text;
+                                    if (isHindiFallback && language === 'gu') {
+                                      // Transliterate Gujarati script to Devanagari so the Hindi voice can read it phonetically correct
+                                      finalUtteranceText = text.split('').map(char => {
+                                        const code = char.charCodeAt(0);
+                                        if (code >= 0x0A80 && code <= 0x0AFF) {
+                                          return String.fromCharCode(code - 0x0180);
+                                        }
+                                        return char;
+                                      }).join('');
+                                    }
+                                    const utter = new SpeechSynthesisUtterance(finalUtteranceText);
                                     if (voice) {
                                       utter.voice = voice;
                                       utter.lang = voice.lang;
@@ -541,18 +576,23 @@ export const ModuleScreen: React.FC = () => {
                                       utter.lang = targetLang;
                                     }
                                     utter.rate = 0.88;
-                                    utter.pitch = 1.0;
+                                    utter.pitch = language === 'gu' ? 0.9 : 1.0;
                                     window.speechSynthesis.speak(utter);
                                   }
 
                                   // Primary Cloud Human TTS Player (ElevenLabs or Google Translate fallback)
-                                  const googleLang = 'en-in';
+                                  const googleTTSLangMap: Record<string, string> = {
+                                    hi: 'hi',
+                                    gu: 'gu',
+                                    mr: 'mr',
+                                    en: 'en-in'
+                                  };
+                                  const googleLang = googleTTSLangMap[language] || 'en-in';
                                   const elevenLabsApiKey = localStorage.getItem('lms_elevenlabs_api_key') || (import.meta as any).env?.VITE_ELEVENLABS_API_KEY || '';
 
                                   // Split text into chunks of max 180 characters safely
                                   const sentences = text.match(/[^.!?\n\r]+[.!?\n\r]*/g) || [text];
                                   const chunks: string[] = [];
-                                  let currentChunk = "";
 
                                   sentences.forEach(sentence => {
                                     if ((currentChunk + sentence).length > 180) {
