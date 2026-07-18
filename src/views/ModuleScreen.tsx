@@ -470,7 +470,6 @@ export const ModuleScreen: React.FC = () => {
                                     textParts.push(`${t.topicSummary}: ${lesson.content.summary}`);
                                   }
                                   const text = textParts.join('. ');
-                                  const utter = new SpeechSynthesisUtterance(text);
                                   
                                   const voices = window.speechSynthesis.getVoices();
                                   const langCodes: Record<string, string> = {
@@ -490,9 +489,27 @@ export const ModuleScreen: React.FC = () => {
                                   }
 
                                   // 3. Fallback for Indian languages (Gujarati/Marathi) to Hindi if target voice is missing in OS
+                                  let isHindiFallback = false;
                                   if (!voice && (language === 'gu' || language === 'mr')) {
                                     voice = voices.find(v => v.lang.toLowerCase().includes('hi-in') || v.lang.toLowerCase().startsWith('hi'));
+                                    if (voice) {
+                                      isHindiFallback = true;
+                                    }
                                   }
+
+                                  let finalUtteranceText = text;
+                                  if (isHindiFallback && language === 'gu') {
+                                    // Transliterate Gujarati script to Devanagari so the Hindi voice can read it
+                                    finalUtteranceText = text.split('').map(char => {
+                                      const code = char.charCodeAt(0);
+                                      if (code >= 0x0A80 && code <= 0x0AFF) {
+                                        return String.fromCharCode(code - 0x0180);
+                                      }
+                                      return char;
+                                    }).join('');
+                                  }
+
+                                  const utter = new SpeechSynthesisUtterance(finalUtteranceText);
 
                                   if (voice) {
                                     utter.voice = voice;
