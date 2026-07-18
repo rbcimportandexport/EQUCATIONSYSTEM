@@ -584,61 +584,63 @@ const CertificatePreview: React.FC<{
       </div>
 
       {/* ===== BOTTOM SECTION ===== */}
+      {/* Director - Left */}
       <div style={{
-        position: 'absolute',
-        bottom: '70px', left: '420px', right: '60px',
-        zIndex: 3,
-        display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between',
+        position: 'absolute', bottom: '70px', left: '480px',
+        zIndex: 3, textAlign: 'center', width: '300px',
       }}>
-        {/* Director */}
-        <div style={{ textAlign: 'center', flex: 1 }}>
-          <div style={{ width: '220px', height: '2px', background: '#102A56', margin: '0 auto 6px' }} />
-          {editable && onFieldChange ? (
-            <input type="text" value={data.directorSig} onChange={(e) => onFieldChange('directorSig', e.target.value)}
-              style={{ fontFamily: "'Great Vibes', cursive", fontSize: '32px', color: '#102A56', border: '1px dashed rgba(245,124,0,0.3)', borderRadius: '4px', padding: '2px 8px', textAlign: 'center', width: '80%', outline: 'none', background: 'rgba(245,124,0,0.04)', marginBottom: '2px' }} />
-          ) : (
-            <div style={{ fontFamily: "'Great Vibes', cursive", fontSize: '32px', color: '#102A56', marginBottom: '2px' }}>{data.directorSig}</div>
-          )}
-          <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '11px', fontWeight: 600, color: '#102A56', letterSpacing: '2px', textTransform: 'uppercase' }}>{data.directorName}</div>
-          <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '10px', fontWeight: 400, color: '#888' }}>{data.directorRole}</div>
-        </div>
+        <div style={{ width: '220px', height: '2px', background: '#102A56', margin: '0 auto 6px' }} />
+        {editable && onFieldChange ? (
+          <input type="text" value={data.directorSig} onChange={(e) => onFieldChange('directorSig', e.target.value)}
+            style={{ fontFamily: "'Great Vibes', cursive", fontSize: '32px', color: '#102A56', border: '1px dashed rgba(245,124,0,0.3)', borderRadius: '4px', padding: '2px 8px', textAlign: 'center', width: '80%', outline: 'none', background: 'rgba(245,124,0,0.04)', marginBottom: '2px' }} />
+        ) : (
+          <div style={{ fontFamily: "'Great Vibes', cursive", fontSize: '32px', color: '#102A56', marginBottom: '2px' }}>{data.directorSig}</div>
+        )}
+        <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '11px', fontWeight: 600, color: '#102A56', letterSpacing: '2px', textTransform: 'uppercase' }}>{data.directorName}</div>
+        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '10px', fontWeight: 400, color: '#888' }}>{data.directorRole}</div>
+      </div>
 
-        {/* Center - Seal & QR */}
-        <div style={{ textAlign: 'center', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      {/* Center - Seal & QR */}
+      <div style={{
+        position: 'absolute', bottom: '70px', left: '50%', marginLeft: '-150px',
+        zIndex: 3, textAlign: 'center', width: '300px', display: 'flex', flexDirection: 'column', alignItems: 'center',
+      }}>
+        <div style={{
+          width: '100px', height: '100px', borderRadius: '50%',
+          background: 'radial-gradient(circle at 30% 30%, #F5E6A3, #D4AF37, #B8960C)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          position: 'relative', marginBottom: '8px',
+          boxShadow: '0 4px 20px rgba(212,175,55,0.3)',
+        }}>
+          <div style={{ position: 'absolute', inset: '5px', borderRadius: '50%', border: '2px solid rgba(255,255,255,0.4)' }} />
           <div style={{
-            width: '100px', height: '100px', borderRadius: '50%',
-            background: 'radial-gradient(circle at 30% 30%, #F5E6A3, #D4AF37, #B8960C)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            position: 'relative', marginBottom: '8px',
-            boxShadow: '0 4px 20px rgba(212,175,55,0.3)',
+            fontFamily: "'Cinzel', serif", fontSize: '9px', fontWeight: 700,
+            color: '#102A56', textAlign: 'center', lineHeight: 1.2, position: 'relative', zIndex: 1,
           }}>
-            <div style={{ position: 'absolute', inset: '5px', borderRadius: '50%', border: '2px solid rgba(255,255,255,0.4)' }} />
-            <div style={{
-              fontFamily: "'Cinzel', serif", fontSize: '9px', fontWeight: 700,
-              color: '#102A56', textAlign: 'center', lineHeight: 1.2, position: 'relative', zIndex: 1,
-            }}>
-              COMPLETED<br/>WITH<br/>EXCELLENCE
-            </div>
+            COMPLETED<br/>WITH<br/>EXCELLENCE
           </div>
-          <div style={{ width: '64px', height: '64px', background: '#fff', border: '2px solid #102A56', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '4px' }}>
-            <QRIcon />
-          </div>
-          <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '8px', fontWeight: 500, color: '#102A56', textTransform: 'uppercase', letterSpacing: '1px' }}>Verify Certificate</div>
-          <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '7px', fontWeight: 400, color: '#888' }}>{data.verifyUrl}</div>
         </div>
+        <div style={{ width: '64px', height: '64px', background: '#fff', border: '2px solid #102A56', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '4px' }}>
+          <QRIcon />
+        </div>
+        <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '8px', fontWeight: 500, color: '#102A56', textTransform: 'uppercase', letterSpacing: '1px' }}>Verify Certificate</div>
+        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '7px', fontWeight: 400, color: '#888' }}>{data.verifyUrl}</div>
+      </div>
 
-        {/* Founder */}
-        <div style={{ textAlign: 'center', flex: 1 }}>
-          <div style={{ width: '220px', height: '2px', background: '#102A56', margin: '0 auto 6px' }} />
-          {editable && onFieldChange ? (
-            <input type="text" value={data.founderSig} onChange={(e) => onFieldChange('founderSig', e.target.value)}
-              style={{ fontFamily: "'Great Vibes', cursive", fontSize: '32px', color: '#102A56', border: '1px dashed rgba(245,124,0,0.3)', borderRadius: '4px', padding: '2px 8px', textAlign: 'center', width: '80%', outline: 'none', background: 'rgba(245,124,0,0.04)', marginBottom: '2px' }} />
-          ) : (
-            <div style={{ fontFamily: "'Great Vibes', cursive", fontSize: '32px', color: '#102A56', marginBottom: '2px' }}>{data.founderSig}</div>
-          )}
-          <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '11px', fontWeight: 600, color: '#102A56', letterSpacing: '2px', textTransform: 'uppercase' }}>{data.founderName}</div>
-          <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '10px', fontWeight: 400, color: '#888' }}>{data.founderRole}</div>
-        </div>
+      {/* Founder - Right */}
+      <div style={{
+        position: 'absolute', bottom: '70px', right: '120px',
+        zIndex: 3, textAlign: 'center', width: '300px',
+      }}>
+        <div style={{ width: '220px', height: '2px', background: '#102A56', margin: '0 auto 6px' }} />
+        {editable && onFieldChange ? (
+          <input type="text" value={data.founderSig} onChange={(e) => onFieldChange('founderSig', e.target.value)}
+            style={{ fontFamily: "'Great Vibes', cursive", fontSize: '32px', color: '#102A56', border: '1px dashed rgba(245,124,0,0.3)', borderRadius: '4px', padding: '2px 8px', textAlign: 'center', width: '80%', outline: 'none', background: 'rgba(245,124,0,0.04)', marginBottom: '2px' }} />
+        ) : (
+          <div style={{ fontFamily: "'Great Vibes', cursive", fontSize: '32px', color: '#102A56', marginBottom: '2px' }}>{data.founderSig}</div>
+        )}
+        <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: '11px', fontWeight: 600, color: '#102A56', letterSpacing: '2px', textTransform: 'uppercase' }}>{data.founderName}</div>
+        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '10px', fontWeight: 400, color: '#888' }}>{data.founderRole}</div>
       </div>
     </div>
   );

@@ -436,21 +436,14 @@
 }
 
 /* ===== BOTTOM SECTION ===== */
-.bottom-section {
-  position: absolute;
-  bottom: 70px;
-  left: 420px;
-  right: 60px;
-  z-index: 3;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-}
-
 /* Bottom Left - Director */
 .bottom-left {
+  position: absolute;
+  bottom: 70px;
+  left: 480px;
+  z-index: 3;
   text-align: center;
-  flex: 1;
+  width: 300px;
 }
 .signature-line {
   width: 220px;
@@ -482,11 +475,16 @@
 
 /* Bottom Center - Seal & QR */
 .bottom-center {
-  flex: 1;
+  position: absolute;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  width: 300px;
 }
 
 .gold-seal {
@@ -551,8 +549,12 @@
 
 /* Bottom Right - Founder */
 .bottom-right {
+  position: absolute;
+  bottom: 70px;
+  right: 120px;
+  z-index: 3;
   text-align: center;
-  flex: 1;
+  width: 300px;
 }
 
 /* ===== DECORATIVE CORNER ELEMENTS ===== */
@@ -838,66 +840,61 @@
   </div>
 
   <!-- ===== BOTTOM SECTION ===== -->
-  <div class="bottom-section">
-    <!-- Director -->
-    <div class="bottom-left">
-      <div class="signature-line"></div>
-      <div class="signature-name" contenteditable="true" id="directorSig">Kunal Pawar</div>
-      <div class="signature-title" contenteditable="true" id="directorName">KUNAL PAWAR</div>
-      <div class="signature-sub" contenteditable="true" id="directorRole">Academy Director</div>
-    </div>
+  <!-- Director - Left -->
+  <div class="bottom-left">
+    <div class="signature-line"></div>
+    <div class="signature-name" contenteditable="true" id="directorSig">Kunal Pawar</div>
+    <div class="signature-title" contenteditable="true" id="directorName">KUNAL PAWAR</div>
+    <div class="signature-sub" contenteditable="true" id="directorRole">Academy Director</div>
+  </div>
 
-    <!-- Center - Seal & QR -->
-    <div class="bottom-center">
-      <div class="gold-seal">
-        <div class="gold-seal-text">
-          COMPLETED<br/>WITH<br/>EXCELLENCE
-        </div>
+  <!-- Center - Seal & QR -->
+  <div class="bottom-center">
+    <div class="gold-seal">
+      <div class="gold-seal-text">
+        COMPLETED<br/>WITH<br/>EXCELLENCE
       </div>
-      <div class="qr-placeholder">
-        <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="2" width="52" height="52" fill="white" stroke="#102A56" stroke-width="1"/>
-          <!-- QR Code pattern -->
-          <rect x="4" y="4" width="20" height="20" fill="#102A56"/>
-          <rect x="6" y="6" width="4" height="4" fill="white"/>
-          <rect x="14" y="6" width="4" height="4" fill="white"/>
-          <rect x="6" y="14" width="4" height="4" fill="white"/>
-          <rect x="14" y="14" width="4" height="4" fill="white"/>
-          <rect x="32" y="4" width="20" height="20" fill="#102A56"/>
-          <rect x="34" y="6" width="4" height="4" fill="white"/>
-          <rect x="42" y="6" width="4" height="4" fill="white"/>
-          <rect x="34" y="14" width="4" height="4" fill="white"/>
-          <rect x="42" y="14" width="4" height="4" fill="white"/>
-          <rect x="4" y="32" width="20" height="20" fill="#102A56"/>
-          <rect x="6" y="34" width="4" height="4" fill="white"/>
-          <rect x="14" y="34" width="4" height="4" fill="white"/>
-          <rect x="6" y="42" width="4" height="4" fill="white"/>
-          <rect x="14" y="42" width="4" height="4" fill="white"/>
-          <!-- Center patterns -->
-          <rect x="24" y="24" width="8" height="8" fill="#102A56"/>
-          <rect x="26" y="26" width="4" height="4" fill="white"/>
-          <!-- Random dots -->
-          <rect x="26" y="6" width="4" height="4" fill="#102A56"/>
-          <rect x="26" y="14" width="4" height="4" fill="#102A56"/>
-          <rect x="6" y="26" width="4" height="4" fill="#102A56"/>
-          <rect x="14" y="26" width="4" height="4" fill="#102A56"/>
-          <rect x="42" y="26" width="4" height="4" fill="#102A56"/>
-          <rect x="32" y="26" width="4" height="4" fill="#102A56"/>
-          <rect x="26" y="32" width="4" height="4" fill="#102A56"/>
-          <rect x="26" y="42" width="4" height="4" fill="#102A56"/>
-        </svg>
-      </div>
-      <div class="verify-text">Verify Certificate</div>
-      <div class="verify-url" contenteditable="true" id="verifyUrl">Scan QR code or visit academy.rbcimportandexport.com/verify</div>
     </div>
+    <div class="qr-placeholder">
+      <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="52" height="52" fill="white" stroke="#102A56" stroke-width="1"/>
+        <rect x="4" y="4" width="20" height="20" fill="#102A56"/>
+        <rect x="6" y="6" width="4" height="4" fill="white"/>
+        <rect x="14" y="6" width="4" height="4" fill="white"/>
+        <rect x="6" y="14" width="4" height="4" fill="white"/>
+        <rect x="14" y="14" width="4" height="4" fill="white"/>
+        <rect x="32" y="4" width="20" height="20" fill="#102A56"/>
+        <rect x="34" y="6" width="4" height="4" fill="white"/>
+        <rect x="42" y="6" width="4" height="4" fill="white"/>
+        <rect x="34" y="14" width="4" height="4" fill="white"/>
+        <rect x="42" y="14" width="4" height="4" fill="white"/>
+        <rect x="4" y="32" width="20" height="20" fill="#102A56"/>
+        <rect x="6" y="34" width="4" height="4" fill="white"/>
+        <rect x="14" y="34" width="4" height="4" fill="white"/>
+        <rect x="6" y="42" width="4" height="4" fill="white"/>
+        <rect x="14" y="42" width="4" height="4" fill="white"/>
+        <rect x="24" y="24" width="8" height="8" fill="#102A56"/>
+        <rect x="26" y="26" width="4" height="4" fill="white"/>
+        <rect x="26" y="6" width="4" height="4" fill="#102A56"/>
+        <rect x="26" y="14" width="4" height="4" fill="#102A56"/>
+        <rect x="6" y="26" width="4" height="4" fill="#102A56"/>
+        <rect x="14" y="26" width="4" height="4" fill="#102A56"/>
+        <rect x="42" y="26" width="4" height="4" fill="#102A56"/>
+        <rect x="32" y="26" width="4" height="4" fill="#102A56"/>
+        <rect x="26" y="32" width="4" height="4" fill="#102A56"/>
+        <rect x="26" y="42" width="4" height="4" fill="#102A56"/>
+      </svg>
+    </div>
+    <div class="verify-text">Verify Certificate</div>
+    <div class="verify-url" contenteditable="true" id="verifyUrl">Scan QR code or visit academy.rbcimportandexport.com/verify</div>
+  </div>
 
-    <!-- Founder -->
-    <div class="bottom-right">
-      <div class="signature-line"></div>
-      <div class="signature-name" contenteditable="true" id="founderSig">Prakash Kachchhi</div>
-      <div class="signature-title" contenteditable="true" id="founderName">PRAKASH KACHCHHI</div>
-      <div class="signature-sub" contenteditable="true" id="founderRole">Founder &amp; CEO</div>
-    </div>
+  <!-- Founder - Right -->
+  <div class="bottom-right">
+    <div class="signature-line"></div>
+    <div class="signature-name" contenteditable="true" id="founderSig">Prakash Kachchhi</div>
+    <div class="signature-title" contenteditable="true" id="founderName">PRAKASH KACHCHHI</div>
+    <div class="signature-sub" contenteditable="true" id="founderRole">Founder &amp; CEO</div>
   </div>
 
   <!-- ===== DECORATIVE CORNER ORNAMENTS ===== -->
