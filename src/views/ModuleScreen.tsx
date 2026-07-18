@@ -684,29 +684,8 @@ export const ModuleScreen: React.FC = () => {
                                     };
                                   }
 
-                                  // Start playing using the best tier available
-                                  if (elevenLabsApiKey) {
-                                    playNextChunk();
-                                  } else if (rv) {
-                                    const rvVoiceMap: Record<string, string> = {
-                                      hi: 'Hindi Female',
-                                      gu: 'Gujarati Female',
-                                      mr: 'Marathi Female',
-                                      en: 'Indian English Female'
-                                    };
-                                    const voiceName = rvVoiceMap[language] || 'Hindi Female';
-                                    rv.speak(text, voiceName, {
-                                      rate: 0.9,
-                                      pitch: 1.0,
-                                      volume: 1.0,
-                                      onerror: () => {
-                                        console.warn("ResponsiveVoice failed, falling back to Google TTS");
-                                        playNextChunk();
-                                      }
-                                    });
-                                  } else {
-                                    playNextChunk();
-                                  }
+                                  // Start playing using the best tier available (ElevenLabs or Google Translate fallback)
+                                  playNextChunk();
                                 }}
                                 title="Listen to this lesson"
                                 style={{
