@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { Award, Shield, User, Clock, FileText, Edit3, Save, X, BookOpen, Star, TrendingUp } from 'lucide-react';
+import logoEmblem from '../assets/logo_emblem.png';
 
 export const Profile: React.FC = () => {
   const { courses, progress, getCourseCompletionPercentage, currentUser, loginUser, language, certificates } = useApp();
@@ -609,7 +610,7 @@ export const Profile: React.FC = () => {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         <img 
-                          src="/logo_emblem.png" 
+                          src={logoEmblem} 
                           alt="RBC Emblem" 
                           style={{ 
                             width: '42px', 

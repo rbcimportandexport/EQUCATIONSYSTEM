@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { Printer, RotateCcw, FileSignature } from 'lucide-react';
+import logoEmblem from '../assets/logo_emblem.png';
 
 export const CertificateDesigner: React.FC = () => {
   const { currentUser, language } = useApp();
@@ -437,7 +438,7 @@ export const CertificateDesigner: React.FC = () => {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <img 
-                    src="/logo_emblem.png" 
+                    src={logoEmblem} 
                     alt="RBC Emblem" 
                     style={{ 
                       width: '42px', 

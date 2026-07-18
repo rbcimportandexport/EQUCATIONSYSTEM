@@ -1,6 +1,7 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
 import { Users, UserCheck } from 'lucide-react';
+import logoEmblem from '../assets/logo_emblem.png';
 
 export const CommunityScreen: React.FC = () => {
   const { users, currentUser, language, certificates } = useApp();
@@ -449,7 +450,7 @@ export const CommunityScreen: React.FC = () => {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         <img 
-                          src="/logo_emblem.png" 
+                          src={logoEmblem} 
                           alt="RBC Emblem" 
                           style={{ 
                             width: '42px', 
