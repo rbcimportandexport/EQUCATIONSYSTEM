@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { Award, Shield, User, Clock, FileText, Edit3, Save, X, CheckCircle, BookOpen, Star, TrendingUp } from 'lucide-react';
+import { Award, Shield, User, Clock, FileText, Edit3, Save, X, BookOpen, Star, TrendingUp } from 'lucide-react';
 
 export const Profile: React.FC = () => {
   const { courses, progress, getCourseCompletionPercentage, currentUser, loginUser, language, certificates } = useApp();
