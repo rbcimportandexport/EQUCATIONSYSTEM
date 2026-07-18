@@ -195,7 +195,7 @@ export const CommunityScreen: React.FC = () => {
                     border: lvl.border, boxShadow: lvl.shadow,
                     textTransform: 'uppercase', letterSpacing: '0.5px'
                   }}>
-                    👑 {lvl.name}
+                    {lvl.name}
                   </span>
                 </div>
 
@@ -251,7 +251,7 @@ export const CommunityScreen: React.FC = () => {
                         transition: 'transform 0.1s ease'
                       }}
                     >
-                      🎓 {language === 'hi' ? 'प्रमाणपत्र देखें' : language === 'gu' ? 'પ્રમાણપત્ર જુઓ' : 'View Certificate'}
+                      {language === 'hi' ? 'प्रमाणपत्र देखें' : language === 'gu' ? 'પ્રમાણપત્ર જુઓ' : 'View Certificate'}
                     </button>
                   </div>
                 )}
@@ -325,7 +325,7 @@ export const CommunityScreen: React.FC = () => {
                 border: '2px solid #d97706', background: 'transparent',
                 color: '#92400e', fontWeight: '700', fontSize: '14px', cursor: 'pointer'
               }}>
-                🖨️ Print
+                Print
               </button>
               <button onClick={() => setShowCertModal(false)} style={{
                 flex: 1, padding: '12px', borderRadius: '10px', border: 'none',
