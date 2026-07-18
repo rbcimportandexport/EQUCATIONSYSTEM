@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { Users, UserCheck, Award } from 'lucide-react';
+import { Users, UserCheck } from 'lucide-react';
 
 export const CommunityScreen: React.FC = () => {
   const { users, currentUser, language, certificates } = useApp();
