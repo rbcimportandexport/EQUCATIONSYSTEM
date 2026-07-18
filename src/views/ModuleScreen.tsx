@@ -454,7 +454,18 @@ export const ModuleScreen: React.FC = () => {
                             <div onClick={e => e.stopPropagation()}>
                               <button
                                 onClick={() => {
-                                  if (window.speechSynthesis.speaking) {
+                                  if ((window as any)._activeTTSAudio) {
+                                    try {
+                                      (window as any)._activeTTSAudio.pause();
+                                      (window as any)._activeTTSAudio.src = "";
+                                    } catch (e) {}
+                                    (window as any)._activeTTSAudio = null;
+                                    if (window.speechSynthesis) {
+                                      window.speechSynthesis.cancel();
+                                    }
+                                    return;
+                                  }
+                                  if (window.speechSynthesis && window.speechSynthesis.speaking) {
                                     window.speechSynthesis.cancel();
                                     return;
                                   }
@@ -483,63 +494,244 @@ export const ModuleScreen: React.FC = () => {
                                   if (lesson.content?.summary) {
                                     textParts.push(`${t.topicSummary}: ${lesson.content.summary}`);
                                   }
-                                  const text = textParts.join('. ');
+                                  let text = textParts.join('. ');
+
+                                  // Phonetic word replacement map for proper local pronunciation of English terms
+                                  const englishPhoneticMap: Record<string, Record<string, string>> = {
+                                    hi: {
+                                      'imports': 'इम्पोर्ट्स',
+                                      'import': 'इम्पोर्ट',
+                                      'exports': 'एक्सपोर्ट्स',
+                                      'export': 'एक्सपोर्ट',
+                                      'rbc': 'आरबीसी',
+                                      'traders': 'ट्रेडर्स',
+                                      'trader': 'ट्रेडर',
+                                      'suppliers': 'सप्लायर्स',
+                                      'supplier': 'सप्लायर',
+                                      'buyers': 'बायर्स',
+                                      'buyer': 'बायर',
+                                      'manufacturers': 'मैन्युफैक्चरर्स',
+                                      'manufacturer': 'मैन्युफैक्चरर',
+                                      'customs duty': 'कस्टम ड्यूटी',
+                                      'custom duty': 'कस्टम ड्यूटी',
+                                      'incoterms': 'इन्कोटर्म्स',
+                                      'bill of lading': 'बिल ऑफ लेडिंग',
+                                      'led light': 'एलईडी लाइट',
+                                      'led': 'एलईडी',
+                                      'light': 'लाइट',
+                                      'china': 'चाइना',
+                                      'mobile accessories': 'मोबाइल एक्सेसरीज',
+                                      'shipping': 'शिपिंग',
+                                      'custom clearance': 'कस्टम क्लीयरेंस',
+                                      'delivery': 'डिलीवरी',
+                                      'invoice': 'इनवॉइस',
+                                      'profit': 'प्रॉफिट',
+                                      'importers': 'इम्पोर्टर्स',
+                                      'importer': 'इम्पोर्टर',
+                                      'order': 'ऑर्डर'
+                                    },
+                                    gu: {
+                                      'imports': 'ઇમ્પોર્ટ્સ',
+                                      'import': 'ઇમ્પોર્ટ',
+                                      'exports': 'એક્સપોર્ટ્સ',
+                                      'export': 'એક્સપોર્ટ',
+                                      'rbc': 'આરબીસી',
+                                      'traders': 'ટ્રેડર્સ',
+                                      'trader': 'ટ્રેડર',
+                                      'suppliers': 'સપ્લાયર્સ',
+                                      'supplier': 'સપ્લાયર',
+                                      'buyers': 'બાયર્સ',
+                                      'buyer': 'બાયર',
+                                      'manufacturers': 'મેન્યુફેક્ચરર્સ',
+                                      'manufacturer': 'મેન્યુફેક્ચરર',
+                                      'customs duty': 'કસ્ટમ ડ્યુટી',
+                                      'custom duty': 'કસ્ટમ ડ્યુટી',
+                                      'incoterms': 'ઇન્કોટર્મ્સ',
+                                      'bill of lading': 'બિલ ઓફ લેડિંગ',
+                                      'led light': 'એલઇડી લાઇટ',
+                                      'led': 'એલઇડી',
+                                      'light': 'લાઇટ',
+                                      'china': 'ચાઇના',
+                                      'mobile accessories': 'મોબાઇલ એક્સેસરીઝ',
+                                      'shipping': 'શિપિંગ',
+                                      'custom clearance': 'કસ્ટમ ક્લીયરન્સ',
+                                      'delivery': 'ડિલિવરી',
+                                      'invoice': 'ઇનવોઇસ',
+                                      'profit': 'પ્રોફિટ',
+                                      'importers': 'ઇમ્પોર્ટ્સ',
+                                      'importer': 'ઇમ્પોર્ટર',
+                                      'order': 'ઓર્ડર'
+                                    },
+                                    mr: {
+                                      'imports': 'इम्पोर्ट्स',
+                                      'import': 'इम्पोर्ट',
+                                      'exports': 'एक्सपोर्ट्स',
+                                      'export': 'एक्सपोर्ट',
+                                      'rbc': 'आरबीसी',
+                                      'traders': 'ट्रेडर्स',
+                                      'trader': 'ट्रेडर',
+                                      'suppliers': 'सप्लायर्स',
+                                      'supplier': 'सप्लायर',
+                                      'buyers': 'बायर्स',
+                                      'buyer': 'बायर',
+                                      'manufacturers': 'मैन्युफैक्चरर्स',
+                                      'manufacturer': 'मैन्युफैक्चरर',
+                                      'customs duty': 'कस्टम ड्यूटी',
+                                      'custom duty': 'कस्टम ड्यूटी',
+                                      'incoterms': 'इन्कोटर्म्स',
+                                      'bill of lading': 'बिल ऑफ लेडिंग',
+                                      'led light': 'एलईडी लाइट',
+                                      'led': 'एलईडी',
+                                      'light': 'लाइट',
+                                      'china': 'चाइना',
+                                      'mobile accessories': 'मोबाइल एक्सेसरीज',
+                                      'shipping': 'शिपिंग',
+                                      'custom clearance': 'कस्टम क्लीयरेंस',
+                                      'delivery': 'डिलीवरी',
+                                      'invoice': 'इनवॉइस',
+                                      'profit': 'प्रॉफिट',
+                                      'importers': 'इम्पोर्टर्स',
+                                      'importer': 'इम्पोर्टर',
+                                      'order': 'ऑर्डर'
+                                    }
+                                  };
+
+                                  const phoneticDict = englishPhoneticMap[language];
+                                  if (phoneticDict) {
+                                    Object.entries(phoneticDict).forEach(([engWord, localWord]) => {
+                                      const regex = new RegExp(`\\b${engWord}\\b`, 'gi');
+                                      text = text.replace(regex, localWord);
+                                    });
+                                  }
                                   
                                   const voices = window.speechSynthesis.getVoices();
-                                  const langCodes: Record<string, string> = {
+                                  const targetLang = {
                                     hi: 'hi-IN',
                                     gu: 'gu-IN',
                                     mr: 'mr-IN',
                                     en: 'en-US'
-                                  };
-                                  const targetLang = langCodes[language] || 'en-US';
+                                  }[language] || 'en-US';
 
                                   // Helper to normalize lang tags (e.g. gu_in -> gu-in)
                                   const normalizeLang = (l: string) => l.toLowerCase().replace('_', '-');
 
-                                  // 1. Try exact match (normalized)
-                                  let voice = voices.find(v => normalizeLang(v.lang) === normalizeLang(targetLang));
+                                  // Voice quality scoring: higher score means more natural, neural, or cloud-based voice
+                                  const getVoiceScore = (v: SpeechSynthesisVoice) => {
+                                    const name = v.name.toLowerCase();
+                                    let score = 0;
+                                    if (name.includes('online')) score += 10;
+                                    if (name.includes('natural')) score += 8;
+                                    if (name.includes('neural')) score += 8;
+                                    if (name.includes('google')) score += 5;
+                                    return score;
+                                  };
+
+                                  // 1. Try exact match (normalized) sorted by quality score
+                                  const exactMatchingVoices = voices.filter(v => normalizeLang(v.lang) === normalizeLang(targetLang));
+                                  exactMatchingVoices.sort((a, b) => getVoiceScore(b) - getVoiceScore(a));
+                                  let voice = exactMatchingVoices[0];
                                   
-                                  // 2. Try prefix match (starts with 'gu' or 'mr')
+                                  // 2. Try prefix match (starts with 'gu' or 'mr') sorted by quality score
                                   if (!voice) {
-                                    voice = voices.find(v => normalizeLang(v.lang).startsWith(language.toLowerCase()));
+                                    const prefixVoices = voices.filter(v => normalizeLang(v.lang).startsWith(language.toLowerCase()));
+                                    prefixVoices.sort((a, b) => getVoiceScore(b) - getVoiceScore(a));
+                                    voice = prefixVoices[0];
                                   }
 
                                   // 3. Fallback to Hindi if target voice is completely missing on user device
                                   let isHindiFallback = false;
                                   if (!voice && (language === 'gu' || language === 'mr')) {
-                                    voice = voices.find(v => {
+                                    const fallbackVoices = voices.filter(v => {
                                       const norm = normalizeLang(v.lang);
                                       return norm.startsWith('hi') || norm.includes('hi-in');
                                     });
+                                    fallbackVoices.sort((a, b) => getVoiceScore(b) - getVoiceScore(a));
+                                    voice = fallbackVoices[0];
+                                    
                                     if (voice) {
                                       isHindiFallback = true;
                                     }
                                   }
 
-                                  let finalUtteranceText = text;
-                                  if (isHindiFallback && language === 'gu') {
-                                    // Transliterate Gujarati script to Devanagari so the Hindi voice can read it phonetically correct
-                                    finalUtteranceText = text.split('').map(char => {
-                                      const code = char.charCodeAt(0);
-                                      if (code >= 0x0A80 && code <= 0x0AFF) {
-                                        return String.fromCharCode(code - 0x0180);
-                                      }
-                                      return char;
-                                    }).join('');
-                                  }
+                                  // Local SpeechSynthesis Fallback Function
+                                  const playLocalTTS = () => {
+                                    let finalUtteranceText = text;
+                                    if (isHindiFallback && language === 'gu') {
+                                      finalUtteranceText = text.split('').map(char => {
+                                        const code = char.charCodeAt(0);
+                                        if (code >= 0x0A80 && code <= 0x0AFF) {
+                                          return String.fromCharCode(code - 0x0180);
+                                        }
+                                        return char;
+                                      }).join('');
+                                    }
+                                    const utter = new SpeechSynthesisUtterance(finalUtteranceText);
+                                    if (voice) {
+                                      utter.voice = voice;
+                                      utter.lang = voice.lang;
+                                    } else {
+                                      utter.lang = targetLang;
+                                    }
+                                    utter.rate = 0.86;
+                                    utter.pitch = 1.05;
+                                    window.speechSynthesis.speak(utter);
+                                  };
 
-                                  const utter = new SpeechSynthesisUtterance(finalUtteranceText);
+                                  // Primary Cloud Human TTS Player (Google translate TTS)
+                                  const googleTTSLangMap: Record<string, string> = {
+                                    hi: 'hi',
+                                    gu: 'gu',
+                                    mr: 'mr',
+                                    en: 'en'
+                                  };
+                                  const googleLang = googleTTSLangMap[language] || 'en';
 
-                                  if (voice) {
-                                    utter.voice = voice;
-                                    utter.lang = voice.lang;
-                                  } else {
-                                    utter.lang = targetLang;
-                                  }
+                                  // Split text into chunks of max 180 characters safely
+                                  const sentences = text.match(/[^.!?\n\r]+[.!?\n\r]*/g) || [text];
+                                  const chunks: string[] = [];
+                                  let currentChunk = "";
 
-                                  utter.rate = 0.9;
-                                  window.speechSynthesis.speak(utter);
+                                  sentences.forEach(sentence => {
+                                    if ((currentChunk + sentence).length > 180) {
+                                      if (currentChunk) chunks.push(currentChunk.trim());
+                                      currentChunk = sentence;
+                                    } else {
+                                      currentChunk += sentence;
+                                    }
+                                  });
+                                  if (currentChunk) chunks.push(currentChunk.trim());
+
+                                  let currentIdx = 0;
+                                  const playNextChunk = () => {
+                                    if (currentIdx >= chunks.length) {
+                                      (window as any)._activeTTSAudio = null;
+                                      return;
+                                    }
+                                    const chunkText = chunks[currentIdx];
+                                    const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunkText)}&tl=${googleLang}&client=tw-ob`;
+                                    
+                                    const audio = new Audio(url);
+                                    (window as any)._activeTTSAudio = audio;
+                                    
+                                    audio.play().catch(err => {
+                                      console.warn("Google Cloud TTS play failed, falling back to local speech synthesis", err);
+                                      (window as any)._activeTTSAudio = null;
+                                      playLocalTTS();
+                                    });
+
+                                    audio.onended = () => {
+                                      currentIdx++;
+                                      playNextChunk();
+                                    };
+                                    audio.onerror = () => {
+                                      console.warn("Google Cloud TTS stream error, falling back to local speech synthesis");
+                                      (window as any)._activeTTSAudio = null;
+                                      playLocalTTS();
+                                    };
+                                  };
+
+                                  // Start playing via Google cloud neural TTS
+                                  playNextChunk();
                                 }}
                                 title="Listen to this lesson"
                                 style={{
