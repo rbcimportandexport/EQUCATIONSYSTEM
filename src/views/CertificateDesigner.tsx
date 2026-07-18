@@ -1,6 +1,6 @@
 ﻿import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useApp } from '../context/AppContext';
-import { Download, Printer, Edit3, RotateCcw, FileText, Award, QrCode } from 'lucide-react';
+import { Download, Printer, Edit3, RotateCcw, FileText, Award } from 'lucide-react';
 
 interface CertificateData {
   studentName: string;
@@ -87,14 +87,6 @@ const CheckCircleIcon = () => (
 const StarIcon = () => (
   <svg viewBox="0 0 32 32" width="28" height="28">
     <path d="M16 4 L20 12 L28 14 L22 20 L24 28 L16 24 L8 28 L10 20 L4 14 L12 12 Z" stroke="#D4AF37" fill="none" strokeWidth="1.5" strokeLinejoin="round"/>
-  </svg>
-);
-
-const GlobeIcon = () => (
-  <svg viewBox="0 0 32 32" width="28" height="28">
-    <circle cx="16" cy="16" r="12" stroke="#D4AF37" fill="none" strokeWidth="1.5"/>
-    <ellipse cx="16" cy="16" rx="5" ry="12" stroke="#D4AF37" fill="none" strokeWidth="1.5"/>
-    <line x1="4" y1="16" x2="28" y2="16" stroke="#D4AF37" fill="none" strokeWidth="1.5"/>
   </svg>
 );
 
@@ -652,7 +644,7 @@ const CertificatePreview: React.FC<{
 };
 
 const CertificateDesigner: React.FC = () => {
-  const { language, currentUser, certificates } = useApp();
+  const { currentUser, certificates } = useApp();
   const [data, setData] = useState<CertificateData>(defaultData);
   const [isEditing, setIsEditing] = useState(false);
   const [scale, setScale] = useState(0.35);
@@ -724,7 +716,8 @@ const CertificateDesigner: React.FC = () => {
     const certEl = previewRef.current;
     if (!certEl) return;
     try {
-      const { default: html2canvas } = await import('html2canvas');
+      // @ts-expect-error - html2canvas may not be installed
+      const html2canvas = (await import('html2canvas')).default;
       const canvas = await html2canvas(certEl, {
         scale: 1,
         useCORS: true,
@@ -737,7 +730,7 @@ const CertificateDesigner: React.FC = () => {
       link.href = canvas.toDataURL('image/png');
       link.click();
     } catch {
-      alert('PNG export requires html2canvas. Install it with: npm install html2canvas');
+      alert('PNG export requires html2canvas. Please run: npm install html2canvas');
     }
   };
 
