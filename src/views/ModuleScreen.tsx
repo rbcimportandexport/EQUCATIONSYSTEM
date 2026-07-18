@@ -507,14 +507,6 @@ export const ModuleScreen: React.FC = () => {
                                   const text = textParts.join('. ');
 
                                   const voices = window.speechSynthesis.getVoices();
-                                  const langCodes: Record<string, string> = {
-                                    hi: 'hi-IN',
-                                    gu: 'gu-IN',
-                                    mr: 'mr-IN',
-                                    en: 'en-IN'
-                                  };
-                                  const targetLang = langCodes[language] || 'en-IN';
-
                                   const normalizeLang = (l: string) => l.toLowerCase().replace('_', '-');
 
                                   const getVoiceScore = (v: SpeechSynthesisVoice) => {
@@ -529,38 +521,53 @@ export const ModuleScreen: React.FC = () => {
                                     return score;
                                   };
 
-                                  // 1. Try exact match (normalized) sorted by quality score
-                                  const exactMatchingVoices = voices.filter(v => normalizeLang(v.lang) === normalizeLang(targetLang));
-                                  exactMatchingVoices.sort((a, b) => getVoiceScore(b) - getVoiceScore(a));
-                                  let voice = exactMatchingVoices[0];
-                                  
-                                  // 2. Try prefix match (starts with 'gu' or 'mr' or 'hi' or 'en') sorted by quality score
-                                  if (!voice) {
-                                    const prefixVoices = voices.filter(v => normalizeLang(v.lang).startsWith(language.toLowerCase()));
-                                    prefixVoices.sort((a, b) => getVoiceScore(b) - getVoiceScore(a));
-                                    voice = prefixVoices[0];
-                                  }
-
-                                  // 3. Fallback to Hindi if target voice is completely missing on user device (e.g. for Gujarati/Marathi)
-                                  let isHindiFallback = false;
-                                  if (!voice && (language === 'gu' || language === 'mr')) {
-                                    const fallbackVoices = voices.filter(v => {
-                                      const norm = normalizeLang(v.lang);
-                                      return norm.startsWith('hi') || norm.includes('hi-in');
-                                    });
-                                    fallbackVoices.sort((a, b) => getVoiceScore(b) - getVoiceScore(a));
-                                    voice = fallbackVoices[0];
-                                    if (voice) {
-                                      isHindiFallback = true;
+                                  // Helper to dynamically detect language based on character set
+                                  const getGoogleLangForChunk = (chunk: string) => {
+                                    if (/[\u0A80-\u0AFF]/.test(chunk)) {
+                                      return 'gu';
                                     }
-                                  }
+                                    if (/[\u0900-\u097F]/.test(chunk)) {
+                                      return language === 'mr' ? 'mr' : 'hi';
+                                    }
+                                    return 'en'; // Standard English voice for Latin/English text chunks
+                                  };
 
-                                  // Local SpeechSynthesis Fallback Function
-                                  function playLocalTTS() {
-                                    let finalUtteranceText = text;
-                                    if (isHindiFallback && language === 'gu') {
-                                      // Transliterate Gujarati script to Devanagari so the Hindi voice can read it phonetically correct
-                                      finalUtteranceText = text.split('').map(char => {
+                                  // Local SpeechSynthesis Fallback Function (per chunk)
+                                  function playLocalTTS(chunkText: string) {
+                                    const chunkLang = getGoogleLangForChunk(chunkText);
+                                    const localLangCodes: Record<string, string> = {
+                                      hi: 'hi-IN',
+                                      gu: 'gu-IN',
+                                      mr: 'mr-IN',
+                                      en: 'en-IN'
+                                    };
+                                    const chunkTargetLang = localLangCodes[chunkLang] || 'en-IN';
+
+                                    // Find best voice for this chunk's language
+                                    const exactMatchingVoices = voices.filter(v => normalizeLang(v.lang) === normalizeLang(chunkTargetLang));
+                                    exactMatchingVoices.sort((a, b) => getVoiceScore(b) - getVoiceScore(a));
+                                    let chunkVoice = exactMatchingVoices[0];
+
+                                    if (!chunkVoice) {
+                                      const prefixVoices = voices.filter(v => normalizeLang(v.lang).startsWith(chunkLang));
+                                      prefixVoices.sort((a, b) => getVoiceScore(b) - getVoiceScore(a));
+                                      chunkVoice = prefixVoices[0];
+                                    }
+
+                                    let chunkHindiFallback = false;
+                                    if (!chunkVoice && chunkLang === 'gu') {
+                                      const fallbackVoices = voices.filter(v => normalizeLang(v.lang).startsWith('hi'));
+                                      fallbackVoices.sort((a, b) => getVoiceScore(b) - getVoiceScore(a));
+                                      chunkVoice = fallbackVoices[0];
+                                      if (chunkVoice) {
+                                        chunkHindiFallback = true;
+                                      }
+                                    }
+
+                                    let finalUtteranceText = chunkText;
+                                    if (chunkHindiFallback) {
+                                      // Transliterate Gujarati to Devanagari so the Hindi voice can read it phonetically
+                                      finalUtteranceText = chunkText.split('').map(char => {
                                         const code = char.charCodeAt(0);
                                         if (code >= 0x0A80 && code <= 0x0AFF) {
                                           return String.fromCharCode(code - 0x0180);
@@ -568,26 +575,29 @@ export const ModuleScreen: React.FC = () => {
                                         return char;
                                       }).join('');
                                     }
+
                                     const utter = new SpeechSynthesisUtterance(finalUtteranceText);
-                                    if (voice) {
-                                      utter.voice = voice;
-                                      utter.lang = voice.lang;
+                                    if (chunkVoice) {
+                                      utter.voice = chunkVoice;
+                                      utter.lang = chunkVoice.lang;
                                     } else {
-                                      utter.lang = targetLang;
+                                      utter.lang = chunkTargetLang;
                                     }
                                     utter.rate = 0.88;
-                                    utter.pitch = language === 'gu' ? 0.9 : 1.0;
+                                    utter.pitch = chunkLang === 'gu' ? 0.9 : 1.0;
+
+                                    utter.onend = () => {
+                                      currentIdx++;
+                                      playNextChunk();
+                                    };
+                                    utter.onerror = () => {
+                                      currentIdx++;
+                                      playNextChunk();
+                                    };
+
                                     window.speechSynthesis.speak(utter);
                                   }
 
-                                  // Primary Cloud Human TTS Player (ElevenLabs or Google Translate fallback)
-                                  const googleTTSLangMap: Record<string, string> = {
-                                    hi: 'hi',
-                                    gu: 'gu',
-                                    mr: 'mr',
-                                    en: 'en-in'
-                                  };
-                                  const googleLang = googleTTSLangMap[language] || 'en-in';
                                   const elevenLabsApiKey = localStorage.getItem('lms_elevenlabs_api_key') || (import.meta as any).env?.VITE_ELEVENLABS_API_KEY || '';
 
                                   // Split text into chunks of max 150 characters safely (supporting Purna Viram)
@@ -663,14 +673,15 @@ export const ModuleScreen: React.FC = () => {
                                   }
 
                                   function playGoogleFallback(chunkText: string) {
-                                    const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunkText)}&tl=${googleLang}&client=tw-ob`;
+                                    const chunkLang = getGoogleLangForChunk(chunkText);
+                                    const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunkText)}&tl=${chunkLang}&client=tw-ob`;
                                     const audio = new Audio(url);
                                     (window as any)._activeTTSAudio = audio;
                                     
                                     audio.play().catch(err => {
                                       console.warn("Google Cloud TTS play failed, falling back to local speech synthesis", err);
                                       (window as any)._activeTTSAudio = null;
-                                      playLocalTTS();
+                                      playLocalTTS(chunkText);
                                     });
 
                                     audio.onended = () => {
@@ -680,7 +691,7 @@ export const ModuleScreen: React.FC = () => {
                                     audio.onerror = () => {
                                       console.warn("Google Cloud TTS stream error, falling back to local speech synthesis");
                                       (window as any)._activeTTSAudio = null;
-                                      playLocalTTS();
+                                      playLocalTTS(chunkText);
                                     };
                                   }
 
