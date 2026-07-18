@@ -1,4 +1,4 @@
-const CACHE_NAME = 'rbc-academy-v1';
+const CACHE_NAME = 'rbc-academy-v2';
 
 // Assets to cache immediately on install
 const ASSETS_TO_CACHE = [
@@ -16,7 +16,10 @@ const ASSETS_TO_CACHE = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
+      // Use individual cache.add calls so if one fails, it doesn't break registration
+      return Promise.allSettled(
+        ASSETS_TO_CACHE.map(url => cache.add(url))
+      );
     }).then(() => self.skipWaiting())
   );
 });
@@ -36,6 +39,21 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+// Listen for message events from client window
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'CACHE_URLS') {
+    const urls = event.data.urls || [];
+    caches.open(CACHE_NAME).then((cache) => {
+      urls.forEach(url => {
+        // Silently add to cache
+        cache.add(url).catch(err => {
+          console.warn('Failed to dynamically cache asset via message:', url, err);
+        });
+      });
+    });
+  }
+});
+
 // Fetch Event - Dynamic Caching Strategy
 self.addEventListener('fetch', (event) => {
   // Skip non-GET requests
@@ -43,9 +61,9 @@ self.addEventListener('fetch', (event) => {
 
   const requestUrl = new URL(event.request.url);
   
-  // We want to cache local files, plus external resources like code.responsivevoice.org
+  // We want to cache local files, plus unsplash images if loaded
   const isLocal = requestUrl.origin === self.location.origin;
-  const isCDN = requestUrl.hostname.includes('responsivevoice.org') || requestUrl.hostname.includes('unsplash.com');
+  const isCDN = requestUrl.hostname.includes('unsplash.com');
 
   if (!isLocal && !isCDN) {
     return; // Let the browser handle cross-origin non-essential requests natively
@@ -80,7 +98,7 @@ self.addEventListener('fetch', (event) => {
       }
 
       return fetch(event.request).then((response) => {
-        // Don't cache range requests or non-ok responses (e.g. video files might use Range requests)
+        // Don't cache range requests or non-ok responses
         if (!response || response.status !== 200 || response.type === 'opaque') {
           return response;
         }
