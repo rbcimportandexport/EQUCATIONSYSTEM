@@ -1,0 +1,585 @@
+import React, { useState } from 'react';
+import { useApp } from '../context/AppContext';
+import { Award, Printer, RotateCcw, FileSignature, CheckCircle } from 'lucide-react';
+
+export const CertificateDesigner: React.FC = () => {
+  const { currentUser, language } = useApp();
+
+  const fallbackName = language === 'hi' ? 'विद्यार्थी' : language === 'gu' ? 'વિદ્યાર્થી' : 'Student';
+
+  // Form states initialized with default premium template values
+  const [studentName, setStudentName] = useState(currentUser?.name || fallbackName);
+  
+  // Calculate dynamic default serial based on name
+  const getDefaultSerial = (name: string) => {
+    let sum = 0;
+    for (let i = 0; i < name.length; i++) { sum += name.charCodeAt(i); }
+    return String(sum % 10000).padStart(4, '0');
+  };
+
+  const [certId, setCertId] = useState(`RBC-2026-0718-${getDefaultSerial(studentName)}`);
+  const [dateOfIssue, setDateOfIssue] = useState('18 July 2026');
+  const [courseTitle, setCourseTitle] = useState('Import & Export Master Course');
+  const [duration, setDuration] = useState('10+ Hours');
+  const [courseLevel, setCourseLevel] = useState('Beginner to Advanced');
+  
+  const [sig1Name, setSig1Name] = useState('Kunal Pawar');
+  const [sig1Title, setSig1Title] = useState('Academy Director');
+  const [sig2Name, setSig2Name] = useState('Prakash Kachchhi');
+  const [sig2Title, setSig2Title] = useState('Founder & CEO');
+
+  const handleReset = () => {
+    const defaultName = currentUser?.name || fallbackName;
+    setStudentName(defaultName);
+    setCertId(`RBC-2026-0718-${getDefaultSerial(defaultName)}`);
+    setDateOfIssue('18 July 2026');
+    setCourseTitle('Import & Export Master Course');
+    setDuration('10+ Hours');
+    setCourseLevel('Beginner to Advanced');
+    setSig1Name('Kunal Pawar');
+    setSig1Title('Academy Director');
+    setSig2Name('Prakash Kachchhi');
+    setSig2Title('Founder & CEO');
+  };
+
+  const handleNameChange = (name: string) => {
+    setStudentName(name);
+    setCertId(`RBC-2026-0718-${getDefaultSerial(name)}`);
+  };
+
+  return (
+    <div style={{
+      display: 'flex',
+      height: '100%',
+      background: '#f8fafc',
+      fontFamily: '"Inter", sans-serif',
+      flexWrap: 'wrap',
+      overflow: 'hidden'
+    }}>
+      {/* Print stylesheet */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        @media print {
+          body * {
+            visibility: hidden !important;
+          }
+          .print-certificate-container, .print-certificate-container * {
+            visibility: visible !important;
+          }
+          .print-certificate-container {
+            position: fixed !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            border: none !important;
+            box-shadow: none !important;
+            background: white !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            z-index: 9999999 !important;
+            transform: scale(1) !important;
+          }
+          @page {
+            size: landscape;
+            margin: 0;
+          }
+        }
+      `}} />
+
+      {/* Left controls editor sidebar */}
+      <div style={{
+        width: '360px',
+        background: '#ffffff',
+        borderRight: '1px solid #e2e8f0',
+        padding: '24px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        height: '100%',
+        boxSizing: 'border-box',
+        overflowY: 'auto',
+        flexShrink: 0
+      }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '18px' }}>
+            <div style={{
+              width: '36px', height: '36px', borderRadius: '10px',
+              background: 'linear-gradient(135deg, #d97706, #b45309)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff'
+            }}>
+              <FileSignature size={20} />
+            </div>
+            <div>
+              <h2 style={{ margin: 0, fontSize: '16px', fontWeight: '800', color: '#0f172a' }}>Certificate Designer</h2>
+              <p style={{ margin: 0, fontSize: '11px', color: '#64748b' }}>Design and print custom credentials</p>
+            </div>
+          </div>
+
+          {/* Form Fields Stack */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: '12px' }}>
+            <div>
+              <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#475569', marginBottom: '4px', textTransform: 'uppercase' }}>
+                Student Name
+              </label>
+              <input
+                type="text"
+                value={studentName}
+                onChange={e => handleNameChange(e.target.value)}
+                style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '13px', outline: 'none', boxSizing: 'border-box' }}
+              />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#475569', marginBottom: '4px', textTransform: 'uppercase' }}>
+                Certificate Serial ID
+              </label>
+              <input
+                type="text"
+                value={certId}
+                onChange={e => setCertId(e.target.value)}
+                style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '13px', outline: 'none', boxSizing: 'border-box' }}
+              />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#475569', marginBottom: '4px', textTransform: 'uppercase' }}>
+                Date of Issue
+              </label>
+              <input
+                type="text"
+                value={dateOfIssue}
+                onChange={e => setDateOfIssue(e.target.value)}
+                style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '13px', outline: 'none', boxSizing: 'border-box' }}
+              />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#475569', marginBottom: '4px', textTransform: 'uppercase' }}>
+                Course Title
+              </label>
+              <input
+                type="text"
+                value={courseTitle}
+                onChange={e => setCourseTitle(e.target.value)}
+                style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '13px', outline: 'none', boxSizing: 'border-box' }}
+              />
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <div style={{ flex: 1 }}>
+                <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#475569', marginBottom: '4px', textTransform: 'uppercase' }}>
+                  Duration
+                </label>
+                <input
+                  type="text"
+                  value={duration}
+                  onChange={e => setDuration(e.target.value)}
+                  style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '13px', outline: 'none', boxSizing: 'border-box' }}
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <label style={{ display: 'block', fontSize: '11px', fontWeight: '700', color: '#475569', marginBottom: '4px', textTransform: 'uppercase' }}>
+                  Course Level
+                </label>
+                <input
+                  type="text"
+                  value={courseLevel}
+                  onChange={e => setCourseLevel(e.target.value)}
+                  style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '13px', outline: 'none', boxSizing: 'border-box' }}
+                />
+              </div>
+            </div>
+
+            <div style={{ borderTop: '1px solid #f1f5f9', padding: '10px 0 0' }}>
+              <span style={{ fontSize: '11px', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Signatory 1 (Director)</span>
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <div style={{ flex: 1 }}>
+                <input
+                  type="text"
+                  placeholder="Name"
+                  value={sig1Name}
+                  onChange={e => setSig1Name(e.target.value)}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '12px', outline: 'none', boxSizing: 'border-box' }}
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <input
+                  type="text"
+                  placeholder="Title"
+                  value={sig1Title}
+                  onChange={e => setSig1Title(e.target.value)}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '12px', outline: 'none', boxSizing: 'border-box' }}
+                />
+              </div>
+            </div>
+
+            <div style={{ borderTop: '1px solid #f1f5f9', padding: '10px 0 0' }}>
+              <span style={{ fontSize: '11px', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Signatory 2 (Founder/CEO)</span>
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <div style={{ flex: 1 }}>
+                <input
+                  type="text"
+                  placeholder="Name"
+                  value={sig2Name}
+                  onChange={e => setSig2Name(e.target.value)}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '12px', outline: 'none', boxSizing: 'border-box' }}
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <input
+                  type="text"
+                  placeholder="Title"
+                  value={sig2Title}
+                  onChange={e => setSig2Title(e.target.value)}
+                  style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '12px', outline: 'none', boxSizing: 'border-box' }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '24px' }}>
+          <button
+            onClick={() => window.print()}
+            style={{
+              width: '100%',
+              padding: '12px',
+              borderRadius: '12px',
+              border: 'none',
+              background: 'linear-gradient(135deg, #d97706 0%, #b45309 100%)',
+              color: '#fff',
+              fontWeight: '700',
+              fontSize: '14px',
+              cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(217,119,6,0.25)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px'
+            }}
+          >
+            <Printer size={16} />
+            <span>Print Certificate</span>
+          </button>
+          
+          <button
+            onClick={handleReset}
+            style={{
+              width: '100%',
+              padding: '10px',
+              borderRadius: '12px',
+              border: '1px solid #cbd5e1',
+              background: '#fff',
+              color: '#475569',
+              fontWeight: '600',
+              fontSize: '12px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px'
+            }}
+          >
+            <RotateCcw size={14} />
+            <span>Reset to Default</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Right live preview pane */}
+      <div style={{
+        flex: 1,
+        background: '#e2e8f0',
+        padding: '32px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'auto',
+        boxSizing: 'border-box',
+        height: '100%'
+      }}>
+        {/* Landscape Certificate Container */}
+        <div className="print-certificate-container" style={{
+          width: '950px',
+          height: '670px',
+          background: '#fbfaf7',
+          border: '14px solid #0f172a',
+          position: 'relative',
+          boxSizing: 'border-box',
+          padding: '0',
+          fontFamily: '"Inter", sans-serif',
+          color: '#0f172a',
+          overflow: 'hidden',
+          display: 'flex',
+          flexShrink: 0,
+          boxShadow: '0 25px 60px rgba(15,23,42,0.15)'
+        }}>
+          {/* Thin gold inner frame border */}
+          <div style={{
+            position: 'absolute', left: '16px', right: '16px', top: '16px', bottom: '16px',
+            border: '1.5px solid #c5a880', pointerEvents: 'none', zIndex: 3
+          }} />
+
+          {/* Hourglass Navy Left Border Overlay SVG */}
+          <svg style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '240px', height: '100%', zIndex: 1, pointerEvents: 'none' }} viewBox="0 0 240 670" preserveAspectRatio="none">
+            <polygon points="0,0 220,0 170,200 170,470 220,670 0,670" fill="#0b1a30" />
+            <polyline points="220,0 170,200 170,470 220,670" stroke="#c5a880" strokeWidth="4" fill="none" />
+            <polyline points="228,0 176,208 176,462 228,670" stroke="#ea580c" strokeWidth="2" fill="none" />
+          </svg>
+
+          {/* Bottom-Right Corner Navy Wedge SVG */}
+          <svg style={{ position: 'absolute', right: 0, bottom: 0, width: '220px', height: '220px', zIndex: 1, pointerEvents: 'none' }} viewBox="0 0 220 220">
+            <polygon points="220,220 60,220 220,60" fill="#0b1a30" />
+            <line x1="60" y1="220" x2="220" y2="60" stroke="#c5a880" strokeWidth="4" />
+            <line x1="52" y1="220" x2="220" y2="52" stroke="#ea580c" strokeWidth="2" />
+            {/* Harbor Crane Line Art */}
+            <g stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" fill="none" transform="translate(130, 130)">
+              <line x1="30" y1="50" x2="30" y2="15" />
+              <line x1="5" y1="20" x2="55" y2="20" />
+              <line x1="5" y1="20" x2="30" y2="50" />
+              <line x1="55" y1="20" x2="30" y2="50" />
+              <line x1="30" y1="15" x2="10" y2="30" />
+              <line x1="30" y1="15" x2="50" y2="30" />
+            </g>
+          </svg>
+
+          {/* Gold Wax Seal Medallion (Top Left) */}
+          <svg style={{ position: 'absolute', left: '36px', top: '36px', width: '110px', height: '160px', zIndex: 10 }} viewBox="0 0 110 160">
+            {/* Ribbons behind seal */}
+            <polygon points="35,60 20,130 45,115 70,130 55,60" fill="#b45309" opacity="0.8" />
+            <polygon points="50,60 35,135 60,120 85,135 70,60" fill="#d97706" />
+            {/* Gold circular badge */}
+            <circle cx="50" cy="55" r="42" fill="url(#goldGrad)" stroke="#fff" strokeWidth="2" />
+            <circle cx="50" cy="55" r="36" fill="none" stroke="#b45309" strokeWidth="2" strokeDasharray="3,3" />
+            {/* Text inside badge */}
+            <text x="50" y="46" fill="#78350f" fontSize="9" fontWeight="900" textAnchor="middle" fontFamily="Georgia, serif">RBC</text>
+            <text x="50" y="58" fill="#78350f" fontSize="9" fontWeight="900" textAnchor="middle" fontFamily="Georgia, serif">ACADEMY</text>
+            <text x="50" y="70" fill="#78350f" fontSize="8" textAnchor="middle">★★★★★</text>
+            <defs>
+              <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#fef08a" />
+                <stop offset="50%" stopColor="#facc15" />
+                <stop offset="100%" stopColor="#ca8a04" />
+              </linearGradient>
+            </defs>
+          </svg>
+
+          {/* Left Sidebar Details overlay (Date, Duration, Level) */}
+          <div style={{
+            position: 'absolute', left: 0, top: '220px', bottom: '180px', width: '180px',
+            zIndex: 5, padding: '10px 20px', color: '#fff', display: 'flex',
+            flexDirection: 'column', gap: '20px', justifyContent: 'center', boxSizing: 'border-box'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ color: '#fbbf24', display: 'flex' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>
+              </div>
+              <div>
+                <div style={{ fontSize: '8px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Date of Issue</div>
+                <div style={{ fontSize: '11px', fontWeight: '700' }}>{dateOfIssue}</div>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ color: '#fbbf24', display: 'flex' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+              </div>
+              <div>
+                <div style={{ fontSize: '8px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Duration</div>
+                <div style={{ fontSize: '11px', fontWeight: '700' }}>{duration}</div>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ color: '#fbbf24', display: 'flex' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" /></svg>
+              </div>
+              <div>
+                <div style={{ fontSize: '8px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Level</div>
+                <div style={{ fontSize: '11px', fontWeight: '700' }}>{courseLevel}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Main Right Area Wrapper */}
+          <div style={{
+            marginLeft: '190px', flexGrow: 1, height: '100%', display: 'flex',
+            flexDirection: 'row', zIndex: 2, boxSizing: 'border-box', padding: '24px 28px'
+          }}>
+            {/* Center Text Column */}
+            <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingRight: '24px' }}>
+              {/* Header Row (Logo and Cert ID) */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  {/* Logo Waves Icon */}
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 12 C4 8, 8 4, 12 4 C16 4, 20 8, 20 12" stroke="#2563eb" strokeWidth="3" strokeLinecap="round" />
+                    <path d="M8 14 C8 11, 11 8, 14 8 C17 8, 20 11, 20 14" stroke="#ea580c" strokeWidth="3" strokeLinecap="round" />
+                    <circle cx="12" cy="12" r="2" fill="#d97706" />
+                  </svg>
+                  <div>
+                    <div style={{ fontSize: '15px', fontWeight: '900', color: '#0f172a', letterSpacing: '0.5px', lineHeight: '1.1' }}>
+                      rbc <span style={{ color: '#d97706' }}>Import & Export</span>
+                    </div>
+                    <div style={{ fontSize: '8px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                      Since 2011
+                    </div>
+                  </div>
+                </div>
+
+                {/* Cert ID */}
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ fontSize: '8px', color: '#64748b', fontWeight: '600' }}>CERTIFICATE ID</div>
+                  <div style={{ fontSize: '11px', fontWeight: '800', color: '#0f172a', letterSpacing: '0.5px' }}>{certId}</div>
+                </div>
+              </div>
+
+              {/* Certificate Titles */}
+              <div style={{ textAlign: 'center', margin: '10px 0' }}>
+                <h1 style={{
+                  fontSize: '30px', fontWeight: '900', color: '#c5a880', margin: '0 0 4px',
+                  letterSpacing: '3px', fontFamily: '"Georgia", serif'
+                }}>
+                  CERTIFICATE OF COMPLETION
+                </h1>
+                <div style={{ fontSize: '10px', letterSpacing: '2px', color: '#64748b', fontWeight: '700' }}>
+                  THIS IS PROUDLY PRESENTED TO
+                </div>
+
+                {/* Student Name */}
+                <h2 style={{
+                  fontSize: '40px', fontWeight: '800', color: '#0f172a', margin: '6px 0',
+                  fontFamily: '"Georgia", serif', fontStyle: 'italic', textDecoration: 'underline',
+                  textDecorationColor: '#c5a880', textUnderlineOffset: '6px'
+                }}>
+                  {studentName}
+                </h2>
+
+                <p style={{ fontSize: '10px', color: '#475569', lineHeight: 1.5, margin: '8px auto', maxWidth: '480px' }}>
+                  for successfully completing all syllabus modules, practice quizzes, video lectures, and assessments in the course
+                </p>
+
+                {/* Course Banner Ribbon */}
+                <div style={{
+                  background: '#0f172a', color: '#fff', padding: '10px 30px', borderRadius: '2px',
+                  display: 'inline-block', fontWeight: '800', fontSize: '14px', letterSpacing: '1.5px',
+                  boxShadow: '0 4px 10px rgba(15,23,42,0.2)', border: '1px solid #c5a880', margin: '8px 0',
+                  position: 'relative'
+                }}>
+                  {/* Ribbon swallowtails */}
+                  <svg style={{ position: 'absolute', right: '100%', top: 0, height: '100%', width: '12px' }} viewBox="0 0 12 38" preserveAspectRatio="none">
+                    <polygon points="12,0 0,19 12,38" fill="#0f172a" />
+                    <polyline points="12,0 0,19 12,38" stroke="#c5a880" strokeWidth="2" fill="none" />
+                  </svg>
+                  <svg style={{ position: 'absolute', left: '100%', top: 0, height: '100%', width: '12px' }} viewBox="0 0 12 38" preserveAspectRatio="none">
+                    <polygon points="0,0 12,19 0,38" fill="#0f172a" />
+                    <polyline points="0,0 12,19 0,38" stroke="#c5a880" strokeWidth="2" fill="none" />
+                  </svg>
+                  {courseTitle.toUpperCase()}
+                </div>
+
+                <p style={{ fontSize: '9px', color: '#64748b', fontStyle: 'italic', margin: '6px auto 0', maxWidth: '480px', lineHeight: '1.3' }}>
+                  You have demonstrated dedication, consistency, and a strong understanding of International Trade, Logistics, Documentation, Customs, Shipping, Payment Terms, and Global Business Practices.
+                </p>
+              </div>
+
+              {/* Bottom Row Signatures & Wax Seal & QR Code */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%', marginTop: '4px' }}>
+                {/* Left: Kunal Pawar Signature */}
+                <div style={{ width: '150px', textAlign: 'center', paddingBottom: '10px' }}>
+                  <div style={{ fontFamily: '"Georgia", serif', fontStyle: 'italic', fontSize: '18px', color: '#1e293b', height: '24px', lineHeight: '24px' }}>
+                    {sig1Name}
+                  </div>
+                  <div style={{ borderTop: '1px solid #cbd5e1', paddingTop: '4px', marginTop: '4px' }}>
+                    <div style={{ fontSize: '9px', fontWeight: '800', color: '#0f172a' }}>{sig1Name}</div>
+                    <div style={{ fontSize: '7px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{sig1Title}</div>
+                  </div>
+                </div>
+
+                {/* Center: Wax Seal & QR code */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', bottom: '-4px', width: '140px' }}>
+                  <svg width="76" height="76" viewBox="0 0 100 100">
+                    <path d="M50 0 L55 35 L90 10 L65 45 L100 50 L65 55 L90 90 L55 65 L50 100 L45 65 L10 90 L35 55 L0 50 L35 45 L10 10 L45 35 Z" fill="#d97706" />
+                    <circle cx="50" cy="50" r="38" fill="#0f172a" />
+                    <circle cx="50" cy="50" r="34" fill="none" stroke="#d97706" strokeWidth="1" strokeDasharray="3,3" />
+                    <text x="50" y="42" fill="#d97706" fontSize="7" fontWeight="900" textAnchor="middle">COMPLETED</text>
+                    <text x="50" y="52" fill="#d97706" fontSize="7" fontWeight="900" textAnchor="middle">WITH</text>
+                    <text x="50" y="62" fill="#d97706" fontSize="7" fontWeight="900" textAnchor="middle">EXCELLENCE</text>
+                  </svg>
+                  
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '6px' }}>
+                    <svg width="30" height="30" viewBox="0 0 25 25" style={{ background: '#fff', padding: '2px', border: '1px solid #cbd5e1' }}>
+                      <path d="M0 0h7v7H0zm1 1v5h5V1zm10 0h3v3h-3zm3 0h4v4h-4zM0 10h3v3H0zm5 0h3v3H5zm6 0h3v3h-3zm4 0h4v4h-4zm-8 4v4H0v-4zm4 0h3v3H7zm11 0h3v3h-3zM0 18h7v7H0zm1 1v5h5v-5zm10 0h3v3h-3z" fill="#0f172a" />
+                    </svg>
+                    <div style={{ fontSize: '5px', color: '#64748b', textAlign: 'center', marginTop: '3px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '0.5px' }}>
+                      VERIFY CREDENTIAL<br />academy.rbc.com/verify
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right: Prakash Signature */}
+                <div style={{ width: '150px', textAlign: 'center', paddingBottom: '10px' }}>
+                  <div style={{ fontFamily: '"Georgia", serif', fontStyle: 'italic', fontSize: '18px', color: '#1e293b', height: '24px', lineHeight: '24px' }}>
+                    {sig2Name}
+                  </div>
+                  <div style={{ borderTop: '1px solid #cbd5e1', paddingTop: '4px', marginTop: '4px' }}>
+                    <div style={{ fontSize: '9px', fontWeight: '800', color: '#0f172a' }}>{sig2Name}</div>
+                    <div style={{ fontSize: '7px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{sig2Title}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column Benefits list */}
+            <div style={{
+              width: '140px', display: 'flex', flexDirection: 'column',
+              justifyContent: 'space-around', height: '100%', boxSizing: 'border-box',
+              paddingLeft: '16px'
+            }}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ color: '#c5a880', marginBottom: '2px', display: 'flex', justifyContent: 'center' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5V4.5z" /></svg>
+                </div>
+                <div style={{ fontSize: '7px', fontWeight: '900', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  COMPREHENSIVE CURRICULUM
+                </div>
+              </div>
+
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ color: '#c5a880', marginBottom: '2px', display: 'flex', justifyContent: 'center' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20" /></svg>
+                </div>
+                <div style={{ fontSize: '7px', fontWeight: '900', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  INDUSTRY RELEVANT
+                </div>
+              </div>
+
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ color: '#c5a880', marginBottom: '2px', display: 'flex', justifyContent: 'center' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+                </div>
+                <div style={{ fontSize: '7px', fontWeight: '900', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  EXPERT INSTRUCTORS
+                </div>
+              </div>
+
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ color: '#c5a880', marginBottom: '2px', display: 'flex', justifyContent: 'center' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" /></svg>
+                </div>
+                <div style={{ fontSize: '7px', fontWeight: '900', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  GLOBAL PERSPECTIVE
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

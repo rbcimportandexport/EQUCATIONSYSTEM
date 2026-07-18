@@ -18,7 +18,8 @@ export type ViewType =
   | 'Settings' 
   | 'AdminPanel'
   | 'Quiz'
-  | 'Community';
+  | 'Community'
+  | 'CertDesigner';
 
 export type RoleType = 'student' | 'admin';
 
