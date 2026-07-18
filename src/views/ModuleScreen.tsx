@@ -26,6 +26,7 @@ export const ModuleScreen: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState<'read' | 'images' | 'video' | 'pdf'>('read');
   const [isDownloadOpen, setIsDownloadOpen] = useState(false);
   const [activeTopicId, setActiveTopicId] = useState<string>('');
+  const [playingLessonId, setPlayingLessonId] = useState<string | null>(null);
   
   // Accordion state: map of lessonId -> boolean (whether expanded)
   const [expandedTopics, setExpandedTopics] = useState<{ [topicId: string]: boolean }>({});
@@ -84,6 +85,23 @@ export const ModuleScreen: React.FC = () => {
         window.speechSynthesis.removeEventListener('voiceschanged', handleVoicesChanged);
       };
     }
+  }, []);
+
+  // Stop any playing TTS audio when the screen unmounts or changes
+  useEffect(() => {
+    return () => {
+      (window as any)._activeTTSActive = false;
+      if ((window as any)._activeTTSAudio) {
+        try {
+          (window as any)._activeTTSAudio.pause();
+          (window as any)._activeTTSAudio.src = "";
+        } catch (e) {}
+        (window as any)._activeTTSAudio = null;
+      }
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    };
   }, []);
 
   // If selectedLessonId is set from outside (like Search, Dashboard, Bookmarks, etc.),
@@ -452,28 +470,42 @@ export const ModuleScreen: React.FC = () => {
                             
                             {/* Listen / Read Aloud button */}
                             <div onClick={e => e.stopPropagation()}>
-                              <button
+                                    <button
                                 onClick={() => {
-                                  const rv = (window as any).responsiveVoice;
-                                  if (rv && rv.isPlaying()) {
-                                    rv.cancel();
+                                  // If currently playing, stop it
+                                  if (playingLessonId === lesson.id) {
+                                    (window as any)._activeTTSActive = false;
+                                    if ((window as any)._activeTTSAudio) {
+                                      try {
+                                        (window as any)._activeTTSAudio.pause();
+                                        (window as any)._activeTTSAudio.src = "";
+                                      } catch (e) {}
+                                      (window as any)._activeTTSAudio = null;
+                                    }
+                                    if (window.speechSynthesis) {
+                                      window.speechSynthesis.cancel();
+                                    }
+                                    setPlayingLessonId(null);
                                     return;
                                   }
+
+                                  // If another lesson was playing, stop it first
+                                  (window as any)._activeTTSActive = false;
                                   if ((window as any)._activeTTSAudio) {
                                     try {
                                       (window as any)._activeTTSAudio.pause();
                                       (window as any)._activeTTSAudio.src = "";
                                     } catch (e) {}
                                     (window as any)._activeTTSAudio = null;
-                                    if (window.speechSynthesis) {
-                                      window.speechSynthesis.cancel();
-                                    }
-                                    return;
                                   }
-                                  if (window.speechSynthesis && window.speechSynthesis.speaking) {
+                                  if (window.speechSynthesis) {
                                     window.speechSynthesis.cancel();
-                                    return;
                                   }
+
+                                  // Now set the new playing states
+                                  setPlayingLessonId(lesson.id);
+                                  (window as any)._activeTTSActive = true;
+
                                   // Speak the content of the lesson in the active language
                                   const rawLesson = moduleLessons.find(l => l.id === lesson.id) || lesson;
                                   const lessonLang = getTranslatedLesson(rawLesson, language);
@@ -534,6 +566,8 @@ export const ModuleScreen: React.FC = () => {
 
                                   // Local SpeechSynthesis Fallback Function (per chunk)
                                   function playLocalTTS(chunkText: string) {
+                                    if (!(window as any)._activeTTSActive) return;
+
                                     const chunkLang = getGoogleLangForChunk(chunkText);
                                     const localLangCodes: Record<string, string> = {
                                       hi: 'hi-IN',
@@ -587,10 +621,12 @@ export const ModuleScreen: React.FC = () => {
                                     utter.pitch = chunkLang === 'gu' ? 0.9 : 1.0;
 
                                     utter.onend = () => {
+                                      if (!(window as any)._activeTTSActive) return;
                                       currentIdx++;
                                       playNextChunk();
                                     };
                                     utter.onerror = () => {
+                                      if (!(window as any)._activeTTSActive) return;
                                       currentIdx++;
                                       playNextChunk();
                                     };
@@ -622,8 +658,13 @@ export const ModuleScreen: React.FC = () => {
                                   let currentIdx = 0;
 
                                   async function playNextChunk() {
+                                    if (!(window as any)._activeTTSActive) {
+                                      setPlayingLessonId(null);
+                                      return;
+                                    }
                                     if (currentIdx >= chunks.length) {
                                       (window as any)._activeTTSAudio = null;
+                                      setPlayingLessonId(null);
                                       return;
                                     }
                                     const chunkText = chunks[currentIdx];
@@ -657,6 +698,7 @@ export const ModuleScreen: React.FC = () => {
 
                                         audio.onended = () => {
                                           URL.revokeObjectURL(audioUrl);
+                                          if (!(window as any)._activeTTSActive) return;
                                           currentIdx++;
                                           playNextChunk();
                                         };
@@ -673,6 +715,8 @@ export const ModuleScreen: React.FC = () => {
                                   }
 
                                   function playGoogleFallback(chunkText: string) {
+                                    if (!(window as any)._activeTTSActive) return;
+
                                     const chunkLang = getGoogleLangForChunk(chunkText);
                                     const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunkText)}&tl=${chunkLang}&client=tw-ob`;
                                     const audio = new Audio(url);
@@ -685,6 +729,7 @@ export const ModuleScreen: React.FC = () => {
                                     });
 
                                     audio.onended = () => {
+                                      if (!(window as any)._activeTTSActive) return;
                                       currentIdx++;
                                       playNextChunk();
                                     };
@@ -695,19 +740,26 @@ export const ModuleScreen: React.FC = () => {
                                     };
                                   }
 
-                                  // Start playing using the best tier available (ElevenLabs or Google Translate fallback)
+                                  // Start playing using the best tier available
                                   playNextChunk();
                                 }}
-                                title="Listen to this lesson"
+                                title={playingLessonId === lesson.id ? "Stop reading" : "Listen to this lesson"}
                                 style={{
                                   display: 'flex', alignItems: 'center', gap: '5px',
                                   padding: '4px 10px', borderRadius: '8px', border: '1px solid #e2e8f0',
-                                  background: '#f8fafc', cursor: 'pointer',
-                                  fontSize: '12px', color: '#3b82f6', fontWeight: '600'
+                                  background: playingLessonId === lesson.id ? '#ef4444' : '#f8fafc',
+                                  cursor: 'pointer',
+                                  fontSize: '12px', color: playingLessonId === lesson.id ? '#ffffff' : '#3b82f6',
+                                  fontWeight: '600',
+                                  transition: 'all 0.15s ease'
                                 }}
                               >
-                                <Volume2 size={13} />
-                                <span>{language === 'hi' ? 'सुनें' : language === 'gu' ? 'સાંભળો' : 'Listen'}</span>
+                                {playingLessonId === lesson.id ? <Pause size={13} /> : <Volume2 size={13} />}
+                                <span>
+                                  {playingLessonId === lesson.id 
+                                    ? (language === 'hi' ? 'रोकें' : language === 'gu' ? 'અટકાવો' : 'Stop')
+                                    : (language === 'hi' ? 'सुनें' : language === 'gu' ? 'સાંભળો' : 'Listen')}
+                                </span>
                               </button>
                             </div>
 
