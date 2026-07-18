@@ -49,7 +49,7 @@ export const Courses: React.FC = () => {
   return (
     <div className="courses-view" style={{ height: '100%', overflowY: 'auto', padding: '32px' }}>
       {/* Search & Filters bar */}
-      <div className="catalog-filters-bar card">
+      <div className="catalog-filters-bar">
         <div className="search-box-wrapper">
           <Search size={18} className="search-box-icon" />
           <input
@@ -103,7 +103,7 @@ export const Courses: React.FC = () => {
             const courseModules = modules.filter(ch => ch.courseId === course.id);
             
             return (
-              <div key={course.id} className="card course-catalog-card" onClick={() => handleSelectCourse(course.id)}>
+              <div key={course.id} className="course-catalog-card" onClick={() => handleSelectCourse(course.id)}>
                 <div className="catalog-thumb-container">
                   <img src={course.thumbnail} alt={course.title} className="catalog-thumbnail" />
                   <span className="badge-category">{course.category}</span>
