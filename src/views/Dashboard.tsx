@@ -82,7 +82,7 @@ export const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="dashboard-view">
+    <div className="dashboard-view" style={{ height: '100%', overflowY: 'auto', padding: '32px' }}>
       <div className="welcome-banner card">
         <div className="welcome-left">
           <h1>

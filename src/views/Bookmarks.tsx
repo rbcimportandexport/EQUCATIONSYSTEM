@@ -45,9 +45,10 @@ export const Bookmarks: React.FC = () => {
 
   return (
     <div style={{
-      minHeight: '100%',
+      height: '100%',
       background: '#f8fafc',
       padding: '32px',
+      overflowY: 'auto'
     }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '28px' }}>

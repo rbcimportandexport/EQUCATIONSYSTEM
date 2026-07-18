@@ -18,7 +18,7 @@ export const Settings: React.FC = () => {
   };
 
   return (
-    <div className="settings-view">
+    <div className="settings-view" style={{ height: '100%', overflowY: 'auto', padding: '32px' }}>
       <div className="card settings-card">
         <h3 className="card-title">Simulated Storage & Connectivity</h3>
         <p className="card-subtitle">Test and review caching constraints</p>

@@ -44,7 +44,7 @@ export const Downloads: React.FC = () => {
   };
 
   return (
-    <div className="downloads-view">
+    <div className="downloads-view" style={{ height: '100%', overflowY: 'auto', padding: '32px' }}>
       {/* Caching storage widget */}
       <div className="card downloads-storage-widget">
         <div className="storage-left">

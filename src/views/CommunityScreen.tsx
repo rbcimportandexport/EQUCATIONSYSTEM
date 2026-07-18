@@ -60,9 +60,10 @@ export const CommunityScreen: React.FC = () => {
 
   return (
     <div style={{
-      minHeight: '100%',
+      height: '100%',
       background: 'var(--md-sys-color-background)',
       padding: '32px',
+      overflowY: 'auto'
     }}>
       {/* Header */}
       <div style={{

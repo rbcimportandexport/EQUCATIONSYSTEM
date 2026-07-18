@@ -47,7 +47,7 @@ export const Courses: React.FC = () => {
   };
 
   return (
-    <div className="courses-view">
+    <div className="courses-view" style={{ height: '100%', overflowY: 'auto', padding: '32px' }}>
       {/* Search & Filters bar */}
       <div className="catalog-filters-bar card">
         <div className="search-box-wrapper">

@@ -41,7 +41,7 @@ export const Profile: React.FC = () => {
 
   return (
     <div style={{
-      minHeight: '100%',
+      height: '100%',
       background: '#f8fafc',
       padding: '0',
       overflowY: 'auto'
