@@ -590,20 +590,25 @@ export const ModuleScreen: React.FC = () => {
                                   const googleLang = googleTTSLangMap[language] || 'en-in';
                                   const elevenLabsApiKey = localStorage.getItem('lms_elevenlabs_api_key') || (import.meta as any).env?.VITE_ELEVENLABS_API_KEY || '';
 
-                                  // Split text into chunks of max 180 characters safely
-                                  const sentences = text.match(/[^.!?\n\r]+[.!?\n\r]*/g) || [text];
-                                  const chunks: string[] = [];
-
-                                  sentences.forEach(sentence => {
-                                    if ((currentChunk + sentence).length > 180) {
-                                      if (currentChunk) chunks.push(currentChunk.trim());
-                                      currentChunk = sentence;
-                                    } else {
-                                      currentChunk += sentence;
+                                  // Split text into chunks of max 150 characters safely (supporting Purna Viram)
+                                  const getChunks = (txt: string, maxLen = 150): string[] => {
+                                    const parts = txt.split(/([।.,!?\n\r]+)/);
+                                    const results: string[] = [];
+                                    let current = "";
+                                    for (let i = 0; i < parts.length; i++) {
+                                      const p = parts[i];
+                                      if ((current + p).length > maxLen) {
+                                        if (current.trim()) results.push(current.trim());
+                                        current = p;
+                                      } else {
+                                        current += p;
+                                      }
                                     }
-                                  });
-                                  if (currentChunk) chunks.push(currentChunk.trim());
+                                    if (current.trim()) results.push(current.trim());
+                                    return results;
+                                  };
 
+                                  const chunks = getChunks(text);
                                   let currentIdx = 0;
 
                                   async function playNextChunk() {
