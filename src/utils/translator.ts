@@ -682,29 +682,136 @@ export const getTranslatedLesson = (
   const override = lessonTextTranslations[lang]?.[lesson.id];
   const translatedTitle = override?.title || translateModuleTitle(lesson.title, lang);
 
-  // Translate the quiz array if present
-  let translatedQuiz = undefined;
-  if (lesson.content.quiz && lesson.content.quiz.length > 0) {
-    translatedQuiz = lesson.content.quiz.map((q: any) => {
-      let translatedQuestion = q.question;
-      let translatedExplanation = q.explanation;
-      let translatedOptions = q.options;
+      // Translate the quiz array if present
+      let translatedQuiz = undefined;
+      if (lesson.content.quiz && lesson.content.quiz.length > 0) {
+        translatedQuiz = lesson.content.quiz.map((q: any) => {
+          let translatedQuestion = q.question;
+          let translatedExplanation = q.explanation;
+          let translatedOptions = q.options;
 
-      // Handle the generic auto-generated question
-      if (q.question.includes('Correctly understanding')) {
-        if (lang === 'hi') {
-          translatedQuestion = `${translatedTitle} को सही ढंग से समझने से लॉजिस्टिक्स एजेंसियों को देरी और सीमा शुल्क जुर्माना शुल्क से बचने में मदद मिलती है।`;
-          translatedExplanation = `व्यापार और कार्गो शर्तों का सटीक अनुप्रयोग सीमा शुल्क विवादों, लोडिंग विसंगतियों और माल ढुलाई दर के जुर्माने को रोकता है।`;
-        } else if (lang === 'gu') {
-          translatedQuestion = `${translatedTitle} ને યોગ્ય રીતે સમજવાથી લોજિસ્ટિક્સ એજન્સીઓને વિલંબ અને કસ્ટમ્સ દંડના શુલ્ક ટાળવામાં મદદ મળે છે.`;
-          translatedExplanation = `વેપાર અને કાગો શરતોનો સચોટ ઉપયોગ કસ્ટમ્સ વિવાદો, લોડિંગની વિસંગતતાઓ અને નૂર દરના દંડને અટકાવે છે.`;
-        } else if (lang === 'mr') {
-          translatedQuestion = `${translatedTitle} अचूकपणे समजून घेतल्याने लॉजिस्टिक्स एजन्सींना उशीर आणि सीमा शुल्क दंड शुल्क टाळण्यास मदत होते.`;
-          translatedExplanation = `व्यापार आणि मालवाहतूक अटींचा अचूक वापर सीमा शुल्क विवाद, लोडिंगमधील तफावत आणि मालवाहतूक दराचे दंड प्रतिबंधित करतो.`;
-        }
-      }
-      // Handle "What constitutes a 'Landed Cost' in importing?"
-      else if (q.question.includes('Landed Cost')) {
+          // Handle the generic auto-generated question
+          if (q.question.includes('Correctly understanding')) {
+            if (lang === 'hi') {
+              translatedQuestion = `${translatedTitle} को सही ढंग से समझने से लॉजिस्टिक्स एजेंसियों को देरी और सीमा शुल्क जुर्माना शुल्क से बचने में मदद मिलती है।`;
+              translatedExplanation = `व्यापार और कार्गो शर्तों का सटीक अनुप्रयोग सीमा शुल्क विवादों, लोडिंग विसंगतियों और माल ढुलाई दर के जुर्माने को रोकता है।`;
+            } else if (lang === 'gu') {
+              translatedQuestion = `${translatedTitle} ને યોગ્ય રીતે સમજવાથી લોજિસ્ટિક્સ એજન્સીઓને વિલંબ અને કસ્ટમ્સ દંડના શુલ્ક ટાળવામાં મદદ મળે છે.`;
+              translatedExplanation = `વેપાર અને કાગો શરતોનો સચોટ ઉપયોગ કસ્ટમ્સ વિવાદો, લોડિંગની વિસંગતતાઓ અને નૂર દરના દંડને અટકાવે છે.`;
+            } else if (lang === 'mr') {
+              translatedQuestion = `${translatedTitle} अचूकपणे समजून घेतल्याने लॉजिस्टिक्स एजन्सींना उशीर आणि सीमा शुल्क दंड शुल्क टाळण्यास मदत होते.`;
+              translatedExplanation = `व्यापार आणि मालवाहतूक अटींचा अचूक वापर सीमा शुल्क विवाद, लोडिंगमधील तफावत आणि मालवाहतूक दराचे दंड प्रतिबंधित करतो.`;
+            }
+          }
+          else if (q.question.includes('critical role in determining logistics')) {
+            if (lang === 'hi') {
+              translatedQuestion = `क्या यह सच है कि ${translatedTitle} लॉजिस्टिक्स समय-सीमा और लागत आवंटन तय करने में महत्वपूर्ण भूमिका निभाता है?`;
+              translatedExplanation = `हाँ, ${translatedTitle} पारगमन चरणों, सीमा शुल्क और समग्र मूल्य निर्धारण की योजना बनाने में महत्वपूर्ण है।`;
+            } else if (lang === 'gu') {
+              translatedQuestion = `શું એ સાચું છે કે ${translatedTitle} લોજિસ્ટિક્સ સમયરેખા અને ખર્ચ ફાળવણી નક્કી કરવામાં મહત્વપૂર્ણ ભૂમિકા ભજવે છે?`;
+              translatedExplanation = `હા, ${translatedTitle} પરિવહન તબક્કાઓ, કસ્ટમ્સ ફરજો અને એકંદર ભાવોના આયોજન માટે મહત્વપૂર્ણ છે.`;
+            } else if (lang === 'mr') {
+              translatedQuestion = `हे खरे आहे का की ${translatedTitle} लॉजिस्टिक्स वेळ आणि खर्च वाटप निश्चित करण्यात महत्त्वाची भूमिका बजावते?`;
+              translatedExplanation = `होय, ${translatedTitle} ट्रान्झिट टप्पे, सीमा शुल्क आणि एकंदर किंमत ठरवण्यासाठी महत्त्वाचे आहे.`;
+            }
+          }
+          else if (q.question.includes('absolutely no impact on customs clearance')) {
+            if (lang === 'hi') {
+              translatedQuestion = `क्या ${translatedTitle} का सीमा शुल्क निकासी या कार्गो जोखिम आवंटन पर कोई प्रभाव नहीं पड़ता है?`;
+              translatedExplanation = `गलत। ${translatedTitle} सीधे सीमा शुल्क अनुपालन, बंदरगाह निकासी शुल्क और कार्गो जोखिम आवंटन को प्रभावित करता है।`;
+            } else if (lang === 'gu') {
+              translatedQuestion = `શું ${translatedTitle} ની કસ્ટમ્સ ક્લિયરન્સ કે કાર્ગો જોખમ ફાળવણી પર કોઈ અસર નથી પડતી?`;
+              translatedExplanation = `ખોટું. ${translatedTitle} સીધી કસ્ટમ્સ પાલન, પોર્ટ ક્લિયરન્સ ફી અને કાર્ગો જોખમ ફાળવણીને અસર કરે છે.`;
+            } else if (lang === 'mr') {
+              translatedQuestion = `${translatedTitle} चा सीमा शुल्क क्लिअरन्स किंवा कार्गो जोखीम वाटपावर काहीही परिणाम होत नाही का?`;
+              translatedExplanation = `चुकीचे. ${translatedTitle} थेट सीमा शुल्क अनुपालन, पोर्ट क्लिअरन्स शुल्क आणि कार्गो जोखीम वाटपावर परिणाम करते.`;
+            }
+          }
+          else if (q.question.includes('best describes the main purpose of')) {
+            if (lang === 'hi') {
+              translatedQuestion = `अंतरराष्ट्रीय व्यापार में, निम्नलिखित में से कौन ${translatedTitle} के मुख्य उद्देश्य का सबसे अच्छा वर्णन करता है?`;
+              translatedOptions = [
+                'सीमा शुल्क गणनाओं को अनदेखा करना।',
+                'संचालन को मानकीकृत करना, बंदरगाह की देरी को कम करना और माल ढुलाई जोखिम/लागत को सही ढंग से आवंटित करना।',
+                'घरेलू बाजारों में खुदरा मूल्य को दोगुना करना।',
+                'अंतरराष्ट्रीय कार्गो निरीक्षण प्रक्रियाओं को बायपास करना।'
+              ];
+              translatedExplanation = `${translatedTitle} लॉजिस्टिक्स संचालन को मानकीकृत करता है, कानूनी अनुपालन सुनिश्चित करता है, और लागत/जोखिम सीमाओं को स्पष्ट करता है।`;
+            } else if (lang === 'gu') {
+              translatedQuestion = `આંતરરાષ્ટ્રીય વ્યાપારમાં, નીચેનામાંથી કયું ${translatedTitle} ના મુખ્ય હેતુનું શ્રેષ્ઠ વર્ણન કરે છે?`;
+              translatedOptions = [
+                'કસ્ટમ્સ ડ્યુટીની ગણતરીઓને અવગણવી.',
+                'કામગીરીનું માનકીકરણ કરવું, પોર્ટના વિલંબને ઘટાડવું અને નૂર જોખમ/ખર્ચની યોગ્ય ફાળવણી કરવી.',
+                'સ્થાનિક બજારોમાં છૂટક કિંમત બમણી કરવી.',
+                'આંતરરાષ્ટ્રીય કાર્ગો નિરીક્ષણ પ્રક્રિયાઓને બાયપાસ કરવી.'
+              ];
+              translatedExplanation = `${translatedTitle} લોજિસ્ટિક્સ કામગીરીને માનકીકૃત કરે છે, કાનૂની પાલન સુનિશ્ચિત કરે છે અને ખર્ચ/જોખમ સીમાઓ સ્પષ્ટ કરે છે.`;
+            } else if (lang === 'mr') {
+              translatedQuestion = `आंतरराष्ट्रीय व्यापारात, खालीलपैकी कोणते ${translatedTitle} च्या मुख्य उद्देशाचे सर्वोत्तम वर्णन करते?`;
+              translatedOptions = [
+                'सीमा शुल्क गणनाकडे दुर्लक्ष करणे.',
+                'ऑपरेशन्सचे मानकीकरण करणे, बंदरातील विलंब कमी करणे आणि मालवाहतूक जोखीम/खर्च योग्यरित्या वाटप करणे.',
+                'देशांतर्गत बाजारपेठेत किरकोळ किंमत दुप्पट करणे.',
+                'आंतरराष्ट्रीय कार्गो तपासणी प्रक्रिया बायपास करणे.'
+              ];
+              translatedExplanation = `${translatedTitle} लॉजिस्टिक्स ऑपरेशन्सचे मानकीकरण करते, कायदेशीर अनुपालन सुनिश्चित करते आणि खर्च/जोखीम मर्यादा स्पष्ट करते.`;
+            }
+          }
+          else if (q.question.includes('purely a local term')) {
+            if (lang === 'hi') {
+              translatedQuestion = `क्या ${translatedTitle} विशुद्ध रूप से एक स्थानीय शब्द है जिसका वैश्विक शिपिंग समझौतों में कोई मानक अर्थ नहीं है?`;
+              translatedExplanation = `${translatedTitle} अंतरराष्ट्रीय व्यापार नियमों, सीमा शुल्क प्रोटोकॉल या वैश्विक मानक प्रथाओं द्वारा शासित होता.`;
+            } else if (lang === 'gu') {
+              translatedQuestion = `શું ${translatedTitle} સંપૂર્ણપણે સ્થાનિક શબ્દ છે જેનો વૈશ્વિક શિપિંગ કરારોમાં કોઈ પ્રમાણભૂત અર્થ નથી?`;
+              translatedExplanation = `${translatedTitle} આંતરરાષ્ટ્રીય વ્યાપાર નિયમો, કસ્ટમ્સ પ્રોટોકોલ અથવા વૈશ્વિક પ્રમાણભૂત પ્રથાઓ દ્વારા સંચાલિત થાય છે.`;
+            } else if (lang === 'mr') {
+              translatedQuestion = `${translatedTitle} ही केवळ स्थानिक संज्ञा आहे का ज्याला जागतिक शिपिंग करारांमध्ये कोणतेही मानक मूल्य नाही?`;
+              translatedExplanation = `${translatedTitle} आंतरराष्ट्रीय व्यापार नियम, सीमा शुल्क प्रोटोकॉल या जागतिक मानक पद्धतींद्वारे नियंत्रित केली जाते.`;
+            }
+          }
+          else if (q.question.includes('common risk or mistake associated with')) {
+            if (lang === 'hi') {
+              translatedQuestion = `${translatedTitle} को गलत तरीके से संभालने से जुड़ा एक सामान्य जोखिम या गलती क्या है?`;
+              translatedOptions = [
+                'शिपिंग लाइन से छूट प्राप्त करना।',
+                'आयातकों को भारी विलंब शुल्क (Demurrage), बंदरगाह नजरबंदी और सीमा शुल्क जुर्माना शुल्क देना पड़ता है।',
+                'सभी सीमा शुल्क घोषणाओं की स्वचालित स्वीकृति।',
+                'लघु समुद्री पारगमन मार्ग।'
+              ];
+              translatedExplanation = `${translatedTitle} को गलत तरीके से संभालने से अक्सर गंभीर सीमा शुल्क निरीक्षण में देरी और भारी बंदरगाह जुर्माना शुल्क लगता है।`;
+            } else if (lang === 'gu') {
+              translatedQuestion = `${translatedTitle} ને ખોટી રીતે હેન્ડલ કરવા સાથે જોડાયેલ સામાન્ય જોખમ અથવા ભૂલ કઈ છે?`;
+              translatedOptions = [
+                'શિપિંગ લાઇન તરફથી ડિસ્કાઉન્ટ મેળવવું.',
+                'આયાતકારોને ભારે ડેમરેજ, પોર્ટ ડિટેન્શન અને કસ્ટમ્સ દંડનો સામનો કરવો પડે છે.',
+                'તમામ કસ્ટમ્સ ઘોષણાઓની આપમેળે મંજૂરી.',
+                'ટૂંકા દરિયાઈ પરિવહન માર્ગો.'
+              ];
+              translatedExplanation = `${translatedTitle} ને ખોટી રીતે હેન્ડલ કરવાથી અવારનવાર કસ્ટમ્સ નિરીક્ષણમાં વિલંબ અને પોર્ટ દંડના મોટા શુલ્ક લાગે છે.`;
+            } else if (lang === 'mr') {
+              translatedQuestion = `${translatedTitle} चुकीच्या पद्धतीने हाताळण्याशी संबंधित कोणती सामान्य चूक किंवा जोखीम आहे?`;
+              translatedOptions = [
+                'कस्टमकडून सूट मिळणे.',
+                'आयातदारांना मोठा विलंब शुल्क (Demurrage), पोर्ट डिटेंशन आणि सीमा शुल्क दंड शुल्क भरावे लागणे.',
+                'लहान सागरी प्रवास मार्ग.'
+              ];
+              translatedExplanation = `${translatedTitle} चुकीच्या पद्धतीने हाताळल्यास अनेकदा सीमा शुल्क तपासणीत विलंब होतो आणि मोठा पोर्ट दंड आकारला जातो.`;
+            }
+          }
+          else if (q.question.includes('mismatch in documents related to')) {
+            if (lang === 'hi') {
+              translatedQuestion = `क्या ${translatedTitle} से संबंधित दस्तावेजों में विसंगति सीमा शुल्क विभाग द्वारा माल रोकने का एक प्राथमिक कारण है?`;
+              translatedExplanation = `हाँ, ${translatedTitle} मापदंडों के संबंध में दस्तावेजों में असंगति होने पर मैन्युअल ऑडिट और सीमा शुल्क रोक शुरू हो जाएगी।`;
+            } else if (lang === 'gu') {
+              translatedQuestion = `શું ${translatedTitle} સંબંધિત દસ્તાવેજોમાં વિસંગતતા એ કસ્ટમ્સ વિભાગ દ્વારા માલ રોકવાનું મુખ્ય કારણ છે?`;
+              translatedExplanation = `હા, ${translatedTitle} પરિમાણો સંબંધિત દસ્તાવેજોમાં અસંગતતા હોવા પર મેન્યુઅલ ઓડિટ અને કસ્ટમ્સ હોલ્ડ શરૂ થશે.`;
+            } else if (lang === 'mr') {
+              translatedQuestion = `काय ${translatedTitle} संबंधित कागदपत्रांमधील तफावत हे सीमा शुल्क विभागाने माल रोखून धरण्याचे प्रमुख कारण आहे?`;
+              translatedExplanation = `होय, ${translatedTitle} निकषांशी संबंधित कागदपत्रांमध्ये विसंगती आढळल्यास मॅन्युअल ऑडिट आणि माल रोखला जाऊ शकतो.`;
+            }
+          }
+          // Handle "What constitutes a 'Landed Cost' in importing?"
+          else if (q.question.includes('Landed Cost')) {
         if (lang === 'hi') {
           translatedQuestion = `आयात में "लैंडेड कॉस्ट" (Landed Cost) में क्या शामिल होता है?`;
           translatedOptions = [

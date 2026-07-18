@@ -446,13 +446,8 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
   return null;
 };
 
-const generateProgrammaticQuiz = (title: string, lessonId: string): QuizQuestion[] => {
-  // Use a simple hash of the title to consistently choose a different template per lesson
-  let hash = 0;
-  for (let i = 0; i < title.length; i++) {
-    hash = title.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const index = Math.abs(hash) % 6;
+const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: number): QuizQuestion[] => {
+  const index = lessonIndex % 6;
 
   switch (index) {
     case 0:
@@ -605,7 +600,7 @@ export const initialLessons: Lesson[] = (() => {
               `Request your logistics agent to verify the local terminal handling charges early.`
             ],
             summary: `This lesson covered the foundational definition, business examples, FAQs, and risk assessments related to ${title}.`,
-            quiz: generateProgrammaticQuiz(title, lessonId),
+            quiz: generateProgrammaticQuiz(title, lessonId, idx),
             objectives: [`Understand the operational definition of ${title}.`, `Analyze the trade importance of ${title}.`],
             writtenExplanation: `Detailed explanation block for ${title} in international logistics. Managing ${title} requires standard documentation, custom declarations, and cargo tracking protocols.`,
             importantNotes: [`Always check local compliance guides for ${title}.`],
