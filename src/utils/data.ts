@@ -446,6 +446,90 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
   return null;
 };
 
+const generateProgrammaticQuiz = (title: string, lessonId: string): QuizQuestion[] => {
+  // Use a simple hash of the title to consistently choose a different template per lesson
+  let hash = 0;
+  for (let i = 0; i < title.length; i++) {
+    hash = title.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const index = Math.abs(hash) % 6;
+
+  switch (index) {
+    case 0:
+      return [
+        {
+          id: `${lessonId}-q1`,
+          type: 'true-false',
+          question: `Is it true that ${title} plays a critical role in determining logistics timelines and cost allocations?`,
+          correctAnswers: ['true'],
+          explanation: `Yes, ${title} is key to planning transit phases, customs duties, and overall pricing.`
+        }
+      ];
+    case 1:
+      return [
+        {
+          id: `${lessonId}-q1`,
+          type: 'true-false',
+          question: `Does ${title} have absolutely no impact on customs clearance or cargo risk allocation?`,
+          correctAnswers: ['false'],
+          explanation: `Incorrect. ${title} directly impacts customs compliance, port clearance fees, and cargo risk allocation.`
+        }
+      ];
+    case 2:
+      return [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: `In international trade, which of the following best describes the main purpose of ${title}?`,
+          options: [
+            'To ignore custom duty calculations.',
+            'To standardize operations, reduce port delays, and allocate freight risk/costs correctly.',
+            'To double the retail price in domestic markets.',
+            'To bypass international cargo inspection processes.'
+          ],
+          correctAnswers: ['1'],
+          explanation: `${title} standardizes logistics operations, ensures legal compliance, and clarifies cost/risk boundaries.`
+        }
+      ];
+    case 3:
+      return [
+        {
+          id: `${lessonId}-q1`,
+          type: 'true-false',
+          question: `Is ${title} purely a local term that has no standard meaning in global shipping agreements?`,
+          correctAnswers: ['false'],
+          explanation: `${title} is governed by international trade regulations, customs protocols, or global standard practices.`
+        }
+      ];
+    case 4:
+      return [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: `What is a common risk or mistake associated with mishandling ${title}?`,
+          options: [
+            'Receiving discounts from the shipping line.',
+            'Importers incurring heavy demurrage, port detention, and customs penalty charges.',
+            'Automatic approval of all custom declarations.',
+            'Shorter ocean transit routes.'
+          ],
+          correctAnswers: ['1'],
+          explanation: `Incorrectly handling ${title} often leads to severe customs inspection delays and substantial port penalty charges.`
+        }
+      ];
+    default:
+      return [
+        {
+          id: `${lessonId}-q1`,
+          type: 'true-false',
+          question: `Is a mismatch in documents related to ${title} a primary reason for customs holding shipments at the port of entry?`,
+          correctAnswers: ['true'],
+          explanation: `Yes, documentation inconsistencies regarding ${title} parameters will trigger manual audits and customs holds.`
+        }
+      ];
+  }
+};
+
 // Seeding engine to populate all 15 modules and their respective lessons
 export const initialLessons: Lesson[] = (() => {
   const generated: Lesson[] = [];
@@ -521,15 +605,7 @@ export const initialLessons: Lesson[] = (() => {
               `Request your logistics agent to verify the local terminal handling charges early.`
             ],
             summary: `This lesson covered the foundational definition, business examples, FAQs, and risk assessments related to ${title}.`,
-            quiz: [
-              {
-                id: `${lessonId}-q1`,
-                type: 'true-false',
-                question: `Correctly understanding ${title} helps logistics agencies avoid delays and customs penalty charges.`,
-                correctAnswers: ['true'],
-                explanation: `Accurate application of trade and cargo terms prevents customs disputes, loading discrepancies, and freight rate penalties.`
-              }
-            ],
+            quiz: generateProgrammaticQuiz(title, lessonId),
             objectives: [`Understand the operational definition of ${title}.`, `Analyze the trade importance of ${title}.`],
             writtenExplanation: `Detailed explanation block for ${title} in international logistics. Managing ${title} requires standard documentation, custom declarations, and cargo tracking protocols.`,
             importantNotes: [`Always check local compliance guides for ${title}.`],
