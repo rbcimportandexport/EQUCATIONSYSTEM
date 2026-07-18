@@ -589,7 +589,7 @@ export const ModuleScreen: React.FC = () => {
                                     }
 
                                     let chunkHindiFallback = false;
-                                    if (!chunkVoice && chunkLang === 'gu') {
+                                    if (!chunkVoice && (chunkLang === 'gu' || chunkLang === 'mr')) {
                                       const fallbackVoices = voices.filter(v => normalizeLang(v.lang).startsWith('hi'));
                                       fallbackVoices.sort((a, b) => getVoiceScore(b) - getVoiceScore(a));
                                       chunkVoice = fallbackVoices[0];
@@ -599,7 +599,7 @@ export const ModuleScreen: React.FC = () => {
                                     }
 
                                     let finalUtteranceText = chunkText;
-                                    if (chunkHindiFallback) {
+                                    if (chunkHindiFallback && chunkLang === 'gu') {
                                       // Transliterate Gujarati to Devanagari so the Hindi voice can read it phonetically
                                       finalUtteranceText = chunkText.split('').map(char => {
                                         const code = char.charCodeAt(0);
