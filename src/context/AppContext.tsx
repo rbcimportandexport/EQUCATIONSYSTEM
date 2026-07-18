@@ -198,6 +198,39 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, []);
 
+  // Keep currentUser progress percentage in sync with completed lessons
+  useEffect(() => {
+    if (!currentUser || lessons.length === 0) return;
+    
+    const courseLessons = lessons.filter(l => l.moduleId);
+    if (courseLessons.length === 0) return;
+
+    const completedCount = courseLessons.filter(l => progress[l.id]?.completed).length;
+    const pct = Math.round((completedCount / courseLessons.length) * 100);
+
+    if (currentUser.progressPercentage !== pct) {
+      // Update currentUser state
+      setCurrentUserState(prev => {
+        if (!prev) return null;
+        const updated = { ...prev, progressPercentage: pct };
+        localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(updated));
+        return updated;
+      });
+
+      // Update in users list
+      setUsers(prev => {
+        const updated = prev.map(u => {
+          if (u.id === currentUser.id || u.email === currentUser.email) {
+            return { ...u, progressPercentage: pct };
+          }
+          return u;
+        });
+        saveToLocal('lms_users_v2_ie', updated);
+        return updated;
+      });
+    }
+  }, [progress, currentUser?.id, lessons.length]);
+
   // Sync state helpers
   const saveToLocal = (key: string, data: any) => {
     localStorage.setItem(key, JSON.stringify(data));
@@ -397,9 +430,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Triggers user progress percentage updates
   const syncStudentProgressPercentage = (updatedProgress: { [lessonId: string]: UserProgress }) => {
-    // We only update Jane Doe (our default logged-in student)
-    const jane = users.find(u => u.id === 'u-1');
-    if (!jane) return;
+    if (!currentUser) return;
+    const activeUser = users.find(u => u.id === currentUser.id || u.email === currentUser.email);
+    if (!activeUser) return;
 
     const courseLessons = lessons.filter(l => l.moduleId);
     if (courseLessons.length === 0) return;
@@ -408,8 +441,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const pct = Math.round((completedCount / courseLessons.length) * 100);
 
     saveUser({
-      ...jane,
+      ...activeUser,
       progressPercentage: pct
+    });
+
+    setCurrentUserState(prev => {
+      if (!prev) return null;
+      const updated = { ...prev, progressPercentage: pct };
+      localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(updated));
+      return updated;
     });
   };
 
@@ -501,10 +541,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return Math.round((completedCount / moduleLessons.length) * 100);
   };
 
-  const getCourseCompletionPercentage = (_courseId: string): number => {
-    // Course progress matches Jane Doe's user percentage
-    const jane = users.find(u => u.id === 'u-1');
-    return jane ? jane.progressPercentage : 0;
+  const getCourseCompletionPercentage = (courseId: string): number => {
+    const courseModules = modules.filter(m => m.courseId === courseId);
+    const courseModuleIds = courseModules.map(m => m.id);
+    const courseLessons = lessons.filter(l => courseModuleIds.includes(l.moduleId));
+    
+    if (courseLessons.length === 0) return 0;
+    
+    const completedCount = courseLessons.filter(l => progress[l.id]?.completed).length;
+    return Math.round((completedCount / courseLessons.length) * 100);
   };
 
   // BOOKMARKS MANAGEMENT
