@@ -722,10 +722,17 @@ export const ModuleScreen: React.FC = () => {
                                     const audio = new Audio(url);
                                     (window as any)._activeTTSAudio = audio;
                                     
-                                    audio.play().catch(err => {
-                                      console.warn("Google Cloud TTS play failed, falling back to local speech synthesis", err);
+                                    let hasFallenBack = false;
+                                    const triggerFallback = () => {
+                                      if (hasFallenBack) return;
+                                      hasFallenBack = true;
                                       (window as any)._activeTTSAudio = null;
                                       playLocalTTS(chunkText);
+                                    };
+
+                                    audio.play().catch(err => {
+                                      console.warn("Google Cloud TTS play failed, falling back to local speech synthesis", err);
+                                      triggerFallback();
                                     });
 
                                     audio.onended = () => {
@@ -735,8 +742,7 @@ export const ModuleScreen: React.FC = () => {
                                     };
                                     audio.onerror = () => {
                                       console.warn("Google Cloud TTS stream error, falling back to local speech synthesis");
-                                      (window as any)._activeTTSAudio = null;
-                                      playLocalTTS(chunkText);
+                                      triggerFallback();
                                     };
                                   }
 
