@@ -454,6 +454,11 @@ export const ModuleScreen: React.FC = () => {
                             <div onClick={e => e.stopPropagation()}>
                               <button
                                 onClick={() => {
+                                  const rv = (window as any).responsiveVoice;
+                                  if (rv && rv.isPlaying()) {
+                                    rv.cancel();
+                                    return;
+                                  }
                                   if ((window as any)._activeTTSAudio) {
                                     try {
                                       (window as any)._activeTTSAudio.pause();
@@ -777,8 +782,29 @@ export const ModuleScreen: React.FC = () => {
                                     };
                                   };
 
-                                  // Start playing via Google cloud neural TTS
-                                  playNextChunk();
+                                  // Start playing using the best tier available
+                                  if (elevenLabsApiKey) {
+                                    playNextChunk();
+                                  } else if (rv) {
+                                    const rvVoiceMap: Record<string, string> = {
+                                      hi: 'Hindi Female',
+                                      gu: 'Gujarati Female',
+                                      mr: 'Marathi Female',
+                                      en: 'UK English Female'
+                                    };
+                                    const voiceName = rvVoiceMap[language] || 'Hindi Female';
+                                    rv.speak(text, voiceName, {
+                                      rate: 0.95,
+                                      pitch: 1.0,
+                                      volume: 1.0,
+                                      onerror: () => {
+                                        console.warn("ResponsiveVoice failed, falling back to Google TTS");
+                                        playNextChunk();
+                                      }
+                                    });
+                                  } else {
+                                    playNextChunk();
+                                  }
                                 }}
                                 title="Listen to this lesson"
                                 style={{
