@@ -442,8 +442,7 @@ export const CertificateDesigner: React.FC = () => {
                     style={{ 
                       width: '42px', 
                       height: '42px', 
-                      objectFit: 'contain',
-                      mixBlendMode: 'multiply'
+                      objectFit: 'contain'
                     }} 
                   />
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
