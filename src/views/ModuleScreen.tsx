@@ -684,16 +684,15 @@ export const ModuleScreen: React.FC = () => {
                                     playNextChunk();
                                   } else if (rv) {
                                     const rvVoiceMap: Record<string, string> = {
-                                      hi: 'Hindi Male',
-                                      gu: 'Gujarati Female', // lower pitch for male-like depth
-                                      mr: 'Marathi Male',
-                                      en: 'Indian English Male'
+                                      hi: 'Hindi Female',
+                                      gu: 'Gujarati Female',
+                                      mr: 'Marathi Female',
+                                      en: 'Indian English Female'
                                     };
-                                    const voiceName = rvVoiceMap[language] || 'Hindi Male';
-                                    const customPitch = language === 'gu' ? 0.88 : 1.0;
+                                    const voiceName = rvVoiceMap[language] || 'Hindi Female';
                                     rv.speak(text, voiceName, {
-                                      rate: 0.92,
-                                      pitch: customPitch,
+                                      rate: 0.9,
+                                      pitch: 1.0,
                                       volume: 1.0,
                                       onerror: () => {
                                         console.warn("ResponsiveVoice failed, falling back to Google TTS");
