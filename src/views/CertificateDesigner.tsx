@@ -200,15 +200,15 @@ const CertificatePreview: React.FC<{
       {/* Borders */}
       <div style={{
         position: 'absolute', inset: '18px',
-        border: '6px solid #102A56', zIndex: 1, pointerEvents: 'none',
+        border: '4px solid #102A56', zIndex: 1, pointerEvents: 'none',
       }} />
       <div style={{
-        position: 'absolute', inset: '30px',
-        border: '3px solid #D4AF37', zIndex: 1, pointerEvents: 'none',
+        position: 'absolute', inset: '26px',
+        border: '2px solid #D4AF37', zIndex: 1, pointerEvents: 'none',
       }} />
       <div style={{
-        position: 'absolute', inset: '38px',
-        border: '2px solid #F57C00', zIndex: 1, pointerEvents: 'none',
+        position: 'absolute', inset: '32px',
+        border: '1px solid #F57C00', zIndex: 1, pointerEvents: 'none',
       }} />
 
       {/* Corner Ornaments */}
@@ -648,7 +648,7 @@ const CertificateDesigner: React.FC = () => {
   const { currentUser, certificates } = useApp();
   const [data, setData] = useState<CertificateData>(defaultData);
   const [isEditing, setIsEditing] = useState(false);
-  const [scale, setScale] = useState(0.35);
+  const [scale, setScale] = useState(0.5);
   const [showFields, setShowFields] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
 
@@ -789,7 +789,7 @@ const CertificateDesigner: React.FC = () => {
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
           {/* Zoom */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginRight: '8px' }}>
-            <button onClick={() => setScale(s => Math.max(0.15, s - 0.05))}
+            <button onClick={() => setScale(s => Math.max(0.25, s - 0.05))}
               style={btnStyle}>−</button>
             <span style={{ fontSize: '12px', fontFamily: "'Inter', sans-serif',", color: '#475569', minWidth: '40px', textAlign: 'center' }}>
               {Math.round(scale * 100)}%
@@ -901,8 +901,8 @@ const CertificateDesigner: React.FC = () => {
           overflow: 'auto',
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'flex-start',
-          padding: '40px 20px',
+          alignItems: 'center',
+          padding: '20px',
           background: '#e8eaed',
         }}>
           <div style={{
@@ -910,6 +910,7 @@ const CertificateDesigner: React.FC = () => {
             borderRadius: '4px',
             overflow: 'hidden',
             lineHeight: 0,
+            transform: 'translateY(-5%)',
           }}>
             <div ref={previewRef}>
               <CertificatePreview

@@ -76,27 +76,27 @@
   </g>
 
   <!-- BORDERS -->
-  <!-- Outer border - Navy thick -->
-  <rect x="18" y="18" width="3472" height="2444" fill="none" stroke="#102A56" stroke-width="6"/>
+  <!-- Outer border - Navy -->
+  <rect x="18" y="18" width="3472" height="2444" fill="none" stroke="#102A56" stroke-width="4"/>
   <!-- Mid border - Gold -->
-  <rect x="30" y="30" width="3448" height="2420" fill="none" stroke="#D4AF37" stroke-width="3"/>
+  <rect x="26" y="26" width="3456" height="2428" fill="none" stroke="#D4AF37" stroke-width="2"/>
   <!-- Inner border - Orange -->
-  <rect x="38" y="38" width="3432" height="2404" fill="none" stroke="#F57C00" stroke-width="2"/>
+  <rect x="32" y="32" width="3444" height="2416" fill="none" stroke="#F57C00" stroke-width="1"/>
 
   <!-- Corner Ornaments -->
   <g fill="none" stroke="#D4AF37" stroke-width="2">
     <!-- TL -->
-    <path d="M38 98 L48 98 L48 48 L98 48 L98 38"/>
-    <circle cx="48" cy="48" r="3" fill="#D4AF37"/>
+    <path d="M32 92 L42 92 L42 42 L92 42 L92 32"/>
+    <circle cx="42" cy="42" r="3" fill="#D4AF37"/>
     <!-- TR -->
-    <path d="M3470 98 L3460 98 L3460 48 L3410 48 L3410 38"/>
-    <circle cx="3460" cy="48" r="3" fill="#D4AF37"/>
+    <path d="M3476 92 L3466 92 L3466 42 L3416 42 L3416 32"/>
+    <circle cx="3466" cy="42" r="3" fill="#D4AF37"/>
     <!-- BL -->
-    <path d="M38 2382 L48 2382 L48 2432 L98 2432 L98 2442"/>
-    <circle cx="48" cy="2432" r="3" fill="#D4AF37"/>
+    <path d="M32 2388 L42 2388 L42 2438 L92 2438 L92 2448"/>
+    <circle cx="42" cy="2438" r="3" fill="#D4AF37"/>
     <!-- BR -->
-    <path d="M3470 2382 L3460 2382 L3460 2432 L3410 2432 L3410 2442"/>
-    <circle cx="3460" cy="2432" r="3" fill="#D4AF37"/>
+    <path d="M3476 2388 L3466 2388 L3466 2438 L3416 2438 L3416 2448"/>
+    <circle cx="3466" cy="2438" r="3" fill="#D4AF37"/>
   </g>
 
   <!-- ===== LEFT SIDEBAR ===== -->
@@ -104,7 +104,7 @@
     <rect x="0" y="0" width="340" height="2480" fill="#102A56"/>
   </g>
   <!-- Sidebar angled bottom line -->
-  <polygon points="340,38 299,2442 38,2442 38,38" fill="none" stroke="#D4AF37" stroke-width="1.5" opacity="0.3"/>
+  <polygon points="340,32 299,2448 32,2448 32,32" fill="none" stroke="#D4AF37" stroke-width="1.5" opacity="0.3"/>
 
   <!-- Medal -->
   <g transform="translate(170, 140)">
