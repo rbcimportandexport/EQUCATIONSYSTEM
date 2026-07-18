@@ -1,5 +1,6 @@
 ﻿import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useApp } from '../context/AppContext';
+import html2canvas from 'html2canvas';
 import { Download, Printer, Edit3, RotateCcw, FileText, Award } from 'lucide-react';
 
 interface CertificateData {
@@ -716,8 +717,6 @@ const CertificateDesigner: React.FC = () => {
     const certEl = previewRef.current;
     if (!certEl) return;
     try {
-      // @ts-expect-error - html2canvas may not be installed
-      const html2canvas = (await import('html2canvas')).default;
       const canvas = await html2canvas(certEl, {
         scale: 1,
         useCORS: true,
@@ -730,7 +729,7 @@ const CertificateDesigner: React.FC = () => {
       link.href = canvas.toDataURL('image/png');
       link.click();
     } catch {
-      alert('PNG export requires html2canvas. Please run: npm install html2canvas');
+      alert('Could not export PNG. Try printing instead.');
     }
   };
 
