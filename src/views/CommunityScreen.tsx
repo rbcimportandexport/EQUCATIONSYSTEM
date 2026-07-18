@@ -365,7 +365,7 @@ export const CommunityScreen: React.FC = () => {
                       <div>
                         <div style={{ fontSize: '8px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Date of Issue</div>
                         <div style={{ fontSize: '11px', fontWeight: '700' }}>
-                          {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                          {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
                         </div>
                       </div>
                     </div>
