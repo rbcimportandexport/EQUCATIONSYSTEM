@@ -331,35 +331,92 @@ export const Profile: React.FC = () => {
               </p>
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {visibleCertificates.map(course => (
                 <div key={course.id} style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  padding: '16px 20px', borderRadius: '14px',
-                  background: 'linear-gradient(135deg, #fffbeb, #fef3c7)',
-                  border: '1px solid #fde68a'
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '24px',
+                  borderRadius: '16px',
+                  background: 'linear-gradient(135deg, #ffffff 0%, #fffbeb 100%)',
+                  border: '1px solid #fef3c7',
+                  borderLeft: '5px solid #d97706',
+                  boxShadow: '0 10px 25px -5px rgba(217, 119, 6, 0.08), 0 8px 16px -6px rgba(0,0,0,0.03)',
+                  transition: 'all 0.2s ease',
+                  flexWrap: 'wrap',
+                  gap: '16px'
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '18px', minWidth: '240px' }}>
                     <div style={{
-                      width: '44px', height: '44px', borderRadius: '12px',
-                      background: 'linear-gradient(135deg, #fbbf24, #f97316)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center'
+                      width: '56px',
+                      height: '56px',
+                      borderRadius: '14px',
+                      background: 'linear-gradient(135deg, #fffbeb, #fef3c7)',
+                      border: '1px solid #fde68a',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 4px 10px rgba(217, 119, 6, 0.1)',
+                      flexShrink: 0
                     }}>
-                      <CheckCircle size={22} color="#fff" />
+                      <Award size={28} color="#d97706" />
                     </div>
                     <div>
-                      <div style={{ color: '#78350f', fontWeight: '700', fontSize: '14px' }}>Certificate of Excellence</div>
-                      <div style={{ color: '#92400e', fontSize: '12px' }}>{course.title} · {getLocalDateString()}</div>
+                      <div style={{
+                        textTransform: 'uppercase',
+                        fontSize: '10px',
+                        fontWeight: '800',
+                        color: '#b45309',
+                        letterSpacing: '1.5px',
+                        marginBottom: '3px'
+                      }}>
+                        RBC ACADEMY CREDENTIAL
+                      </div>
+                      <div style={{
+                        color: '#1e293b',
+                        fontWeight: '800',
+                        fontSize: '16px',
+                        lineHeight: '1.2'
+                      }}>
+                        Certificate of Excellence
+                      </div>
+                      <div style={{
+                        color: '#64748b',
+                        fontSize: '13px',
+                        marginTop: '4px',
+                        fontWeight: '500'
+                      }}>
+                        {course.title} • {getLocalDateString()}
+                      </div>
                     </div>
                   </div>
-                  <button onClick={() => handleOpenCertificate(course.title)} style={{
-                    padding: '8px 18px', borderRadius: '10px', border: 'none',
-                    background: 'linear-gradient(135deg, #fbbf24, #f97316)',
-                    color: '#fff', fontWeight: '700', fontSize: '13px', cursor: 'pointer',
-                    boxShadow: '0 2px 6px rgba(245,158,11,0.3)'
+                  
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '24px',
+                    marginLeft: 'auto',
+                    flexWrap: 'wrap'
                   }}>
-                    View
-                  </button>
+                    <button
+                      onClick={() => handleOpenCertificate(course.title)}
+                      style={{
+                        padding: '12px 28px',
+                        borderRadius: '12px',
+                        border: 'none',
+                        background: 'linear-gradient(135deg, #d97706 0%, #b45309 100%)',
+                        color: '#fff',
+                        fontWeight: '700',
+                        fontSize: '13px',
+                        cursor: 'pointer',
+                        boxShadow: '0 4px 12px rgba(217,119,6,0.35)',
+                        transition: 'transform 0.15s ease, box-shadow 0.15s ease'
+                      }}
+                    >
+                      View Certificate
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
