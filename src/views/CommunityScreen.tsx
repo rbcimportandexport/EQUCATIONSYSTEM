@@ -447,19 +447,27 @@ export const CommunityScreen: React.FC = () => {
                   <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingRight: '24px' }}>
                     {/* Header Row (Logo and Cert ID) */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        {/* Logo Waves Icon */}
-                        <svg width="32" height="32" viewBox="0 0 100 100">
-                          <path d="M20,60 C35,25 65,25 80,60" fill="none" stroke="#2563eb" strokeWidth="10" strokeLinecap="round" />
-                          <path d="M30,68 C42,38 70,38 82,68" fill="none" stroke="#ea580c" strokeWidth="10" strokeLinecap="round" />
-                          <circle cx="56" cy="38" r="8" fill="#eab308" />
-                        </svg>
-                        <div>
-                          <div style={{ fontSize: '18px', fontWeight: '900', color: '#0f172a', letterSpacing: '0.5px', lineHeight: '1.1' }}>
-                            rbc <span style={{ color: '#d97706' }}>Import & Export</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <img 
+                          src="/logo_emblem.png" 
+                          alt="RBC Emblem" 
+                          style={{ 
+                            width: '42px', 
+                            height: '42px', 
+                            objectFit: 'contain',
+                            mixBlendMode: 'multiply'
+                          }} 
+                        />
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                          <div style={{ fontSize: '28px', fontWeight: '900', color: '#0b1a30', letterSpacing: '-0.5px', lineHeight: '1.0', fontFamily: 'system-ui, sans-serif' }}>
+                            rbc
                           </div>
-                          <div style={{ fontSize: '8px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>
-                            Since 2011
+                          <div style={{ fontSize: '10px', fontWeight: '800', letterSpacing: '0.2px', marginTop: '1px', fontFamily: 'system-ui, sans-serif' }}>
+                            <span style={{ color: '#ea580c' }}>I</span><span style={{ color: '#0b1a30' }}>mport & </span>
+                            <span style={{ color: '#ea580c' }}>E</span><span style={{ color: '#0b1a30' }}>xport</span>
+                          </div>
+                          <div style={{ fontSize: '6.5px', color: '#0b1a30', fontWeight: '700', letterSpacing: '0.5px', marginTop: '1px', textAlign: 'right' }}>
+                            Since <span style={{ color: '#ea580c' }}>2011</span>
                           </div>
                         </div>
                       </div>
