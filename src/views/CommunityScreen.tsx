@@ -1,9 +1,47 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { Users, UserCheck } from 'lucide-react';
+import { Users, UserCheck, Award } from 'lucide-react';
 
 export const CommunityScreen: React.FC = () => {
-  const { users, currentUser, language } = useApp();
+  const { users, currentUser, language, certificates } = useApp();
+  const [showCertModal, setShowCertModal] = React.useState(false);
+  const [selectedCertUser, setSelectedCertUser] = React.useState('');
+
+  const getLevelDetails = (pct: number, lang: string) => {
+    if (pct === 100) {
+      return {
+        name: lang === 'hi' ? 'डायमंड (Diamond)' : lang === 'gu' ? 'ડાયમંડ' : 'Diamond',
+        bg: 'linear-gradient(135deg, #e0f7fa 0%, #80deea 100%)',
+        color: '#006064',
+        border: '1px solid #4dd0e1',
+        shadow: '0 0 10px rgba(0, 151, 167, 0.25)'
+      };
+    } else if (pct >= 70) {
+      return {
+        name: lang === 'hi' ? 'प्लेटिनम (Platinum)' : lang === 'gu' ? 'પ્લેટિનમ' : 'Platinum',
+        bg: 'linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%)',
+        color: '#0f172a',
+        border: '1px solid #94a3b8',
+        shadow: '0 0 8px rgba(148, 163, 184, 0.15)'
+      };
+    } else if (pct >= 30) {
+      return {
+        name: lang === 'hi' ? 'गोल्ड (Gold)' : lang === 'gu' ? 'ગોલ્ડ' : 'Gold',
+        bg: 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)',
+        color: '#92400e',
+        border: '1px solid #fde047',
+        shadow: '0 0 8px rgba(234, 179, 8, 0.15)'
+      };
+    } else {
+      return {
+        name: lang === 'hi' ? 'सिल्वर (Silver)' : lang === 'gu' ? 'સિલ્વર' : 'Silver',
+        bg: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+        color: '#475569',
+        border: '1px solid #cbd5e1',
+        shadow: 'none'
+      };
+    }
+  };
 
   const title = language === 'hi' ? 'सक्रिय सदस्य' : language === 'gu' ? 'સક્રિય સભ્યો' : 'Active Members';
   const subtitle = language === 'hi'
@@ -86,6 +124,7 @@ export const CommunityScreen: React.FC = () => {
             const isMe = u.email === currentUser?.email;
             const initials = u.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
             const pct = u.progressPercentage || 0;
+            const lvl = getLevelDetails(pct, language);
 
             return (
               <div key={u.id} style={{
@@ -146,6 +185,20 @@ export const CommunityScreen: React.FC = () => {
                   </div>
                 </div>
 
+                {/* Level Badge */}
+                <div style={{ marginBottom: '14px' }}>
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '5px',
+                    padding: '4px 10px', borderRadius: '20px',
+                    fontSize: '11px', fontWeight: '800',
+                    background: lvl.bg, color: lvl.color,
+                    border: lvl.border, boxShadow: lvl.shadow,
+                    textTransform: 'uppercase', letterSpacing: '0.5px'
+                  }}>
+                    👑 {lvl.name}
+                  </span>
+                </div>
+
                 {/* Progress bar */}
                 <div>
                   <div style={{
@@ -171,9 +224,118 @@ export const CommunityScreen: React.FC = () => {
                     }} />
                   </div>
                 </div>
+
+                {/* Certificate button if completed */}
+                {(pct === 100 || (certificates && certificates.some(c => c.userId === u.id))) && (
+                  <div style={{ marginTop: '14px' }}>
+                    <button
+                      onClick={() => {
+                        setSelectedCertUser(u.name);
+                        setShowCertModal(true);
+                      }}
+                      style={{
+                        width: '100%',
+                        padding: '8px',
+                        borderRadius: '10px',
+                        border: 'none',
+                        background: 'linear-gradient(135deg, #fbbf24, #f97316)',
+                        color: '#fff',
+                        fontWeight: '700',
+                        fontSize: '12px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '6px',
+                        boxShadow: '0 2px 6px rgba(245,158,11,0.2)',
+                        transition: 'transform 0.1s ease'
+                      }}
+                    >
+                      🎓 {language === 'hi' ? 'प्रमाणपत्र देखें' : language === 'gu' ? 'પ્રમાણપત્ર જુઓ' : 'View Certificate'}
+                    </button>
+                  </div>
+                )}
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* Certificate Modal */}
+      {showCertModal && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 1000,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)'
+        }}>
+          <div onClick={() => setShowCertModal(false)}
+            style={{ position: 'absolute', inset: 0 }} />
+          <div style={{
+            position: 'relative', zIndex: 1,
+            background: 'linear-gradient(135deg, #fefce8, #fff7ed)',
+            borderRadius: '20px', padding: '4px',
+            boxShadow: '0 24px 80px rgba(0,0,0,0.4)',
+            maxWidth: '600px', width: '95%'
+          }}>
+            <div style={{
+              border: '3px solid #d97706', borderRadius: '16px',
+              padding: '40px', textAlign: 'center',
+              background: 'linear-gradient(135deg, #fffbeb, #fef3c7)'
+            }}>
+              <div style={{ fontSize: '13px', letterSpacing: '3px', color: '#92400e', fontWeight: '700', marginBottom: '8px' }}>
+                RBC IMPORT & EXPORT ACADEMY
+              </div>
+              <Award size={48} color="#d97706" style={{ margin: '8px auto 16px' }} />
+              <h1 style={{ fontSize: '22px', fontWeight: '900', color: '#78350f', margin: '0 0 8px', letterSpacing: '2px' }}>
+                CERTIFICATE OF COMPLETION
+              </h1>
+              <p style={{ color: '#92400e', fontSize: '13px', margin: '0 0 20px' }}>THIS IS PROUDLY PRESENTED TO</p>
+              <h2 style={{
+                fontSize: '32px', fontWeight: '800', color: '#1e293b', margin: '0 0 12px',
+                fontFamily: 'Georgia, serif', fontStyle: 'italic'
+              }}>
+                {selectedCertUser}
+              </h2>
+              <div style={{ height: '2px', background: 'linear-gradient(90deg, transparent, #d97706, transparent)', margin: '0 0 16px' }} />
+              <p style={{ color: '#78350f', fontSize: '13px', lineHeight: 1.6, margin: '0 0 16px' }}>
+                for successfully completing all syllabus modules, practice quizzes,<br/>
+                video lectures, and assessments in the course
+              </p>
+              <h3 style={{ fontSize: '18px', fontWeight: '800', color: '#1e3a5f', margin: '0 0 24px' }}>
+                {language === 'hi' ? 'आयात एवं निर्यात मास्टर कोर्स' : language === 'gu' ? 'આયાત અને નિકાસ માસ્ટર કોર્સ' : 'Import & Export Master Course'}
+              </h3>
+              <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontWeight: '700', color: '#1e293b', borderBottom: '2px solid #d97706', paddingBottom: '4px', marginBottom: '4px', fontSize: '12px' }}>
+                    RBC Academy Director
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#92400e' }}>Authorized Signatory</div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontWeight: '700', color: '#1e293b', borderBottom: '2px solid #d97706', paddingBottom: '4px', marginBottom: '4px', fontSize: '12px' }}>
+                    {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#92400e' }}>Date of Issuance</div>
+                </div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '12px', padding: '16px 40px' }}>
+              <button onClick={() => window.print()} style={{
+                flex: 1, padding: '12px', borderRadius: '10px',
+                border: '2px solid #d97706', background: 'transparent',
+                color: '#92400e', fontWeight: '700', fontSize: '14px', cursor: 'pointer'
+              }}>
+                🖨️ Print
+              </button>
+              <button onClick={() => setShowCertModal(false)} style={{
+                flex: 1, padding: '12px', borderRadius: '10px', border: 'none',
+                background: 'linear-gradient(135deg, #d97706, #b45309)',
+                color: '#fff', fontWeight: '700', fontSize: '14px', cursor: 'pointer'
+              }}>
+                Close
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
