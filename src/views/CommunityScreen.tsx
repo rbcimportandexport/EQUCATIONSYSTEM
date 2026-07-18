@@ -336,17 +336,28 @@ export const CommunityScreen: React.FC = () => {
                 }} />
 
                 {/* Hourglass Navy Left Border Overlay SVG */}
-                <svg style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '240px', height: '100%', zIndex: 1, pointerEvents: 'none' }} viewBox="0 0 240 670" preserveAspectRatio="none">
-                  <polygon points="0,0 220,0 170,200 170,470 220,670 0,670" fill="#0b1a30" />
-                  <polyline points="220,0 170,200 170,470 220,670" stroke="#c5a880" strokeWidth="4" fill="none" />
-                  <polyline points="228,0 176,208 176,462 228,670" stroke="#ea580c" strokeWidth="2" fill="none" />
+                <svg style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '310px', height: '100%', zIndex: 1, pointerEvents: 'none' }} viewBox="0 0 310 670" preserveAspectRatio="none">
+                  {/* Navy background shape */}
+                  <polygon points="0,0 300,0 160,240 160,430 300,670 0,670" fill="#0b1a30" />
+                  {/* Gold divider line */}
+                  <polyline points="300,0 160,240 160,430 300,670" stroke="#c5a880" strokeWidth="4" fill="none" />
+                  {/* Orange highlight line */}
+                  <polyline points="308,0 176,248 176,422 308,670" stroke="#ea580c" strokeWidth="2" fill="none" />
+
+                  {/* Cargo Ship Line Art (bottom left) */}
+                  <g stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" fill="none" transform="translate(15, 570)">
+                    <path d="M10,35 L60,35 L70,22 L25,22 Z" />
+                    <rect x="30" y="8" width="8" height="14" />
+                    <rect x="42" y="13" width="8" height="9" />
+                    <line x1="0" y1="35" x2="80" y2="35" stroke="rgba(255,255,255,0.15)" strokeWidth="2" />
+                  </g>
                 </svg>
 
                 {/* Bottom-Right Corner Navy Wedge SVG */}
                 <svg style={{ position: 'absolute', right: 0, bottom: 0, width: '220px', height: '220px', zIndex: 1, pointerEvents: 'none' }} viewBox="0 0 220 220">
-                  <polygon points="220,220 60,220 220,60" fill="#0b1a30" />
-                  <line x1="60" y1="220" x2="220" y2="60" stroke="#c5a880" strokeWidth="4" />
-                  <line x1="52" y1="220" x2="220" y2="52" stroke="#ea580c" strokeWidth="2" />
+                  <polygon points="220,220 40,220 220,40" fill="#0b1a30" />
+                  <line x1="40" y1="220" x2="220" y2="40" stroke="#c5a880" strokeWidth="4" />
+                  <line x1="32" y1="220" x2="220" y2="32" stroke="#ea580c" strokeWidth="2" />
                   {/* Harbor Crane Line Art */}
                   <g stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" fill="none" transform="translate(130, 130)">
                     <line x1="30" y1="50" x2="30" y2="15" />
@@ -359,7 +370,7 @@ export const CommunityScreen: React.FC = () => {
                 </svg>
 
                 {/* Gold Wax Seal Medallion (Top Left) */}
-                <svg style={{ position: 'absolute', left: '36px', top: '36px', width: '110px', height: '160px', zIndex: 10 }} viewBox="0 0 110 160">
+                <svg style={{ position: 'absolute', left: '32px', top: '32px', width: '110px', height: '160px', zIndex: 10 }} viewBox="0 0 110 160">
                   {/* Ribbons behind seal */}
                   <polygon points="35,60 20,130 45,115 70,130 55,60" fill="#b45309" opacity="0.8" />
                   <polygon points="50,60 35,135 60,120 85,135 70,60" fill="#d97706" />
@@ -381,46 +392,55 @@ export const CommunityScreen: React.FC = () => {
 
                 {/* Left Sidebar Details overlay (Date, Duration, Level) */}
                 <div style={{
-                  position: 'absolute', left: 0, top: '220px', bottom: '180px', width: '180px',
-                  zIndex: 5, padding: '10px 20px', color: '#fff', display: 'flex',
-                  flexDirection: 'column', gap: '20px', justifyContent: 'center', boxSizing: 'border-box'
+                  position: 'absolute', left: 0, top: '240px', bottom: '240px', width: '170px',
+                  zIndex: 5, padding: '10px 14px', color: '#fff', display: 'flex',
+                  flexDirection: 'column', gap: '18px', justifyContent: 'center', boxSizing: 'border-box'
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <div style={{ color: '#fbbf24', display: 'flex' }}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{
+                      width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #c5a880',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c5a880', flexShrink: 0
+                    }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>
                     </div>
                     <div>
-                      <div style={{ fontSize: '8px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Date of Issue</div>
-                      <div style={{ fontSize: '11px', fontWeight: '700' }}>
+                      <div style={{ fontSize: '7px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 'bold' }}>Date of Issue</div>
+                      <div style={{ fontSize: '10px', fontWeight: '700' }}>
                         {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
                       </div>
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <div style={{ color: '#fbbf24', display: 'flex' }}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{
+                      width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #c5a880',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c5a880', flexShrink: 0
+                    }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
                     </div>
                     <div>
-                      <div style={{ fontSize: '8px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Duration</div>
-                      <div style={{ fontSize: '11px', fontWeight: '700' }}>10+ Hours</div>
+                      <div style={{ fontSize: '7px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 'bold' }}>Duration</div>
+                      <div style={{ fontSize: '10px', fontWeight: '700' }}>10+ Hours</div>
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <div style={{ color: '#fbbf24', display: 'flex' }}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" /></svg>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{
+                      width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #c5a880',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c5a880', flexShrink: 0
+                    }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" /></svg>
                     </div>
                     <div>
-                      <div style={{ fontSize: '8px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Level</div>
-                      <div style={{ fontSize: '11px', fontWeight: '700' }}>Beginner to Advanced</div>
+                      <div style={{ fontSize: '7px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 'bold' }}>Level</div>
+                      <div style={{ fontSize: '10px', fontWeight: '700' }}>Beginner to Advanced</div>
                     </div>
                   </div>
                 </div>
 
                 {/* Main Right Area Wrapper */}
                 <div style={{
-                  marginLeft: '190px', flexGrow: 1, height: '100%', display: 'flex',
+                  marginLeft: '210px', flexGrow: 1, height: '100%', display: 'flex',
                   flexDirection: 'row', zIndex: 2, boxSizing: 'border-box', padding: '24px 28px'
                 }}>
                   {/* Center Text Column */}
@@ -429,16 +449,16 @@ export const CommunityScreen: React.FC = () => {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                         {/* Logo Waves Icon */}
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                          <path d="M4 12 C4 8, 8 4, 12 4 C16 4, 20 8, 20 12" stroke="#2563eb" strokeWidth="3" strokeLinecap="round" />
-                          <path d="M8 14 C8 11, 11 8, 14 8 C17 8, 20 11, 20 14" stroke="#ea580c" strokeWidth="3" strokeLinecap="round" />
-                          <circle cx="12" cy="12" r="2" fill="#d97706" />
+                        <svg width="32" height="32" viewBox="0 0 100 100">
+                          <path d="M20,60 C35,25 65,25 80,60" fill="none" stroke="#2563eb" strokeWidth="10" strokeLinecap="round" />
+                          <path d="M30,68 C42,38 70,38 82,68" fill="none" stroke="#ea580c" strokeWidth="10" strokeLinecap="round" />
+                          <circle cx="56" cy="38" r="8" fill="#eab308" />
                         </svg>
                         <div>
-                          <div style={{ fontSize: '15px', fontWeight: '900', color: '#0f172a', letterSpacing: '0.5px', lineHeight: '1.1' }}>
+                          <div style={{ fontSize: '18px', fontWeight: '900', color: '#0f172a', letterSpacing: '0.5px', lineHeight: '1.1' }}>
                             rbc <span style={{ color: '#d97706' }}>Import & Export</span>
                           </div>
-                          <div style={{ fontSize: '8px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                          <div style={{ fontSize: '8px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>
                             Since 2011
                           </div>
                         </div>
@@ -459,27 +479,42 @@ export const CommunityScreen: React.FC = () => {
                     </div>
 
                     {/* Certificate Titles */}
-                    <div style={{ textAlign: 'center', margin: '10px 0' }}>
+                    <div style={{ textAlign: 'center', margin: '6px 0' }}>
                       <h1 style={{
-                        fontSize: '30px', fontWeight: '900', color: '#c5a880', margin: '0 0 4px',
-                        letterSpacing: '3px', fontFamily: '"Georgia", serif'
+                        fontSize: '32px', fontWeight: '900', color: '#0b1a30', margin: '0 0 2px',
+                        letterSpacing: '2.5px', fontFamily: '"Georgia", serif'
                       }}>
-                        CERTIFICATE OF COMPLETION
+                        CERTIFICATE
                       </h1>
-                      <div style={{ fontSize: '10px', letterSpacing: '2px', color: '#64748b', fontWeight: '700' }}>
-                        THIS IS PROUDLY PRESENTED TO
+                      <h2 style={{
+                        fontSize: '22px', fontWeight: '800', color: '#c5a880', margin: '0 0 6px',
+                        letterSpacing: '3px', fontFamily: '"Georgia", serif', textTransform: 'uppercase'
+                      }}>
+                        Of Completion
+                      </h2>
+                      
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', margin: '6px 0 2px' }}>
+                        <span style={{ color: '#c5a880', fontSize: '10px' }}>✦</span>
+                        <span style={{ fontSize: '9px', letterSpacing: '1.5px', color: '#64748b', fontWeight: '700' }}>THIS IS PROUDLY PRESENTED TO</span>
+                        <span style={{ color: '#c5a880', fontSize: '10px' }}>✦</span>
                       </div>
 
                       {/* Student Name */}
                       <h2 style={{
-                        fontSize: '40px', fontWeight: '800', color: '#0f172a', margin: '6px 0',
-                        fontFamily: '"Georgia", serif', fontStyle: 'italic', textDecoration: 'underline',
-                        textDecorationColor: '#c5a880', textUnderlineOffset: '6px'
+                        fontSize: '44px', fontWeight: '800', color: '#0b1a30', margin: '4px 0',
+                        fontFamily: '"Georgia", serif', fontStyle: 'italic'
                       }}>
                         {selectedCertUser}
                       </h2>
 
-                      <p style={{ fontSize: '10px', color: '#475569', lineHeight: 1.5, margin: '8px auto', maxWidth: '480px' }}>
+                      {/* Name divider ribbon decoration */}
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', margin: '2px 0 8px' }}>
+                        <div style={{ width: '80px', height: '1px', background: '#c5a880' }} />
+                        <span style={{ color: '#c5a880', fontSize: '10px' }}>◊</span>
+                        <div style={{ width: '80px', height: '1px', background: '#c5a880' }} />
+                      </div>
+
+                      <p style={{ fontSize: '10px', color: '#475569', lineHeight: 1.5, margin: '6px auto', maxWidth: '480px' }}>
                         for successfully completing all syllabus modules, practice quizzes, video lectures, and assessments in the course
                       </p>
 
@@ -487,7 +522,7 @@ export const CommunityScreen: React.FC = () => {
                       <div style={{
                         background: '#0f172a', color: '#fff', padding: '10px 30px', borderRadius: '2px',
                         display: 'inline-block', fontWeight: '800', fontSize: '14px', letterSpacing: '1.5px',
-                        boxShadow: '0 4px 10px rgba(15,23,42,0.2)', border: '1px solid #c5a880', margin: '8px 0',
+                        boxShadow: '0 4px 10px rgba(15,23,42,0.2)', border: '1px solid #c5a880', margin: '6px 0',
                         position: 'relative'
                       }}>
                         {/* Ribbon swallowtails */}
@@ -511,18 +546,18 @@ export const CommunityScreen: React.FC = () => {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%', marginTop: '4px' }}>
                       {/* Left: Kunal Pawar Signature */}
                       <div style={{ width: '150px', textAlign: 'center', paddingBottom: '10px' }}>
-                        <div style={{ fontFamily: '"Georgia", serif', fontStyle: 'italic', fontSize: '18px', color: '#1e293b', height: '24px', lineHeight: '24px' }}>
+                        <div style={{ fontFamily: '"Georgia", serif', fontStyle: 'italic', fontSize: '20px', color: '#1e293b', height: '24px', lineHeight: '24px' }}>
                           Kunal Pawar
                         </div>
                         <div style={{ borderTop: '1px solid #cbd5e1', paddingTop: '4px', marginTop: '4px' }}>
-                          <div style={{ fontSize: '9px', fontWeight: '800', color: '#0f172a' }}>Kunal Pawar</div>
+                          <div style={{ fontSize: '9px', fontWeight: '800', color: '#0f172a' }}>KUNAL PAWAR</div>
                           <div style={{ fontSize: '7px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Academy Director</div>
                         </div>
                       </div>
 
                       {/* Center: Wax Seal & QR code */}
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', bottom: '-4px', width: '140px' }}>
-                        <svg width="76" height="76" viewBox="0 0 100 100">
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', bottom: '-4px', width: '180px' }}>
+                        <svg width="72" height="72" viewBox="0 0 100 100">
                           <path d="M50 0 L55 35 L90 10 L65 45 L100 50 L65 55 L90 90 L55 65 L50 100 L45 65 L10 90 L35 55 L0 50 L35 45 L10 10 L45 35 Z" fill="#d97706" />
                           <circle cx="50" cy="50" r="38" fill="#0f172a" />
                           <circle cx="50" cy="50" r="34" fill="none" stroke="#d97706" strokeWidth="1" strokeDasharray="3,3" />
@@ -531,23 +566,25 @@ export const CommunityScreen: React.FC = () => {
                           <text x="50" y="62" fill="#d97706" fontSize="7" fontWeight="900" textAnchor="middle">EXCELLENCE</text>
                         </svg>
                         
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '6px' }}>
-                          <svg width="30" height="30" viewBox="0 0 25 25" style={{ background: '#fff', padding: '2px', border: '1px solid #cbd5e1' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '6px' }}>
+                          <svg width="28" height="28" viewBox="0 0 25 25" style={{ background: '#fff', padding: '2px', border: '1px solid #cbd5e1', flexShrink: 0 }}>
                             <path d="M0 0h7v7H0zm1 1v5h5V1zm10 0h3v3h-3zm3 0h4v4h-4zM0 10h3v3H0zm5 0h3v3H5zm6 0h3v3h-3zm4 0h4v4h-4zm-8 4v4H0v-4zm4 0h3v3H7zm11 0h3v3h-3zM0 18h7v7H0zm1 1v5h5v-5zm10 0h3v3h-3z" fill="#0f172a" />
                           </svg>
-                          <div style={{ fontSize: '5px', color: '#64748b', textAlign: 'center', marginTop: '3px', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '0.5px' }}>
-                            VERIFY CREDENTIAL<br />academy.rbc.com/verify
+                          <div style={{ fontSize: '5px', color: '#64748b', textAlign: 'left', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '0.3px', lineHeight: '1.2' }}>
+                            <span style={{ color: '#0f172a', fontWeight: '900' }}>VERIFY CERTIFICATE</span><br />
+                            Scan QR code or visit<br />
+                            academy.rbcimportandexport.com/verify
                           </div>
                         </div>
                       </div>
 
                       {/* Right: Prakash Signature */}
                       <div style={{ width: '150px', textAlign: 'center', paddingBottom: '10px' }}>
-                        <div style={{ fontFamily: '"Georgia", serif', fontStyle: 'italic', fontSize: '18px', color: '#1e293b', height: '24px', lineHeight: '24px' }}>
-                          Prakash K
+                        <div style={{ fontFamily: '"Georgia", serif', fontStyle: 'italic', fontSize: '20px', color: '#1e293b', height: '24px', lineHeight: '24px' }}>
+                          Prakash Kachchhi
                         </div>
                         <div style={{ borderTop: '1px solid #cbd5e1', paddingTop: '4px', marginTop: '4px' }}>
-                          <div style={{ fontSize: '9px', fontWeight: '800', color: '#0f172a' }}>Prakash Kachchhi</div>
+                          <div style={{ fontSize: '9px', fontWeight: '800', color: '#0f172a' }}>PRAKASH KACHCHHI</div>
                           <div style={{ fontSize: '7px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Founder & CEO</div>
                         </div>
                       </div>
@@ -556,43 +593,54 @@ export const CommunityScreen: React.FC = () => {
 
                   {/* Right Column Benefits list */}
                   <div style={{
-                    width: '140px', display: 'flex', flexDirection: 'column',
-                    justifyContent: 'space-around', height: '100%', boxSizing: 'border-box',
-                    paddingLeft: '16px'
+                    width: '130px', display: 'flex', flexDirection: 'column',
+                    justifyContent: 'space-around', height: '100%', boxSizing: 'border-box'
                   }}>
                     <div style={{ textAlign: 'center' }}>
-                      <div style={{ color: '#c5a880', marginBottom: '2px', display: 'flex', justifyContent: 'center' }}>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5V4.5z" /></svg>
+                      <div style={{
+                        width: '32px', height: '32px', borderRadius: '50%', background: '#0f172a',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c5a880', margin: '0 auto 4px', flexShrink: 0
+                      }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5V4.5z" /></svg>
                       </div>
-                      <div style={{ fontSize: '7px', fontWeight: '900', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                        COMPREHENSIVE CURRICULUM
-                      </div>
-                    </div>
-
-                    <div style={{ textAlign: 'center' }}>
-                      <div style={{ color: '#c5a880', marginBottom: '2px', display: 'flex', justifyContent: 'center' }}>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20" /></svg>
-                      </div>
-                      <div style={{ fontSize: '7px', fontWeight: '900', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                        INDUSTRY RELEVANT
+                      <div style={{ fontSize: '7px', fontWeight: '900', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.3px', lineHeight: '1.2' }}>
+                        COMPREHENSIVE<br />CURRICULUM
                       </div>
                     </div>
 
                     <div style={{ textAlign: 'center' }}>
-                      <div style={{ color: '#c5a880', marginBottom: '2px', display: 'flex', justifyContent: 'center' }}>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+                      <div style={{
+                        width: '32px', height: '32px', borderRadius: '50%', background: '#0f172a',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c5a880', margin: '0 auto 4px', flexShrink: 0
+                      }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20" /></svg>
                       </div>
-                      <div style={{ fontSize: '7px', fontWeight: '900', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                        EXPERT INSTRUCTORS
+                      <div style={{ fontSize: '7px', fontWeight: '900', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.3px', lineHeight: '1.2' }}>
+                        INDUSTRY<br />RELEVANT
                       </div>
                     </div>
 
                     <div style={{ textAlign: 'center' }}>
-                      <div style={{ color: '#c5a880', marginBottom: '2px', display: 'flex', justifyContent: 'center' }}>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" /></svg>
+                      <div style={{
+                        width: '32px', height: '32px', borderRadius: '50%', background: '#0f172a',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c5a880', margin: '0 auto 4px', flexShrink: 0
+                      }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></svg>
                       </div>
-                      <div style={{ fontSize: '7px', fontWeight: '900', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                        GLOBAL PERSPECTIVE
+                      <div style={{ fontSize: '7px', fontWeight: '900', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.3px', lineHeight: '1.2' }}>
+                        EXPERT<br />INSTRUCTORS
+                      </div>
+                    </div>
+
+                    <div style={{ textAlign: 'center' }}>
+                      <div style={{
+                        width: '32px', height: '32px', borderRadius: '50%', background: '#0f172a',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c5a880', margin: '0 auto 4px', flexShrink: 0
+                      }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" /></svg>
+                      </div>
+                      <div style={{ fontSize: '7px', fontWeight: '900', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.3px', lineHeight: '1.2' }}>
+                        GLOBAL<br />PERSPECTIVE
                       </div>
                     </div>
                   </div>
