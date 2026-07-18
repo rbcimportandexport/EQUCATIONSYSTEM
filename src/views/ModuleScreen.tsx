@@ -677,7 +677,7 @@ export const ModuleScreen: React.FC = () => {
                                     window.speechSynthesis.speak(utter);
                                   };
 
-                                  // Primary Cloud Human TTS Player (Google translate TTS)
+                                  // Primary Cloud Human TTS Player (ElevenLabs or Google Translate fallback)
                                   const googleTTSLangMap: Record<string, string> = {
                                     hi: 'hi',
                                     gu: 'gu',
@@ -685,6 +685,7 @@ export const ModuleScreen: React.FC = () => {
                                     en: 'en'
                                   };
                                   const googleLang = googleTTSLangMap[language] || 'en';
+                                  const elevenLabsApiKey = localStorage.getItem('lms_elevenlabs_api_key') || (import.meta as any).env?.VITE_ELEVENLABS_API_KEY || '';
 
                                   // Split text into chunks of max 180 characters safely
                                   const sentences = text.match(/[^.!?\n\r]+[.!?\n\r]*/g) || [text];
@@ -702,14 +703,60 @@ export const ModuleScreen: React.FC = () => {
                                   if (currentChunk) chunks.push(currentChunk.trim());
 
                                   let currentIdx = 0;
-                                  const playNextChunk = () => {
+
+                                  const playNextChunk = async () => {
                                     if (currentIdx >= chunks.length) {
                                       (window as any)._activeTTSAudio = null;
                                       return;
                                     }
                                     const chunkText = chunks[currentIdx];
+
+                                    if (elevenLabsApiKey) {
+                                      try {
+                                        // Call ElevenLabs API for absolute best human voice synthesis
+                                        const response = await fetch('https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM', {
+                                          method: 'POST',
+                                          headers: {
+                                            'Content-Type': 'application/json',
+                                            'xi-api-key': elevenLabsApiKey
+                                          },
+                                          body: JSON.stringify({
+                                            text: chunkText,
+                                            model_id: 'eleven_multilingual_v2',
+                                            voice_settings: { stability: 0.5, similarity_boost: 0.75 }
+                                          })
+                                        });
+
+                                        if (!response.ok) throw new Error("ElevenLabs API error");
+                                        
+                                        const blob = await response.blob();
+                                        const audioUrl = URL.createObjectURL(blob);
+                                        const audio = new Audio(audioUrl);
+                                        (window as any)._activeTTSAudio = audio;
+                                        
+                                        audio.play().catch(() => {
+                                          playGoogleFallback(chunkText);
+                                        });
+
+                                        audio.onended = () => {
+                                          URL.revokeObjectURL(audioUrl);
+                                          currentIdx++;
+                                          playNextChunk();
+                                        };
+                                        return;
+                                      } catch (err) {
+                                        console.warn("ElevenLabs cloud play failed, falling back to Google TTS", err);
+                                        playGoogleFallback(chunkText);
+                                        return;
+                                      }
+                                    }
+
+                                    // No ElevenLabs key -> direct Google translation cloud neural voice
+                                    playGoogleFallback(chunkText);
+                                  };
+
+                                  const playGoogleFallback = (chunkText: string) => {
                                     const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunkText)}&tl=${googleLang}&client=tw-ob`;
-                                    
                                     const audio = new Audio(url);
                                     (window as any)._activeTTSAudio = audio;
                                     
