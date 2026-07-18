@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { Award, Printer, RotateCcw, FileSignature, CheckCircle } from 'lucide-react';
+import { Printer, RotateCcw, FileSignature } from 'lucide-react';
 
 export const CertificateDesigner: React.FC = () => {
   const { currentUser, language } = useApp();
