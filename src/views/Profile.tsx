@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext';
 import { Award, Shield, User, Clock, FileText, Edit3, Save, X, CheckCircle, BookOpen, Star, TrendingUp } from 'lucide-react';
 
 export const Profile: React.FC = () => {
-  const { courses, progress, getCourseCompletionPercentage, currentUser, loginUser, language } = useApp();
+  const { courses, progress, getCourseCompletionPercentage, currentUser, loginUser, language, certificates } = useApp();
   const [showCertificate, setShowCertificate] = useState(false);
   const [certCourseTitle, setCertCourseTitle] = useState('');
   const [isEditing, setIsEditing] = useState(false);
@@ -16,10 +16,55 @@ export const Profile: React.FC = () => {
 
   const completedLessons = Object.values(progress).filter(p => p.completed).length;
   const quizzesAttempted = Object.values(progress).filter(p => Object.keys(p.quizScores).length > 0).length;
-  const completedCourses = courses.filter(c => getCourseCompletionPercentage(c.id) === 100);
+
   const totalProgress = courses.length > 0
     ? Math.round(courses.reduce((sum, c) => sum + getCourseCompletionPercentage(c.id), 0) / courses.length)
     : 0;
+
+  const getLevelDetails = (pct: number, lang: string) => {
+    if (pct === 100) {
+      return {
+        name: lang === 'hi' ? 'डायमंड (Diamond)' : lang === 'gu' ? 'ડાયમંડ' : 'Diamond',
+        bg: 'linear-gradient(135deg, #e0f7fa 0%, #80deea 100%)',
+        color: '#006064',
+        border: '1px solid #4dd0e1',
+        shadow: '0 0 10px rgba(0, 151, 167, 0.25)'
+      };
+    } else if (pct >= 70) {
+      return {
+        name: lang === 'hi' ? 'प्लेटिनम (Platinum)' : lang === 'gu' ? 'પ્લેટિનમ' : 'Platinum',
+        bg: 'linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%)',
+        color: '#0f172a',
+        border: '1px solid #94a3b8',
+        shadow: '0 0 8px rgba(148, 163, 184, 0.15)'
+      };
+    } else if (pct >= 30) {
+      return {
+        name: lang === 'hi' ? 'गोल्ड (Gold)' : lang === 'gu' ? 'ગોલ્ડ' : 'Gold',
+        bg: 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)',
+        color: '#92400e',
+        border: '1px solid #fde047',
+        shadow: '0 0 8px rgba(234, 179, 8, 0.15)'
+      };
+    } else {
+      return {
+        name: lang === 'hi' ? 'सिल्वर (Silver)' : lang === 'gu' ? 'સિલ્વર' : 'Silver',
+        bg: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+        color: '#475569',
+        border: '1px solid #cbd5e1',
+        shadow: 'none'
+      };
+    }
+  };
+
+  const userLevel = getLevelDetails(totalProgress, language);
+
+  const hasCourseCertificate = (courseId: string) => {
+    return getCourseCompletionPercentage(courseId) === 100 || 
+      (certificates && certificates.some(c => c.userId === currentUser?.id && c.courseId === courseId));
+  };
+
+  const visibleCertificates = courses.filter(c => hasCourseCertificate(c.id));
 
   const handleOpenCertificate = (courseTitle: string) => {
     setCertCourseTitle(courseTitle);
@@ -123,7 +168,7 @@ export const Profile: React.FC = () => {
                 <p style={{ margin: '4px 0 12px', fontSize: '14px', color: 'rgba(255,255,255,0.8)' }}>
                   {currentUser?.email || fallbackEmail}
                 </p>
-                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
                   <span style={{
                     display: 'inline-flex', alignItems: 'center', gap: '5px',
                     padding: '4px 12px', borderRadius: '20px',
@@ -139,6 +184,15 @@ export const Profile: React.FC = () => {
                     color: '#fff', fontSize: '12px', fontWeight: '600'
                   }}>
                     <Shield size={11} /> Import & Export Master
+                  </span>
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '5px',
+                    padding: '4px 12px', borderRadius: '20px',
+                    background: userLevel.bg, border: userLevel.border,
+                    color: userLevel.color, fontSize: '12px', fontWeight: '800',
+                    textTransform: 'uppercase', letterSpacing: '0.5px'
+                  }}>
+                    {userLevel.name}
                   </span>
                 </div>
               </>
@@ -266,7 +320,7 @@ export const Profile: React.FC = () => {
             <h3 style={{ margin: 0, color: '#0f172a', fontSize: '16px', fontWeight: '700' }}>Earned Certificates</h3>
           </div>
 
-          {completedCourses.length === 0 ? (
+          {visibleCertificates.length === 0 ? (
             <div style={{
               textAlign: 'center', padding: '40px 20px',
               border: '2px dashed #e2e8f0', borderRadius: '16px'
@@ -278,7 +332,7 @@ export const Profile: React.FC = () => {
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {completedCourses.map(course => (
+              {visibleCertificates.map(course => (
                 <div key={course.id} style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                   padding: '16px 20px', borderRadius: '14px',
