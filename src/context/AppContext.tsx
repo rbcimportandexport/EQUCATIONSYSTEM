@@ -145,8 +145,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       localStorage.setItem('lms_modules_ie', JSON.stringify(initialModules));
     }
 
-    if (savedLessons) setLessons(JSON.parse(savedLessons));
-    else {
+    if (savedLessons) {
+      try {
+        const parsed = JSON.parse(savedLessons);
+        const hasOutdatedQuiz = parsed.some((l: any) => 
+          l.content?.quiz?.some((q: any) => q.question && q.question.includes('Correctly understanding'))
+        );
+        if (hasOutdatedQuiz) {
+          setLessons(initialLessons);
+          localStorage.setItem('lms_lessons_ie', JSON.stringify(initialLessons));
+        } else {
+          setLessons(parsed);
+        }
+      } catch (e) {
+        setLessons(initialLessons);
+        localStorage.setItem('lms_lessons_ie', JSON.stringify(initialLessons));
+      }
+    } else {
       setLessons(initialLessons);
       localStorage.setItem('lms_lessons_ie', JSON.stringify(initialLessons));
     }
