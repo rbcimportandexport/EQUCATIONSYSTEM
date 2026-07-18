@@ -72,6 +72,20 @@ export const ModuleScreen: React.FC = () => {
     }
   }, [selectedModuleId, modules, setSelectedModuleId]);
 
+  // Pre-load speech synthesis voices on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.getVoices();
+      const handleVoicesChanged = () => {
+        window.speechSynthesis.getVoices();
+      };
+      window.speechSynthesis.addEventListener('voiceschanged', handleVoicesChanged);
+      return () => {
+        window.speechSynthesis.removeEventListener('voiceschanged', handleVoicesChanged);
+      };
+    }
+  }, []);
+
   // If selectedLessonId is set from outside (like Search, Dashboard, Bookmarks, etc.),
   // auto-expand it and scroll to it.
   useEffect(() => {
@@ -480,18 +494,24 @@ export const ModuleScreen: React.FC = () => {
                                   };
                                   const targetLang = langCodes[language] || 'en-US';
 
-                                  // 1. Try exact match
-                                  let voice = voices.find(v => v.lang.toLowerCase() === targetLang.toLowerCase());
+                                  // Helper to normalize lang tags (e.g. gu_in -> gu-in)
+                                  const normalizeLang = (l: string) => l.toLowerCase().replace('_', '-');
+
+                                  // 1. Try exact match (normalized)
+                                  let voice = voices.find(v => normalizeLang(v.lang) === normalizeLang(targetLang));
                                   
-                                  // 2. Try prefix match (e.g. starts with 'gu' or 'mr')
+                                  // 2. Try prefix match (starts with 'gu' or 'mr')
                                   if (!voice) {
-                                    voice = voices.find(v => v.lang.toLowerCase().startsWith(language));
+                                    voice = voices.find(v => normalizeLang(v.lang).startsWith(language.toLowerCase()));
                                   }
 
-                                  // 3. Fallback for Indian languages (Gujarati/Marathi) to Hindi if target voice is missing in OS
+                                  // 3. Fallback to Hindi if target voice is completely missing on user device
                                   let isHindiFallback = false;
                                   if (!voice && (language === 'gu' || language === 'mr')) {
-                                    voice = voices.find(v => v.lang.toLowerCase().includes('hi-in') || v.lang.toLowerCase().startsWith('hi'));
+                                    voice = voices.find(v => {
+                                      const norm = normalizeLang(v.lang);
+                                      return norm.startsWith('hi') || norm.includes('hi-in');
+                                    });
                                     if (voice) {
                                       isHindiFallback = true;
                                     }
@@ -499,7 +519,7 @@ export const ModuleScreen: React.FC = () => {
 
                                   let finalUtteranceText = text;
                                   if (isHindiFallback && language === 'gu') {
-                                    // Transliterate Gujarati script to Devanagari so the Hindi voice can read it
+                                    // Transliterate Gujarati script to Devanagari so the Hindi voice can read it phonetically correct
                                     finalUtteranceText = text.split('').map(char => {
                                       const code = char.charCodeAt(0);
                                       if (code >= 0x0A80 && code <= 0x0AFF) {
