@@ -337,6 +337,20 @@ export const CommunityScreen: React.FC = () => {
                   border: '1.5px solid #c5a880', pointerEvents: 'none', zIndex: 3
                 }} />
 
+                {/* World Map Watermark */}
+                <div style={{ position: 'absolute', left: '12%', top: '8%', width: '76%', height: '82%', opacity: 0.028, zIndex: 0, pointerEvents: 'none' }}>
+                  <svg viewBox="0 0 1000 500" style={{ width: '100%', height: '100%' }} fill="#102A56">
+                    <path d="M80,80 Q130,55 175,68 Q215,82 230,125 Q245,168 222,198 Q200,228 165,235 Q130,242 105,218 Q78,195 70,162 Q62,130 80,80Z"/>
+                    <path d="M162,195 Q185,205 195,228 Q200,250 188,265 Q172,272 158,260 Q142,248 148,232 Q154,216 162,195Z"/>
+                    <path d="M170,278 Q205,260 238,272 Q268,282 282,318 Q292,348 280,388 Q265,422 238,435 Q210,445 183,428 Q155,412 148,375 Q140,338 152,302 Q162,278 170,278Z"/>
+                    <path d="M420,68 Q458,55 492,62 Q522,70 532,98 Q542,126 518,148 Q494,165 462,158 Q428,150 418,122 Q408,94 420,68Z"/>
+                    <path d="M428,168 Q468,155 505,168 Q540,180 548,218 Q558,260 545,315 Q528,365 502,398 Q475,430 445,432 Q412,432 390,405 Q368,376 366,330 Q364,282 378,242 Q392,202 412,185 Q422,172 428,168Z"/>
+                    <path d="M535,58 Q588,42 648,48 Q710,55 762,78 Q812,100 830,138 Q848,172 832,202 Q816,232 772,242 Q728,252 682,240 Q636,228 600,202 Q564,176 544,146 Q524,116 528,82 Q530,65 535,58Z"/>
+                    <path d="M722,292 Q762,276 804,288 Q844,300 858,330 Q868,355 852,382 Q836,408 800,412 Q760,416 728,396 Q696,374 694,342 Q692,308 722,292Z"/>
+                    <path d="M820,118 Q836,110 848,118 Q858,126 854,140 Q850,154 836,156 Q822,158 818,144 Q814,130 820,118Z"/>
+                  </svg>
+                </div>
+
                 {/* Hourglass Navy Left Border Overlay SVG */}
                 <svg style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '200px', height: '100%', zIndex: 1, pointerEvents: 'none' }} viewBox="0 0 200 670" preserveAspectRatio="none">
                   <polygon points="0,0 190,0 100,240 100,430 190,670 0,670" fill="#0b1a30" />
@@ -501,8 +515,8 @@ export const CommunityScreen: React.FC = () => {
 
                     {/* Student Name */}
                     <h2 style={{
-                      fontSize: '42px', fontWeight: '800', color: '#0b1a30', margin: '4px 0',
-                      fontFamily: '"Georgia", serif', fontStyle: 'italic'
+                      fontSize: '52px', fontWeight: 'normal', color: '#0b1a30', margin: '4px 0',
+                      fontFamily: "'Great Vibes', 'Georgia', cursive"
                     }}>
                       {selectedCertUser}
                     </h2>
@@ -541,10 +555,10 @@ export const CommunityScreen: React.FC = () => {
                   </div>
 
                   {/* Bottom Row: Signatures + Wax Seal + QR */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', width: '100%', marginTop: '6px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end', gap: '45px', width: '100%', marginTop: '6px' }}>
                     {/* Left: Kunal Pawar Signature */}
                     <div style={{ width: '140px', textAlign: 'center', paddingBottom: '8px' }}>
-                      <div style={{ fontFamily: '"Georgia", serif', fontStyle: 'italic', fontSize: '19px', color: '#1e293b', height: '22px', lineHeight: '22px' }}>
+                      <div style={{ fontFamily: "'Great Vibes', 'Georgia', cursive", fontSize: '24px', color: '#1e293b', height: '26px', lineHeight: '26px' }}>
                         Kunal Pawar
                       </div>
                       <div style={{ borderTop: '1px solid #cbd5e1', paddingTop: '4px', marginTop: '4px' }}>
@@ -577,7 +591,7 @@ export const CommunityScreen: React.FC = () => {
 
                     {/* Right: Prakash Signature */}
                     <div style={{ width: '140px', textAlign: 'center', paddingBottom: '8px' }}>
-                      <div style={{ fontFamily: '"Georgia", serif', fontStyle: 'italic', fontSize: '19px', color: '#1e293b', height: '22px', lineHeight: '22px' }}>
+                      <div style={{ fontFamily: "'Great Vibes', 'Georgia', cursive", fontSize: '24px', color: '#1e293b', height: '26px', lineHeight: '26px' }}>
                         Prakash Kachchhi
                       </div>
                       <div style={{ borderTop: '1px solid #cbd5e1', paddingTop: '4px', marginTop: '4px' }}>
