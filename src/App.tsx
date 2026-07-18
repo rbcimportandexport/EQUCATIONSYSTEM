@@ -15,7 +15,6 @@ import { Settings } from './views/Settings';
 import { AdminPanel } from './views/AdminPanel';
 import { QuizScreen } from './views/QuizScreen';
 import { CommunityScreen } from './views/CommunityScreen';
-import { CertificateDesigner } from './views/CertificateDesigner';
 
 const AppShell: React.FC = () => {
   const { activeView } = useApp();
@@ -76,8 +75,6 @@ const AppShell: React.FC = () => {
         return <QuizScreen />;
       case 'Community':
         return <CommunityScreen />;
-      case 'CertDesigner':
-        return <CertificateDesigner />;
       default:
         return <ModuleScreen />;
     }
