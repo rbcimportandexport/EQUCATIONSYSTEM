@@ -248,7 +248,7 @@ export const ModuleScreen: React.FC = () => {
 
         {/* Resource Toolbar */}
         <div className="textbook-resource-toolbar">
-          <div className="toolbar-horizontal-scroll">
+          <div className="toolbar-horizontal-scroll" style={{ overflow: isDownloadOpen ? 'visible' : 'auto' }}>
             <button 
               className={`toolbar-btn ${selectedTab === 'read' ? 'active' : ''}`}
               onClick={() => setSelectedTab('read')}
