@@ -435,8 +435,8 @@ export const CommunityScreen: React.FC = () => {
 
                 {/* Main Content Area (right of navy sidebar) */}
                 <div style={{
-                  marginLeft: '140px', marginRight: '110px', flexGrow: 1, zIndex: 2,
-                  boxSizing: 'border-box', padding: '20px 20px 14px',
+                  marginLeft: '210px', marginRight: '190px', flexGrow: 1, zIndex: 2,
+                  boxSizing: 'border-box', padding: '20px 10px 14px',
                   display: 'flex', flexDirection: 'column', height: '100%'
                 }}>
 

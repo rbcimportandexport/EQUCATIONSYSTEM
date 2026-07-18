@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { Printer, RotateCcw, ChevronDown, ChevronUp } from 'lucide-react';
 import logoEmblem from '../assets/logo_emblem.png';
@@ -171,7 +171,7 @@ export const CertificateDesigner: React.FC = () => {
           </div>
         ))}
       </div>
-      <div style={{marginLeft:'152px',marginRight:'108px',display:'flex',flexDirection:'column',height:'100%',boxSizing:'border-box',padding:'16px 22px 14px',zIndex:2,position:'relative'}}>
+      <div style={{marginLeft:'215px',marginRight:'205px',display:'flex',flexDirection:'column',height:'100%',boxSizing:'border-box',padding:'16px 10px 14px',zIndex:2,position:'relative'}}>
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'4px'}}>
           <div style={{width:'92px'}}/>
           <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'1px'}}>
