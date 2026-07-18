@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RBC Import & Export Academy - Certificate of Completion</title>
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Great+Vibes&family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+/* ===== RESET & PRINT ===== */
+* { margin:0; padding:0; box-sizing:border-box; }
+
+@page {
+  size: landscape;
+  margin: 0;
+}
+
+/* ===== CERTIFICATE CONTAINER ===== */
+.certificate-wrapper {
+  width: 3508px;
+  height: 2480px;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  background: #FAF9F6;
+}
+
+/* ===== BACKGROUND WATERMARKS (3% opacity) ===== */
+.certificate-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.certificate-bg svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+}
+
+/* ===== BORDERS ===== */
+.outer-border {
+  position: absolute;
+  inset: 18px;
+  border: 6px solid #102A56;
+  z-index: 1;
+  pointer-events: none;
+}
+.mid-border {
+  position: absolute;
+  inset: 30px;
+  border: 3px solid #D4AF37;
+  z-index: 1;
+  pointer-events: none;
+}
+.inner-border {
+  position: absolute;
+  inset: 38px;
+  border: 2px solid #F57C00;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ===== LEFT SIDEBAR ===== */
+.left-sidebar {
+  position: absolute;
+  left: 38px;
+  top: 38px;
+  bottom: 38px;
+  width: 340px;
+  background: #102A56;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 25px;
+  clip-path: polygon(0 0, 100% 0, 88% 100%, 0 100%);
+}
+
+/* Gold Medal at top of sidebar */
+.sidebar-medal {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #F5E6A3, #D4AF37, #B8960C);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+  position: relative;
+}
+.sidebar-medal::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.3);
+}
+.sidebar-medal-icon {
+  font-size: 48px;
+  color: #102A56;
+  text-align: center;
+  line-height: 1;
+}
+.sidebar-medal-icon svg {
+  width: 56px;
+  height: 56px;
+}
+
+.sidebar-item {
+  width: 100%;
+  padding: 20px 10px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+  text-align: center;
+}
+.sidebar-item:last-child {
+  border-bottom: none;
+}
+.sidebar-item-icon {
+  margin-bottom: 8px;
+}
+.sidebar-item-icon svg {
+  width: 32px;
+  height: 32px;
+  stroke: #D4AF37;
+  fill: none;
+  stroke-width: 2;
+}
+.sidebar-item-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+.sidebar-item-value {
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+
+/* ===== TOP BAR ===== */
+.top-bar {
+  position: absolute;
+  top: 60px;
+  left: 420px;
+  right: 60px;
+  height: 100px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Top Left - Logo/Emblem */
+.top-left-emblem {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.emblem-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 4px solid #D4AF37;
+  background: #102A56;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+}
+.emblem-circle::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 2px solid rgba(212, 175, 55, 0.4);
+}
+.emblem-text {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #D4AF37;
+  text-align: center;
+  line-height: 1.2;
+}
+.emblem-text .small {
+  font-size: 8px;
+  font-weight: 400;
+  display: block;
+}
+.emblem-text .year {
+  font-size: 16px;
+  font-weight: 900;
+  display: block;
+}
+
+.academy-name {
+  font-family: 'Cinzel', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #102A56;
+  letter-spacing: 3px;
+  line-height: 1.2;
+}
+.academy-name .tagline {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #F57C00;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  display: block;
+  margin-top: 2px;
+}
+
+/* Top Right - Certificate ID */
+.top-right-id {
+  text-align: right;
+}
+.top-right-id .id-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #102A56;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.top-right-id .id-value {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #F57C00;
+  background: rgba(245, 124, 0, 0.08);
+  padding: 4px 16px;
+  border: 1px solid rgba(245, 124, 0, 0.2);
+  border-radius: 4px;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+/* ===== CENTER CONTENT ===== */
+.center-content {
+  position: absolute;
+  left: 420px;
+  right: 60px;
+  top: 180px;
+  bottom: 160px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Title */
+.cert-title {
+  font-family: 'Cinzel', serif;
+  font-size: 56px;
+  font-weight: 700;
+  color: #102A56;
+  letter-spacing: 12px;
+  text-transform: uppercase;
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+.cert-title .of {
+  font-size: 52px;
+  font-weight: 300;
+  color: #D4AF37;
+  display: block;
+  letter-spacing: 16px;
+}
+.cert-title .completion {
+  display: block;
+}
+
+/* Divider Line */
+.title-divider {
+  width: 200px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+  margin: 16px auto;
+}
+
+/* Presented Text */
+.presented-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #102A56;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+}
+
+/* Recipient Name */
+.recipient-name {
+  font-family: 'Great Vibes', cursive;
+  font-size: 90px;
+  font-weight: 400;
+  color: #102A56;
+  line-height: 1;
+  margin: 4px 0 12px;
+}
+
+/* Description */
+.description {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #555;
+  line-height: 1.6;
+  max-width: 1200px;
+  margin-bottom: 20px;
+}
+
+/* ===== COURSE RIBBON ===== */
+.course-ribbon-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1300px;
+  margin: 8px auto;
+  z-index: 4;
+}
+.course-ribbon {
+  background: #102A56;
+  padding: 10px 40px;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(16, 42, 86, 0.3);
+}
+.course-ribbon::before,
+.course-ribbon::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 30px;
+  height: 100%;
+  background: #102A56;
+  z-index: 0;
+}
+.course-ribbon::before {
+  left: -15px;
+  transform: skewX(-10deg);
+}
+.course-ribbon::after {
+  right: -15px;
+  transform: skewX(10deg);
+}
+.course-ribbon-border {
+  position: absolute;
+  inset: 2px;
+  border: 2px solid #D4AF37;
+  pointer-events: none;
+  z-index: 1;
+}
+.course-ribbon-text {
+  font-family: 'Cinzel', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #D4AF37;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+}
+
+/* Contact info */
+.contact-info {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #888;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+/* ===== RIGHT PANEL - Floating Icons ===== */
+.right-panel {
+  position: absolute;
+  right: 70px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  align-items: flex-end;
+}
+.right-panel-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-direction: row-reverse;
+}
+.right-panel-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid #D4AF37;
+  background: rgba(212, 175, 55, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.right-panel-icon svg {
+  width: 26px;
+  height: 26px;
+  stroke: #102A56;
+  fill: none;
+  stroke-width: 2;
+}
+.right-panel-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #102A56;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-align: right;
+  line-height: 1.3;
+  max-width: 160px;
+}
+
+/* ===== BOTTOM SECTION ===== */
+.bottom-section {
+  position: absolute;
+  bottom: 70px;
+  left: 420px;
+  right: 60px;
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+/* Bottom Left - Director */
+.bottom-left {
+  text-align: center;
+  flex: 1;
+}
+.signature-line {
+  width: 220px;
+  height: 2px;
+  background: #102A56;
+  margin: 0 auto 6px;
+}
+.signature-name {
+  font-family: 'Great Vibes', cursive;
+  font-size: 32px;
+  color: #102A56;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.signature-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #102A56;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.signature-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: #888;
+}
+
+/* Bottom Center - Seal & QR */
+.bottom-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.gold-seal {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #F5E6A3, #D4AF37, #B8960C);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 8px;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+}
+.gold-seal::after {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.4);
+}
+.gold-seal-text {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  font-weight: 700;
+  color: #102A56;
+  text-align: center;
+  line-height: 1.2;
+  position: relative;
+  z-index: 1;
+}
+
+.qr-placeholder {
+  width: 64px;
+  height: 64px;
+  background: #fff;
+  border: 2px solid #102A56;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+  position: relative;
+}
+.qr-placeholder svg {
+  width: 56px;
+  height: 56px;
+}
+.verify-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 8px;
+  font-weight: 500;
+  color: #102A56;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.verify-url {
+  font-family: 'Inter', sans-serif;
+  font-size: 7px;
+  font-weight: 400;
+  color: #888;
+}
+
+/* Bottom Right - Founder */
+.bottom-right {
+  text-align: center;
+  flex: 1;
+}
+
+/* ===== DECORATIVE CORNER ELEMENTS ===== */
+.corner-ornament {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  z-index: 2;
+  pointer-events: none;
+}
+.corner-ornament svg {
+  width: 100%;
+  height: 100%;
+}
+.corner-tl { top: 38px; left: 38px; }
+.corner-tr { top: 38px; right: 38px; transform: scaleX(-1); }
+.corner-bl { bottom: 38px; left: 38px; transform: scaleY(-1); }
+.corner-br { bottom: 38px; right: 38px; transform: scale(-1, -1); }
+
+/* ===== EDITABLE FIELDS ===== */
+[contenteditable="true"]:focus {
+  outline: 2px dashed #F57C00;
+  outline-offset: 4px;
+  background: rgba(245, 124, 0, 0.05);
+  border-radius: 4px;
+}
+[contenteditable="true"]:hover {
+  outline: 1px dashed rgba(245, 124, 0, 0.3);
+  outline-offset: 2px;
+  border-radius: 2px;
+  cursor: text;
+}
+
+/* ===== RESPONSIVE SCALING ===== */
+@media print {
+  body { margin: 0; padding: 0; }
+  .certificate-wrapper { 
+    width: 3508px; 
+    height: 2480px; 
+    transform: none !important; 
+  }
+  [contenteditable="true"] { outline: none !important; }
+}
+
+@media screen and (max-width: 3600px) {
+  .certificate-wrapper {
+    transform: scale(calc(100vw / 3520));
+    transform-origin: top left;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="certificate-wrapper" id="certificate">
+
+  <!-- ===== BACKGROUND WATERMARKS ===== -->
+  <div class="certificate-bg">
+    <svg viewBox="0 0 3508 2480" xmlns="http://www.w3.org/2000/svg">
+      <!-- World Map Outline -->
+      <g stroke="#102A56" stroke-width="3" fill="none">
+        <!-- Simplified world map continents -->
+        <path d="M400 1200 Q500 1100 600 1150 Q700 1180 750 1250 Q800 1320 700 1400 Q600 1450 500 1400 Q400 1350 400 1200Z" />
+        <path d="M900 1100 Q1000 1050 1100 1080 Q1200 1100 1250 1150 Q1300 1200 1250 1300 Q1200 1350 1100 1320 Q1000 1300 950 1250 Q900 1200 900 1100Z" />
+        <path d="M1400 800 Q1500 750 1600 780 Q1700 800 1750 850 Q1800 900 1750 1000 Q1700 1050 1600 1020 Q1500 1000 1450 950 Q1400 900 1400 800Z" />
+        <path d="M1800 700 Q1950 650 2100 700 Q2200 750 2250 800 Q2300 880 2200 950 Q2100 1000 1950 950 Q1800 900 1750 820 Q1700 750 1800 700Z" />
+        <path d="M2300 600 Q2400 550 2550 580 Q2650 600 2700 650 Q2750 720 2650 800 Q2550 850 2400 820 Q2300 780 2250 720 Q2200 650 2300 600Z" />
+        <path d="M2600 1000 Q2700 950 2800 980 Q2900 1000 2950 1050 Q3000 1120 2900 1200 Q2800 1250 2700 1220 Q2600 1180 2550 1120 Q2500 1050 2600 1000Z" />
+        <!-- Africa -->
+        <path d="M1500 1400 Q1550 1350 1620 1380 Q1680 1400 1700 1450 Q1720 1550 1680 1650 Q1620 1750 1550 1720 Q1480 1680 1460 1580 Q1440 1480 1500 1400Z" />
+        <!-- South America -->
+        <path d="M1100 1450 Q1150 1400 1200 1420 Q1250 1450 1260 1550 Q1270 1680 1230 1800 Q1180 1920 1120 1900 Q1060 1850 1050 1720 Q1040 1580 1100 1450Z" />
+        <!-- Australia -->
+        <path d="M2800 1600 Q2860 1550 2920 1580 Q2960 1600 2980 1650 Q3000 1720 2960 1780 Q2920 1820 2860 1800 Q2800 1770 2780 1720 Q2760 1650 2800 1600Z" />
+      </g>
+
+      <!-- Cargo Ship -->
+      <g transform="translate(600, 1850)" stroke="#102A56" stroke-width="3" fill="none">
+        <rect x="0" y="0" width="200" height="40" rx="3" />
+        <rect x="20" y="-30" width="30" height="30" rx="2" />
+        <rect x="60" y="-30" width="30" height="30" rx="2" />
+        <rect x="100" y="-30" width="30" height="30" rx="2" />
+        <rect x="140" y="-30" width="30" height="30" rx="2" />
+        <line x1="100" y1="-30" x2="100" y2="-80" />
+        <line x1="95" y1="-80" x2="130" y2="-60" />
+        <line x1="95" y1="-80" x2="80" y2="-60" />
+      </g>
+
+      <!-- Port Crane -->
+      <g transform="translate(2800, 1650)" stroke="#102A56" stroke-width="3" fill="none">
+        <line x1="40" y1="0" x2="40" y2="-120" />
+        <line x1="0" y1="-90" x2="80" y2="-90" />
+        <line x1="40" y1="-120" x2="0" y2="-90" />
+        <line x1="40" y1="-120" x2="80" y2="-90" />
+        <line x1="0" y1="-90" x2="0" y2="-70" />
+        <rect x="-5" y="0" width="15" height="10" />
+      </g>
+
+      <!-- Airplane -->
+      <g transform="translate(1800, 500)" stroke="#102A56" stroke-width="2.5" fill="none">
+        <ellipse cx="60" cy="20" rx="50" ry="8" />
+        <line x1="10" y1="20" x2="0" y2="5" />
+        <line x1="10" y1="20" x2="0" y2="35" />
+        <line x1="60" y1="12" x2="60" y2="0" />
+        <line x1="60" y1="28" x2="60" y2="40" />
+        <ellipse cx="60" cy="20" rx="8" ry="4" />
+      </g>
+
+      <!-- Containers -->
+      <g transform="translate(2200, 1800)" stroke="#102A56" stroke-width="2" fill="none">
+        <rect x="0" y="0" width="40" height="30" rx="2" />
+        <rect x="42" y="0" width="40" height="30" rx="2" />
+        <rect x="0" y="-32" width="40" height="30" rx="2" />
+        <rect x="42" y="-32" width="40" height="30" rx="2" />
+        <rect x="84" y="0" width="40" height="30" rx="2" />
+      </g>
+    </svg>
+  </div>
+
+  <!-- ===== BORDERS ===== -->
+  <div class="outer-border"></div>
+  <div class="mid-border"></div>
+  <div class="inner-border"></div>
+
+  <!-- ===== LEFT SIDEBAR ===== -->
+  <div class="left-sidebar">
+    <!-- Gold Medal Icon -->
+    <div class="sidebar-medal">
+      <div class="sidebar-medal-icon">
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="32" r="28" fill="#102A56" stroke="#D4AF37" stroke-width="2"/>
+          <path d="M32 12 L36 24 L48 24 L38 32 L42 44 L32 36 L22 44 L26 32 L16 24 L28 24 Z" fill="#D4AF37"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Date of Issue -->
+    <div class="sidebar-item">
+      <div class="sidebar-item-icon">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="16" r="14" stroke="currentColor" fill="none" stroke-width="1.5"/>
+          <path d="M16 8 L16 16 L22 20" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="sidebar-item-label">Date of Issue</div>
+      <div class="sidebar-item-value" contenteditable="true" id="issueDate">18 July 2026</div>
+    </div>
+
+    <!-- Duration -->
+    <div class="sidebar-item">
+      <div class="sidebar-item-icon">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="16" r="14" stroke="currentColor" fill="none" stroke-width="1.5"/>
+          <path d="M10 6 L12 10" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M22 6 L20 10" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M16 10 L16 16 L20 18" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="sidebar-item-label">Duration</div>
+      <div class="sidebar-item-value" contenteditable="true" id="duration">10+ Hours</div>
+    </div>
+
+    <!-- Level -->
+    <div class="sidebar-item">
+      <div class="sidebar-item-icon">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 24 L16 6 L28 24 Z" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linejoin="round"/>
+          <line x1="16" y1="14" x2="16" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="16" cy="22" r="1" fill="currentColor"/>
+        </svg>
+      </div>
+      <div class="sidebar-item-label">Level</div>
+      <div class="sidebar-item-value" contenteditable="true" id="level">Beginner to Advanced</div>
+    </div>
+
+    <!-- Score -->
+    <div class="sidebar-item">
+      <div class="sidebar-item-icon">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 28 L8 20" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M14 28 L14 14" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M20 28 L20 10" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M26 28 L26 16" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="8" cy="16" r="2" fill="#D4AF37"/>
+          <circle cx="14" cy="10" r="2" fill="#D4AF37"/>
+          <circle cx="20" cy="6" r="2" fill="#D4AF37"/>
+          <circle cx="26" cy="12" r="2" fill="#D4AF37"/>
+        </svg>
+      </div>
+      <div class="sidebar-item-label">Score</div>
+      <div class="sidebar-item-value" contenteditable="true" id="score">95% - 100%</div>
+    </div>
+  </div>
+
+  <!-- ===== TOP BAR ===== -->
+  <div class="top-bar">
+    <div class="top-left-emblem">
+      <!-- RBC Emblem -->
+      <div class="emblem-circle">
+        <div class="emblem-text">
+          <span class="small">RBC</span>
+          <span class="year">ACADEMY</span>
+        </div>
+      </div>
+      <div>
+        <div class="academy-name" contenteditable="true" id="academyName">
+          RBC IMPORT &amp; EXPORT ACADEMY
+          <span class="tagline">Learn • Trade • Grow Globally</span>
+        </div>
+      </div>
+    </div>
+    <div class="top-right-id">
+      <div class="id-label">Certificate ID</div>
+      <div class="id-value" contenteditable="true" id="certificateId">RBC-2026-000215</div>
+    </div>
+  </div>
+
+  <!-- ===== CENTER CONTENT ===== -->
+  <div class="center-content">
+    <div class="cert-title">
+      CERTIFICATE
+      <span class="of">OF</span>
+      <span class="completion">COMPLETION</span>
+    </div>
+    <div class="title-divider"></div>
+
+    <div class="presented-text">This certificate is proudly presented to</div>
+    <div class="recipient-name" contenteditable="true" id="studentName">RBC</div>
+    <div class="contact-info" contenteditable="true" id="contactInfo">India · rbcimportexport@rbc.com · +91 98765 43210</div>
+    <div class="description" contenteditable="true" id="description">
+      for successfully completing all learning modules, practice quizzes, video lectures, assignments, and final assessment in the course
+    </div>
+
+    <!-- Course Ribbon -->
+    <div class="course-ribbon-wrapper">
+      <div class="course-ribbon">
+        <div class="course-ribbon-border"></div>
+        <div class="course-ribbon-text" contenteditable="true" id="courseName">IMPORT &amp; EXPORT MASTER COURSE</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== RIGHT PANEL ===== -->
+  <div class="right-panel">
+    <div class="right-panel-item">
+      <div class="right-panel-icon">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="6" width="24" height="20" rx="3" stroke="currentColor" fill="none" stroke-width="1.5"/>
+          <path d="M4 14 L28 14" stroke="currentColor" fill="none" stroke-width="1.5"/>
+          <circle cx="12" cy="20" r="2" fill="#D4AF37"/>
+          <circle cx="20" cy="20" r="2" fill="#D4AF37"/>
+        </svg>
+      </div>
+      <div class="right-panel-label">Comprehensive<br/>Curriculum</div>
+    </div>
+    <div class="right-panel-item">
+      <div class="right-panel-icon">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="16" r="12" stroke="currentColor" fill="none" stroke-width="1.5"/>
+          <path d="M12 16 L15 19 L20 12" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="right-panel-label">Industry<br/>Relevant</div>
+    </div>
+    <div class="right-panel-item">
+      <div class="right-panel-icon">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 4 L20 12 L28 14 L22 20 L24 28 L16 24 L8 28 L10 20 L4 14 L12 12 Z" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="right-panel-label">Expert<br/>Instructors</div>
+    </div>
+    <div class="right-panel-item">
+      <div class="right-panel-icon">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="16" r="12" stroke="currentColor" fill="none" stroke-width="1.5"/>
+          <ellipse cx="16" cy="16" rx="6" ry="12" stroke="currentColor" fill="none" stroke-width="1.5"/>
+          <line x1="4" y1="16" x2="28" y2="16" stroke="currentColor" fill="none" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="right-panel-label">Global<br/>Perspective</div>
+    </div>
+  </div>
+
+  <!-- ===== BOTTOM SECTION ===== -->
+  <div class="bottom-section">
+    <!-- Director -->
+    <div class="bottom-left">
+      <div class="signature-line"></div>
+      <div class="signature-name" contenteditable="true" id="directorSig">Kunal Pawar</div>
+      <div class="signature-title" contenteditable="true" id="directorName">KUNAL PAWAR</div>
+      <div class="signature-sub" contenteditable="true" id="directorRole">Academy Director</div>
+    </div>
+
+    <!-- Center - Seal & QR -->
+    <div class="bottom-center">
+      <div class="gold-seal">
+        <div class="gold-seal-text">
+          COMPLETED<br/>WITH<br/>EXCELLENCE
+        </div>
+      </div>
+      <div class="qr-placeholder">
+        <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="52" height="52" fill="white" stroke="#102A56" stroke-width="1"/>
+          <!-- QR Code pattern -->
+          <rect x="4" y="4" width="20" height="20" fill="#102A56"/>
+          <rect x="6" y="6" width="4" height="4" fill="white"/>
+          <rect x="14" y="6" width="4" height="4" fill="white"/>
+          <rect x="6" y="14" width="4" height="4" fill="white"/>
+          <rect x="14" y="14" width="4" height="4" fill="white"/>
+          <rect x="32" y="4" width="20" height="20" fill="#102A56"/>
+          <rect x="34" y="6" width="4" height="4" fill="white"/>
+          <rect x="42" y="6" width="4" height="4" fill="white"/>
+          <rect x="34" y="14" width="4" height="4" fill="white"/>
+          <rect x="42" y="14" width="4" height="4" fill="white"/>
+          <rect x="4" y="32" width="20" height="20" fill="#102A56"/>
+          <rect x="6" y="34" width="4" height="4" fill="white"/>
+          <rect x="14" y="34" width="4" height="4" fill="white"/>
+          <rect x="6" y="42" width="4" height="4" fill="white"/>
+          <rect x="14" y="42" width="4" height="4" fill="white"/>
+          <!-- Center patterns -->
+          <rect x="24" y="24" width="8" height="8" fill="#102A56"/>
+          <rect x="26" y="26" width="4" height="4" fill="white"/>
+          <!-- Random dots -->
+          <rect x="26" y="6" width="4" height="4" fill="#102A56"/>
+          <rect x="26" y="14" width="4" height="4" fill="#102A56"/>
+          <rect x="6" y="26" width="4" height="4" fill="#102A56"/>
+          <rect x="14" y="26" width="4" height="4" fill="#102A56"/>
+          <rect x="42" y="26" width="4" height="4" fill="#102A56"/>
+          <rect x="32" y="26" width="4" height="4" fill="#102A56"/>
+          <rect x="26" y="32" width="4" height="4" fill="#102A56"/>
+          <rect x="26" y="42" width="4" height="4" fill="#102A56"/>
+        </svg>
+      </div>
+      <div class="verify-text">Verify Certificate</div>
+      <div class="verify-url" contenteditable="true" id="verifyUrl">Scan QR code or visit academy.rbcimportandexport.com/verify</div>
+    </div>
+
+    <!-- Founder -->
+    <div class="bottom-right">
+      <div class="signature-line"></div>
+      <div class="signature-name" contenteditable="true" id="founderSig">Prakash Kachchhi</div>
+      <div class="signature-title" contenteditable="true" id="founderName">PRAKASH KACHCHHI</div>
+      <div class="signature-sub" contenteditable="true" id="founderRole">Founder &amp; CEO</div>
+    </div>
+  </div>
+
+  <!-- ===== DECORATIVE CORNER ORNAMENTS ===== -->
+  <div class="corner-ornament corner-tl">
+    <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 30 L10 30 L10 10 L30 10 L30 0" stroke="#D4AF37" stroke-width="2" fill="none"/>
+      <circle cx="10" cy="10" r="3" fill="#D4AF37"/>
+    </svg>
+  </div>
+  <div class="corner-ornament corner-tr">
+    <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 30 L10 30 L10 10 L30 10 L30 0" stroke="#D4AF37" stroke-width="2" fill="none"/>
+      <circle cx="10" cy="10" r="3" fill="#D4AF37"/>
+    </svg>
+  </div>
+  <div class="corner-ornament corner-bl">
+    <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 30 L10 30 L10 10 L30 10 L30 0" stroke="#D4AF37" stroke-width="2" fill="none"/>
+      <circle cx="10" cy="10" r="3" fill="#D4AF37"/>
+    </svg>
+  </div>
+  <div class="corner-ornament corner-br">
+    <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 30 L10 30 L10 10 L30 10 L30 0" stroke="#D4AF37" stroke-width="2" fill="none"/>
+      <circle cx="10" cy="10" r="3" fill="#D4AF37"/>
+    </svg>
+  </div>
+
+</div>
+
+<script>
+// Auto-fill function for dynamic data
+function updateCertificate(data) {
+  const fields = {
+    studentName: data.studentName || 'RBC',
+    issueDate: data.issueDate || '18 July 2026',
+    duration: data.duration || '10+ Hours',
+    level: data.level || 'Beginner to Advanced',
+    score: data.score || '95% - 100%',
+    courseName: data.courseName || 'IMPORT & EXPORT MASTER COURSE',
+    certificateId: data.certificateId || 'RBC-2026-000215',
+    academyName: data.academyName || 'RBC IMPORT & EXPORT ACADEMY',
+    directorSig: data.directorSig || 'Kunal Pawar',
+    directorName: data.directorName || 'KUNAL PAWAR',
+    directorRole: data.directorRole || 'Academy Director',
+    founderSig: data.founderSig || 'Prakash Kachchhi',
+    founderName: data.founderName || 'PRAKASH KACHCHHI',
+    founderRole: data.founderRole || 'Founder & CEO',
+    verifyUrl: data.verifyUrl || 'Scan QR code or visit academy.rbcimportandexport.com/verify',
+    description: data.description || 'for successfully completing all learning modules, practice quizzes, video lectures, assignments, and final assessment in the course',
+    contactInfo: data.contactInfo || 'India · rbcimportexport@rbc.com · +91 98765 43210'
+  };
+  Object.keys(fields).forEach(key => {
+    const el = document.getElementById(key);
+    if (el) el.textContent = fields[key];
+  });
+}
+</script>
+
+</body>
+</html>

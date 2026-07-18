@@ -1,0 +1,322 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3508 2480" width="3508" height="2480">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Great+Vibes&family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;500;600;700&display=swap');
+    </style>
+    <!-- Gold Gradient -->
+    <radialGradient id="goldGrad" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#F5E6A3"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#B8960C"/>
+    </radialGradient>
+    <!-- Divider Gradient -->
+    <linearGradient id="dividerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="transparent"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </linearGradient>
+    <!-- Clip path for sidebar -->
+    <clipPath id="sidebarClip">
+      <polygon points="0,0 340,0 299,2404 0,2404"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="3508" height="2480" fill="#FAF9F6"/>
+
+  <!-- Background Watermarks (3% opacity) -->
+  <g opacity="0.03" stroke="#102A56" stroke-width="3" fill="none">
+    <!-- World Map -->
+    <path d="M400 1200 Q500 1100 600 1150 Q700 1180 750 1250 Q800 1320 700 1400 Q600 1450 500 1400 Q400 1350 400 1200Z"/>
+    <path d="M900 1100 Q1000 1050 1100 1080 Q1200 1100 1250 1150 Q1300 1200 1250 1300 Q1200 1350 1100 1320 Q1000 1300 950 1250 Q900 1200 900 1100Z"/>
+    <path d="M1400 800 Q1500 750 1600 780 Q1700 800 1750 850 Q1800 900 1750 1000 Q1700 1050 1600 1020 Q1500 1000 1450 950 Q1400 900 1400 800Z"/>
+    <path d="M1800 700 Q1950 650 2100 700 Q2200 750 2250 800 Q2300 880 2200 950 Q2100 1000 1950 950 Q1800 900 1750 820 Q1700 750 1800 700Z"/>
+    <path d="M2300 600 Q2400 550 2550 580 Q2650 600 2700 650 Q2750 720 2650 800 Q2550 850 2400 820 Q2300 780 2250 720 Q2200 650 2300 600Z"/>
+    <path d="M2600 1000 Q2700 950 2800 980 Q2900 1000 2950 1050 Q3000 1120 2900 1200 Q2800 1250 2700 1220 Q2600 1180 2550 1120 Q2500 1050 2600 1000Z"/>
+    <path d="M1500 1400 Q1550 1350 1620 1380 Q1680 1400 1700 1450 Q1720 1550 1680 1650 Q1620 1750 1550 1720 Q1480 1680 1460 1580 Q1440 1480 1500 1400Z"/>
+    <path d="M1100 1450 Q1150 1400 1200 1420 Q1250 1450 1260 1550 Q1270 1680 1230 1800 Q1180 1920 1120 1900 Q1060 1850 1050 1720 Q1040 1580 1100 1450Z"/>
+    <path d="M2800 1600 Q2860 1550 2920 1580 Q2960 1600 2980 1650 Q3000 1720 2960 1780 Q2920 1820 2860 1800 Q2800 1770 2780 1720 Q2760 1650 2800 1600Z"/>
+    <!-- Ship -->
+    <g transform="translate(600,1850)">
+      <rect x="0" y="0" width="200" height="40" rx="3"/>
+      <rect x="20" y="-30" width="30" height="30" rx="2"/>
+      <rect x="60" y="-30" width="30" height="30" rx="2"/>
+      <rect x="100" y="-30" width="30" height="30" rx="2"/>
+      <rect x="140" y="-30" width="30" height="30" rx="2"/>
+      <line x1="100" y1="-30" x2="100" y2="-80"/>
+      <line x1="95" y1="-80" x2="130" y2="-60"/>
+      <line x1="95" y1="-80" x2="80" y2="-60"/>
+    </g>
+    <!-- Crane -->
+    <g transform="translate(2800,1650)">
+      <line x1="40" y1="0" x2="40" y2="-120"/>
+      <line x1="0" y1="-90" x2="80" y2="-90"/>
+      <line x1="40" y1="-120" x2="0" y2="-90"/>
+      <line x1="40" y1="-120" x2="80" y2="-90"/>
+      <line x1="0" y1="-90" x2="0" y2="-70"/>
+      <rect x="-5" y="0" width="15" height="10"/>
+    </g>
+    <!-- Airplane -->
+    <g transform="translate(1800,500)">
+      <ellipse cx="60" cy="20" rx="50" ry="8"/>
+      <line x1="10" y1="20" x2="0" y2="5"/>
+      <line x1="10" y1="20" x2="0" y2="35"/>
+      <line x1="60" y1="12" x2="60" y2="0"/>
+      <line x1="60" y1="28" x2="60" y2="40"/>
+      <ellipse cx="60" cy="20" rx="8" ry="4"/>
+    </g>
+    <!-- Containers -->
+    <g transform="translate(2200,1800)">
+      <rect x="0" y="0" width="40" height="30" rx="2"/>
+      <rect x="42" y="0" width="40" height="30" rx="2"/>
+      <rect x="0" y="-32" width="40" height="30" rx="2"/>
+      <rect x="42" y="-32" width="40" height="30" rx="2"/>
+      <rect x="84" y="0" width="40" height="30" rx="2"/>
+    </g>
+  </g>
+
+  <!-- BORDERS -->
+  <!-- Outer border - Navy thick -->
+  <rect x="18" y="18" width="3472" height="2444" fill="none" stroke="#102A56" stroke-width="6"/>
+  <!-- Mid border - Gold -->
+  <rect x="30" y="30" width="3448" height="2420" fill="none" stroke="#D4AF37" stroke-width="3"/>
+  <!-- Inner border - Orange -->
+  <rect x="38" y="38" width="3432" height="2404" fill="none" stroke="#F57C00" stroke-width="2"/>
+
+  <!-- Corner Ornaments -->
+  <g fill="none" stroke="#D4AF37" stroke-width="2">
+    <!-- TL -->
+    <path d="M38 98 L48 98 L48 48 L98 48 L98 38"/>
+    <circle cx="48" cy="48" r="3" fill="#D4AF37"/>
+    <!-- TR -->
+    <path d="M3470 98 L3460 98 L3460 48 L3410 48 L3410 38"/>
+    <circle cx="3460" cy="48" r="3" fill="#D4AF37"/>
+    <!-- BL -->
+    <path d="M38 2382 L48 2382 L48 2432 L98 2432 L98 2442"/>
+    <circle cx="48" cy="2432" r="3" fill="#D4AF37"/>
+    <!-- BR -->
+    <path d="M3470 2382 L3460 2382 L3460 2432 L3410 2432 L3410 2442"/>
+    <circle cx="3460" cy="2432" r="3" fill="#D4AF37"/>
+  </g>
+
+  <!-- ===== LEFT SIDEBAR ===== -->
+  <g clip-path="url(#sidebarClip)">
+    <rect x="0" y="0" width="340" height="2480" fill="#102A56"/>
+  </g>
+  <!-- Sidebar angled bottom line -->
+  <polygon points="340,38 299,2442 38,2442 38,38" fill="none" stroke="#D4AF37" stroke-width="1.5" opacity="0.3"/>
+
+  <!-- Medal -->
+  <g transform="translate(170, 140)">
+    <circle cx="0" cy="0" r="60" fill="url(#goldGrad)"/>
+    <circle cx="0" cy="0" r="54" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="3"/>
+    <circle cx="0" cy="0" r="28" fill="#102A56" stroke="#D4AF37" stroke-width="2"/>
+    <path d="M0 -20 L6 -6 L20 -6 L10 4 L14 18 L0 10 L-14 18 L-10 4 L-20 -6 L-6 -6 Z" fill="#D4AF37"/>
+  </g>
+
+  <!-- Sidebar Items -->
+  <!-- Date of Issue -->
+  <g transform="translate(170, 340)">
+    <g transform="translate(0, -50)">
+      <circle cx="0" cy="0" r="14" fill="none" stroke="#D4AF37" stroke-width="1.5"/>
+      <path d="M0 -8 L0 0 L6 4" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round"/>
+    </g>
+    <text x="0" y="-10" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="16" font-weight="600" fill="rgba(255,255,255,0.6)" letter-spacing="2">DATE OF ISSUE</text>
+    <text x="0" y="18" text-anchor="middle" font-family="Inter, sans-serif" font-size="20" font-weight="500" fill="#FFFFFF">18 July 2026</text>
+  </g>
+  <line x1="50" y1="420" x2="290" y2="420" stroke="rgba(212,175,55,0.2)" stroke-width="1"/>
+
+  <!-- Duration -->
+  <g transform="translate(170, 500)">
+    <g transform="translate(0, -50)">
+      <circle cx="0" cy="0" r="14" fill="none" stroke="#D4AF37" stroke-width="1.5"/>
+      <path d="M0 -8 L0 0 L6 4" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round"/>
+    </g>
+    <text x="0" y="-10" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="16" font-weight="600" fill="rgba(255,255,255,0.6)" letter-spacing="2">DURATION</text>
+    <text x="0" y="18" text-anchor="middle" font-family="Inter, sans-serif" font-size="20" font-weight="500" fill="#FFFFFF">10+ Hours</text>
+  </g>
+  <line x1="50" y1="580" x2="290" y2="580" stroke="rgba(212,175,55,0.2)" stroke-width="1"/>
+
+  <!-- Level -->
+  <g transform="translate(170, 660)">
+    <g transform="translate(0, -50)">
+      <path d="M-12 12 L0 -8 L12 12 Z" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-linejoin="round"/>
+    </g>
+    <text x="0" y="-10" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="16" font-weight="600" fill="rgba(255,255,255,0.6)" letter-spacing="2">LEVEL</text>
+    <text x="0" y="18" text-anchor="middle" font-family="Inter, sans-serif" font-size="20" font-weight="500" fill="#FFFFFF">Beginner to Advanced</text>
+  </g>
+  <line x1="50" y1="740" x2="290" y2="740" stroke="rgba(212,175,55,0.2)" stroke-width="1"/>
+
+  <!-- Score -->
+  <g transform="translate(170, 820)">
+    <g transform="translate(0, -50)">
+      <rect x="-16" y="-12" width="32" height="24" rx="2" fill="none" stroke="#D4AF37" stroke-width="1.5"/>
+      <circle cx="-8" cy="0" r="2" fill="#D4AF37"/>
+      <circle cx="0" cy="0" r="2" fill="#D4AF37"/>
+      <circle cx="8" cy="0" r="2" fill="#D4AF37"/>
+    </g>
+    <text x="0" y="-10" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="16" font-weight="600" fill="rgba(255,255,255,0.6)" letter-spacing="2">SCORE</text>
+    <text x="0" y="18" text-anchor="middle" font-family="Inter, sans-serif" font-size="20" font-weight="500" fill="#FFFFFF">95% - 100%</text>
+  </g>
+
+  <!-- ===== TOP BAR ===== -->
+  <!-- Emblem -->
+  <g transform="translate(420, 75)">
+    <circle cx="45" cy="45" r="40" fill="#102A56" stroke="#D4AF37" stroke-width="4"/>
+    <circle cx="45" cy="45" r="32" fill="none" stroke="rgba(212,175,55,0.4)" stroke-width="2"/>
+    <text x="45" y="40" text-anchor="middle" font-family="Cinzel, serif" font-size="12" font-weight="700" fill="#D4AF37">RBC</text>
+    <text x="45" y="58" text-anchor="middle" font-family="Cinzel, serif" font-size="14" font-weight="900" fill="#D4AF37">ACADEMY</text>
+  </g>
+
+  <!-- Academy Name -->
+  <text x="485" y="90" font-family="Cinzel, serif" font-size="26" font-weight="700" fill="#102A56" letter-spacing="3">RBC IMPORT &amp; EXPORT ACADEMY</text>
+  <text x="485" y="112" font-family="Montserrat, sans-serif" font-size="12" font-weight="500" fill="#F57C00" letter-spacing="4">Learn • Trade • Grow Globally</text>
+
+  <!-- Certificate ID -->
+  <g transform="translate(3000, 75)">
+    <text x="0" y="0" text-anchor="end" font-family="Montserrat, sans-serif" font-size="12" font-weight="600" fill="#102A56" letter-spacing="2">CERTIFICATE ID</text>
+    <rect x="-180" y="6" width="180" height="26" rx="4" fill="rgba(245,124,0,0.08)" stroke="rgba(245,124,0,0.2)" stroke-width="1"/>
+    <text x="0" y="24" text-anchor="end" font-family="Inter, sans-serif" font-size="16" font-weight="500" fill="#F57C00">RBC-2026-000215</text>
+  </g>
+
+  <!-- ===== CENTER CONTENT ===== -->
+  <!-- Certificate Title -->
+  <g transform="translate(1920, 480)">
+    <text x="0" y="0" text-anchor="middle" font-family="Cinzel, serif" font-size="56" font-weight="700" fill="#102A56" letter-spacing="12">CERTIFICATE</text>
+    <text x="0" y="65" text-anchor="middle" font-family="Cinzel, serif" font-size="52" font-weight="300" fill="#D4AF37" letter-spacing="16">OF</text>
+    <text x="0" y="130" text-anchor="middle" font-family="Cinzel, serif" font-size="56" font-weight="700" fill="#102A56" letter-spacing="12">COMPLETION</text>
+  </g>
+
+  <!-- Gold Divider -->
+  <rect x="1820" y="620" width="200" height="2" fill="url(#dividerGrad)"/>
+
+  <!-- Presented Text -->
+  <text x="1920" y="670" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="14" font-weight="500" fill="#102A56" letter-spacing="3">THIS CERTIFICATE IS PROUDLY PRESENTED TO</text>
+
+  <!-- Recipient Name (Great Vibes calligraphy) -->
+  <text x="1920" y="790" text-anchor="middle" font-family="'Great Vibes', cursive" font-size="80" font-weight="400" fill="#102A56">RBC</text>
+
+  <!-- Contact Info -->
+  <text x="1920" y="830" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="400" fill="#888" letter-spacing="1">India · rbcimportexport@rbc.com · +91 98765 43210</text>
+
+  <!-- Description -->
+  <text x="1920" y="870" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="400" fill="#555">
+    <tspan x="1920" dy="0">for successfully completing all learning modules, practice quizzes,</tspan>
+    <tspan x="1920" dy="22">video lectures, assignments, and final assessment in the course</tspan>
+  </text>
+
+  <!-- ===== COURSE RIBBON ===== -->
+  <g transform="translate(1270, 940)">
+    <rect x="0" y="0" width="1300" height="48" rx="0" fill="#102A56"/>
+    <rect x="3" y="3" width="1294" height="42" fill="none" stroke="#D4AF37" stroke-width="2"/>
+    <!-- Ribbon tails -->
+    <polygon points="-15,0 0,0 0,48 -15,48" fill="#102A56"/>
+    <polygon points="1300,0 1315,0 1315,48 1300,48" fill="#102A56"/>
+    <!-- Ribbon tail borders -->
+    <line x1="-15" y1="3" x2="3" y2="3" stroke="#D4AF37" stroke-width="1.5"/>
+    <line x1="-15" y1="45" x2="3" y2="45" stroke="#D4AF37" stroke-width="1.5"/>
+    <line x1="1297" y1="3" x2="1315" y2="3" stroke="#D4AF37" stroke-width="1.5"/>
+    <line x1="1297" y1="45" x2="1315" y2="45" stroke="#D4AF37" stroke-width="1.5"/>
+    <text x="650" y="32" text-anchor="middle" font-family="Cinzel, serif" font-size="22" font-weight="700" fill="#D4AF37" letter-spacing="4">IMPORT &amp; EXPORT MASTER COURSE</text>
+  </g>
+
+  <!-- ===== RIGHT PANEL - Floating Icons ===== -->
+  <!-- 1. Comprehensive Curriculum -->
+  <g transform="translate(3300, 800)">
+    <circle cx="0" cy="0" r="26" fill="rgba(212,175,55,0.06)" stroke="#D4AF37" stroke-width="2"/>
+    <rect x="-12" y="-8" width="24" height="16" rx="2" fill="none" stroke="#102A56" stroke-width="1.5"/>
+    <line x1="-12" y1="-2" x2="12" y2="-2" stroke="#102A56" stroke-width="1.5"/>
+    <circle cx="-4" cy="4" r="1.5" fill="#D4AF37"/>
+    <circle cx="4" cy="4" r="1.5" fill="#D4AF37"/>
+    <text x="-40" y="0" text-anchor="end" font-family="Montserrat, sans-serif" font-size="11" font-weight="600" fill="#102A56" letter-spacing="1.5">COMPREHENSIVE</text>
+    <text x="-40" y="14" text-anchor="end" font-family="Montserrat, sans-serif" font-size="11" font-weight="600" fill="#102A56" letter-spacing="1.5">CURRICULUM</text>
+  </g>
+
+  <!-- 2. Industry Relevant -->
+  <g transform="translate(3300, 920)">
+    <circle cx="0" cy="0" r="26" fill="rgba(212,175,55,0.06)" stroke="#D4AF37" stroke-width="2"/>
+    <circle cx="0" cy="0" r="12" fill="none" stroke="#102A56" stroke-width="1.5"/>
+    <path d="M-4 -4 L-1 -1 L4 -6" fill="none" stroke="#102A56" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="-40" y="0" text-anchor="end" font-family="Montserrat, sans-serif" font-size="11" font-weight="600" fill="#102A56" letter-spacing="1.5">INDUSTRY</text>
+    <text x="-40" y="14" text-anchor="end" font-family="Montserrat, sans-serif" font-size="11" font-weight="600" fill="#102A56" letter-spacing="1.5">RELEVANT</text>
+  </g>
+
+  <!-- 3. Expert Instructors -->
+  <g transform="translate(3300, 1040)">
+    <circle cx="0" cy="0" r="26" fill="rgba(212,175,55,0.06)" stroke="#D4AF37" stroke-width="2"/>
+    <path d="M0 -10 L4 -2 L12 0 L6 6 L8 14 L0 10 L-8 14 L-6 6 L-12 0 L-4 -2 Z" fill="none" stroke="#102A56" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="-40" y="0" text-anchor="end" font-family="Montserrat, sans-serif" font-size="11" font-weight="600" fill="#102A56" letter-spacing="1.5">EXPERT</text>
+    <text x="-40" y="14" text-anchor="end" font-family="Montserrat, sans-serif" font-size="11" font-weight="600" fill="#102A56" letter-spacing="1.5">INSTRUCTORS</text>
+  </g>
+
+  <!-- 4. Global Perspective -->
+  <g transform="translate(3300, 1160)">
+    <circle cx="0" cy="0" r="26" fill="rgba(212,175,55,0.06)" stroke="#D4AF37" stroke-width="2"/>
+    <circle cx="0" cy="0" r="12" fill="none" stroke="#102A56" stroke-width="1.5"/>
+    <ellipse cx="0" cy="0" rx="5" ry="12" fill="none" stroke="#102A56" stroke-width="1.5"/>
+    <line x1="-12" y1="0" x2="12" y2="0" stroke="#102A56" stroke-width="1.5"/>
+    <text x="-40" y="0" text-anchor="end" font-family="Montserrat, sans-serif" font-size="11" font-weight="600" fill="#102A56" letter-spacing="1.5">GLOBAL</text>
+    <text x="-40" y="14" text-anchor="end" font-family="Montserrat, sans-serif" font-size="11" font-weight="600" fill="#102A56" letter-spacing="1.5">PERSPECTIVE</text>
+  </g>
+
+  <!-- ===== BOTTOM SECTION ===== -->
+  <!-- Director (Left) -->
+  <g transform="translate(750, 2260)">
+    <line x1="-110" y1="0" x2="110" y2="0" stroke="#102A56" stroke-width="2"/>
+    <text x="0" y="40" text-anchor="middle" font-family="'Great Vibes', cursive" font-size="32" fill="#102A56">Kunal Pawar</text>
+    <text x="0" y="60" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="11" font-weight="600" fill="#102A56" letter-spacing="2">KUNAL PAWAR</text>
+    <text x="0" y="76" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="400" fill="#888">Academy Director</text>
+  </g>
+
+  <!-- Center - Gold Seal & QR -->
+  <g transform="translate(1920, 2260)">
+    <!-- Gold Seal -->
+    <circle cx="0" cy="-60" r="50" fill="url(#goldGrad)"/>
+    <circle cx="0" cy="-60" r="44" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="3"/>
+    <text x="0" y="-75" text-anchor="middle" font-family="Cinzel, serif" font-size="9" font-weight="700" fill="#102A56">COMPLETED</text>
+    <text x="0" y="-62" text-anchor="middle" font-family="Cinzel, serif" font-size="9" font-weight="700" fill="#102A56">WITH</text>
+    <text x="0" y="-49" text-anchor="middle" font-family="Cinzel, serif" font-size="9" font-weight="700" fill="#102A56">EXCELLENCE</text>
+
+    <!-- QR Code -->
+    <rect x="-32" y="10" width="64" height="64" fill="white" stroke="#102A56" stroke-width="2"/>
+    <g transform="translate(-28, 14)">
+      <rect x="0" y="0" width="20" height="20" fill="#102A56"/>
+      <rect x="2" y="2" width="4" height="4" fill="white"/>
+      <rect x="10" y="2" width="4" height="4" fill="white"/>
+      <rect x="2" y="10" width="4" height="4" fill="white"/>
+      <rect x="10" y="10" width="4" height="4" fill="white"/>
+      <rect x="28" y="0" width="20" height="20" fill="#102A56"/>
+      <rect x="30" y="2" width="4" height="4" fill="white"/>
+      <rect x="38" y="2" width="4" height="4" fill="white"/>
+      <rect x="30" y="10" width="4" height="4" fill="white"/>
+      <rect x="38" y="10" width="4" height="4" fill="white"/>
+      <rect x="0" y="28" width="20" height="20" fill="#102A56"/>
+      <rect x="2" y="30" width="4" height="4" fill="white"/>
+      <rect x="10" y="30" width="4" height="4" fill="white"/>
+      <rect x="2" y="38" width="4" height="4" fill="white"/>
+      <rect x="10" y="38" width="4" height="4" fill="white"/>
+      <rect x="20" y="20" width="8" height="8" fill="#102A56"/>
+      <rect x="22" y="22" width="4" height="4" fill="white"/>
+      <rect x="22" y="2" width="4" height="4" fill="#102A56"/>
+      <rect x="22" y="10" width="4" height="4" fill="#102A56"/>
+      <rect x="2" y="22" width="4" height="4" fill="#102A56"/>
+      <rect x="10" y="22" width="4" height="4" fill="#102A56"/>
+      <rect x="38" y="22" width="4" height="4" fill="#102A56"/>
+      <rect x="28" y="22" width="4" height="4" fill="#102A56"/>
+      <rect x="22" y="28" width="4" height="4" fill="#102A56"/>
+      <rect x="22" y="38" width="4" height="4" fill="#102A56"/>
+    </g>
+
+    <!-- Verify Text -->
+    <text x="0" y="88" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="8" font-weight="500" fill="#102A56" letter-spacing="1">VERIFY CERTIFICATE</text>
+    <text x="0" y="100" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" font-weight="400" fill="#888">Scan QR code or visit academy.rbcimportandexport.com/verify</text>
+  </g>
+
+  <!-- Founder (Right) -->
+  <g transform="translate(3090, 2260)">
+    <line x1="-110" y1="0" x2="110" y2="0" stroke="#102A56" stroke-width="2"/>
+    <text x="0" y="40" text-anchor="middle" font-family="'Great Vibes', cursive" font-size="32" fill="#102A56">Prakash Kachchhi</text>
+    <text x="0" y="60" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="11" font-weight="600" fill="#102A56" letter-spacing="2">PRAKASH KACHCHHI</text>
+    <text x="0" y="76" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="400" fill="#888">Founder &amp; CEO</text>
+  </g>
+</svg>
