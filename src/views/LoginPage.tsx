@@ -634,7 +634,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
                   cursor: 'pointer',
                   padding: 0,
                   display: 'flex',
-                  alignItems: 'center'
+                  alignItems: 'center',
+                  zIndex: 10
                 }}
               >
                 <EyeIcon open={showPassword} />
@@ -668,7 +669,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
                     cursor: 'pointer',
                     padding: 0,
                     display: 'flex',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    zIndex: 10
                   }}
                 >
                   <EyeIcon open={showConfirmPassword} />
