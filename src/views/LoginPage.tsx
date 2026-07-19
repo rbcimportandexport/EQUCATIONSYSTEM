@@ -118,14 +118,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
     <div className="login-page-container">
       <style>{`
         .login-page-container {
-          min-height: 100vh;
-          min-height: 100dvh;
+          height: 100vh;
+          height: 100dvh;
           width: 100vw;
           display: flex;
           background: #f8fafc;
           font-family: 'Inter', sans-serif;
           box-sizing: border-box;
-          overflow-x: hidden;
+          overflow: hidden;
         }
 
         .left-panel {
@@ -138,6 +138,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           background: #f1f5f9;
           border-right: 1px solid #e2e8f0;
           box-sizing: border-box;
+          height: 100%;
         }
 
         .right-panel {
@@ -145,10 +146,21 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           background: #ffffff;
           display: flex;
           flex-direction: column;
-          justify-content: center;
+          justify-content: flex-start;
           padding: 60px 52px;
           box-sizing: border-box;
           position: relative;
+          height: 100%;
+          overflow-y: auto;
+          overflow-x: hidden;
+        }
+
+        .form-content-wrapper {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          margin: auto 0;
+          box-sizing: border-box;
         }
 
         .illustration-container {
@@ -408,11 +420,15 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
             padding: 40px 30px;
             box-shadow: none;
             border-left: none;
+            height: 100%;
           }
           .login-page-container {
             background: #ffffff;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
+          }
+          .form-content-wrapper {
+            margin: 0;
           }
         }
 
@@ -450,6 +466,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
       </div>
 
       <div className="right-panel">
+        <div className="form-content-wrapper">
+
         <div style={{ display: 'none' }} className="mobile-only-logo">
           <style>{`
             @media (max-width: 900px) {
