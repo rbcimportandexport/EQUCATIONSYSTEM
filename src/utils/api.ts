@@ -1,4 +1,4 @@
-﻿// API utility for making authenticated requests to the backend
+// API utility for making authenticated requests to the backend
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const getToken = (): string | null => {
@@ -51,7 +51,7 @@ interface LoginData {
 const apiRequest = async <T>(
   endpoint: string,
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
-  body?: Record<string, unknown>
+  body?: any
 ): Promise<ApiResponse<T>> => {
   const token = getToken();
   
@@ -83,7 +83,7 @@ const apiRequest = async <T>(
 export const authApi = {
   // Register new user
   register: async (data: RegisterData): Promise<{ success: boolean; message: string; user?: AuthUser; token?: string }> => {
-    const result = await apiRequest<AuthUser>('/auth/register', 'POST', data as Record<string, unknown>);
+    const result = await apiRequest<AuthUser>('/auth/register', 'POST', data);
     if (result.success && result.token) {
       setToken(result.token);
     }
@@ -92,7 +92,7 @@ export const authApi = {
 
   // Login user
   login: async (data: LoginData): Promise<{ success: boolean; message: string; user?: AuthUser; token?: string }> => {
-    const result = await apiRequest<AuthUser>('/auth/login', 'POST', data as Record<string, unknown>);
+    const result = await apiRequest<AuthUser>('/auth/login', 'POST', data);
     if (result.success && result.token) {
       setToken(result.token);
     }
@@ -106,7 +106,7 @@ export const authApi = {
 
   // Update profile
   updateProfile: async (data: Partial<AuthUser>): Promise<{ success: boolean; message: string; user?: AuthUser }> => {
-    return await apiRequest<AuthUser>('/auth/update-profile', 'PUT', data as Record<string, unknown>);
+    return await apiRequest<AuthUser>('/auth/update-profile', 'PUT', data);
   },
 
   // Change password
