@@ -164,8 +164,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
         }
 
         .illustration-container {
-          width: 100%;
-          max-width: 480px;
+          width: 90%;
+          max-width: 580px;
           margin-bottom: 40px;
         }
 
