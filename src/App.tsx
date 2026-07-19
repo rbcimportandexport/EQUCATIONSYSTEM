@@ -43,21 +43,7 @@ const AppShell: React.FC = () => {
           setIsAuthenticated(false);
         }
       } else {
-        // Check localStorage fallback for existing session
-        const savedUser = localStorage.getItem('lms_current_user_v2_ie');
-        if (savedUser) {
-          try {
-            const user = JSON.parse(savedUser);
-            setIsAuthenticated(true);
-            setUserRole(user.role || 'student');
-            if (user.role === 'admin') setActiveView('AdminPanel');
-            else setActiveView('Dashboard');
-          } catch {
-            setIsAuthenticated(false);
-          }
-        } else {
-          setIsAuthenticated(false);
-        }
+        setIsAuthenticated(false);
       }
       setAuthLoading(false);
     };
