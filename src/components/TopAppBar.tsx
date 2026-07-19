@@ -1,13 +1,14 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { Menu, Search, Bookmark, User, ShieldAlert, Globe, MessageSquare } from 'lucide-react';
+import { Menu, Search, Bookmark, User, ShieldAlert, Globe, MessageSquare, LogOut } from 'lucide-react';
 import { translateModuleTitle } from '../utils/translator';
 
 interface TopAppBarProps {
   onMenuClick?: () => void;
+  onLogout?: () => void;
 }
 
-export const TopAppBar: React.FC<TopAppBarProps> = ({ onMenuClick }) => {
+export const TopAppBar: React.FC<TopAppBarProps> = ({ onMenuClick, onLogout }) => {
   const { 
     modules, 
     selectedModuleId, 
@@ -127,6 +128,18 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onMenuClick }) => {
         >
           <User size={18} />
         </button>
+
+        {/* Logout button */}
+        {onLogout && (
+          <button
+            className="top-bar-action-icon-btn"
+            onClick={onLogout}
+            title="Logout"
+            style={{ color: '#ef4444' }}
+          >
+            <LogOut size={18} />
+          </button>
+        )}
       </div>
     </header>
   );

@@ -5,9 +5,10 @@ import { translateModuleTitle, uiTranslations } from '../utils/translator';
 interface SidebarProps {
   isOpen?: boolean;
   onClose?: () => void;
+  onLogout?: () => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose, onLogout }) => {
   const { 
     modules, 
     selectedModuleId, 

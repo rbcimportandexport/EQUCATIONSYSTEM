@@ -1,7 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import { Sidebar } from './components/Sidebar';
 import { TopAppBar } from './components/TopAppBar';
+import { LoginPage } from './views/LoginPage';
+import { authApi } from './utils/api';
+import type { AuthUser } from './utils/api';
 
 // Import Views
 import { Dashboard } from './views/Dashboard';
@@ -17,21 +20,99 @@ import { QuizScreen } from './views/QuizScreen';
 import { CommunityScreen } from './views/CommunityScreen';
 
 const AppShell: React.FC = () => {
-  const { activeView } = useApp();
+  const { activeView, setActiveView, setUserRole, loginUser, setCurrentUser } = useApp();
   const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Check if user is already logged in on app start
+  useEffect(() => {
+    const checkAuth = async () => {
+      if (authApi.isLoggedIn()) {
+        try {
+          const result = await authApi.getMe();
+          if (result.success && result.user) {
+            handleAuthSuccess(result.user);
+          } else {
+            await authApi.logout();
+            setIsAuthenticated(false);
+          }
+        } catch {
+          setIsAuthenticated(false);
+        }
+      } else {
+        // Check localStorage fallback for existing session
+        const savedUser = localStorage.getItem('lms_current_user_v2_ie');
+        if (savedUser) {
+          try {
+            const user = JSON.parse(savedUser);
+            setIsAuthenticated(true);
+            setUserRole(user.role || 'student');
+            if (user.role === 'admin') setActiveView('AdminPanel');
+            else setActiveView('Dashboard');
+          } catch {
+            setIsAuthenticated(false);
+          }
+        } else {
+          setIsAuthenticated(false);
+        }
+      }
+      setAuthLoading(false);
+    };
+
+    checkAuth();
+  }, []);
+
+  const handleAuthSuccess = (user: AuthUser) => {
+    loginUser(user.name, user.email, user.role);
+    setUserRole(user.role);
+    setIsAuthenticated(true);
+    if (user.role === 'admin') {
+      setActiveView('AdminPanel');
+    } else {
+      setActiveView('Dashboard');
+    }
+  };
+
+  const handleLogout = async () => {
+    await authApi.logout();
+    setCurrentUser(null);
+    localStorage.removeItem('lms_current_user_v2_ie');
+    setIsAuthenticated(false);
+  };
 
   useEffect(() => {
     if (showSplash && videoRef.current) {
-      // Muted autoplay — browser always allows this, no overlay needed
       videoRef.current.muted = true;
       videoRef.current.play().catch(() => {
-        // If even muted play fails, just skip splash
         setShowSplash(false);
       });
     }
   }, [showSplash]);
+
+  if (authLoading) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #0a1628 0%, #102A56 100%)',
+        flexDirection: 'column',
+        gap: '16px',
+      }}>
+        <div style={{ width: '48px', height: '48px', border: '3px solid rgba(212,175,55,0.3)', borderTop: '3px solid #D4AF37', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+        <div style={{ color: '#D4AF37', fontSize: '14px', fontWeight: '600', letterSpacing: '1px' }}>Loading RBC Academy...</div>
+        <style>{`@keyframes spin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }`}</style>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <LoginPage onLoginSuccess={handleAuthSuccess} />;
+  }
 
   if (showSplash) {
     return (
@@ -51,52 +132,35 @@ const AppShell: React.FC = () => {
 
   const renderActiveView = () => {
     switch (activeView) {
-      case 'Dashboard':
-        return <Dashboard />;
-      case 'Courses':
-        return <Courses />;
-      case 'Chapters':
-        return <ModuleScreen />;
-      case 'Lessons':
-        return <ModuleScreen />;
-      case 'Bookmarks':
-        return <Bookmarks />;
-      case 'Downloads':
-        return <Downloads />;
-      case 'Search':
-        return <Search />;
-      case 'Profile':
-        return <Profile />;
-      case 'Settings':
-        return <Settings />;
-      case 'AdminPanel':
-        return <AdminPanel />;
-      case 'Quiz':
-        return <QuizScreen />;
-      case 'Community':
-        return <CommunityScreen />;
-      default:
-        return <ModuleScreen />;
+      case 'Dashboard': return <Dashboard />;
+      case 'Courses': return <Courses />;
+      case 'Chapters': return <ModuleScreen />;
+      case 'Lessons': return <ModuleScreen />;
+      case 'Bookmarks': return <Bookmarks />;
+      case 'Downloads': return <Downloads />;
+      case 'Search': return <Search />;
+      case 'Profile': return <Profile />;
+      case 'Settings': return <Settings />;
+      case 'AdminPanel': return <AdminPanel />;
+      case 'Quiz': return <QuizScreen />;
+      case 'Community': return <CommunityScreen />;
+      default: return <ModuleScreen />;
     }
   };
 
   return (
     <div className="app-layout">
-      {/* Left Sidebar navigation */}
-      <Sidebar isOpen={isLeftDrawerOpen} onClose={() => setIsLeftDrawerOpen(false)} />
+      <Sidebar isOpen={isLeftDrawerOpen} onClose={() => setIsLeftDrawerOpen(false)} onLogout={handleLogout} />
 
-      {/* Mobile drawer backdrop */}
       {isLeftDrawerOpen && (
-        <div 
-          className="sidebar-backdrop-active" 
+        <div
+          className="sidebar-backdrop-active"
           onClick={() => setIsLeftDrawerOpen(false)}
         ></div>
       )}
 
-      {/* Main panel */}
       <div className="main-content-panel">
-        <TopAppBar onMenuClick={() => setIsLeftDrawerOpen(true)} />
-        
+        <TopAppBar onMenuClick={() => setIsLeftDrawerOpen(true)} onLogout={handleLogout} />
         <main className="main-viewport-container">
           {renderActiveView()}
         </main>
