@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { authApi } from '../utils/api';
 import type { AuthUser } from '../utils/api';
 import logoEmblem from '../assets/logo_emblem.png';
@@ -24,7 +24,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
   const [successMsg, setSuccessMsg] = useState('');
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -41,23 +40,30 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
       const link = document.createElement('link');
       link.id = id;
       link.rel = 'stylesheet';
-      link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap';
+      link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap';
       document.head.appendChild(link);
     }
     const saved = localStorage.getItem('rbc_saved_email');
-    if (saved) { setEmail(saved); setRememberMe(true); }
-
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    if (saved) {
+      setEmail(saved);
+      setRememberMe(true);
+    }
   }, []);
 
   const validate = (): boolean => {
     const e: FormErrors = {};
-    if (mode === 'register' && (!name.trim() || name.trim().length < 2)) e.name = 'Full name required (min 2 chars)';
-    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = 'Valid email required';
-    if (!password || password.length < 6) e.password = 'Minimum 6 characters';
-    if (mode === 'register' && password !== confirmPassword) e.confirmPassword = 'Passwords do not match';
+    if (mode === 'register' && (!name.trim() || name.trim().length < 2)) {
+      e.name = 'Full name required (min 2 characters)';
+    }
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      e.email = 'Valid email address required';
+    }
+    if (!password || password.length < 6) {
+      e.password = 'Password must be at least 6 characters';
+    }
+    if (mode === 'register' && password !== confirmPassword) {
+      e.confirmPassword = 'Passwords do not match';
+    }
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -74,8 +80,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
         : await authApi.register({ name: name.trim(), email: email.toLowerCase().trim(), password, phone, country, role });
 
       if (result.success && result.user) {
-        if (rememberMe) localStorage.setItem('rbc_saved_email', email);
-        else localStorage.removeItem('rbc_saved_email');
+        if (rememberMe) {
+          localStorage.setItem('rbc_saved_email', email);
+        } else {
+          localStorage.removeItem('rbc_saved_email');
+        }
         setSuccessMsg(result.message || 'Success!');
         setTimeout(() => onLoginSuccess(result.user!), 600);
       } else {
@@ -90,342 +99,645 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
 
   const EyeIcon = ({ open }: { open: boolean }) => (
     <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      {open
-        ? <><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></>
-        : <><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></>
-      }
+      {open ? (
+        <>
+          <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/>
+          <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/>
+          <line x1="1" y1="1" x2="23" y2="23"/>
+        </>
+      ) : (
+        <>
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </>
+      )}
     </svg>
   );
 
-  const inputStyle: React.CSSProperties = {
-    width: '100%',
-    padding: '11px 14px',
-    border: '1px solid #d1d5db',
-    borderRadius: '8px',
-    fontSize: '15px',
-    fontFamily: "'Inter', sans-serif",
-    color: '#111827',
-    background: '#fff',
-    outline: 'none',
-    boxSizing: 'border-box',
-    transition: 'border-color 0.15s, box-shadow 0.15s',
-    WebkitAppearance: 'none',
-  };
-
-  const labelStyle: React.CSSProperties = {
-    display: 'block',
-    fontSize: '13px',
-    fontWeight: '500',
-    color: '#374151',
-    marginBottom: '6px',
-  };
-
-  const errStyle: React.CSSProperties = {
-    fontSize: '12px',
-    color: '#ef4444',
-    marginTop: '4px',
-  };
-
-  const onFocus = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
-    e.target.style.borderColor = '#102A56';
-    e.target.style.boxShadow = '0 0 0 3px rgba(16,42,86,0.1)';
-  };
-  const onBlur = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>, err?: boolean) => {
-    e.target.style.borderColor = err ? '#f87171' : '#d1d5db';
-    e.target.style.boxShadow = 'none';
-  };
-
-  const Field = ({
-    label, type, value, onChange, placeholder, error, toggle, show, onToggle
-  }: {
-    label: string; type: string; value: string; onChange: (v: string) => void;
-    placeholder: string; error?: string; toggle?: boolean; show?: boolean; onToggle?: () => void;
-  }) => (
-    <div style={{ marginBottom: '14px' }}>
-      <label style={labelStyle}>{label}</label>
-      <div style={{ position: 'relative' }}>
-        <input
-          type={type} value={value} onChange={e => onChange(e.target.value)}
-          placeholder={placeholder}
-          style={{ ...inputStyle, paddingRight: toggle ? '44px' : '14px', borderColor: error ? '#f87171' : '#d1d5db' }}
-          onFocus={onFocus} onBlur={e => onBlur(e, !!error)}
-        />
-        {toggle && (
-          <button type="button" onClick={onToggle}
-            style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }}>
-            <EyeIcon open={show!} />
-          </button>
-        )}
-      </div>
-      {error && <div style={errStyle}>{error}</div>}
-    </div>
-  );
-
   return (
-    <div style={{
-      minHeight: '100vh',
-      minHeight: '100dvh',
-      display: 'flex',
-      flexDirection: isMobile ? 'column' : 'row',
-      background: '#f5f6fa',
-      fontFamily: "'Inter', sans-serif",
-    }}>
-
-      {/* ─── Left Panel (Desktop only) ─── */}
-      {!isMobile && (
-        <div style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '60px 48px',
-          background: '#f5f6fa',
-        }}>
-          <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-            <img src={logoEmblem} alt="RBC" style={{ width: '160px', height: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }} />
-          </div>
-          <div style={{ width: '100%', maxWidth: '380px', marginBottom: '36px' }}>
-            <img src="/login-illustration.png" alt="RBC Academy" style={{ width: '100%', height: 'auto', objectFit: 'contain' }} />
-          </div>
-          <div style={{ textAlign: 'center', maxWidth: '320px' }}>
-            <h2 style={{ fontSize: '22px', fontWeight: '700', color: '#111827', margin: '0 0 10px', lineHeight: '1.35' }}>
-              Trade knowledge made<br />simple for everyone
-            </h2>
-            <p style={{ fontSize: '14px', color: '#6b7280', margin: 0, lineHeight: '1.6' }}>
-              Learn Import &amp; Export from certified industry experts at your own pace.
-            </p>
-          </div>
-        </div>
-      )}
-
-      {/* ─── Right Panel / Full Screen on Mobile ─── */}
-      <div style={{
-        width: isMobile ? '100%' : '460px',
-        minWidth: isMobile ? 'unset' : '420px',
-        background: '#fff',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: isMobile ? 'flex-start' : 'center',
-        padding: isMobile ? '0' : '60px 48px',
-        borderLeft: isMobile ? 'none' : '1px solid #e5e7eb',
-        minHeight: isMobile ? '100dvh' : 'auto',
-      }}>
-
-        {/* Mobile Top Header */}
-        {isMobile && (
-          <div style={{
-            background: 'linear-gradient(160deg, #0a1628 0%, #102A56 100%)',
-            padding: '40px 24px 32px',
-            textAlign: 'center',
-            borderRadius: '0 0 28px 28px',
-            marginBottom: '8px',
-          }}>
-            <img src={logoEmblem} alt="RBC" style={{ width: '110px', height: 'auto', objectFit: 'contain', mixBlendMode: 'lighten', marginBottom: '12px' }} />
-            <div style={{ fontSize: '17px', fontWeight: '700', color: '#fff', marginBottom: '4px' }}>
-              RBC Import &amp; Export Academy
-            </div>
-            <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.55)' }}>
-              Learn • Trade • Grow Globally
-            </div>
-          </div>
-        )}
-
-        {/* Form Container */}
-        <div style={{
-          padding: isMobile ? '24px 20px 40px' : '0',
-          flex: 1,
-          overflowY: isMobile ? 'auto' : 'visible',
-        }}>
-          {/* Heading */}
-          <h1 style={{ margin: '0 0 4px', fontSize: isMobile ? '24px' : '26px', fontWeight: '700', color: '#111827', letterSpacing: '-0.4px' }}>
-            {mode === 'login' ? 'Log In' : 'Create Account'}
-          </h1>
-          <p style={{ margin: '0 0 24px', fontSize: '14px', color: '#9ca3af' }}>
-            {mode === 'login' ? 'Welcome back to RBC Academy' : 'Join thousands of trade learners'}
-          </p>
-
-          {/* Tab Switch */}
-          <div style={{ display: 'flex', borderBottom: '1px solid #e5e7eb', marginBottom: '20px' }}>
-            {(['login', 'register'] as AuthMode[]).map(m => (
-              <button key={m} type="button"
-                onClick={() => { setMode(m); setErrors({}); setSuccessMsg(''); }}
-                style={{
-                  border: 'none', background: 'none',
-                  padding: '0 0 11px', marginRight: '24px',
-                  fontSize: '14px', fontWeight: '600',
-                  fontFamily: "'Inter', sans-serif",
-                  cursor: 'pointer',
-                  color: mode === m ? '#102A56' : '#9ca3af',
-                  borderBottom: mode === m ? '2px solid #102A56' : '2px solid transparent',
-                  marginBottom: '-1px',
-                  transition: 'all 0.15s',
-                }}>
-                {m === 'login' ? 'Login' : 'Register'}
-              </button>
-            ))}
-          </div>
-
-          {/* Alerts */}
-          {successMsg && (
-            <div style={{ padding: '10px 14px', borderRadius: '8px', background: '#f0fdf4', border: '1px solid #bbf7d0', marginBottom: '16px', fontSize: '13px', color: '#15803d' }}>
-              {successMsg}
-            </div>
-          )}
-          {errors.general && (
-            <div style={{ padding: '10px 14px', borderRadius: '8px', background: '#fef2f2', border: '1px solid #fecaca', marginBottom: '16px', fontSize: '13px', color: '#dc2626' }}>
-              {errors.general}
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit}>
-            {/* Register: Name */}
-            {mode === 'register' && (
-              <Field label="Full Name" type="text" value={name} onChange={setName}
-                placeholder="Your full name" error={errors.name} />
-            )}
-
-            {/* Register: Phone + Country */}
-            {mode === 'register' && (
-              <div style={{ display: 'flex', gap: '10px', marginBottom: '14px' }}>
-                <div style={{ flex: 1 }}>
-                  <label style={labelStyle}>Phone</label>
-                  <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="+91 98765 43210"
-                    style={inputStyle} onFocus={onFocus} onBlur={e => onBlur(e)} />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <label style={labelStyle}>Country</label>
-                  <select value={country} onChange={e => setCountry(e.target.value)}
-                    style={{ ...inputStyle, cursor: 'pointer' }}
-                    onFocus={onFocus} onBlur={e => onBlur(e)}>
-                    {['India', 'UAE', 'USA', 'UK', 'Canada', 'Australia', 'Singapore', 'Other'].map(c => <option key={c}>{c}</option>)}
-                  </select>
-                </div>
-              </div>
-            )}
-
-            {/* Register: Role */}
-            {mode === 'register' && (
-              <div style={{ marginBottom: '14px' }}>
-                <label style={labelStyle}>Account Type</label>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  {['student', 'admin'].map(r => (
-                    <button key={r} type="button" onClick={() => setRole(r as 'student' | 'admin')}
-                      style={{ flex: 1, padding: '10px 12px', border: `1.5px solid ${role === r ? '#102A56' : '#d1d5db'}`, borderRadius: '8px', background: role === r ? '#EFF6FF' : '#fff', cursor: 'pointer', fontSize: '14px', fontWeight: '500', color: role === r ? '#102A56' : '#6b7280', fontFamily: "'Inter', sans-serif", transition: 'all 0.15s', textTransform: 'capitalize' }}>
-                      {r}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <Field
-              label="Username / Email" type="email" value={email} onChange={setEmail}
-              placeholder="email@example.com" error={errors.email}
-            />
-
-            <Field
-              label="Password"
-              type={showPassword ? 'text' : 'password'}
-              value={password} onChange={setPassword}
-              placeholder={mode === 'login' ? 'Enter your password' : 'Min. 6 characters'}
-              error={errors.password} toggle show={showPassword}
-              onToggle={() => setShowPassword(s => !s)}
-            />
-
-            {mode === 'register' && (
-              <Field
-                label="Confirm Password"
-                type={showConfirmPassword ? 'text' : 'password'}
-                value={confirmPassword} onChange={setConfirmPassword}
-                placeholder="Re-enter your password"
-                error={errors.confirmPassword} toggle show={showConfirmPassword}
-                onToggle={() => setShowConfirmPassword(s => !s)}
-              />
-            )}
-
-            {/* Remember + Forgot */}
-            {mode === 'login' && (
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', marginTop: '4px' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                  <input type="checkbox" checked={rememberMe} onChange={e => setRememberMe(e.target.checked)}
-                    style={{ width: '16px', height: '16px', accentColor: '#102A56', cursor: 'pointer' }} />
-                  <span style={{ fontSize: '14px', color: '#6b7280' }}>Keep me signed in</span>
-                </label>
-                <button type="button" onClick={() => alert('Contact: admin@rbcimportandexport.com')}
-                  style={{ fontSize: '14px', color: '#102A56', background: 'none', border: 'none', cursor: 'pointer', fontWeight: '600', padding: 0 }}>
-                  Forgot password?
-                </button>
-              </div>
-            )}
-
-            {/* Submit */}
-            <button type="submit" disabled={loading}
-              style={{
-                width: '100%',
-                padding: isMobile ? '14px' : '13px',
-                border: 'none',
-                borderRadius: '8px',
-                background: loading ? '#9ca3af' : '#0f2547',
-                color: '#fff',
-                fontSize: '15px',
-                fontWeight: '600',
-                cursor: loading ? 'not-allowed' : 'pointer',
-                fontFamily: "'Inter', sans-serif",
-                marginBottom: '16px',
-                marginTop: mode === 'register' ? '6px' : '0',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                transition: 'background 0.15s',
-                WebkitTapHighlightColor: 'transparent',
-              }}>
-              {loading
-                ? <><svg style={{ animation: 'lspin 0.8s linear infinite' }} width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.3)" strokeWidth="3"/><path d="M12 2a10 10 0 0110 10" stroke="white" strokeWidth="3" strokeLinecap="round"/></svg>{mode === 'login' ? 'Signing in...' : 'Creating...'}</>
-                : (mode === 'login' ? 'Log In' : 'Create Account')}
-            </button>
-
-            {/* Divider */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-              <div style={{ flex: 1, height: '1px', background: '#e5e7eb' }} />
-              <span style={{ fontSize: '12px', color: '#d1d5db' }}>or</span>
-              <div style={{ flex: 1, height: '1px', background: '#e5e7eb' }} />
-            </div>
-
-            {/* Toggle */}
-            <div style={{ textAlign: 'center', marginBottom: '8px' }}>
-              <span style={{ fontSize: '14px', color: '#9ca3af' }}>
-                {mode === 'login' ? "Don't have an account? " : 'Already have an account? '}
-              </span>
-              <button type="button"
-                onClick={() => { setMode(m => m === 'login' ? 'register' : 'login'); setErrors({}); setSuccessMsg(''); }}
-                style={{ fontSize: '14px', color: '#102A56', background: 'none', border: 'none', cursor: 'pointer', fontWeight: '700', padding: 0 }}>
-                {mode === 'login' ? 'Register here' : 'Login here'}
-              </button>
-            </div>
-          </form>
-
-          {/* Footer */}
-          <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid #f3f4f6', textAlign: 'center' }}>
-            <span style={{ fontSize: '11px', color: '#d1d5db' }}>
-              By continuing you agree to our{' '}
-              <span style={{ color: '#9ca3af', cursor: 'pointer', textDecoration: 'underline' }}>Terms of Service</span>
-              {' '}and{' '}
-              <span style={{ color: '#9ca3af', cursor: 'pointer', textDecoration: 'underline' }}>Privacy Policy</span>
-            </span>
-          </div>
-        </div>
-      </div>
-
+    <div className="login-page-container">
       <style>{`
-        @keyframes lspin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
-        * { -webkit-tap-highlight-color: transparent; }
-        input, select, button { -webkit-appearance: none; -moz-appearance: none; }
-        @media (max-width: 767px) {
-          html, body { overflow-x: hidden; }
+        .login-page-container {
+          min-height: 100vh;
+          min-height: 100dvh;
+          width: 100vw;
+          display: flex;
+          background: #f8fafc;
+          font-family: 'Inter', sans-serif;
+          box-sizing: border-box;
+          overflow-x: hidden;
+        }
+
+        .left-panel {
+          flex: 1.1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 60px 48px;
+          background: #f1f5f9;
+          border-right: 1px solid #e2e8f0;
+          box-sizing: border-box;
+        }
+
+        .right-panel {
+          width: 480px;
+          background: #ffffff;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 60px 52px;
+          box-sizing: border-box;
+          position: relative;
+        }
+
+        .illustration-container {
+          width: 100%;
+          max-width: 360px;
+          margin-bottom: 40px;
+        }
+
+        .illustration-img {
+          width: 100%;
+          height: auto;
+          object-fit: contain;
+        }
+
+        .left-title {
+          font-size: 22px;
+          font-weight: 700;
+          color: #0f172a;
+          margin: 0 0 10px;
+          line-height: 1.35;
+          text-align: center;
+          font-family: 'Poppins', sans-serif;
+        }
+
+        .left-desc {
+          font-size: 14px;
+          color: #64748b;
+          margin: 0;
+          line-height: 1.6;
+          text-align: center;
+          max-width: 320px;
+        }
+
+        .form-heading {
+          font-size: 28px;
+          font-weight: 700;
+          color: #0f172a;
+          margin: 0 0 6px;
+          letter-spacing: -0.5px;
+          font-family: 'Poppins', sans-serif;
+        }
+
+        .form-subheading {
+          font-size: 14px;
+          color: #94a3b8;
+          margin: 0 0 28px;
+        }
+
+        .tab-bar {
+          display: flex;
+          border-bottom: 1px solid #e2e8f0;
+          margin-bottom: 24px;
+        }
+
+        .tab-btn {
+          border: none;
+          background: none;
+          padding: 0 0 12px;
+          margin-right: 28px;
+          font-size: 14px;
+          font-weight: 600;
+          font-family: 'Inter', sans-serif;
+          cursor: pointer;
+          color: #94a3b8;
+          border-bottom: 2px solid transparent;
+          margin-bottom: -1px;
+          transition: all 0.15s ease;
+        }
+
+        .tab-btn.active {
+          color: #102A56;
+          border-bottom: 2px solid #102A56;
+        }
+
+        .input-group {
+          margin-bottom: 16px;
+          width: 100%;
+          box-sizing: border-box;
+        }
+
+        .input-label {
+          display: block;
+          font-size: 13px;
+          font-weight: 500;
+          color: #475569;
+          margin-bottom: 6px;
+        }
+
+        .input-field {
+          width: 100%;
+          padding: 10px 12px;
+          border: 1px solid #cbd5e1;
+          border-radius: 6px;
+          font-size: 14px;
+          font-family: 'Inter', sans-serif;
+          color: #0f172a;
+          background: #ffffff;
+          outline: none;
+          box-sizing: border-box;
+          transition: all 0.15s ease;
+          -webkit-appearance: none;
+        }
+
+        .input-field:focus {
+          border-color: #102A56;
+          box-shadow: 0 0 0 3px rgba(16, 42, 86, 0.08);
+        }
+
+        .input-field.error {
+          border-color: #ef4444;
+        }
+
+        .input-error-msg {
+          font-size: 12px;
+          color: #ef4444;
+          margin-top: 4px;
+        }
+
+        .remember-forgot-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 24px;
+        }
+
+        .checkbox-label {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          cursor: pointer;
+          font-size: 13px;
+          color: #64748b;
+        }
+
+        .forgot-btn {
+          font-size: 13px;
+          color: #102A56;
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-weight: 600;
+          padding: 0;
+        }
+
+        .submit-btn {
+          width: 100%;
+          padding: 12px;
+          border: none;
+          border-radius: 6px;
+          background: #0f2547;
+          color: #ffffff;
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+          font-family: 'Inter', sans-serif;
+          transition: background 0.15s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          box-sizing: border-box;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+          background: #1e3a60;
+        }
+
+        .submit-btn:disabled {
+          background: #cbd5e1;
+          cursor: not-allowed;
+        }
+
+        .divider-row {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin: 20px 0;
+        }
+
+        .divider-line {
+          flex: 1;
+          height: 1px;
+          background: #e2e8f0;
+        }
+
+        .divider-text {
+          font-size: 12px;
+          color: #cbd5e1;
+          font-weight: 500;
+        }
+
+        .google-btn {
+          width: 100%;
+          padding: 11px;
+          border: 1px solid #cbd5e1;
+          border-radius: 6px;
+          background: #ffffff;
+          color: #475569;
+          font-size: 14px;
+          font-weight: 500;
+          cursor: pointer;
+          font-family: 'Inter', sans-serif;
+          transition: background 0.15s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          box-sizing: border-box;
+        }
+
+        .google-btn:hover {
+          background: #f8fafc;
+        }
+
+        .toggle-mode-text {
+          text-align: center;
+          font-size: 13px;
+          color: #94a3b8;
+          margin-top: 20px;
+        }
+
+        .toggle-mode-btn {
+          font-size: 13px;
+          color: #102A56;
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-weight: 700;
+          padding: 0 0 0 4px;
+        }
+
+        .footer-text {
+          margin-top: 32px;
+          text-align: center;
+          font-size: 11px;
+          color: #cbd5e1;
+        }
+
+        .footer-link {
+          color: #94a3b8;
+          cursor: pointer;
+          text-decoration: underline;
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 900px) {
+          .left-panel {
+            display: none;
+          }
+          .right-panel {
+            width: 100%;
+            max-width: 100%;
+            padding: 40px 30px;
+            box-shadow: none;
+            border-left: none;
+          }
+          .login-page-container {
+            background: #ffffff;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .right-panel {
+            padding: 24px 20px;
+          }
+          .form-heading {
+            font-size: 24px;
+          }
         }
       `}</style>
+
+      <div className="left-panel">
+        <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+          <img 
+            src={logoEmblem} 
+            alt="RBC Logo" 
+            style={{ width: '150px', height: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }} 
+          />
+        </div>
+        <div className="illustration-container">
+          <img 
+            src="/login-illustration.png" 
+            alt="RBC Academy Learning" 
+            className="illustration-img" 
+          />
+        </div>
+        <h2 className="left-title">
+          Trade knowledge made<br />simple for everyone
+        </h2>
+        <p className="left-desc">
+          Learn Import &amp; Export from certified industry experts at your own pace.
+        </p>
+      </div>
+
+      <div className="right-panel">
+        <div style={{ display: 'none' }} className="mobile-only-logo">
+          <style>{`
+            @media (max-width: 900px) {
+              .mobile-only-logo {
+                display: flex !important;
+                flex-direction: column;
+                align-items: center;
+                margin-bottom: 32px;
+              }
+            }
+          `}</style>
+          <img 
+            src={logoEmblem} 
+            alt="RBC Logo" 
+            style={{ width: '130px', height: 'auto', objectFit: 'contain', mixBlendMode: 'multiply', marginBottom: '8px' }} 
+          />
+          <span style={{ fontSize: '13px', color: '#64748b', fontWeight: '500', letterSpacing: '0.5px' }}>
+            IMPORT &amp; EXPORT ACADEMY
+          </span>
+        </div>
+
+        <h1 className="form-heading">
+          {mode === 'login' ? 'Log In' : 'Create Account'}
+        </h1>
+        <p className="form-subheading">
+          {mode === 'login' ? 'Welcome back to RBC Academy' : 'Join thousands of trade learners'}
+        </p>
+
+        <div className="tab-bar">
+          <button 
+            type="button" 
+            className={`tab-btn ${mode === 'login' ? 'active' : ''}`}
+            onClick={() => { setMode('login'); setErrors({}); setSuccessMsg(''); }}
+          >
+            Login
+          </button>
+          <button 
+            type="button" 
+            className={`tab-btn ${mode === 'register' ? 'active' : ''}`}
+            onClick={() => { setMode('register'); setErrors({}); setSuccessMsg(''); }}
+          >
+            Register
+          </button>
+        </div>
+
+        {successMsg && (
+          <div style={{ padding: '10px 14px', borderRadius: '6px', background: '#f0fdf4', border: '1px solid #bbf7d0', marginBottom: '20px', fontSize: '13px', color: '#15803d', fontWeight: '500' }}>
+            {successMsg}
+          </div>
+        )}
+        {errors.general && (
+          <div style={{ padding: '10px 14px', borderRadius: '6px', background: '#fef2f2', border: '1px solid #fecaca', marginBottom: '20px', fontSize: '13px', color: '#dc2626', fontWeight: '500' }}>
+            {errors.general}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit}>
+          {mode === 'register' && (
+            <div className="input-group">
+              <label className="input-label">Full Name</label>
+              <input 
+                type="text" 
+                value={name} 
+                onChange={e => setName(e.target.value)} 
+                placeholder="Your full name"
+                className={`input-field ${errors.name ? 'error' : ''}`}
+              />
+              {errors.name && <div className="input-error-msg">{errors.name}</div>}
+            </div>
+          )}
+
+          {mode === 'register' && (
+            <div style={{ display: 'flex', gap: '12px' }} className="input-group">
+              <div style={{ flex: 1 }}>
+                <label className="input-label">Phone</label>
+                <input 
+                  type="tel" 
+                  value={phone} 
+                  onChange={e => setPhone(e.target.value)} 
+                  placeholder="+91 98765 43210"
+                  className="input-field"
+                />
+              </div>
+              <div style={{ flex: 1 }}>
+                <label className="input-label">Country</label>
+                <select 
+                  value={country} 
+                  onChange={e => setCountry(e.target.value)}
+                  className="input-field"
+                  style={{ cursor: 'pointer' }}
+                >
+                  {['India', 'UAE', 'USA', 'UK', 'Canada', 'Australia', 'Singapore', 'Other'].map(c => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          )}
+
+          {mode === 'register' && (
+            <div className="input-group">
+              <label className="input-label">Account Type</label>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                {(['student', 'admin'] as const).map(r => (
+                  <button 
+                    key={r} 
+                    type="button" 
+                    onClick={() => setRole(r)}
+                    style={{
+                      flex: 1,
+                      padding: '10px',
+                      border: `1.5px solid ${role === r ? '#102A56' : '#cbd5e1'}`,
+                      borderRadius: '6px',
+                      background: role === r ? '#eff6ff' : '#ffffff',
+                      cursor: 'pointer',
+                      fontSize: '13px',
+                      fontWeight: '600',
+                      color: role === r ? '#102A56' : '#64748b',
+                      transition: 'all 0.15s ease',
+                      fontFamily: 'Inter, sans-serif',
+                      textTransform: 'capitalize'
+                    }}
+                  >
+                    {r}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="input-group">
+            <label className="input-label">Username / Email</label>
+            <input 
+              type="email" 
+              value={email} 
+              onChange={e => setEmail(e.target.value)} 
+              placeholder="email@example.com"
+              className={`input-field ${errors.email ? 'error' : ''}`}
+            />
+            {errors.email && <div className="input-error-msg">{errors.email}</div>}
+          </div>
+
+          <div className="input-group">
+            <label className="input-label">Password</label>
+            <div style={{ position: 'relative' }}>
+              <input 
+                type={showPassword ? 'text' : 'password'} 
+                value={password} 
+                onChange={e => setPassword(e.target.value)} 
+                placeholder={mode === 'login' ? 'Enter your password' : 'Min. 6 characters'}
+                className={`input-field ${errors.password ? 'error' : ''}`}
+                style={{ paddingRight: '44px' }}
+              />
+              <button 
+                type="button" 
+                onClick={() => setShowPassword(s => !s)}
+                style={{
+                  position: 'absolute',
+                  right: '12px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: 0,
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
+              >
+                <EyeIcon open={showPassword} />
+              </button>
+            </div>
+            {errors.password && <div className="input-error-msg">{errors.password}</div>}
+          </div>
+
+          {mode === 'register' && (
+            <div className="input-group">
+              <label className="input-label">Confirm Password</label>
+              <div style={{ position: 'relative' }}>
+                <input 
+                  type={showConfirmPassword ? 'text' : 'password'} 
+                  value={confirmPassword} 
+                  onChange={e => setConfirmPassword(e.target.value)} 
+                  placeholder="Re-enter your password"
+                  className={`input-field ${errors.confirmPassword ? 'error' : ''}`}
+                  style={{ paddingRight: '44px' }}
+                />
+                <button 
+                  type="button" 
+                  onClick={() => setShowConfirmPassword(s => !s)}
+                  style={{
+                    position: 'absolute',
+                    right: '12px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: 0,
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                >
+                  <EyeIcon open={showConfirmPassword} />
+                </button>
+              </div>
+              {errors.confirmPassword && <div className="input-error-msg">{errors.confirmPassword}</div>}
+            </div>
+          )}
+
+          {mode === 'login' && (
+            <div className="remember-forgot-row">
+              <label className="checkbox-label">
+                <input 
+                  type="checkbox" 
+                  checked={rememberMe} 
+                  onChange={e => setRememberMe(e.target.checked)}
+                  style={{ width: '15px', height: '15px', accentColor: '#102A56', cursor: 'pointer' }}
+                />
+                <span>Keep me signed in</span>
+              </label>
+              <button 
+                type="button" 
+                className="forgot-btn"
+                onClick={() => alert('Please contact administrator: admin@rbcimportandexport.com')}
+              >
+                Forgot password?
+              </button>
+            </div>
+          )}
+
+          <button 
+            type="submit" 
+            className="submit-btn" 
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <svg style={{ animation: 'spin 0.8s linear infinite' }} width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.3)" strokeWidth="3"/>
+                  <path d="M12 2a10 10 0 0110 10" stroke="#ffffff" strokeWidth="3" strokeLinecap="round"/>
+                </svg>
+                {mode === 'login' ? 'Logging in...' : 'Registering...'}
+              </>
+            ) : (
+              mode === 'login' ? 'Log In' : 'Create Account'
+            )}
+          </button>
+
+          <div className="divider-row">
+            <div className="divider-line" />
+            <span className="divider-text">or</span>
+            <div className="divider-line" />
+          </div>
+
+          <button 
+            type="button" 
+            className="google-btn"
+            onClick={() => alert('Google authentication helper initialized. Full integration with backend in progress.')}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+            </svg>
+            Continue with Google
+          </button>
+
+          <div className="toggle-mode-text">
+            {mode === 'login' ? "Don't have an account?" : 'Already have an account?'}
+            <button 
+              type="button" 
+              className="toggle-mode-btn"
+              onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setErrors({}); setSuccessMsg(''); }}
+            >
+              {mode === 'login' ? 'Register here' : 'Login here'}
+            </button>
+          </div>
+        </form>
+
+        <div className="footer-text">
+          By continuing you agree to our{' '}
+          <span className="footer-link">Terms of Service</span>
+          {' '}and{' '}
+          <span className="footer-link">Privacy Policy</span>
+        </div>
+      </div>
     </div>
   );
 };
