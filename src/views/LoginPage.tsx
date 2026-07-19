@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { authApi } from '../utils/api';
 import type { AuthUser } from '../utils/api';
 
@@ -153,16 +153,19 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
         background: '#f5f6fa',
       }}>
         {/* Logo */}
-        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-            <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#102A56', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ color: '#F57C00', fontWeight: '800', fontSize: '18px' }}>r</span>
-            </div>
-            <span style={{ fontSize: '22px', fontWeight: '700', color: '#102A56', letterSpacing: '-0.5px' }}>
-              RBC Academy
-            </span>
-          </div>
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <img
+            src="/logo_full.png"
+            alt="RBC Import & Export"
+            style={{
+              width: '220px',
+              height: 'auto',
+              objectFit: 'contain',
+              mixBlendMode: 'multiply',
+            }}
+          />
         </div>
+
 
         {/* Illustration */}
         <div style={{ width: '100%', maxWidth: '400px', marginBottom: '40px' }}>
