@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import { Sidebar } from './components/Sidebar';
 import { TopAppBar } from './components/TopAppBar';
@@ -89,6 +89,14 @@ const AppShell: React.FC = () => {
       videoRef.current.play().catch(() => {
         setShowSplash(false);
       });
+    }
+
+    if (showSplash) {
+      // Fallback: Force hide splash screen after 3.5 seconds
+      const timer = setTimeout(() => {
+        setShowSplash(false);
+      }, 3500);
+      return () => clearTimeout(timer);
     }
   }, [showSplash]);
 
