@@ -23,15 +23,22 @@ app.use(express.urlencoded({ extended: true }));
 
 // ─── Database Connection ─────────────────────────────────────────────────────
 const connectDB = async () => {
+  if (!process.env.MONGODB_URI || process.env.MONGODB_URI.includes('YOUR_CLUSTER') || process.env.MONGODB_URI.includes('YOUR_USERNAME')) {
+    console.warn('⚠️  MONGODB_URI contains placeholder template values. Switching to local JSON fallback database (server/db.json).');
+    process.env.USE_JSON_DB = 'true';
+    return false;
+  }
+
   try {
     const conn = await mongoose.connect(process.env.MONGODB_URI);
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+    process.env.USE_JSON_DB = 'false';
+    return true;
   } catch (error) {
     console.error('❌ MongoDB connection failed:', error.message);
-    console.error('');
-    console.error('📋 Please update server/.env file with your MongoDB Atlas connection string:');
-    console.error('   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/rbc_education');
-    process.exit(1);
+    console.warn('⚠️  Switching to local JSON fallback database (server/db.json) for testing.');
+    process.env.USE_JSON_DB = 'true';
+    return false;
   }
 };
 
@@ -91,6 +98,7 @@ connectDB().then(() => {
     console.log(`📡 Server: http://localhost:${PORT}`);
     console.log(`🔗 API: http://localhost:${PORT}/api`);
     console.log(`❤️  Health: http://localhost:${PORT}/api/health`);
+    console.log(`📦 Database Mode: ${process.env.USE_JSON_DB === 'true' ? 'Local JSON (server/db.json)' : 'MongoDB Atlas'}`);
     console.log('');
     console.log('📋 Available Auth Endpoints:');
     console.log('   POST   /api/auth/register       — Register new user');
