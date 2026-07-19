@@ -134,7 +134,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding: 60px 48px;
+          padding: 20px 40px;
           background: #f1f5f9;
           border-right: 1px solid #e2e8f0;
           box-sizing: border-box;
@@ -164,9 +164,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
         }
 
         .illustration-container {
-          width: 90%;
-          max-width: 580px;
-          margin-bottom: 40px;
+          width: 80%;
+          max-width: 350px;
+          margin-bottom: 20px;
         }
 
         .illustration-img {
@@ -443,7 +443,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
       `}</style>
 
       <div className="left-panel">
-        <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '16px' }}>
           <img 
             src={logoEmblem} 
             alt="RBC Logo" 
