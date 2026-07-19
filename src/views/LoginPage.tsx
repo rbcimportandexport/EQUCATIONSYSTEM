@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { authApi } from '../utils/api';
 import type { AuthUser } from '../utils/api';
+import logoEmblem from '../assets/logo_emblem.png';
 
 interface LoginPageProps {
   onLoginSuccess: (user: AuthUser) => void;
@@ -153,12 +154,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
         background: '#f5f6fa',
       }}>
         {/* Logo */}
-        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '28px' }}>
           <img
-            src="/logo_full.png"
+            src={logoEmblem}
             alt="RBC Import & Export"
             style={{
-              width: '220px',
+              width: '160px',
               height: 'auto',
               objectFit: 'contain',
               mixBlendMode: 'multiply',
