@@ -25,18 +25,8 @@ export const ModuleScreen: React.FC = () => {
     setSelectedModuleTab
   } = useApp();
 
-  const [selectedTab, setSelectedTabState] = useState<'read' | 'images' | 'video' | 'pdf'>(selectedModuleTab || 'read');
-
-  useEffect(() => {
-    if (selectedModuleTab) {
-      setSelectedTabState(selectedModuleTab);
-    }
-  }, [selectedModuleTab]);
-
-  const setSelectedTab = (tab: 'read' | 'images' | 'video' | 'pdf') => {
-    setSelectedTabState(tab);
-    setSelectedModuleTab(tab);
-  };
+  const selectedTab = selectedModuleTab || 'read';
+  const setSelectedTab = setSelectedModuleTab;
 
   const [isDownloadOpen, setIsDownloadOpen] = useState(false);
   const [activeTopicId, setActiveTopicId] = useState<string>('');
