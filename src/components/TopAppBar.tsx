@@ -18,13 +18,13 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
   } = useApp();
 
   return (
-    <header className="top-app-bar-varsity">
+    <header className="top-app-bar-varsity" style={{ height: '88px' }}>
       {/* Brand Logo & Title */}
       <div 
         className="top-bar-brand-box"
         onClick={() => setActiveView('Dashboard')}
       >
-        <img src={logoEmblem} alt="RBC Logo" className="top-bar-logo-img" style={{ height: '56px', width: 'auto', objectFit: 'contain' }} />
+        <img src={logoEmblem} alt="RBC Logo" className="top-bar-logo-img" style={{ height: '76px', width: 'auto', objectFit: 'contain' }} />
       </div>
 
       {/* Nav Links & Tools */}
