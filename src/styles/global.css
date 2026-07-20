@@ -1990,3 +1990,21 @@ html { overflow-x: hidden; }
   align-items: center;
   gap: 6px;
 }
+
+.video-chapter-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.video-chapter-row:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}

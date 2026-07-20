@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext';
 import { 
   BookOpen, Image, Video, FileText, Download, Bookmark, 
   ChevronRight, ChevronDown, Award, Play, Pause, Maximize, 
-  ArrowLeft, ArrowRight, CheckCircle2, Volume2
+  ArrowLeft, ArrowRight, CheckCircle2, Volume2, PlayCircle
 } from 'lucide-react';
 import { uiTranslations, translateModuleTitle, translateModuleDescription, getTranslatedLesson } from '../utils/translator';
 
@@ -170,6 +170,23 @@ export const ModuleScreen: React.FC = () => {
   }, [translatedLessons, selectedTab]);
 
   const handleScrollToTopic = (topicId: string) => {
+    if (selectedTab !== 'read') {
+      setSelectedTab('read');
+      setExpandedTopics(prev => ({ ...prev, [topicId]: true }));
+      setTimeout(() => {
+        const el = document.getElementById(`topic-sec-${topicId}`);
+        const container = scrollContainerRef.current;
+        if (el && container) {
+          container.scrollTo({
+            top: el.offsetTop - container.offsetTop - 20,
+            behavior: 'smooth'
+          });
+          setActiveTopicId(topicId);
+        }
+      }, 100);
+      return;
+    }
+
     const el = document.getElementById(`topic-sec-${topicId}`);
     const container = scrollContainerRef.current;
     if (el && container) {
@@ -944,65 +961,60 @@ export const ModuleScreen: React.FC = () => {
              ========================================== */}
           {selectedTab === 'video' && (
             <div className="textbook-video-mode">
-              <div className="card video-workspace-card">
-                {/* Simulated video player */}
-                <div className="textbook-video-viewport">
-                  <div className="simulated-video-screen">
-                    <Video size={48} color="white" />
-                    <span>Watch Lesson Video Guide</span>
-                    <button className="video-play-pause-overlay-btn" onClick={() => setIsPlaying(!isPlaying)}>
-                      {isPlaying ? <Pause size={24} /> : <Play size={24} />}
-                    </button>
-                  </div>
-                  {/* Controls bar */}
-                  <div className="video-custom-controls-bar">
-                    <button className="ctrl-icon-btn" onClick={() => setIsPlaying(!isPlaying)}>
-                      {isPlaying ? <Pause size={16} /> : <Play size={16} />}
-                    </button>
-                    <span className="duration-label">02:15 / 18:30</span>
-                    <div className="video-scrub-bar">
-                      <div className="scrub-bar-fill" style={{ width: '12%' }}></div>
-                    </div>
-                    <select 
-                      className="speed-selector"
-                      value={videoSpeed}
-                      onChange={e => setVideoSpeed(Number(e.target.value))}
-                    >
-                      <option value={1}>1.0x Speed</option>
-                      <option value={1.25}>1.25x Speed</option>
-                      <option value={1.5}>1.5x Speed</option>
-                      <option value={2}>2.0x Speed</option>
-                    </select>
-                    <button className="ctrl-icon-btn" onClick={() => alert('Vessel playback fullscreen triggered')} title="Fullscreen">
-                      <Maximize size={16} />
-                    </button>
-                  </div>
+              <div className="card video-workspace-card" style={{ padding: '0', overflow: 'hidden', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                {/* Real HTML5 Video Player */}
+                <div style={{ position: 'relative', width: '100%', backgroundColor: '#000000', borderRadius: '12px 12px 0 0', overflow: 'hidden' }}>
+                  <video 
+                    controls 
+                    autoPlay={false}
+                    poster={translatedLessons[0]?.content?.images?.[0]?.url || "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1200&q=80"}
+                    style={{ width: '100%', maxHeight: '520px', display: 'block', outline: 'none' }}
+                  >
+                    <source 
+                      src={(activeModule as any).videoUrl || "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"} 
+                      type="video/mp4" 
+                    />
+                    Your browser does not support HTML5 video playback.
+                  </video>
                 </div>
 
-                <div className="video-meta-body">
-                  <h3 className="video-title">{translatedModuleTitle} - Video Lecture Series</h3>
-                  <span className="duration-tag">Duration: 18:30 mins</span>
-                  <p className="video-description">
-                    This comprehensive video guide covers the core operational systems defined in {translatedModuleTitle}. 
-                    Follow the industry experts explaining the real-world business models.
+                <div className="video-meta-body" style={{ padding: '24px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                    <h3 className="video-title" style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a', margin: 0 }}>
+                      {translatedModuleTitle} - Video Lecture Masterclass
+                    </h3>
+                    <span className="duration-tag" style={{ background: '#e0f2fe', color: '#0284c7', fontSize: '12px', fontWeight: 700, padding: '4px 10px', borderRadius: '6px' }}>
+                      HD Video • {translatedLessons.length} Topics
+                    </span>
+                  </div>
+                  <p className="video-description" style={{ color: '#475569', fontSize: '14.5px', lineHeight: 1.6, margin: 0 }}>
+                    {translatedModuleDesc}
                   </p>
                 </div>
               </div>
 
-              {/* Video Chapters section */}
-              <div className="card video-chapters-card">
-                <h4 className="chapters-card-title">Video Chapters</h4>
-                <div className="video-chapters-timeline">
+              {/* Video Playlist Section */}
+              <div className="card video-chapters-card" style={{ marginTop: '24px', padding: '24px' }}>
+                <h4 className="chapters-card-title" style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', marginBottom: '16px' }}>
+                  Video Topics & Playlist ({translatedLessons.length})
+                </h4>
+                <div className="video-chapters-timeline" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {translatedLessons.map((lesson, idx) => (
                     <button 
                       key={lesson.id}
+                      type="button"
                       className="video-chapter-row"
-                      onClick={() => alert(`Seeking video to segment: ${lesson.title}`)}
+                      onClick={() => handleScrollToTopic(lesson.id)}
                     >
-                      <span className="chapter-timestamp">
-                        {String(Math.floor((idx * 1.8))).padStart(2, '0')}:00
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <PlayCircle size={20} color="#0284c7" />
+                        <span style={{ fontSize: '14px', fontWeight: 600, color: '#0f172a' }}>
+                          Topic {idx + 1}: {lesson.title}
+                        </span>
+                      </div>
+                      <span style={{ fontSize: '12px', color: '#64748b', fontWeight: 500 }}>
+                        Watch Segment
                       </span>
-                      <span className="chapter-name">{lesson.title}</span>
                     </button>
                   ))}
                 </div>
