@@ -21,9 +21,17 @@ export const ModuleScreen: React.FC = () => {
     bookmarks,
     toggleBookmark,
     language,
+    setLanguage,
     selectedModuleTab,
     setSelectedModuleTab
   } = useApp();
+
+  const handleCycleLanguage = () => {
+    if (language === 'en') setLanguage('hi');
+    else if (language === 'hi') setLanguage('gu');
+    else if (language === 'gu') setLanguage('mr');
+    else setLanguage('en');
+  };
 
   const selectedTab = selectedModuleTab || 'read';
   const setSelectedTab = setSelectedModuleTab;
@@ -287,9 +295,14 @@ export const ModuleScreen: React.FC = () => {
               >
                 Watch videos
               </button>
-              <span style={{ fontSize: '13px', color: '#0284c7', background: '#e0f2fe', padding: '3px 10px', borderRadius: '4px', fontWeight: 600 }}>
+              <button 
+                type="button"
+                onClick={handleCycleLanguage}
+                title="Click to toggle language (English, Hindi, Gujarati, Marathi)"
+                style={{ background: '#e0f2fe', border: 'none', cursor: 'pointer', color: '#0284c7', fontSize: '13px', fontWeight: 600, padding: '3px 10px', borderRadius: '4px', transition: 'all 0.15s ease' }}
+              >
                 {language === 'hi' ? 'हिंदी' : language === 'gu' ? 'ગુજરાતી' : language === 'mr' ? 'मराठी' : 'English'}
-              </span>
+              </button>
             </div>
 
             <button 
@@ -347,7 +360,7 @@ export const ModuleScreen: React.FC = () => {
             </button>
 
             {/* Downloads trigger */}
-            <div className="download-dropdown-wrapper">
+            <div className="download-dropdown-wrapper" style={{ position: 'relative', display: 'inline-block' }}>
               <button 
                 className={`toolbar-btn download-btn ${isDownloadOpen ? 'active' : ''}`}
                 onClick={() => setIsDownloadOpen(!isDownloadOpen)}
@@ -358,7 +371,23 @@ export const ModuleScreen: React.FC = () => {
               </button>
 
               {isDownloadOpen && (
-                <div className="download-dropdown-panel card">
+                <div 
+                  className="download-dropdown-panel card" 
+                  style={{ 
+                    position: 'absolute', 
+                    right: 0, 
+                    left: 'auto', 
+                    top: '100%', 
+                    marginTop: '8px', 
+                    zIndex: 999, 
+                    width: '230px', 
+                    maxWidth: 'calc(100vw - 32px)',
+                    backgroundColor: '#ffffff',
+                    borderRadius: '8px',
+                    boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)',
+                    border: '1px solid #e2e8f0'
+                  }}
+                >
                   <button onClick={() => {
                     // Generate full module content as HTML and download
                     const moduleTitle = activeModule ? translateModuleTitle(activeModule.title, language) : 'Module';
