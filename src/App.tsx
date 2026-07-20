@@ -27,6 +27,15 @@ const AppShell: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [authLoading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Default bypass setup for direct access to Dashboard
   useEffect(() => {
@@ -122,7 +131,7 @@ const AppShell: React.FC = () => {
           style={{ 
             width: '100%', 
             height: '100%', 
-            objectFit: 'cover', 
+            objectFit: isMobile ? 'contain' : 'cover', 
             backgroundColor: '#000000' 
           }}
         />
