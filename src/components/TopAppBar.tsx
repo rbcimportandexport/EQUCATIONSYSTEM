@@ -1,6 +1,7 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
 import { Search, Bookmark, User, ShieldAlert, Globe, Radio, LogOut } from 'lucide-react';
+import logoEmblem from '../assets/logo_emblem.png';
 
 interface TopAppBarProps {
   onMenuClick?: () => void;
@@ -23,7 +24,7 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
         className="top-bar-brand-box"
         onClick={() => setActiveView('Dashboard')}
       >
-        <img src="/logo_full.png" alt="RBC Import & Export Logo" className="top-bar-logo-img" style={{ height: '56px', width: 'auto', objectFit: 'contain' }} />
+        <img src={logoEmblem} alt="RBC Logo" className="top-bar-logo-img" style={{ height: '56px', width: 'auto', objectFit: 'contain' }} />
       </div>
 
       {/* Nav Links & Tools */}
