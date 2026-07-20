@@ -136,7 +136,6 @@ export const ModuleScreen: React.FC = () => {
     }
     setSelectedTab('read');
     setPdfPage(1);
-    setIsPlaying(false);
   }, [selectedModuleId, language]); // reset if language toggles as well
 
   // Scrollspy observer
