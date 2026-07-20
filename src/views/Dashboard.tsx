@@ -269,10 +269,31 @@ export const Dashboard: React.FC = () => {
           }
         }
 
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
           .varsity-cards-grid {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
           }
+          .varsity-explore-section, .varsity-courses-section {
+            padding: 0 16px !important;
+          }
+          .course-item-card {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 16px !important;
+            padding: 16px !important;
+          }
+          .course-item-card img {
+            width: 100% !important;
+            height: 160px !important;
+          }
+          .course-item-card button {
+            width: 100% !important;
+            justify-content: center !important;
+          }
+        }
+
+        @media (max-width: 640px) {
           .varsity-title-main {
             font-size: 36px;
           }
@@ -443,8 +464,8 @@ export const Dashboard: React.FC = () => {
         </div>
 
         {/* Featured Courses List */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h2 className="varsity-section-heading" style={{ margin: 0 }}>Available Learning Modules</h2>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '20px' }}>
+          <h2 className="varsity-section-heading" style={{ margin: 0, fontSize: 'clamp(18px, 4vw, 22px)' }}>Available Learning Modules</h2>
           <button className="varsity-open-btn" style={{ background: '#f1f5f9', color: '#0f172a', border: '1px solid #cbd5e1' }} onClick={() => setActiveView('Courses')}>
             <span>View All Catalog</span>
             <ArrowRight size={16} />
@@ -463,7 +484,7 @@ export const Dashboard: React.FC = () => {
                     <span style={{ fontSize: '11px', background: '#f1f5f9', color: '#475569', padding: '2px 8px', borderRadius: '4px' }}>{course.level}</span>
                   </div>
                   <h3 style={{ margin: '0 0 6px 0', fontSize: '16px', fontWeight: '700', color: '#0f172a' }}>{course.title}</h3>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '240px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', maxWidth: '280px' }}>
                     <div style={{ flex: 1, height: '6px', background: '#e2e8f0', borderRadius: '3px', overflow: 'hidden' }}>
                       <div style={{ width: `${pct}%`, height: '100%', background: '#0284c7' }}></div>
                     </div>
