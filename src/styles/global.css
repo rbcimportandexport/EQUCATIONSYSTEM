@@ -1862,3 +1862,130 @@ html { overflow-x: hidden; }
     display: none !important;
   }
 }
+
+/* Top App Bar Varsity CSS */
+.top-app-bar-varsity {
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0 48px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+}
+
+.top-bar-brand-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.top-bar-logo-img {
+  height: 38px;
+  width: auto;
+}
+
+.top-bar-brand-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.top-bar-title-main {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.top-bar-title-sub {
+  font-size: 10px;
+  font-weight: 700;
+  color: #0284c7;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+.top-bar-right-group {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.top-bar-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.top-nav-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+  transition: color 0.15s ease;
+}
+
+.top-nav-btn.active {
+  font-weight: 700;
+  color: #0284c7;
+}
+
+.top-nav-btn.live-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.top-bar-lang-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.top-bar-lang-select {
+  padding: 4px 8px;
+  font-size: 13px;
+  font-weight: 500;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #1e293b;
+}
+
+.top-bar-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+}
+
+.top-bar-icon-btn.admin-link-btn {
+  color: #0284c7;
+}
+
+.top-bar-icon-btn.logout-btn {
+  color: #ef4444;
+}
+
+.top-bar-open-account-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0284c7;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
