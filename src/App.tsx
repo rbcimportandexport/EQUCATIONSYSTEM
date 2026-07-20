@@ -95,7 +95,22 @@ const AppShell: React.FC = () => {
 
   if (showSplash) {
     return (
-      <div className="splash-screen-container">
+      <div 
+        className="splash-screen-container" 
+        style={{ 
+          position: 'fixed', 
+          top: 0, 
+          left: 0, 
+          width: '100vw', 
+          height: '100vh', 
+          backgroundColor: '#000000', 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          zIndex: 99999, 
+          overflow: 'hidden' 
+        }}
+      >
         <video
           ref={videoRef}
           className="splash-video"
@@ -104,6 +119,12 @@ const AppShell: React.FC = () => {
           playsInline
           onEnded={() => setShowSplash(false)}
           onError={() => setShowSplash(false)}
+          style={{ 
+            width: '100%', 
+            height: '100%', 
+            objectFit: 'contain', 
+            backgroundColor: '#000000' 
+          }}
         />
       </div>
     );
@@ -129,7 +150,7 @@ const AppShell: React.FC = () => {
   };
 
   return (
-    <div className="app-layout" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#ffffff' }}>
+    <div className="app-layout" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', width: '100%', maxWidth: '100vw', overflowX: 'hidden', background: '#ffffff' }}>
       {isLeftDrawerOpen && (
         <Sidebar isOpen={isLeftDrawerOpen} onClose={() => setIsLeftDrawerOpen(false)} onLogout={handleLogout} />
       )}
