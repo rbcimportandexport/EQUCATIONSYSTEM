@@ -27,10 +27,11 @@ const AppShell: React.FC = () => {
   const [authLoading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Default bypass setup for direct access
+  // Default bypass setup for direct access to Dashboard
   useEffect(() => {
     loginUser('RBC User', 'user@rbcimport.com', 'admin');
     setUserRole('admin');
+    setActiveView('Dashboard');
     setIsAuthenticated(true);
   }, []);
 

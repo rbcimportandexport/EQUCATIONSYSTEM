@@ -274,11 +274,12 @@ export const AdminPanel: React.FC = () => {
 
   return (
     <div className="admin-panel-view">
-      <div className="card admin-tabs-card">
-        <div className="admin-tabs">
+      <div className="card admin-tabs-card" style={{ marginBottom: '24px', padding: '12px 16px' }}>
+        <div className="admin-tabs" style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
           <button 
             className={`admin-tab ${activeTab === 'courses' ? 'active' : ''}`}
             onClick={() => setActiveTab('courses')}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '8px', border: '1px solid #cbd5e1', cursor: 'pointer', background: activeTab === 'courses' ? '#102A56' : '#ffffff', color: activeTab === 'courses' ? '#ffffff' : '#334155', fontWeight: 600, fontSize: '13.5px' }}
           >
             <BookOpen size={16} />
             <span>Manage Courses</span>
@@ -286,6 +287,7 @@ export const AdminPanel: React.FC = () => {
           <button 
             className={`admin-tab ${activeTab === 'modules' ? 'active' : ''}`}
             onClick={() => setActiveTab('modules')}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '8px', border: '1px solid #cbd5e1', cursor: 'pointer', background: activeTab === 'modules' ? '#102A56' : '#ffffff', color: activeTab === 'modules' ? '#ffffff' : '#334155', fontWeight: 600, fontSize: '13.5px' }}
           >
             <Layers size={16} />
             <span>Manage Modules</span>
@@ -293,6 +295,7 @@ export const AdminPanel: React.FC = () => {
           <button 
             className={`admin-tab ${activeTab === 'lessons' ? 'active' : ''}`}
             onClick={() => setActiveTab('lessons')}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '8px', border: '1px solid #cbd5e1', cursor: 'pointer', background: activeTab === 'lessons' ? '#102A56' : '#ffffff', color: activeTab === 'lessons' ? '#ffffff' : '#334155', fontWeight: 600, fontSize: '13.5px' }}
           >
             <FileText size={16} />
             <span>Manage Lessons</span>
@@ -300,6 +303,7 @@ export const AdminPanel: React.FC = () => {
           <button 
             className={`admin-tab ${activeTab === 'users' ? 'active' : ''}`}
             onClick={() => setActiveTab('users')}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '8px', border: '1px solid #cbd5e1', cursor: 'pointer', background: activeTab === 'users' ? '#102A56' : '#ffffff', color: activeTab === 'users' ? '#ffffff' : '#334155', fontWeight: 600, fontSize: '13.5px' }}
           >
             <UsersIcon size={16} />
             <span>Manage Users</span>
