@@ -14,6 +14,7 @@ interface FormErrors {
   email?: string;
   password?: string;
   confirmPassword?: string;
+  otp?: string;
   general?: string;
 }
 
@@ -34,6 +35,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
   const [role, setRole] = useState<'student' | 'admin'>('student');
   const [rememberMe, setRememberMe] = useState(false);
 
+  // OTP State
+  const [otp, setOtp] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpLoading, setOtpLoading] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
+
   useEffect(() => {
     const id = 'rbc-fonts';
     if (!document.getElementById(id)) {
@@ -49,6 +56,51 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
       setRememberMe(true);
     }
   }, []);
+
+  const handleSendOtp = async () => {
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setErrors({ email: 'Please enter a valid email address first' });
+      return;
+    }
+    setOtpLoading(true);
+    setErrors({});
+    setSuccessMsg('');
+    try {
+      const result = await authApi.sendOtp(email.toLowerCase().trim(), mode === 'register' ? 'register' : 'forgot_password');
+      if (result.success) {
+        setOtpSent(true);
+        setSuccessMsg(result.message || 'OTP sent to your email!');
+      } else {
+        setErrors({ email: result.message || 'Failed to send OTP' });
+      }
+    } catch {
+      setErrors({ email: 'Cannot connect to backend server on port 5000' });
+    } finally {
+      setOtpLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    if (!otp.trim() || otp.trim().length !== 6) {
+      setErrors({ otp: 'Please enter valid 6-digit OTP code' });
+      return;
+    }
+    setOtpLoading(true);
+    setErrors({});
+    try {
+      const result = await authApi.verifyOtp(email.toLowerCase().trim(), otp.trim());
+      if (result.success) {
+        setOtpVerified(true);
+        setSuccessMsg('Email verified successfully!');
+      } else {
+        setErrors({ otp: result.message || 'Invalid OTP' });
+      }
+    } catch {
+      setErrors({ otp: 'Failed to verify OTP' });
+    } finally {
+      setOtpLoading(false);
+    }
+  };
 
   const validate = (): boolean => {
     const e: FormErrors = {};
@@ -77,7 +129,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
     try {
       const result = mode === 'login'
         ? await authApi.login({ email: email.toLowerCase().trim(), password })
-        : await authApi.register({ name: name.trim(), email: email.toLowerCase().trim(), password, phone, country, role });
+        : await authApi.register({ name: name.trim(), email: email.toLowerCase().trim(), password, phone, country, role, otp: otp.trim() });
 
       if (result.success && result.user) {
         if (rememberMe) {
@@ -600,15 +652,79 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
 
           <div className="input-group">
             <label className="input-label">Username / Email</label>
-            <input 
-              type="email" 
-              value={email} 
-              onChange={e => setEmail(e.target.value)} 
-              placeholder="email@example.com"
-              className={`input-field ${errors.email ? 'error' : ''}`}
-            />
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+              <input 
+                type="email" 
+                value={email} 
+                onChange={e => setEmail(e.target.value)} 
+                placeholder="email@example.com"
+                className={`input-field ${errors.email ? 'error' : ''}`}
+                style={mode === 'register' ? { paddingRight: '100px' } : undefined}
+              />
+              {mode === 'register' && (
+                <button
+                  type="button"
+                  onClick={handleSendOtp}
+                  disabled={otpLoading || otpVerified}
+                  style={{
+                    position: 'absolute',
+                    right: '8px',
+                    padding: '6px 12px',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    background: otpVerified ? '#10b981' : '#102A56',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '6px',
+                    cursor: otpLoading || otpVerified ? 'default' : 'pointer',
+                    zIndex: 10
+                  }}
+                >
+                  {otpLoading ? 'Sending...' : otpVerified ? 'Verified ✓' : otpSent ? 'Resend' : 'Send OTP'}
+                </button>
+              )}
+            </div>
             {errors.email && <div className="input-error-msg">{errors.email}</div>}
           </div>
+
+          {mode === 'register' && (otpSent || otpVerified) && (
+            <div className="input-group">
+              <label className="input-label">Email Verification Code (OTP)</label>
+              <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                <input 
+                  type="text" 
+                  maxLength={6}
+                  value={otp} 
+                  onChange={e => setOtp(e.target.value)} 
+                  placeholder="Enter 6-digit OTP"
+                  className={`input-field ${errors.otp ? 'error' : ''}`}
+                  style={{ letterSpacing: '3px', fontWeight: 600, paddingRight: '100px' }}
+                />
+                <button
+                  type="button"
+                  onClick={handleVerifyOtp}
+                  disabled={otpLoading || otpVerified || otp.length !== 6}
+                  style={{
+                    position: 'absolute',
+                    right: '8px',
+                    padding: '6px 12px',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    background: otpVerified ? '#10b981' : '#2563eb',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '6px',
+                    cursor: otpVerified ? 'default' : 'pointer',
+                    opacity: otp.length === 6 ? 1 : 0.6,
+                    zIndex: 10
+                  }}
+                >
+                  {otpVerified ? 'Verified ✓' : 'Verify Code'}
+                </button>
+              </div>
+              {errors.otp && <div className="input-error-msg">{errors.otp}</div>}
+            </div>
+          )}
 
           <div className="input-group">
             <label className="input-label">Password</label>
