@@ -18,6 +18,7 @@ import { Settings } from './views/Settings';
 import { AdminPanel } from './views/AdminPanel';
 import { QuizScreen } from './views/QuizScreen';
 import { CommunityScreen } from './views/CommunityScreen';
+import { VideosScreen } from './views/VideosScreen';
 
 const AppShell: React.FC = () => {
   const { activeView, setActiveView, setUserRole, loginUser, setCurrentUser } = useApp();
@@ -122,6 +123,7 @@ const AppShell: React.FC = () => {
       case 'AdminPanel': return <AdminPanel />;
       case 'Quiz': return <QuizScreen />;
       case 'Community': return <CommunityScreen />;
+      case 'Videos': return <VideosScreen />;
       default: return <ModuleScreen />;
     }
   };

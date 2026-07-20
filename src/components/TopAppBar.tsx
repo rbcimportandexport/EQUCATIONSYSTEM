@@ -44,11 +44,8 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
 
           <button
             type="button"
-            className={`top-nav-btn ${activeView === 'Chapters' ? 'active' : ''}`}
-            onClick={() => {
-              setSelectedModuleTab('video');
-              setActiveView('Chapters');
-            }}
+            className={`top-nav-btn ${activeView === 'Videos' ? 'active' : ''}`}
+            onClick={() => setActiveView('Videos')}
           >
             Videos
           </button>

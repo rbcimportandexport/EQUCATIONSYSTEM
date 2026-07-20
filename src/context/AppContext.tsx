@@ -10,6 +10,7 @@ export type ViewType =
   | 'Dashboard' 
   | 'Courses' 
   | 'Chapters' // Maps internally to Modules
+  | 'Videos' // Dedicated Video Gallery
   | 'Lessons' 
   | 'Bookmarks' 
   | 'Downloads' 
