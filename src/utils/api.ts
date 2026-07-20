@@ -41,6 +41,7 @@ interface RegisterData {
   phone?: string;
   country?: string;
   role?: 'student' | 'admin';
+  otp?: string;
 }
 
 interface LoginData {

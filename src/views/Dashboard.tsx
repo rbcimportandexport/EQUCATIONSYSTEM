@@ -351,7 +351,7 @@ export const Dashboard: React.FC = () => {
           </div>
 
           {/* Card 3: Videos (Yellow / Amber) */}
-          <div className="varsity-card" onClick={() => setActiveView('ModuleScreen')}>
+          <div className="varsity-card" onClick={() => setActiveView('Chapters')}>
             <div className="varsity-card-header" style={{ background: '#fbbf24' }}>
               <div className="varsity-card-icon-box">
                 <Video size={26} color="#d97706" />
