@@ -23,32 +23,15 @@ const AppShell: React.FC = () => {
   const { activeView, setActiveView, setUserRole, loginUser, setCurrentUser } = useApp();
   const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [authLoading, setAuthLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [authLoading, setAuthLoading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Check if user is already logged in on app start
+  // Default bypass setup for direct access
   useEffect(() => {
-    const checkAuth = async () => {
-      if (authApi.isLoggedIn()) {
-        try {
-          const result = await authApi.getMe();
-          if (result.success && result.user) {
-            handleAuthSuccess(result.user);
-          } else {
-            await authApi.logout();
-            setIsAuthenticated(false);
-          }
-        } catch {
-          setIsAuthenticated(false);
-        }
-      } else {
-        setIsAuthenticated(false);
-      }
-      setAuthLoading(false);
-    };
-
-    checkAuth();
+    loginUser('RBC User', 'user@rbcimport.com', 'admin');
+    setUserRole('admin');
+    setIsAuthenticated(true);
   }, []);
 
   const handleAuthSuccess = (user: AuthUser) => {
