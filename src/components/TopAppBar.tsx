@@ -23,7 +23,7 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
         className="top-bar-brand-box"
         onClick={() => setActiveView('Dashboard')}
       >
-        <img src="/logo_emblem.png" alt="RBC Logo" className="top-bar-logo-img" style={{ height: '48px', width: 'auto' }} />
+        <img src="/logo_full.png" alt="RBC Import & Export Logo" className="top-bar-logo-img" style={{ height: '56px', width: 'auto', objectFit: 'contain' }} />
       </div>
 
       {/* Nav Links & Tools */}

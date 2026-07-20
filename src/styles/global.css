@@ -1886,8 +1886,9 @@ html { overflow-x: hidden; }
 }
 
 .top-bar-logo-img {
-  height: 48px;
+  height: 56px;
   width: auto;
+  object-fit: contain;
 }
 
 .top-bar-brand-titles {
