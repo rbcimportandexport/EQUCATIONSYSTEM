@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
 import { 
   BookOpen, Image, Video, FileText, Download, Bookmark, 
-  ChevronRight, ChevronDown, Award, Play, Pause, Maximize, 
+  ChevronRight, ChevronDown, Award, Pause, 
   ArrowLeft, ArrowRight, CheckCircle2, Volume2, PlayCircle
 } from 'lucide-react';
 import { uiTranslations, translateModuleTitle, translateModuleDescription, getTranslatedLesson } from '../utils/translator';
@@ -34,10 +34,6 @@ export const ModuleScreen: React.FC = () => {
   
   // Accordion state: map of lessonId -> boolean (whether expanded)
   const [expandedTopics, setExpandedTopics] = useState<{ [topicId: string]: boolean }>({});
-
-  // Video player states
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [videoSpeed, setVideoSpeed] = useState(1);
 
   // PDF states
   const [pdfPage, setPdfPage] = useState(1);
