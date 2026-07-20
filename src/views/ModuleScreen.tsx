@@ -70,7 +70,6 @@ export const ModuleScreen: React.FC = () => {
 
   // Calculate stats
   const totalTopics = translatedLessons.length;
-  const totalEstDuration = translatedLessons.reduce((acc, curr) => acc + curr.duration, 0);
 
   // Calculate progress of this module
   const completedTopicsCount = translatedLessons.filter(l => progress[l.id]?.completed).length;
@@ -269,10 +268,13 @@ export const ModuleScreen: React.FC = () => {
             <div style={{ height: '5px', width: '180px', background: '#10b981', borderRadius: '3px' }} />
           </div>
 
-          {/* Module Title */}
-          <h1 style={{ fontSize: '36px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px 0', letterSpacing: '-0.5px' }}>
+          {/* Module Title & Description */}
+          <h1 style={{ fontSize: '36px', fontWeight: 800, color: '#0f172a', margin: '0 0 8px 0', letterSpacing: '-0.5px' }}>
             {translatedModuleTitle}
           </h1>
+          <p style={{ fontSize: '15px', color: '#475569', margin: '0 0 16px 0', lineHeight: 1.5, maxWidth: '800px' }}>
+            {translatedModuleDesc}
+          </p>
 
           {/* Sub-actions Row (Watch videos, Hindi, Download PDF) */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '16px' }}>
