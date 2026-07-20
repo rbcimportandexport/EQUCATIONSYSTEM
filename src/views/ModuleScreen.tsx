@@ -20,10 +20,24 @@ export const ModuleScreen: React.FC = () => {
     markLessonComplete,
     bookmarks,
     toggleBookmark,
-    language
+    language,
+    selectedModuleTab,
+    setSelectedModuleTab
   } = useApp();
 
-  const [selectedTab, setSelectedTab] = useState<'read' | 'images' | 'video' | 'pdf'>('read');
+  const [selectedTab, setSelectedTabState] = useState<'read' | 'images' | 'video' | 'pdf'>(selectedModuleTab || 'read');
+
+  useEffect(() => {
+    if (selectedModuleTab) {
+      setSelectedTabState(selectedModuleTab);
+    }
+  }, [selectedModuleTab]);
+
+  const setSelectedTab = (tab: 'read' | 'images' | 'video' | 'pdf') => {
+    setSelectedTabState(tab);
+    setSelectedModuleTab(tab);
+  };
+
   const [isDownloadOpen, setIsDownloadOpen] = useState(false);
   const [activeTopicId, setActiveTopicId] = useState<string>('');
   const [playingLessonId, setPlayingLessonId] = useState<string | null>(null);
@@ -247,22 +261,42 @@ export const ModuleScreen: React.FC = () => {
       {/* 2. Main Chapter Reading & Interactive workspace */}
       <div className="textbook-workspace-viewport" ref={scrollContainerRef}>
         
-        {/* Textbook Header Banner */}
-        <div className="textbook-chapter-header">
-          <div className="header-meta-row">
-            <span className="module-badge">
-              {language === 'hi' ? 'मॉड्यूल' : language === 'gu' ? 'મોડ્યુલ' : language === 'mr' ? 'मॉड्यूल' : 'Module'} {activeModule.order}
-            </span>
-            <span className="dot-separator">•</span>
-            <span className="metadata-pill">{totalTopics} {t.topics}</span>
-            <span className="dot-separator">•</span>
-            <span className="metadata-pill">{t.estTime}: {totalEstDuration} {t.minutes}</span>
-            <span className="dot-separator">•</span>
-            <span className="metadata-pill">{t.beginnerLevel}</span>
+        {/* Zerodha Varsity Style Module Header */}
+        <div style={{ paddingBottom: '24px', marginBottom: '32px', borderBottom: '1px solid #e2e8f0' }}>
+          {/* Big Module Number & Accent Line */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '12px' }}>
+            <span style={{ fontSize: '64px', fontWeight: 800, color: '#0f172a', lineHeight: 1 }}>{activeModule.order}</span>
+            <div style={{ height: '5px', width: '180px', background: '#10b981', borderRadius: '3px' }} />
           </div>
 
-          <h1 className="chapter-main-title">{translatedModuleTitle}</h1>
-          <p className="chapter-main-desc">{translatedModuleDesc}</p>
+          {/* Module Title */}
+          <h1 style={{ fontSize: '36px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px 0', letterSpacing: '-0.5px' }}>
+            {translatedModuleTitle}
+          </h1>
+
+          {/* Sub-actions Row (Watch videos, Hindi, Download PDF) */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+              <button 
+                type="button"
+                onClick={() => setSelectedTab('video')}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0284c7', fontSize: '14px', fontWeight: 600, padding: 0 }}
+              >
+                Watch videos
+              </button>
+              <span style={{ fontSize: '13px', color: '#0284c7', background: '#e0f2fe', padding: '3px 10px', borderRadius: '4px', fontWeight: 600 }}>
+                {language === 'hi' ? 'हिंदी' : language === 'gu' ? 'ગુજરાતી' : language === 'mr' ? 'मराठी' : 'English'}
+              </span>
+            </div>
+
+            <button 
+              type="button"
+              onClick={() => setSelectedTab('pdf')}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0284c7', fontSize: '14px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px', padding: 0 }}
+            >
+              <span>Download PDF</span>
+            </button>
+          </div>
         </div>
 
         {/* Resource Toolbar */}

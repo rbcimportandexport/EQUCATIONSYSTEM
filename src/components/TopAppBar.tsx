@@ -14,7 +14,8 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
     setActiveView,
     userRole,
     language,
-    setLanguage
+    setLanguage,
+    setSelectedModuleTab
   } = useApp();
 
   return (
@@ -33,7 +34,10 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
           <button
             type="button"
             className={`top-nav-btn ${activeView === 'Courses' ? 'active' : ''}`}
-            onClick={() => setActiveView('Courses')}
+            onClick={() => {
+              setSelectedModuleTab('read');
+              setActiveView('Courses');
+            }}
           >
             Modules
           </button>
@@ -41,7 +45,10 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
           <button
             type="button"
             className={`top-nav-btn ${activeView === 'Chapters' ? 'active' : ''}`}
-            onClick={() => setActiveView('Chapters')}
+            onClick={() => {
+              setSelectedModuleTab('video');
+              setActiveView('Chapters');
+            }}
           >
             Videos
           </button>

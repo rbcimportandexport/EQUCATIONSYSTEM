@@ -37,6 +37,8 @@ interface AppContextType {
   setSelectedModuleId: (id: string | null) => void;
   selectedLessonId: string | null;
   setSelectedLessonId: (id: string | null) => void;
+  selectedModuleTab: 'read' | 'images' | 'video' | 'pdf';
+  setSelectedModuleTab: (tab: 'read' | 'images' | 'video' | 'pdf') => void;
   
   // Database States
   courses: Course[];
@@ -103,6 +105,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
   const [selectedModuleId, setSelectedModuleId] = useState<string | null>(null);
   const [selectedLessonId, setSelectedLessonId] = useState<string | null>(null);
+  const [selectedModuleTab, setSelectedModuleTab] = useState<'read' | 'images' | 'video' | 'pdf'>('read');
 
   // Db states
   const [courses, setCourses] = useState<Course[]>([]);
@@ -660,6 +663,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setSelectedModuleId,
       selectedLessonId,
       setSelectedLessonId,
+      selectedModuleTab,
+      setSelectedModuleTab,
       
       courses,
       modules,
