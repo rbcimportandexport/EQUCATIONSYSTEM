@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { moduleLessonsMap } from '../utils/data';
-import { Search, BookOpen, ArrowRight, PlayCircle, Globe, Video } from 'lucide-react';
+import { Search, ArrowRight } from 'lucide-react';
 
 interface ModuleImageData {
   image: string;
