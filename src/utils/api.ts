@@ -99,6 +99,16 @@ export const authApi = {
     return result;
   },
 
+  // Send OTP to email
+  sendOtp: async (email: string, type: 'register' | 'forgot_password' = 'register'): Promise<{ success: boolean; message: string }> => {
+    return await apiRequest('/auth/send-otp', 'POST', { email, type });
+  },
+
+  // Verify OTP
+  verifyOtp: async (email: string, otp: string): Promise<{ success: boolean; message: string }> => {
+    return await apiRequest('/auth/verify-otp', 'POST', { email, otp });
+  },
+
   // Get current user
   getMe: async (): Promise<{ success: boolean; user?: AuthUser }> => {
     return await apiRequest<AuthUser>('/auth/me');

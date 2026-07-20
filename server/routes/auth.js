@@ -2,12 +2,101 @@ const express = require('express');
 const router = express.Router();
 const db = require('../utils/db');
 const { protect, generateToken } = require('../middleware/auth');
+const { storeOTP, verifyOTP, isVerified, clearOTP } = require('../utils/otpStore');
+const { sendOTPEmail } = require('../utils/emailService');
+
+// ─── POST /api/auth/send-otp ──────────────────────────────────────────────────
+// Generate & Send 6-Digit OTP Email
+router.post('/send-otp', async (req, res) => {
+  try {
+    const { email, type = 'register' } = req.body;
+
+    if (!email || !email.includes('@')) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide a valid email address'
+      });
+    }
+
+    const normalizedEmail = email.toLowerCase().trim();
+
+    // Check existing email for registration
+    if (type === 'register') {
+      const existingUser = await db.findUserByEmail(normalizedEmail);
+      if (existingUser) {
+        return res.status(400).json({
+          success: false,
+          message: 'An account with this email already exists. Please login.'
+        });
+      }
+    } else if (type === 'forgot_password') {
+      const existingUser = await db.findUserByEmail(normalizedEmail);
+      if (!existingUser) {
+        return res.status(404).json({
+          success: false,
+          message: 'No account found with this email address.'
+        });
+      }
+    }
+
+    // Generate & Store OTP
+    const otpCode = storeOTP(normalizedEmail, type);
+
+    // Send Email via Google Apps Script / Email Service
+    const result = await sendOTPEmail(normalizedEmail, otpCode, type);
+
+    res.json({
+      success: true,
+      message: result.message || `OTP sent successfully to ${normalizedEmail}`,
+      email: normalizedEmail
+    });
+
+  } catch (error) {
+    console.error('Send OTP error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to send OTP. Please try again.'
+    });
+  }
+});
+
+// ─── POST /api/auth/verify-otp ────────────────────────────────────────────────
+// Verify 6-Digit OTP Code
+router.post('/verify-otp', async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    if (!email || !otp) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email and OTP code are required'
+      });
+    }
+
+    const verificationResult = verifyOTP(email, otp);
+    if (!verificationResult.success) {
+      return res.status(400).json(verificationResult);
+    }
+
+    res.json({
+      success: true,
+      message: 'OTP verified successfully! You can now proceed.'
+    });
+
+  } catch (error) {
+    console.error('Verify OTP error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error during OTP verification'
+    });
+  }
+});
 
 // ─── POST /api/auth/register ────────────────────────────────────────────────
 // Register a new user
 router.post('/register', async (req, res) => {
   try {
-    const { name, email, password, phone, country, role } = req.body;
+    const { name, email, password, phone, country, role, otp } = req.body;
 
     // Validation
     if (!name || !email || !password) {
@@ -17,13 +106,23 @@ router.post('/register', async (req, res) => {
       });
     }
 
+    const normalizedEmail = email.toLowerCase().trim();
+
     // Check if email already exists
-    const existingUser = await db.findUserByEmail(email);
+    const existingUser = await db.findUserByEmail(normalizedEmail);
     if (existingUser) {
       return res.status(400).json({
         success: false,
         message: 'An account with this email already exists'
       });
+    }
+
+    // Verify OTP if provided or required
+    if (otp) {
+      const verification = verifyOTP(normalizedEmail, otp);
+      if (!verification.success) {
+        return res.status(400).json(verification);
+      }
     }
 
     // Only allow admin role if specifically provided
@@ -32,12 +131,15 @@ router.post('/register', async (req, res) => {
     // Create user
     const user = await db.createUser({
       name: name.trim(),
-      email: email.toLowerCase().trim(),
+      email: normalizedEmail,
       password,
       phone: phone || '',
       country: country || 'India',
       role: userRole
     });
+
+    // Clear OTP after registration
+    clearOTP(normalizedEmail);
 
     // Generate JWT token
     const token = generateToken(user.id || user._id);
