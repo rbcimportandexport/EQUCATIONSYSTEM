@@ -25,8 +25,7 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
       >
         <img src="/logo_emblem.png" alt="RBC Logo" className="top-bar-logo-img" />
         <div className="top-bar-brand-titles">
-          <span className="top-bar-title-main">RBC VARSITY</span>
-          <span className="top-bar-title-sub">TRADE ACADEMY</span>
+          <span className="top-bar-title-main">RBC ACADEMY</span>
         </div>
       </div>
 
