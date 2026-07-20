@@ -391,7 +391,7 @@ export const ModuleScreen: React.FC = () => {
             }}
           >
         <div
-          className="download-dropdown-panel card"
+          className="download-modal-panel card"
           onClick={e => e.stopPropagation()}
           style={{
             position: 'relative',
