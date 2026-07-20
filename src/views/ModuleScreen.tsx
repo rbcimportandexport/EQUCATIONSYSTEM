@@ -1001,12 +1001,12 @@ export const ModuleScreen: React.FC = () => {
           <div className="textbook-video-mode">
             <div className="card video-workspace-card" style={{ padding: '0', overflow: 'hidden', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
               {/* Real HTML5 Video Player */}
-              <div style={{ position: 'relative', width: '100%', backgroundColor: '#000000', borderRadius: '12px 12px 0 0', overflow: 'hidden' }}>
+              <div style={{ position: 'relative', width: '100%', backgroundColor: '#000000', borderRadius: '12px 12px 0 0', overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <video
                   controls
                   autoPlay={false}
                   poster={translatedLessons[0]?.content?.images?.[0]?.url || "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1200&q=80"}
-                  style={{ width: '100%', maxHeight: '520px', display: 'block', outline: 'none' }}
+                  style={{ width: '100%', height: 'auto', maxHeight: '75vh', display: 'block', outline: 'none', objectFit: 'contain', backgroundColor: '#000000' }}
                 >
                   <source
                     src={(activeModule as any).videoUrl || "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"}
