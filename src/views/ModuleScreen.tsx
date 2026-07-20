@@ -128,11 +128,12 @@ export const ModuleScreen: React.FC = () => {
     }
   }, [selectedLessonId, translatedLessons, setSelectedLessonId]);
 
-  // Set default active topic & clear accordion on module change
+  // Set default active topic & auto-expand Topic 1 by default on module change
   useEffect(() => {
     if (translatedLessons.length > 0) {
-      setActiveTopicId(translatedLessons[0].id);
-      setExpandedTopics({});
+      const firstTopicId = translatedLessons[0].id;
+      setActiveTopicId(firstTopicId);
+      setExpandedTopics({ [firstTopicId]: true });
     }
     setSelectedTab('read');
     setPdfPage(1);
