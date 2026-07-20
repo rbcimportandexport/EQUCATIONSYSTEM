@@ -127,8 +127,10 @@ const AppShell: React.FC = () => {
   };
 
   return (
-    <div className="app-layout">
-      <Sidebar isOpen={isLeftDrawerOpen} onClose={() => setIsLeftDrawerOpen(false)} onLogout={handleLogout} />
+    <div className="app-layout" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#ffffff' }}>
+      {isLeftDrawerOpen && (
+        <Sidebar isOpen={isLeftDrawerOpen} onClose={() => setIsLeftDrawerOpen(false)} onLogout={handleLogout} />
+      )}
 
       {isLeftDrawerOpen && (
         <div
@@ -137,9 +139,9 @@ const AppShell: React.FC = () => {
         ></div>
       )}
 
-      <div className="main-content-panel">
+      <div className="main-content-panel" style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%' }}>
         <TopAppBar onMenuClick={() => setIsLeftDrawerOpen(true)} onLogout={handleLogout} />
-        <main className="main-viewport-container">
+        <main className="main-viewport-container" style={{ flex: 1, width: '100%', background: '#ffffff' }}>
           {renderActiveView()}
         </main>
       </div>

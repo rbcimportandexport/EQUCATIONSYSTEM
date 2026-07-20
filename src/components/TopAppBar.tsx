@@ -1,7 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { Menu, Search, Bookmark, User, ShieldAlert, Globe, MessageSquare, LogOut } from 'lucide-react';
-import { translateModuleTitle } from '../utils/translator';
+import { Menu, Search, Bookmark, User, ShieldAlert, Globe, MessageSquare, LogOut, Radio } from 'lucide-react';
 
 interface TopAppBarProps {
   onMenuClick?: () => void;
@@ -10,69 +9,118 @@ interface TopAppBarProps {
 
 export const TopAppBar: React.FC<TopAppBarProps> = ({ onMenuClick, onLogout }) => {
   const { 
-    modules, 
-    selectedModuleId, 
+    activeView,
     setActiveView,
     userRole,
     language,
     setLanguage
   } = useApp();
 
-  const activeModule = modules.find(m => m.id === selectedModuleId) || modules[0];
-  
-  // Breadcrumb localization helpers
-  const getModuleOrderLabel = () => {
-    if (!activeModule) return '';
-    if (language === 'hi') return `मॉड्यूल ${activeModule.order}`;
-    if (language === 'gu') return `મોડ્યુલ ${activeModule.order}`;
-    if (language === 'mr') return `मॉड्यूल ${activeModule.order}`;
-    return `Module ${activeModule.order}`;
-  };
-
-  const getCourseLabelText = () => {
-    if (language === 'hi') return 'आयात एवं निर्यात कोर्स';
-    if (language === 'gu') return 'આયાત અને નિકાસ કોર્સ';
-    if (language === 'mr') return 'आयात आणि निर्यात कोर्स';
-    return 'Import & Export Course';
-  };
-
-  const moduleTitleText = activeModule ? translateModuleTitle(activeModule.title, language) : '';
-
   return (
-    <header className="top-app-bar-redesign">
-      <div className="top-bar-left">
-        {/* Mobile menu trigger */}
-        <button className="mobile-menu-trigger-btn" onClick={onMenuClick}>
+    <header className="top-app-bar-redesign" style={{
+      background: '#ffffff',
+      borderBottom: '1px solid #e2e8f0',
+      padding: '0 48px',
+      height: '72px',
+      display: 'flex',
+      alignItems: 'center',
+      justify-content: 'space-between',
+      position: 'sticky',
+      top: 0,
+      zIndex: 50,
+      fontFamily: 'Inter, system-ui, -apple-system, sans-serif'
+    }}>
+      {/* Brand Logo & Name */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} onClick={() => setActiveView('Dashboard')}>
+        <button className="mobile-menu-trigger-btn" onClick={(e) => { e.stopPropagation(); if (onMenuClick) onMenuClick(); }} style={{ display: 'none' }}>
           <Menu size={20} />
         </button>
-
-        {/* Textbook Breadcrumb */}
-        <div className="textbook-breadcrumbs">
-          <span className="crumb-course-title">{getCourseLabelText()}</span>
-          <span className="crumb-arrow">/</span>
-          <span className="crumb-module-order">{getModuleOrderLabel()}</span>
-          <span className="crumb-arrow">/</span>
-          <span className="crumb-module-title">{moduleTitleText}</span>
+        <img src="/logo_emblem.png" alt="RBC Logo" style={{ height: '38px', width: 'auto' }} />
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <span style={{ fontSize: '18px', fontWeight: '800', color: '#0f172a', letterSpacing: '-0.5px', lineHeight: 1 }}>RBC VARSITY</span>
+          <span style={{ fontSize: '10px', fontWeight: '700', color: '#0284c7', letterSpacing: '1px', marginTop: '2px' }}>TRADE ACADEMY</span>
         </div>
       </div>
 
-      <div className="top-bar-right">
+      {/* Zerodha Varsity Style Center-Right Links */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '28px' }}>
+        <nav style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <button 
+            onClick={() => setActiveView('Courses')}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              fontSize: '14px', fontWeight: activeView === 'Courses' ? '700' : '600',
+              color: activeView === 'Courses' ? '#0284c7' : '#334155',
+              transition: 'color 0.15s ease'
+            }}
+          >
+            Modules
+          </button>
+          
+          <button 
+            onClick={() => setActiveView('Chapters')}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              fontSize: '14px', fontWeight: activeView === 'Chapters' ? '700' : '600',
+              color: activeView === 'Chapters' ? '#0284c7' : '#334155',
+              transition: 'color 0.15s ease'
+            }}
+          >
+            Videos
+          </button>
+
+          <button 
+            onClick={() => setActiveView('Community')}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              fontSize: '14px', fontWeight: activeView === 'Community' ? '700' : '600',
+              color: activeView === 'Community' ? '#0284c7' : '#334155',
+              transition: 'color 0.15s ease'
+            }}
+          >
+            Community
+          </button>
+
+          <button 
+            onClick={() => setActiveView('Courses')}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              fontSize: '14px', fontWeight: '600',
+              color: '#334155',
+              transition: 'color 0.15s ease'
+            }}
+          >
+            Junior
+          </button>
+
+          <button 
+            onClick={() => setActiveView('Community')}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              fontSize: '14px', fontWeight: '600',
+              color: '#334155', display: 'flex', alignItems: 'center', gap: '5px'
+            }}
+          >
+            <Radio size={14} color="#db2777" />
+            <span>Live</span>
+          </button>
+        </nav>
+
         {/* Minimal Language Dropdown Selector */}
-        <div className="language-selector-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '6px', marginRight: '8px' }}>
-          <Globe size={16} color="var(--md-sys-color-secondary)" />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <Globe size={16} color="#64748b" />
           <select
             value={language}
             onChange={e => setLanguage(e.target.value as any)}
-            className="select-dropdown language-selector-dropdown"
             style={{
               padding: '4px 8px',
               fontSize: '13px',
               fontWeight: 500,
               backgroundColor: '#FFFFFF',
-              border: '1px solid var(--md-sys-color-outline)',
+              border: '1px solid #cbd5e1',
               borderRadius: '6px',
               cursor: 'pointer',
-              color: 'var(--md-sys-color-on-background)'
+              color: '#1e293b'
             }}
           >
             <option value="en">English (EN)</option>
@@ -82,20 +130,20 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onMenuClick, onLogout }) =
           </select>
         </div>
 
-        {/* Search button */}
+        {/* Search */}
         <button 
-          className="top-bar-action-icon-btn" 
           onClick={() => setActiveView('Search')}
-          title="Search knowledge base"
+          title="Search"
+          style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', display: 'flex', alignItems: 'center' }}
         >
           <Search size={18} />
         </button>
 
-        {/* Bookmarks button */}
+        {/* Bookmarks */}
         <button 
-          className="top-bar-action-icon-btn" 
           onClick={() => setActiveView('Bookmarks')}
-          title="View bookmarks"
+          title="Bookmarks"
+          style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', display: 'flex', alignItems: 'center' }}
         >
           <Bookmark size={18} />
         </button>
@@ -103,39 +151,33 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onMenuClick, onLogout }) =
         {/* Admin control panel link (if admin) */}
         {userRole === 'admin' && (
           <button 
-            className="top-bar-action-icon-btn admin-badge-btn" 
             onClick={() => setActiveView('AdminPanel')}
-            title="Admin Control Suite"
+            title="Admin Suite"
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0284c7', display: 'flex', alignItems: 'center' }}
           >
             <ShieldAlert size={18} />
           </button>
         )}
 
-        {/* Expert Chat & Community button */}
+        {/* Open Account / Profile */}
         <button 
-          className="top-bar-action-icon-btn community-btn" 
-          onClick={() => setActiveView('Community')}
-          title="Expert Connect & Members"
-        >
-          <MessageSquare size={18} />
-        </button>
-
-        {/* Profile button */}
-        <button 
-          className="top-bar-action-icon-btn profile-avatar-btn" 
           onClick={() => setActiveView('Profile')}
-          title="View Student Profile"
+          style={{
+            background: 'none', border: 'none', cursor: 'pointer',
+            fontSize: '13.5px', fontWeight: '700', color: '#0284c7',
+            display: 'flex', alignItems: 'center', gap: '6px'
+          }}
         >
-          <User size={18} />
+          <User size={16} />
+          <span>Open Account</span>
         </button>
 
-        {/* Logout button */}
+        {/* Logout */}
         {onLogout && (
           <button
-            className="top-bar-action-icon-btn"
             onClick={onLogout}
             title="Logout"
-            style={{ color: '#ef4444' }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ef4444', display: 'flex', alignItems: 'center' }}
           >
             <LogOut size={18} />
           </button>
