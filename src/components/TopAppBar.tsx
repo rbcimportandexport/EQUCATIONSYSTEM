@@ -9,7 +9,7 @@ interface TopAppBarProps {
 }
 
 export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
-  const { 
+  const {
     activeView,
     setActiveView,
     userRole,
@@ -20,25 +20,25 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
   return (
     <header className="top-app-bar-varsity" style={{ height: '88px' }}>
       {/* Brand Logo & Title */}
-      <div 
+      <div
         className="top-bar-brand-box"
         onClick={() => setActiveView('Dashboard')}
       >
-        <img src={logoEmblem} alt="RBC Logo" className="top-bar-logo-img" style={{ height: '76px', width: 'auto', objectFit: 'contain' }} />
+        <img src={logoEmblem} alt="RBC Logo" className="top-bar-logo-img" style={{ height: '150px', width: 'auto', objectFit: 'contain' }} />
       </div>
 
       {/* Nav Links & Tools */}
       <div className="top-bar-right-group">
         <nav className="top-bar-nav-links">
-          <button 
+          <button
             type="button"
             className={`top-nav-btn ${activeView === 'Courses' ? 'active' : ''}`}
             onClick={() => setActiveView('Courses')}
           >
             Modules
           </button>
-          
-          <button 
+
+          <button
             type="button"
             className={`top-nav-btn ${activeView === 'Chapters' ? 'active' : ''}`}
             onClick={() => setActiveView('Chapters')}
@@ -46,7 +46,7 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
             Videos
           </button>
 
-          <button 
+          <button
             type="button"
             className={`top-nav-btn ${activeView === 'Community' ? 'active' : ''}`}
             onClick={() => setActiveView('Community')}
@@ -54,7 +54,7 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
             Community
           </button>
 
-          <button 
+          <button
             type="button"
             className="top-nav-btn"
             onClick={() => setActiveView('Courses')}
@@ -62,7 +62,7 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
             Junior
           </button>
 
-          <button 
+          <button
             type="button"
             className="top-nav-btn live-btn"
             onClick={() => setActiveView('Community')}
@@ -88,7 +88,7 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
         </div>
 
         {/* Search */}
-        <button 
+        <button
           type="button"
           className="top-bar-icon-btn"
           onClick={() => setActiveView('Search')}
@@ -98,7 +98,7 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
         </button>
 
         {/* Bookmarks */}
-        <button 
+        <button
           type="button"
           className="top-bar-icon-btn"
           onClick={() => setActiveView('Bookmarks')}
@@ -109,7 +109,7 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
 
         {/* Admin Link */}
         {userRole === 'admin' && (
-          <button 
+          <button
             type="button"
             className="top-bar-icon-btn admin-link-btn"
             onClick={() => setActiveView('AdminPanel')}
@@ -120,7 +120,7 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
         )}
 
         {/* Open Account / Profile */}
-        <button 
+        <button
           type="button"
           className="top-bar-open-account-btn"
           onClick={() => setActiveView('Profile')}
