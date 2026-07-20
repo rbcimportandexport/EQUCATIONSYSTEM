@@ -24,7 +24,7 @@ const AppShell: React.FC = () => {
   const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [authLoading, setAuthLoading] = useState(false);
+  const [authLoading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // Default bypass setup for direct access
