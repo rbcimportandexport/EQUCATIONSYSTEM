@@ -134,7 +134,6 @@ export const ModuleScreen: React.FC = () => {
       setActiveTopicId(firstTopicId);
       setExpandedTopics({ [firstTopicId]: true });
     }
-    setSelectedTab('read');
     setPdfPage(1);
   }, [selectedModuleId, language]); // reset if language toggles as well
 
