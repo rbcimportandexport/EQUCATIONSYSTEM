@@ -146,15 +146,16 @@ export const Courses: React.FC = () => {
 
         .module-image-container {
           position: relative;
-          height: 160px;
+          aspect-ratio: 16 / 9;
+          height: auto;
           overflow: hidden;
-          background: #f1f5f9;
+          background: #ffffff;
         }
 
         .module-card-img {
           width: 100%;
           height: 100%;
-          object-fit: cover;
+          object-fit: contain;
           transition: transform 0.35s ease;
         }
 

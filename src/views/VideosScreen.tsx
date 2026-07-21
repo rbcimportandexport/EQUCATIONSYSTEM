@@ -160,17 +160,18 @@ export const VideosScreen: React.FC = () => {
         }
 
         .video-thumb-area {
-          height: 180px;
           position: relative;
-          background: #0f172a;
+          aspect-ratio: 16 / 9;
+          height: auto;
+          background: #ffffff;
           overflow: hidden;
         }
 
         .video-thumb-img {
           width: 100%;
           height: 100%;
-          object-fit: cover;
-          opacity: 0.85;
+          object-fit: contain;
+          opacity: 0.95;
           transition: transform 0.3s ease;
         }
 
