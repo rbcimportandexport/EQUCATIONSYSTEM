@@ -32,6 +32,7 @@ export const Courses: React.FC = () => {
     setSelectedCourseId, 
     setSelectedModuleId, 
     setSelectedLessonId,
+    setSelectedModuleTab,
     setActiveView
   } = useApp();
 
@@ -47,6 +48,7 @@ export const Courses: React.FC = () => {
     setSelectedCourseId(courseId);
     setSelectedModuleId(moduleId);
     setSelectedLessonId(null);
+    setSelectedModuleTab('read');
     setActiveView('Chapters');
   };
 

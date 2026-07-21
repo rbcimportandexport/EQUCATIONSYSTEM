@@ -13,6 +13,7 @@ export const Dashboard: React.FC = () => {
     setSelectedCourseId, 
     setSelectedModuleId, 
     setActiveView,
+    setSelectedModuleTab,
     getCourseCompletionPercentage,
     language
   } = useApp();
@@ -346,7 +347,7 @@ export const Dashboard: React.FC = () => {
 
         <div className="varsity-cards-grid">
           {/* Card 1: Modules (Blue) */}
-          <div className="varsity-card" onClick={() => setActiveView('Courses')}>
+          <div className="varsity-card" onClick={() => { setSelectedModuleTab('read'); setActiveView('Courses'); }}>
             <div className="varsity-card-header" style={{ background: '#60a5fa' }}>
               <div className="varsity-card-icon-box">
                 <BookOpen size={26} color="#2563eb" />
@@ -359,7 +360,7 @@ export const Dashboard: React.FC = () => {
           </div>
 
           {/* Card 2: Images (Teal / Emerald) */}
-          <div className="varsity-card" onClick={() => setActiveView('Courses')}>
+          <div className="varsity-card" onClick={() => { setSelectedModuleTab('images'); setActiveView('Courses'); }}>
             <div className="varsity-card-header" style={{ background: '#34d399' }}>
               <div className="varsity-card-icon-box">
                 <Image size={26} color="#059669" />
@@ -372,7 +373,7 @@ export const Dashboard: React.FC = () => {
           </div>
 
           {/* Card 3: Videos (Yellow / Amber) */}
-          <div className="varsity-card" onClick={() => setActiveView('Chapters')}>
+          <div className="varsity-card" onClick={() => { setSelectedModuleTab('video'); setActiveView('Chapters'); }}>
             <div className="varsity-card-header" style={{ background: '#fbbf24' }}>
               <div className="varsity-card-icon-box">
                 <Video size={26} color="#d97706" />
