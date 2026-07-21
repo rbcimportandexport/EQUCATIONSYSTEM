@@ -271,6 +271,31 @@ export const ModuleScreen: React.FC = () => {
 
         {/* Zerodha Varsity Style Module Header */}
         <div style={{ paddingBottom: '24px', marginBottom: '32px', borderBottom: '1px solid #e2e8f0', width: '100%' }}>
+          {/* Back button link */}
+          <button 
+            type="button"
+            onClick={() => setActiveView('Courses')}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              border: 'none',
+              background: 'none',
+              color: '#475569',
+              fontSize: '14px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              marginBottom: '16px',
+              padding: '4px 0',
+              transition: 'color 0.2s'
+            }}
+            onMouseOver={(e) => (e.currentTarget.style.color = '#0284c7')}
+            onMouseOut={(e) => (e.currentTarget.style.color = '#475569')}
+          >
+            <ArrowLeft size={16} />
+            <span>{language === 'hi' ? 'मॉड्यूल सूची पर वापस जाएं' : language === 'gu' ? 'મોડ્યુલ સૂચિ પર પાછા જાઓ' : language === 'mr' ? 'मॉड्यूल सूचीवर परत जा' : 'Back to Modules'}</span>
+          </button>
+
           {/* Big Module Number & Accent Line */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '12px' }}>
             <span style={{ fontSize: 'clamp(44px, 8vw, 64px)', fontWeight: 800, color: '#0f172a', lineHeight: 1 }}>{activeModule.order}</span>
