@@ -2,7 +2,7 @@ import React from 'react';
 import { useApp } from '../context/AppContext';
 import { 
   BookOpen, Clock, Award, CheckCircle, 
-  ArrowRight, Video, Radio, GraduationCap
+  ArrowRight, Video
 } from 'lucide-react';
 
 export const Dashboard: React.FC = () => {
@@ -166,7 +166,7 @@ export const Dashboard: React.FC = () => {
 
         .varsity-cards-grid {
           display: grid;
-          grid-template-columns: repeat(5, 1fr);
+          grid-template-columns: repeat(3, 1fr);
           gap: 20px;
         }
 
@@ -358,20 +358,7 @@ export const Dashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Card 2: Live (Rose / Pink) */}
-          <div className="varsity-card" onClick={() => setActiveView('Community')}>
-            <div className="varsity-card-header" style={{ background: '#f472b6' }}>
-              <div className="varsity-card-icon-box">
-                <Radio size={26} color="#db2777" />
-              </div>
-            </div>
-            <div className="varsity-card-body">
-              <h3 className="varsity-card-title">Live</h3>
-              <p className="varsity-card-desc">Live webinars & Q&A market discussions</p>
-            </div>
-          </div>
-
-          {/* Card 3: Videos (Yellow / Amber) */}
+          {/* Card 2: Videos (Yellow / Amber) */}
           <div className="varsity-card" onClick={() => setActiveView('Chapters')}>
             <div className="varsity-card-header" style={{ background: '#fbbf24' }}>
               <div className="varsity-card-icon-box">
@@ -384,7 +371,7 @@ export const Dashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Card 4: Certified (Purple) */}
+          {/* Card 3: Certified (Purple) */}
           <div className="varsity-card" onClick={() => setActiveView('AdminPanel')}>
             <div className="varsity-card-header" style={{ background: '#a78bfa' }}>
               <div className="varsity-card-icon-box">
@@ -394,19 +381,6 @@ export const Dashboard: React.FC = () => {
             <div className="varsity-card-body">
               <h3 className="varsity-card-title">Certified</h3>
               <p className="varsity-card-desc">Earn official RBC Academy trade certificates</p>
-            </div>
-          </div>
-
-          {/* Card 5: Junior / Starters (Green) */}
-          <div className="varsity-card" onClick={() => setActiveView('Courses')}>
-            <div className="varsity-card-header" style={{ background: '#a3e635' }}>
-              <div className="varsity-card-icon-box">
-                <GraduationCap size={26} color="#65a30d" />
-              </div>
-            </div>
-            <div className="varsity-card-body">
-              <h3 className="varsity-card-title">Junior</h3>
-              <p className="varsity-card-desc">Beginner foundation for trade newcomers</p>
             </div>
           </div>
         </div>
