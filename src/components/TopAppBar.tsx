@@ -24,13 +24,28 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
       <div
         className="top-bar-brand-box"
         onClick={() => setActiveView('Dashboard')}
+        style={{ cursor: 'pointer' }}
       >
-        <img src={logoEmblem} alt="RBC Logo" className="top-bar-logo-img" style={{ height: '150px', width: 'auto', objectFit: 'contain' }} />
+        <img 
+          src={logoEmblem} 
+          alt="RBC Logo" 
+          className="top-bar-logo-img" 
+          onClick={() => setActiveView('Dashboard')}
+          style={{ height: '150px', width: 'auto', objectFit: 'contain', cursor: 'pointer' }} 
+        />
       </div>
 
       {/* Nav Links & Tools */}
       <div className="top-bar-right-group">
         <nav className="top-bar-nav-links">
+          <button
+            type="button"
+            className={`top-nav-btn ${activeView === 'Dashboard' ? 'active' : ''}`}
+            onClick={() => setActiveView('Dashboard')}
+          >
+            Home
+          </button>
+
           <button
             type="button"
             className={`top-nav-btn ${activeView === 'Courses' ? 'active' : ''}`}
