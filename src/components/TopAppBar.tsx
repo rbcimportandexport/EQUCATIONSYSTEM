@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { Search, Bookmark, User, ShieldAlert, Globe, Radio, LogOut } from 'lucide-react';
+import { Search, Bookmark, User, ShieldAlert, Globe, LogOut } from 'lucide-react';
 import logoEmblem from '../assets/logo_emblem.png';
 
 interface TopAppBarProps {
