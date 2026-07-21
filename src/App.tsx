@@ -84,7 +84,7 @@ const AppShell: React.FC = () => {
   useEffect(() => {
     let lastScrollTop = 0;
     let transitionBlocked = false;
-    let blockTimeout: NodeJS.Timeout | null = null;
+    let blockTimeout: any = null;
 
     const handleScroll = (e: Event) => {
       const target = e.target as HTMLElement;
