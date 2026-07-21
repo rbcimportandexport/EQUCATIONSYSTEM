@@ -83,24 +83,53 @@ const AppShell: React.FC = () => {
   // Global hide-header-on-scroll-down listener (Capture-phase to match any container scroll)
   useEffect(() => {
     let lastScrollTop = 0;
+    let transitionBlocked = false;
+    let blockTimeout: NodeJS.Timeout | null = null;
+
     const handleScroll = (e: Event) => {
       const target = e.target as HTMLElement;
       if (!target || typeof target.scrollTop === 'undefined') return;
 
       const scrollTop = target.scrollTop;
+
+      // If transition is currently blocked, ignore the event to prevent jitter loops
+      if (transitionBlocked) {
+        lastScrollTop = scrollTop;
+        return;
+      }
+
       const diff = Math.abs(scrollTop - lastScrollTop);
       if (diff < 15) return;
 
+      const hasHiddenClass = document.body.classList.contains('header-hidden');
+
       if (scrollTop > lastScrollTop && scrollTop > 80) {
-        document.body.classList.add('header-hidden');
+        if (!hasHiddenClass) {
+          document.body.classList.add('header-hidden');
+          transitionBlocked = true;
+          if (blockTimeout) clearTimeout(blockTimeout);
+          blockTimeout = setTimeout(() => {
+            transitionBlocked = false;
+          }, 350);
+        }
       } else if (scrollTop < lastScrollTop) {
-        document.body.classList.remove('header-hidden');
+        if (hasHiddenClass) {
+          document.body.classList.remove('header-hidden');
+          transitionBlocked = true;
+          if (blockTimeout) clearTimeout(blockTimeout);
+          blockTimeout = setTimeout(() => {
+            transitionBlocked = false;
+          }, 350);
+        }
       }
       lastScrollTop = scrollTop;
     };
 
     window.addEventListener('scroll', handleScroll, true);
-    return () => window.removeEventListener('scroll', handleScroll, true);
+    return () => {
+      window.removeEventListener('scroll', handleScroll, true);
+      if (blockTimeout) clearTimeout(blockTimeout);
+    };
   }, []);
 
   if (authLoading) {
