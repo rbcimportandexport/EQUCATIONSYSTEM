@@ -80,6 +80,29 @@ const AppShell: React.FC = () => {
     }
   }, [showSplash]);
 
+  // Global hide-header-on-scroll-down listener (Capture-phase to match any container scroll)
+  useEffect(() => {
+    let lastScrollTop = 0;
+    const handleScroll = (e: Event) => {
+      const target = e.target as HTMLElement;
+      if (!target || typeof target.scrollTop === 'undefined') return;
+
+      const scrollTop = target.scrollTop;
+      const diff = Math.abs(scrollTop - lastScrollTop);
+      if (diff < 15) return;
+
+      if (scrollTop > lastScrollTop && scrollTop > 80) {
+        document.body.classList.add('header-hidden');
+      } else if (scrollTop < lastScrollTop) {
+        document.body.classList.remove('header-hidden');
+      }
+      lastScrollTop = scrollTop;
+    };
+
+    window.addEventListener('scroll', handleScroll, true);
+    return () => window.removeEventListener('scroll', handleScroll, true);
+  }, []);
+
   if (authLoading) {
     return (
       <div style={{

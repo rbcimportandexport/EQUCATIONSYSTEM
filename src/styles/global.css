@@ -2074,3 +2074,20 @@ html { overflow-x: hidden; }
     font-size: 26px !important;
   }
 }
+
+/* Premium smooth hide-on-scroll-down top bar transition rules */
+.top-app-bar-varsity {
+  transition: margin-top 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease !important;
+}
+
+body.header-hidden .top-app-bar-varsity {
+  margin-top: -88px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+@media (max-width: 768px) {
+  body.header-hidden .top-app-bar-varsity {
+    margin-top: -120px !important;
+  }
+}
