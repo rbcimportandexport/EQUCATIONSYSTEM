@@ -9,21 +9,21 @@ interface ModuleImageData {
 }
 
 const MODULE_IMAGES_AND_COLORS: { [key: number]: ModuleImageData } = {
-  1: { image: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=600&q=80', accentColor: '#10b981' },
-  2: { image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', accentColor: '#3b82f6' },
-  3: { image: 'https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=600&q=80', accentColor: '#eab308' },
-  4: { image: 'https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&w=600&q=80', accentColor: '#f43f5e' },
-  5: { image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=600&q=80', accentColor: '#8b5cf6' },
-  6: { image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80', accentColor: '#a855f7' },
-  7: { image: 'https://images.unsplash.com/photo-1494412651409-8963ce7935a7?auto=format&fit=crop&w=600&q=80', accentColor: '#14b8a6' },
-  8: { image: 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80', accentColor: '#f97316' },
-  9: { image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=600&q=80', accentColor: '#06b6d4' },
-  10: { image: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=600&q=80', accentColor: '#ef4444' },
-  11: { image: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=600&q=80', accentColor: '#3b82f6' },
-  12: { image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80', accentColor: '#d97706' },
-  13: { image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80', accentColor: '#6366f1' },
-  14: { image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80', accentColor: '#84cc16' },
-  15: { image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80', accentColor: '#f43f5e' }
+  1: { image: '/assets/Basic Import Export Terms   image.png', accentColor: '#10b981' },
+  2: { image: '/assets/Product Terms image.png', accentColor: '#3b82f6' },
+  3: { image: '/assets/Weight & Measurement.png', accentColor: '#eab308' },
+  4: { image: '/assets/Container Terms image.png', accentColor: '#f43f5e' },
+  5: { image: '/assets/Shipping Terms image.png', accentColor: '#8b5cf6' },
+  6: { image: '/assets/Incoterms image.png', accentColor: '#a855f7' },
+  7: { image: '/assets/Port & Logistics image.png', accentColor: '#14b8a6' },
+  8: { image: '/assets/Documentation image.png', accentColor: '#f97316' },
+  9: { image: '/assets/Customs image.png', accentColor: '#06b6d4' },
+  10: { image: '/assets/Payment Terms image.png', accentColor: '#ef4444' },
+  11: { image: '/assets/Freight Charges image.png', accentColor: '#3b82f6' },
+  12: { image: '/assets/Quality & Inspection image.png', accentColor: '#d97706' },
+  13: { image: '/assets/Business Operations image.png', accentColor: '#6366f1' },
+  14: { image: '/assets/Risk Management image.png', accentColor: '#84cc16' },
+  15: { image: '/assets/RBC Import & Export Internal Process  image.png', accentColor: '#f43f5e' }
 };
 
 export const Courses: React.FC = () => {
