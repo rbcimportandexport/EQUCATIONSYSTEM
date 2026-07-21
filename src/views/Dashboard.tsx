@@ -20,7 +20,7 @@ export const Dashboard: React.FC = () => {
   // Aggregate statistics
   const totalCoursesCount = courses.length;
   const completedLessonsCount = Object.values(progress).filter(p => p.completed).length;
-  const studyHours = Math.round(((completedLessonsCount * 15) / 60) * 10) / 10 + 2.4; 
+  const studyHours = (((completedLessonsCount * 15) / 60) + 2.4).toFixed(1); 
 
   let totalCorrectAnswers = 0;
   let totalQuestionsCount = 0;
