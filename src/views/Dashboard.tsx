@@ -307,7 +307,15 @@ export const Dashboard: React.FC = () => {
       {/* Hero Section */}
       <div className="varsity-hero-container">
         <div className="varsity-hero-left">
-          <h1 className="varsity-title-main">Free and open</h1>
+          <h1 className="varsity-title-main">
+            {language === 'hi' 
+              ? 'आरबीसी एकेडमी'
+              : language === 'gu'
+                ? 'આરબીસી એકેડેમી'
+                : language === 'mr'
+                  ? 'आरबीसी अकादमी'
+                  : 'RBC Academy'}
+          </h1>
           <h2 className="varsity-title-sub">
             {language === 'hi' 
               ? 'इम्पोर्ट - एक्सपोर्ट और ग्लोबल ट्रेड एजुकेशन'
