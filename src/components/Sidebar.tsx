@@ -27,7 +27,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => 
     { id: 'Dashboard', label: 'Home Dashboard', icon: Home },
     { id: 'Courses', label: 'All Modules (15)', icon: BookOpen },
     { id: 'Chapters', label: 'Video Lessons', icon: Video },
-    { id: 'Community', label: 'Live & Community', icon: Radio },
+    { id: 'Community', label: 'Community', icon: Radio },
     { id: 'Bookmarks', label: 'My Bookmarks', icon: Bookmark },
     { id: 'Downloads', label: 'Saved Offline', icon: Download },
   ];

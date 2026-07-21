@@ -65,15 +65,6 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
           >
             Junior
           </button>
-
-          <button
-            type="button"
-            className="top-nav-btn live-btn"
-            onClick={() => setActiveView('Community')}
-          >
-            <Radio size={14} color="#db2777" />
-            <span>Live</span>
-          </button>
         </nav>
 
         {/* Language Selector */}
