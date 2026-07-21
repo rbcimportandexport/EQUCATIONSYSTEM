@@ -58,13 +58,6 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
             Community
           </button>
 
-          <button
-            type="button"
-            className="top-nav-btn"
-            onClick={() => setActiveView('Courses')}
-          >
-            Junior
-          </button>
         </nav>
 
         {/* Language Selector */}
