@@ -2,7 +2,7 @@ import React from 'react';
 import { useApp } from '../context/AppContext';
 import { 
   BookOpen, Clock, Award, CheckCircle, 
-  ArrowRight, Video
+  ArrowRight, Video, Image
 } from 'lucide-react';
 
 export const Dashboard: React.FC = () => {
@@ -166,7 +166,7 @@ export const Dashboard: React.FC = () => {
 
         .varsity-cards-grid {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: repeat(4, 1fr);
           gap: 20px;
         }
 
@@ -258,7 +258,7 @@ export const Dashboard: React.FC = () => {
 
         @media (max-width: 1024px) {
           .varsity-cards-grid {
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
           }
           .varsity-hero-container {
             flex-direction: column;
@@ -358,7 +358,20 @@ export const Dashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Card 2: Videos (Yellow / Amber) */}
+          {/* Card 2: Images (Teal / Emerald) */}
+          <div className="varsity-card" onClick={() => setActiveView('Courses')}>
+            <div className="varsity-card-header" style={{ background: '#34d399' }}>
+              <div className="varsity-card-icon-box">
+                <Image size={26} color="#059669" />
+              </div>
+            </div>
+            <div className="varsity-card-body">
+              <h3 className="varsity-card-title">Images</h3>
+              <p className="varsity-card-desc">Visual diagrams & chapter flowcharts</p>
+            </div>
+          </div>
+
+          {/* Card 3: Videos (Yellow / Amber) */}
           <div className="varsity-card" onClick={() => setActiveView('Chapters')}>
             <div className="varsity-card-header" style={{ background: '#fbbf24' }}>
               <div className="varsity-card-icon-box">
@@ -371,7 +384,7 @@ export const Dashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Card 3: Certified (Purple) */}
+          {/* Card 4: Certified (Purple) */}
           <div className="varsity-card" onClick={() => setActiveView('AdminPanel')}>
             <div className="varsity-card-header" style={{ background: '#a78bfa' }}>
               <div className="varsity-card-icon-box">
