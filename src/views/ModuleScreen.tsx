@@ -728,6 +728,33 @@ export const ModuleScreen: React.FC = () => {
 
                                   const voices = typeof window !== 'undefined' && window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
 
+                                  function playResponsiveVoice(txt: string): boolean {
+                                    const rv = (window as any).responsiveVoice;
+                                    if (rv && typeof rv.speak === 'function') {
+                                      const voiceMap: Record<string, string> = {
+                                        gu: 'Gujarati Female',
+                                        hi: 'Hindi Female',
+                                        mr: 'Marathi Female',
+                                        en: 'UK English Female'
+                                      };
+                                      const selectedVoice = voiceMap[activeLangCode] || 'Gujarati Female';
+
+                                      rv.speak(txt, selectedVoice, {
+                                        rate: 0.92,
+                                        pitch: 1.0,
+                                        onend: () => {
+                                          setPlayingLessonId(null);
+                                          (window as any)._activeTTSActive = false;
+                                        },
+                                        onerror: () => {
+                                          playWebSpeech(txt);
+                                        }
+                                      });
+                                      return true;
+                                    }
+                                    return false;
+                                  }
+
                                   function playWebSpeech(txt: string) {
                                     if (!(window as any)._activeTTSActive) return;
 
@@ -791,7 +818,9 @@ export const ModuleScreen: React.FC = () => {
                                   // Execute speech 60ms after stopActiveTTS to allow Chrome background speech thread to complete cancellation
                                   setTimeout(() => {
                                     if ((window as any)._activeTTSActive) {
-                                      playWebSpeech(cleanText);
+                                      if (!playResponsiveVoice(cleanText)) {
+                                        playWebSpeech(cleanText);
+                                      }
                                     }
                                   }, 60);
                                 }}
