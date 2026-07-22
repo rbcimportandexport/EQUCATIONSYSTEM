@@ -683,16 +683,8 @@ export const ModuleScreen: React.FC = () => {
                                   if (lessonLang.content?.practicalTips?.length) parts.push(tLang.practicalTip + '. ' + lessonLang.content.practicalTips.join('. '));
                                   if (lessonLang.content?.summary) parts.push(tLang.topicSummary + '. ' + lessonLang.content.summary);
 
-                                  const queue: string[] = [];
-                                  parts.forEach(part => {
-                                    const chunks = part.split(/([।.,!?\n\r]+)/);
-                                    let cur = '';
-                                    chunks.forEach(c => {
-                                      if ((cur + c).length > 120) { if (cur.trim()) queue.push(sanitize(cur.trim())); cur = c; }
-                                      else { cur += c; }
-                                    });
-                                    if (cur.trim()) queue.push(sanitize(cur.trim()));
-                                  });
+                                  // Join ALL text into one string — no chaining, no onend bugs
+                                  const fullText = parts.map(p => sanitize(p)).join(' । ');
 
                                   const langMap: Record<string, string> = { gu: 'gu-IN', hi: 'hi-IN', mr: 'mr-IN', en: 'en-IN' };
                                   const ttsLang = langMap[activeLangCode] || 'en-IN';
@@ -701,16 +693,14 @@ export const ModuleScreen: React.FC = () => {
                                   ttsSessionRef.current = newSid;
                                   setPlayingLessonId(lesson.id);
 
-                                  function speak(idx: number): void {
-                                    if (ttsSessionRef.current !== newSid) return;
-                                    if (!ttsActiveRef.current) { setPlayingLessonId(null); clearInterval(ttsKeepAliveRef.current); return; }
-                                    if (idx >= queue.length) { setPlayingLessonId(null); ttsActiveRef.current = false; clearInterval(ttsKeepAliveRef.current); return; }
-                                    const text = queue[idx];
-                                    if (!text?.trim()) { speak(idx + 1); return; }
+                                  const doSpeak = () => {
+                                    if (ttsSessionRef.current !== newSid || !ttsActiveRef.current) return;
 
-                                    const utter = new SpeechSynthesisUtterance(text);
+                                    window.speechSynthesis.cancel();
+
+                                    const utter = new SpeechSynthesisUtterance(fullText);
                                     utter.lang = ttsLang;
-                                    utter.rate = 1.15;
+                                    utter.rate = 1.1;
                                     utter.pitch = 1.0;
                                     utter.volume = 1.0;
 
@@ -723,40 +713,46 @@ export const ModuleScreen: React.FC = () => {
                                     if (!picked && allVoices.length > 0) picked = allVoices[0];
                                     if (picked) { utter.voice = picked; utter.lang = picked.lang; }
 
-                                    utter.onend = () => { if (ttsSessionRef.current === newSid) speak(idx + 1); };
+                                    utter.onend = () => {
+                                      if (ttsSessionRef.current === newSid) {
+                                        setPlayingLessonId(null);
+                                        ttsActiveRef.current = false;
+                                        clearInterval(ttsKeepAliveRef.current);
+                                      }
+                                    };
                                     utter.onerror = (ev: SpeechSynthesisErrorEvent) => {
                                       if (ev?.error === 'interrupted' || ev?.error === 'canceled') return;
-                                      if (ttsSessionRef.current === newSid) speak(idx + 1);
+                                      if (ttsSessionRef.current === newSid) {
+                                        setPlayingLessonId(null);
+                                        ttsActiveRef.current = false;
+                                        clearInterval(ttsKeepAliveRef.current);
+                                      }
                                     };
+
                                     window.speechSynthesis.speak(utter);
-                                  }
 
-                                  // 150ms delay after cancel — Chrome needs this to reset properly
-                                  setTimeout(() => {
-                                    if (ttsSessionRef.current !== newSid || !ttsActiveRef.current) return;
-
-                                    // ✅ Chrome Bug Fix: Chrome pauses speechSynthesis after ~15s
-                                    // Keep-alive: call resume() every 10 seconds while speaking
-                                    if (ttsKeepAliveRef.current) {
-                                      clearInterval(ttsKeepAliveRef.current);
-                                    }
+                                    // Chrome Bug Fix: pause/resume every 5s to prevent Chrome's 15s auto-stop
+                                    clearInterval(ttsKeepAliveRef.current);
                                     ttsKeepAliveRef.current = setInterval(() => {
                                       if (!ttsActiveRef.current || ttsSessionRef.current !== newSid) {
                                         clearInterval(ttsKeepAliveRef.current);
                                         return;
                                       }
-                                      if (window.speechSynthesis.paused) {
-                                        window.speechSynthesis.resume();
-                                      }
-                                    }, 10000);
+                                      window.speechSynthesis.pause();
+                                      window.speechSynthesis.resume();
+                                    }, 5000);
+                                  };
 
-                                    if (window.speechSynthesis.getVoices().length > 0) {
-                                      speak(0);
-                                    } else {
-                                      window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.onvoiceschanged = null; speak(0); };
-                                      setTimeout(() => speak(0), 600);
-                                    }
-                                  }, 150);
+                                  // Wait for voices, then speak
+                                  if (window.speechSynthesis.getVoices().length > 0) {
+                                    setTimeout(doSpeak, 200);
+                                  } else {
+                                    window.speechSynthesis.onvoiceschanged = () => {
+                                      window.speechSynthesis.onvoiceschanged = null;
+                                      setTimeout(doSpeak, 200);
+                                    };
+                                    setTimeout(doSpeak, 800);
+                                  }
                                 }}
                                 title={playingLessonId === lesson.id ? "Stop reading" : "Listen to this lesson"}
                                 style={{
