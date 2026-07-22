@@ -711,87 +711,46 @@ export const ModuleScreen: React.FC = () => {
                                   }
                                   const text = textParts.join('. ');
 
-                                  const voices = window.speechSynthesis.getVoices();
-                                  const normalizeLang = (l: string) => l.toLowerCase().replace('_', '-');
-
-                                  const getVoiceScore = (v: SpeechSynthesisVoice) => {
-                                    const name = v.name.toLowerCase();
-                                    let score = 0;
-                                    if (name.includes('online')) score += 10;
-                                    if (name.includes('natural')) score += 8;
-                                    if (name.includes('neural')) score += 8;
-                                    if (name.includes('google')) score += 5;
-                                    if (name.includes('india') || name.includes('in-')) score += 5;
-                                    if (name.includes('male') || name.includes('david') || name.includes('ravi') || name.includes('hemant') || name.includes('niranjan')) score += 3;
-                                    return score;
-                                  };
-
-                                  // Helper to dynamically detect language based on character set
-                                  const getGoogleLangForChunk = (chunk: string) => {
-                                    if (/[\u0A80-\u0AFF]/.test(chunk)) {
-                                      return 'gu';
-                                    }
-                                    if (/[\u0900-\u097F]/.test(chunk)) {
-                                      return language === 'mr' ? 'mr' : 'hi';
-                                    }
-                                    return 'en'; // Standard English voice for Latin/English text chunks
-                                  };
+                                  const voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+                                  const activeLangCode = language === 'hi' ? 'hi' : language === 'gu' ? 'gu' : language === 'mr' ? 'mr' : 'en';
 
                                   // Local SpeechSynthesis Fallback Function (per chunk)
                                   function playLocalTTS(chunkText: string) {
                                     if (!(window as any)._activeTTSActive) return;
 
-                                    const chunkLang = getGoogleLangForChunk(chunkText);
                                     const localLangCodes: Record<string, string> = {
                                       hi: 'hi-IN',
                                       gu: 'gu-IN',
                                       mr: 'mr-IN',
                                       en: 'en-IN'
                                     };
-                                    const chunkTargetLang = localLangCodes[chunkLang] || 'en-IN';
+                                    const targetLangCode = localLangCodes[activeLangCode] || 'en-IN';
 
-                                    // Find best voice for this chunk's language
-                                    const exactMatchingVoices = voices.filter(v => normalizeLang(v.lang) === normalizeLang(chunkTargetLang));
-                                    exactMatchingVoices.sort((a, b) => getVoiceScore(b) - getVoiceScore(a));
-                                    let chunkVoice = exactMatchingVoices[0];
-
-                                    if (!chunkVoice) {
-                                      const prefixVoices = voices.filter(v => normalizeLang(v.lang).startsWith(chunkLang));
-                                      prefixVoices.sort((a, b) => getVoiceScore(b) - getVoiceScore(a));
-                                      chunkVoice = prefixVoices[0];
-                                    }
-
-                                    let chunkHindiFallback = false;
-                                    if (!chunkVoice && (chunkLang === 'gu' || chunkLang === 'mr')) {
-                                      const fallbackVoices = voices.filter(v => normalizeLang(v.lang).startsWith('hi'));
-                                      fallbackVoices.sort((a, b) => getVoiceScore(b) - getVoiceScore(a));
-                                      chunkVoice = fallbackVoices[0];
-                                      if (chunkVoice) {
-                                        chunkHindiFallback = true;
+                                    // Find native voice matching language
+                                    const exactVoice = voices.find(v => {
+                                      const l = v.lang.toLowerCase().replace('_', '-');
+                                      const n = v.name.toLowerCase();
+                                      if (activeLangCode === 'gu') {
+                                        return l.startsWith('gu') || n.includes('gujarati') || n.includes('ગુજરાતી');
                                       }
-                                    }
+                                      if (activeLangCode === 'hi') {
+                                        return l.startsWith('hi') || n.includes('hindi') || n.includes('हिन्दी');
+                                      }
+                                      if (activeLangCode === 'mr') {
+                                        return l.startsWith('mr') || n.includes('marathi') || n.includes('मराठी');
+                                      }
+                                      return l.startsWith('en');
+                                    });
 
-                                    let finalUtteranceText = chunkText;
-                                    if (chunkHindiFallback && chunkLang === 'gu') {
-                                      // Transliterate Gujarati to Devanagari so the Hindi voice can read it phonetically
-                                      finalUtteranceText = chunkText.split('').map(char => {
-                                        const code = char.charCodeAt(0);
-                                        if (code >= 0x0A80 && code <= 0x0AFF) {
-                                          return String.fromCharCode(code - 0x0180);
-                                        }
-                                        return char;
-                                      }).join('');
-                                    }
-
-                                    const utter = new SpeechSynthesisUtterance(finalUtteranceText);
-                                    if (chunkVoice) {
-                                      utter.voice = chunkVoice;
-                                      utter.lang = chunkVoice.lang;
+                                    const utter = new SpeechSynthesisUtterance(chunkText);
+                                    if (exactVoice) {
+                                      utter.voice = exactVoice;
+                                      utter.lang = exactVoice.lang;
                                     } else {
-                                      utter.lang = chunkTargetLang;
+                                      utter.lang = targetLangCode;
                                     }
-                                    utter.rate = 0.88;
-                                    utter.pitch = chunkLang === 'gu' ? 0.9 : 1.0;
+                                    utter.rate = 0.9;
+                                    utter.pitch = 1.0;
 
                                     utter.onend = () => {
                                       if (!(window as any)._activeTTSActive) return;
@@ -890,8 +849,7 @@ export const ModuleScreen: React.FC = () => {
                                   function playGoogleFallback(chunkText: string) {
                                     if (!(window as any)._activeTTSActive) return;
 
-                                    const chunkLang = getGoogleLangForChunk(chunkText);
-                                    const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunkText)}&tl=${chunkLang}&client=tw-ob`;
+                                    const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunkText)}&tl=${activeLangCode}&client=gtx`;
                                     const audio = new Audio(url);
                                     (window as any)._activeTTSAudio = audio;
 
@@ -903,9 +861,17 @@ export const ModuleScreen: React.FC = () => {
                                       playLocalTTS(chunkText);
                                     };
 
-                                    audio.play().catch(err => {
-                                      console.warn("Google Cloud TTS play failed, falling back to local speech synthesis", err);
-                                      triggerFallback();
+                                    audio.play().catch(() => {
+                                      const secUrl = `https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=${activeLangCode}&q=${encodeURIComponent(chunkText)}`;
+                                      const secAudio = new Audio(secUrl);
+                                      (window as any)._activeTTSAudio = secAudio;
+                                      secAudio.play().catch(() => triggerFallback());
+                                      secAudio.onended = () => {
+                                        if (!(window as any)._activeTTSActive) return;
+                                        currentIdx++;
+                                        playNextChunk();
+                                      };
+                                      secAudio.onerror = () => triggerFallback();
                                     });
 
                                     audio.onended = () => {
@@ -914,7 +880,6 @@ export const ModuleScreen: React.FC = () => {
                                       playNextChunk();
                                     };
                                     audio.onerror = () => {
-                                      console.warn("Google Cloud TTS stream error, falling back to local speech synthesis");
                                       triggerFallback();
                                     };
                                   }
