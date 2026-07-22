@@ -123,17 +123,17 @@ export const ModuleScreen: React.FC = () => {
   const stopActiveTTS = () => {
     (window as any)._activeTTSActive = false;
     if ((window as any).responsiveVoice) {
-      try { (window as any).responsiveVoice.cancel(); } catch (e) {}
+      try { (window as any).responsiveVoice.cancel(); } catch (e) { }
     }
     if ((window as any)._activeTTSAudio) {
       try {
         (window as any)._activeTTSAudio.pause();
         (window as any)._activeTTSAudio.src = "";
-      } catch (e) {}
+      } catch (e) { }
       (window as any)._activeTTSAudio = null;
     }
     if (typeof window !== 'undefined' && window.speechSynthesis) {
-      try { window.speechSynthesis.cancel(); } catch (e) {}
+      try { window.speechSynthesis.cancel(); } catch (e) { }
     }
   };
 
@@ -293,7 +293,7 @@ export const ModuleScreen: React.FC = () => {
         <div style={{ paddingBottom: '24px', marginBottom: '32px', borderBottom: '1px solid #e2e8f0', width: '100%' }}>
           {/* Navigation row with Back button & Prev/Next module links */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '16px' }}>
-            <button 
+            <button
               type="button"
               onClick={() => setActiveView('Courses')}
               style={{
@@ -726,120 +726,74 @@ export const ModuleScreen: React.FC = () => {
                                       .replace(/\bManufacturer\b/gi, 'ઉત્પાદક');
                                   }
 
-                                  async function playGoogleAudioStream(txt: string) {
-                                    if (!(window as any)._activeTTSActive) return;
-
-                                    const sliceText = txt.slice(0, 300);
-                                    const targetUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(sliceText)}&tl=${activeLangCode}&client=gtx`;
-                                    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
-
-                                    try {
-                                      const res = await fetch(proxyUrl);
-                                      if (res.ok) {
-                                        const blob = await res.blob();
-                                        if (blob && blob.size > 200) {
-                                          const audioUrl = URL.createObjectURL(blob);
-                                          const audio = new Audio(audioUrl);
-                                          (window as any)._activeTTSAudio = audio;
-
-                                          audio.onended = () => {
-                                            URL.revokeObjectURL(audioUrl);
-                                            setPlayingLessonId(null);
-                                            (window as any)._activeTTSActive = false;
-                                          };
-
-                                          audio.onerror = () => {
-                                            URL.revokeObjectURL(audioUrl);
-                                            setPlayingLessonId(null);
-                                            (window as any)._activeTTSActive = false;
-                                          };
-
-                                          audio.play().catch(() => {
-                                            URL.revokeObjectURL(audioUrl);
-                                            setPlayingLessonId(null);
-                                            (window as any)._activeTTSActive = false;
-                                          });
-                                          return;
-                                        }
-                                      }
-                                    } catch (e) { }
-
-                                    setPlayingLessonId(null);
-                                    (window as any)._activeTTSActive = false;
-                                  }
+                                  const voices = typeof window !== 'undefined' && window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
 
                                   function playWebSpeech(txt: string) {
                                     if (!(window as any)._activeTTSActive) return;
 
-                                    if (typeof window === 'undefined' || !window.speechSynthesis) {
-                                      playGoogleAudioStream(txt);
-                                      return;
-                                    }
+                                    if (typeof window !== 'undefined' && window.speechSynthesis) {
+                                      const localLangCodes: Record<string, string> = { hi: 'hi-IN', gu: 'gu-IN', mr: 'mr-IN', en: 'en-IN' };
+                                      const targetLangCode = localLangCodes[activeLangCode] || 'en-IN';
 
-                                    const getVoices = () => {
                                       let vList = window.speechSynthesis.getVoices();
                                       if (!vList || vList.length === 0) {
                                         vList = (window as any)._cachedVoices || [];
                                       }
-                                      return vList;
-                                    };
 
-                                    const voicesList = getVoices();
-                                    const localLangCodes: Record<string, string> = { hi: 'hi-IN', gu: 'gu-IN', mr: 'mr-IN', en: 'en-IN' };
-                                    const targetLangCode = localLangCodes[activeLangCode] || 'en-IN';
-
-                                    let selectedVoice = voicesList.find(v => {
-                                      const l = v.lang.toLowerCase().replace('_', '-');
-                                      const n = v.name.toLowerCase();
-                                      if (activeLangCode === 'gu') return l.startsWith('gu') || n.includes('gujarati') || n.includes('ગુજરાતી');
-                                      if (activeLangCode === 'hi') return l.startsWith('hi') || n.includes('hindi') || n.includes('हिन्दी');
-                                      if (activeLangCode === 'mr') return l.startsWith('mr') || n.includes('marathi') || n.includes('મરાઠી');
-                                      return l.startsWith('en');
-                                    });
-
-                                    if (!selectedVoice) {
-                                      selectedVoice = voicesList.find(v => {
-                                        const l = v.lang.toLowerCase();
+                                      let exactVoice = vList.find(v => {
+                                        const l = v.lang.toLowerCase().replace('_', '-');
                                         const n = v.name.toLowerCase();
-                                        return l.includes('hi') || l.includes('in') || n.includes('hindi') || n.includes('india') || n.includes('hemant') || n.includes('google');
+                                        if (activeLangCode === 'gu') return l.startsWith('gu') || n.includes('gujarati') || n.includes('ગુજરાતી');
+                                        if (activeLangCode === 'hi') return l.startsWith('hi') || n.includes('hindi') || n.includes('हिन्दी');
+                                        if (activeLangCode === 'mr') return l.startsWith('mr') || n.includes('marathi') || n.includes('મરાઠી');
+                                        return l.startsWith('en');
                                       });
-                                    }
 
-                                    if (!selectedVoice && voicesList.length > 0) {
-                                      selectedVoice = voicesList[0];
-                                    }
+                                      if (!exactVoice && (activeLangCode === 'gu' || activeLangCode === 'hi' || activeLangCode === 'mr')) {
+                                        exactVoice = vList.find(v => {
+                                          const l = v.lang.toLowerCase();
+                                          const n = v.name.toLowerCase();
+                                          return l.includes('hi') || l.includes('in') || n.includes('hindi') || n.includes('india') || n.includes('hemant');
+                                        });
+                                      }
 
-                                    const utter = new SpeechSynthesisUtterance(txt);
-                                    if (selectedVoice) {
-                                      utter.voice = selectedVoice;
-                                      utter.lang = selectedVoice.lang;
+                                      if (!exactVoice && vList.length > 0) {
+                                        exactVoice = vList[0];
+                                      }
+
+                                      const utter = new SpeechSynthesisUtterance(txt);
+                                      if (exactVoice) {
+                                        utter.voice = exactVoice;
+                                        utter.lang = exactVoice.lang;
+                                      } else {
+                                        utter.lang = targetLangCode;
+                                      }
+                                      utter.rate = 0.88;
+
+                                      utter.onend = () => {
+                                        setPlayingLessonId(null);
+                                        (window as any)._activeTTSActive = false;
+                                      };
+
+                                      utter.onerror = (evt: any) => {
+                                        if (evt?.error === 'interrupted' || evt?.error === 'canceled') return;
+                                        setPlayingLessonId(null);
+                                        (window as any)._activeTTSActive = false;
+                                      };
+
+                                      window.speechSynthesis.speak(utter);
                                     } else {
-                                      utter.lang = targetLangCode;
-                                    }
-                                    utter.rate = 0.88;
-
-                                    let hasFallenBack = false;
-
-                                    utter.onend = () => {
                                       setPlayingLessonId(null);
                                       (window as any)._activeTTSActive = false;
-                                    };
-
-                                    utter.onerror = (evt: any) => {
-                                      if (evt?.error === 'interrupted' || evt?.error === 'canceled') return;
-                                      if (hasFallenBack) return;
-                                      hasFallenBack = true;
-                                      playGoogleAudioStream(txt);
-                                    };
-
-                                    try {
-                                      window.speechSynthesis.speak(utter);
-                                    } catch (e) {
-                                      playGoogleAudioStream(txt);
                                     }
                                   }
 
-                                  playWebSpeech(cleanText);
+                                  // Execute speech 60ms after stopActiveTTS to allow Chrome background speech thread to complete cancellation
+                                  setTimeout(() => {
+                                    if ((window as any)._activeTTSActive) {
+                                      playWebSpeech(cleanText);
+                                    }
+                                  }, 60);
                                 }}
                                 title={playingLessonId === lesson.id ? "Stop reading" : "Listen to this lesson"}
                                 style={{
