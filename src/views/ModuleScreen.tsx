@@ -701,34 +701,158 @@ export const ModuleScreen: React.FC = () => {
                                   const rawText = textParts.join('. ');
                                   const activeLangCode = language === 'hi' ? 'hi' : language === 'gu' ? 'gu' : language === 'mr' ? 'mr' : 'en';
 
-                                  // Sanitize text for speech: clean colons, zeros, brackets, and English trade words to ensure pristine Gujarati pronunciation
-                                  let cleanText = rawText
-                                    .replace(/[:\-–—\=\+]/g, '. ')
-                                    .replace(/\b000\b/g, activeLangCode === 'gu' ? 'હજાર' : activeLangCode === 'hi' || activeLangCode === 'mr' ? 'हजार' : 'thousand')
-                                    .replace(/\b0\b/g, activeLangCode === 'gu' ? 'શૂન્ય' : activeLangCode === 'hi' || activeLangCode === 'mr' ? 'शून्य' : 'zero')
-                                    .replace(/[\(\)\[\]\{\}\*\#•]/g, ' ')
-                                    .replace(/\s+/g, ' ')
-                                    .trim();
+                                  const sanitizeSentence = (txt: string) => {
+                                    let s = txt
+                                      .replace(/[:\-–—\=\+]/g, '. ')
+                                      .replace(/\b000\b/g, activeLangCode === 'gu' ? 'હજાર' : activeLangCode === 'hi' || activeLangCode === 'mr' ? 'हजार' : 'thousand')
+                                      .replace(/\b0\b/g, activeLangCode === 'gu' ? 'શૂન્ય' : activeLangCode === 'hi' || activeLangCode === 'mr' ? 'शून्य' : 'zero')
+                                      .replace(/[\(\)\[\]\{\}\*\#•]/g, ' ')
+                                      .replace(/\s+/g, ' ')
+                                      .trim();
 
-                                  if (activeLangCode === 'gu') {
-                                    cleanText = cleanText
-                                      .replace(/\bImport\b/gi, 'આયાત')
-                                      .replace(/\bExport\b/gi, 'નિકાસ')
-                                      .replace(/\bSupplier\b/gi, 'સપ્લાયર')
-                                      .replace(/\bBuyer\b/gi, 'બાયર')
-                                      .replace(/\bCustoms\b/gi, 'કસ્ટમ્સ')
-                                      .replace(/\bDuty\b/gi, 'ડ્યુટી')
-                                      .replace(/\bFactory\b/gi, 'ફેક્ટરી')
-                                      .replace(/\bProduct\b/gi, 'પ્રોડક્ટ')
-                                      .replace(/\bTrade\b/gi, 'વ્યાપાર')
-                                      .replace(/\bWholesaler\b/gi, 'હોલસેલર')
-                                      .replace(/\bRetailer\b/gi, 'રીટેલર')
-                                      .replace(/\bManufacturer\b/gi, 'ઉત્પાદક');
+                                    if (activeLangCode === 'gu') {
+                                      s = s
+                                        .replace(/\bImport\b/gi, 'આયાત')
+                                        .replace(/\bExport\b/gi, 'નિકાસ')
+                                        .replace(/\bSupplier\b/gi, 'સપ્લાયર')
+                                        .replace(/\bBuyer\b/gi, 'બાયર')
+                                        .replace(/\bCustoms\b/gi, 'કસ્ટમ્સ')
+                                        .replace(/\bDuty\b/gi, 'ડ્યુટી')
+                                        .replace(/\bFactory\b/gi, 'ફેક્ટરી')
+                                        .replace(/\bProduct\b/gi, 'પ્રોડક્ટ')
+                                        .replace(/\bTrade\b/gi, 'વ્યાપાર')
+                                        .replace(/\bWholesaler\b/gi, 'હોલસેલર')
+                                        .replace(/\bRetailer\b/gi, 'રીટેલર')
+                                        .replace(/\bManufacturer\b/gi, 'ઉત્પાદક');
+                                    }
+                                    return s;
+                                  };
+
+                                  // Build array of text blocks for all sections
+                                  const textParts: string[] = [lessonLang.title];
+                                  if (lessonLang.content?.definition) {
+                                    textParts.push(`${tLang.definition}. ${lessonLang.content.definition}`);
+                                  }
+                                  if (lessonLang.content?.writtenExplanation) {
+                                    textParts.push(`${tLang.simpleExplanation}. ${lessonLang.content.writtenExplanation}`);
+                                  }
+                                  if (lessonLang.content?.businessExample) {
+                                    textParts.push(`${tLang.realBusinessExample}. ${lessonLang.content.businessExample}`);
+                                  }
+                                  if (lessonLang.content?.whyImportant) {
+                                    textParts.push(`${tLang.whyImportant}. ${lessonLang.content.whyImportant}`);
+                                  }
+                                  if (lessonLang.content?.importantNotes && lessonLang.content.importantNotes.length > 0) {
+                                    textParts.push(`${tLang.importantPoints}. ${lessonLang.content.importantNotes.join('. ')}`);
+                                  }
+                                  if (lessonLang.content?.commonMistakes && lessonLang.content.commonMistakes.length > 0) {
+                                    textParts.push(`${tLang.commonMistakes}. ${lessonLang.content.commonMistakes.join('. ')}`);
+                                  }
+                                  if (lessonLang.content?.practicalTips && lessonLang.content.practicalTips.length > 0) {
+                                    textParts.push(`${tLang.practicalTip}. ${lessonLang.content.practicalTips.join('. ')}`);
+                                  }
+                                  if (lessonLang.content?.summary) {
+                                    textParts.push(`${tLang.topicSummary}. ${lessonLang.content.summary}`);
                                   }
 
-                                  const voices = typeof window !== 'undefined' && window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+                                  // Split into small ~100-character speech queue chunks
+                                  const speechQueue: string[] = [];
+                                  textParts.forEach(part => {
+                                    const subParts = part.split(/([।.,!?\n\r]+)/);
+                                    let current = "";
+                                    for (let i = 0; i < subParts.length; i++) {
+                                      const p = subParts[i];
+                                      if ((current + p).length > 100) {
+                                        if (current.trim()) speechQueue.push(sanitizeSentence(current.trim()));
+                                        current = p;
+                                      } else {
+                                        current += p;
+                                      }
+                                    }
+                                    if (current.trim()) speechQueue.push(sanitizeSentence(current.trim()));
+                                  });
 
-                                  function playResponsiveVoice(txt: string): boolean {
+                                  let queueIdx = 0;
+
+                                  function playWebSpeechChunk(idx: number) {
+                                    if (!(window as any)._activeTTSActive) return;
+                                    if (typeof window === 'undefined' || !window.speechSynthesis) {
+                                      setPlayingLessonId(null);
+                                      return;
+                                    }
+
+                                    const localLangCodes: Record<string, string> = { hi: 'hi-IN', gu: 'gu-IN', mr: 'mr-IN', en: 'en-IN' };
+                                    const targetLangCode = localLangCodes[activeLangCode] || 'en-IN';
+
+                                    let vList = window.speechSynthesis.getVoices();
+                                    if (!vList || vList.length === 0) {
+                                      vList = (window as any)._cachedVoices || [];
+                                    }
+
+                                    let exactVoice = vList.find(v => {
+                                      const l = v.lang.toLowerCase().replace('_', '-');
+                                      const n = v.name.toLowerCase();
+                                      if (activeLangCode === 'gu') return l.startsWith('gu') || n.includes('gujarati') || n.includes('ગુજરાતી');
+                                      if (activeLangCode === 'hi') return l.startsWith('hi') || n.includes('hindi') || n.includes('हिन्दी');
+                                      if (activeLangCode === 'mr') return l.startsWith('mr') || n.includes('marathi') || n.includes('મરાઠી');
+                                      return l.startsWith('en');
+                                    });
+
+                                    if (!exactVoice && (activeLangCode === 'gu' || activeLangCode === 'hi' || activeLangCode === 'mr')) {
+                                      exactVoice = vList.find(v => {
+                                        const l = v.lang.toLowerCase();
+                                        const n = v.name.toLowerCase();
+                                        return l.includes('hi') || l.includes('in') || n.includes('hindi') || n.includes('india') || n.includes('hemant');
+                                      });
+                                    }
+
+                                    if (!exactVoice && vList.length > 0) {
+                                      exactVoice = vList[0];
+                                    }
+
+                                    const utter = new SpeechSynthesisUtterance(speechQueue[idx]);
+                                    if (exactVoice) {
+                                      utter.voice = exactVoice;
+                                      utter.lang = exactVoice.lang;
+                                    } else {
+                                      utter.lang = targetLangCode;
+                                    }
+                                    utter.rate = 0.88;
+
+                                    utter.onend = () => {
+                                      if (!(window as any)._activeTTSActive) return;
+                                      queueIdx++;
+                                      playQueueChunk();
+                                    };
+
+                                    utter.onerror = (evt: any) => {
+                                      if (evt?.error === 'interrupted' || evt?.error === 'canceled') return;
+                                      if (!(window as any)._activeTTSActive) return;
+                                      queueIdx++;
+                                      playQueueChunk();
+                                    };
+
+                                    window.speechSynthesis.speak(utter);
+                                  }
+
+                                  function playQueueChunk() {
+                                    if (!(window as any)._activeTTSActive) {
+                                      setPlayingLessonId(null);
+                                      return;
+                                    }
+                                    if (queueIdx >= speechQueue.length) {
+                                      setPlayingLessonId(null);
+                                      (window as any)._activeTTSActive = false;
+                                      return;
+                                    }
+
+                                    const txt = speechQueue[queueIdx];
+                                    if (!txt || !txt.trim()) {
+                                      queueIdx++;
+                                      playQueueChunk();
+                                      return;
+                                    }
+
                                     const rv = (window as any).responsiveVoice;
                                     if (rv && typeof rv.speak === 'function') {
                                       const voiceMap: Record<string, string> = {
@@ -743,84 +867,22 @@ export const ModuleScreen: React.FC = () => {
                                         rate: 0.92,
                                         pitch: 1.0,
                                         onend: () => {
-                                          setPlayingLessonId(null);
-                                          (window as any)._activeTTSActive = false;
+                                          if (!(window as any)._activeTTSActive) return;
+                                          queueIdx++;
+                                          playQueueChunk();
                                         },
                                         onerror: () => {
-                                          playWebSpeech(txt);
+                                          playWebSpeechChunk(queueIdx);
                                         }
                                       });
-                                      return true;
-                                    }
-                                    return false;
-                                  }
-
-                                  function playWebSpeech(txt: string) {
-                                    if (!(window as any)._activeTTSActive) return;
-
-                                    if (typeof window !== 'undefined' && window.speechSynthesis) {
-                                      const localLangCodes: Record<string, string> = { hi: 'hi-IN', gu: 'gu-IN', mr: 'mr-IN', en: 'en-IN' };
-                                      const targetLangCode = localLangCodes[activeLangCode] || 'en-IN';
-
-                                      let vList = window.speechSynthesis.getVoices();
-                                      if (!vList || vList.length === 0) {
-                                        vList = (window as any)._cachedVoices || [];
-                                      }
-
-                                      let exactVoice = vList.find(v => {
-                                        const l = v.lang.toLowerCase().replace('_', '-');
-                                        const n = v.name.toLowerCase();
-                                        if (activeLangCode === 'gu') return l.startsWith('gu') || n.includes('gujarati') || n.includes('ગુજરાતી');
-                                        if (activeLangCode === 'hi') return l.startsWith('hi') || n.includes('hindi') || n.includes('हिन्दी');
-                                        if (activeLangCode === 'mr') return l.startsWith('mr') || n.includes('marathi') || n.includes('મરાઠી');
-                                        return l.startsWith('en');
-                                      });
-
-                                      if (!exactVoice && (activeLangCode === 'gu' || activeLangCode === 'hi' || activeLangCode === 'mr')) {
-                                        exactVoice = vList.find(v => {
-                                          const l = v.lang.toLowerCase();
-                                          const n = v.name.toLowerCase();
-                                          return l.includes('hi') || l.includes('in') || n.includes('hindi') || n.includes('india') || n.includes('hemant');
-                                        });
-                                      }
-
-                                      if (!exactVoice && vList.length > 0) {
-                                        exactVoice = vList[0];
-                                      }
-
-                                      const utter = new SpeechSynthesisUtterance(txt);
-                                      if (exactVoice) {
-                                        utter.voice = exactVoice;
-                                        utter.lang = exactVoice.lang;
-                                      } else {
-                                        utter.lang = targetLangCode;
-                                      }
-                                      utter.rate = 0.88;
-
-                                      utter.onend = () => {
-                                        setPlayingLessonId(null);
-                                        (window as any)._activeTTSActive = false;
-                                      };
-
-                                      utter.onerror = (evt: any) => {
-                                        if (evt?.error === 'interrupted' || evt?.error === 'canceled') return;
-                                        setPlayingLessonId(null);
-                                        (window as any)._activeTTSActive = false;
-                                      };
-
-                                      window.speechSynthesis.speak(utter);
                                     } else {
-                                      setPlayingLessonId(null);
-                                      (window as any)._activeTTSActive = false;
+                                      playWebSpeechChunk(queueIdx);
                                     }
                                   }
 
-                                  // Execute speech 60ms after stopActiveTTS to allow Chrome background speech thread to complete cancellation
                                   setTimeout(() => {
                                     if ((window as any)._activeTTSActive) {
-                                      if (!playResponsiveVoice(cleanText)) {
-                                        playWebSpeech(cleanText);
-                                      }
+                                      playQueueChunk();
                                     }
                                   }, 60);
                                 }}
