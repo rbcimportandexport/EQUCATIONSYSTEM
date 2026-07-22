@@ -3,8 +3,29 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 
-// Register Service Worker for offline capability
-if ('serviceWorker' in navigator) {
+// Unregister any active service worker on localhost to prevent stale Vite dev asset caching
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (const registration of registrations) {
+        registration.unregister().then((success) => {
+          if (success) {
+            console.log('Successfully unregistered stale service worker on localhost');
+            window.location.reload();
+          }
+        });
+      }
+    });
+  }
+  if ('caches' in window) {
+    caches.keys().then((names) => {
+      for (const name of names) {
+        caches.delete(name);
+      }
+    });
+  }
+} else if ('serviceWorker' in navigator) {
+  // Register Service Worker for production only (offline capability)
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
       .then((reg) => {
