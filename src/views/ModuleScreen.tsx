@@ -766,51 +766,42 @@ export const ModuleScreen: React.FC = () => {
                                     if (current.trim()) speechQueue.push(sanitizeSentence(current.trim()));
                                   });
 
-                                  let queueIdx = 0;
-
                                   async function playGoogleAudioChunk(idx: number) {
                                     if (!(window as any)._activeTTSActive) return;
 
                                     const txt = speechQueue[idx];
-                                    const targetUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(txt)}&tl=${activeLangCode}&client=gtx`;
-                                    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
+                                    const googleUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(txt)}&tl=${activeLangCode}&client=tw-ob`;
 
                                     try {
-                                      const res = await fetch(proxyUrl);
-                                      if (res.ok) {
-                                        const blob = await res.blob();
-                                        if (blob && blob.size > 200) {
-                                          const audioUrl = URL.createObjectURL(blob);
-                                          const audio = new Audio(audioUrl);
-                                          (window as any)._activeTTSAudio = audio;
+                                      const audio = new Audio();
+                                      (window as any)._activeTTSAudio = audio;
 
-                                          audio.onended = () => {
-                                            URL.revokeObjectURL(audioUrl);
-                                            if (!(window as any)._activeTTSActive) return;
-                                            playChunk(idx + 1);
-                                          };
+                                      audio.onended = () => {
+                                        if (!(window as any)._activeTTSActive) return;
+                                        playChunk(idx + 1);
+                                      };
 
-                                          audio.onerror = () => {
-                                            URL.revokeObjectURL(audioUrl);
-                                            playChunk(idx + 1);
-                                          };
+                                      audio.onerror = () => {
+                                        playResponsiveVoiceFallback(idx);
+                                      };
 
-                                          audio.play().catch(() => {
-                                            URL.revokeObjectURL(audioUrl);
-                                            playChunk(idx + 1);
-                                          });
-                                          return;
-                                        }
+                                      audio.src = googleUrl;
+                                      const playPromise = audio.play();
+                                      if (playPromise !== undefined) {
+                                        playPromise.catch(() => {
+                                          playResponsiveVoiceFallback(idx);
+                                        });
                                       }
-                                    } catch (e) { }
-
-                                    playChunk(idx + 1);
+                                    } catch (e) {
+                                      playResponsiveVoiceFallback(idx);
+                                    }
                                   }
 
                                   function playWebSpeechChunk(idx: number) {
                                     if (!(window as any)._activeTTSActive) return;
                                     if (typeof window === 'undefined' || !window.speechSynthesis) {
-                                      playGoogleAudioChunk(idx);
+                                      setPlayingLessonId(null);
+                                      (window as any)._activeTTSActive = false;
                                       return;
                                     }
 
@@ -859,29 +850,16 @@ export const ModuleScreen: React.FC = () => {
 
                                     utter.onerror = (evt: any) => {
                                       if (evt?.error === 'interrupted' || evt?.error === 'canceled') return;
-                                      playGoogleAudioChunk(idx);
+                                      // If WebSpeech also fails, skip to next chunk to continue speech
+                                      playChunk(idx + 1);
                                     };
 
                                     window.speechSynthesis.speak(utter);
                                   }
 
-                                  function playChunk(idx: number) {
-                                    if (!(window as any)._activeTTSActive) {
-                                      setPlayingLessonId(null);
-                                      return;
-                                    }
-                                    if (idx >= speechQueue.length) {
-                                      setPlayingLessonId(null);
-                                      (window as any)._activeTTSActive = false;
-                                      return;
-                                    }
-
+                                  function playResponsiveVoiceFallback(idx: number) {
+                                    if (!(window as any)._activeTTSActive) return;
                                     const txt = speechQueue[idx];
-                                    if (!txt || !txt.trim()) {
-                                      playChunk(idx + 1);
-                                      return;
-                                    }
-
                                     const rv = (window as any).responsiveVoice;
                                     if (rv && typeof rv.speak === 'function') {
                                       const voiceMap: Record<string, string> = {
@@ -906,6 +884,27 @@ export const ModuleScreen: React.FC = () => {
                                     } else {
                                       playWebSpeechChunk(idx);
                                     }
+                                  }
+
+                                  function playChunk(idx: number) {
+                                    if (!(window as any)._activeTTSActive) {
+                                      setPlayingLessonId(null);
+                                      return;
+                                    }
+                                    if (idx >= speechQueue.length) {
+                                      setPlayingLessonId(null);
+                                      (window as any)._activeTTSActive = false;
+                                      return;
+                                    }
+
+                                    const txt = speechQueue[idx];
+                                    if (!txt || !txt.trim()) {
+                                      playChunk(idx + 1);
+                                      return;
+                                    }
+
+                                    // Run Google Audio primary chunk player
+                                    playGoogleAudioChunk(idx);
                                   }
 
                                   setTimeout(() => {
