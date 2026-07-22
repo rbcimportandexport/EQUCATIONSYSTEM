@@ -669,189 +669,108 @@ export const ModuleScreen: React.FC = () => {
                             <div onClick={e => e.stopPropagation()}>
                               <button
                                 onClick={() => {
-                                  // If currently playing, stop it
+                                  // Toggle stop if already playing this lesson
                                   if (playingLessonId === lesson.id) {
-                                    stopActiveTTS();
+                                    (window as any)._activeTTSActive = false;
+                                    (window as any)._activeTTSSessionId = 0;
+                                    try { window.speechSynthesis.cancel(); } catch (e) {}
                                     setPlayingLessonId(null);
                                     return;
                                   }
 
-                                  stopActiveTTS();
+                                  // Stop any previous speech
+                                  (window as any)._activeTTSActive = false;
+                                  (window as any)._activeTTSSessionId = 0;
+                                  try { window.speechSynthesis.cancel(); } catch (e) {}
 
-                                  // Set new playing states
-                                  setPlayingLessonId(lesson.id);
-                                  (window as any)._activeTTSActive = true;
-
-                                  // Speak the content of the lesson in the active language
+                                  // Build lesson text
                                   const rawLesson = moduleLessons.find(l => l.id === lesson.id) || lesson;
                                   const lessonLang = getTranslatedLesson(rawLesson, language);
                                   const tLang = uiTranslations[language];
-
                                   const activeLangCode = language === 'hi' ? 'hi' : language === 'gu' ? 'gu' : language === 'mr' ? 'mr' : 'en';
 
-                                  const sanitizeSentence = (txt: string) => {
-                                    let s = txt
-                                      .replace(/[:\-–—\=\+]/g, '. ')
-                                      .replace(/\b5[,.]?000\b/g, activeLangCode === 'gu' ? 'પાંચ હજાર' : activeLangCode === 'hi' || activeLangCode === 'mr' ? 'पांच हजार' : 'five thousand')
-                                      .replace(/\b000\b/g, activeLangCode === 'gu' ? 'હજાર' : activeLangCode === 'hi' || activeLangCode === 'mr' ? 'हजार' : 'thousand')
-                                      .replace(/\b0\b/g, activeLangCode === 'gu' ? 'શૂન્ય' : activeLangCode === 'hi' || activeLangCode === 'mr' ? 'શૂન્ય' : 'zero')
-                                      .replace(/[\(\)\[\]\{\}\*\#•]/g, ' ')
-                                      .replace(/\s+/g, ' ')
-                                      .trim();
-
+                                  const sanitize = (txt: string): string => {
+                                    let s = txt.replace(/[:\-–—=+]/g, '. ').replace(/[()[\]{}*#•]/g, ' ').replace(/\s+/g, ' ').trim();
                                     if (activeLangCode === 'gu') {
                                       s = s
-                                        .replace(/\bRBC\b/gi, 'આરબીસી')
-                                        .replace(/\bImport(s)?\b/gi, 'ઇમ્પોર્ટ')
-                                        .replace(/\bExport(s)?\b/gi, 'એક્સપોર્ટ')
-                                        .replace(/\bLED\b/gi, 'એલઇડી')
-                                        .replace(/\bLight(s)?\b/gi, 'લાઇટ')
-                                        .replace(/\bOrder\b/gi, 'ઓર્ડર')
-                                        .replace(/\bChina\b/gi, 'ચાઇના')
-                                        .replace(/\bSupplier(s)?\b/gi, 'સપ્લાયર')
-                                        .replace(/\bBuyer(s)?\b/gi, 'બાયર')
-                                        .replace(/\bCustom(s)?\b/gi, 'કસ્ટમ્સ')
-                                        .replace(/\bClearance\b/gi, 'ક્લિયરન્સ')
-                                        .replace(/\bDelivery\b/gi, 'ડિલિવરી')
-                                        .replace(/\bShipping\b/gi, 'શિપિંગ')
-                                        .replace(/\bDuty\b/gi, 'ડ્યુટી')
-                                        .replace(/\bInvoice\b/gi, 'ઇનવોઇસ')
-                                        .replace(/\bBill\b/gi, 'બિલ')
-                                        .replace(/\bLading\b/gi, 'લેડિંગ')
-                                        .replace(/\bProfit\b/gi, 'પ્રોફિટ')
-                                        .replace(/\bCost\b/gi, 'કોસ્ટ')
-                                        .replace(/\bLanded\b/gi, 'લેન્ડેડ')
-                                        .replace(/\bFactory\b/gi, 'ફેક્ટરી')
-                                        .replace(/\bProduct(s)?\b/gi, 'પ્રોડક્ટ')
-                                        .replace(/\bTrade\b/gi, 'ટ્રેડ')
-                                        .replace(/\bTrader(s)?\b/gi, 'ટ્રેડર')
-                                        .replace(/\bWholesaler(s)?\b/gi, 'હોલસેલર')
-                                        .replace(/\bRetailer(s)?\b/gi, 'રીટેલર')
-                                        .replace(/\bManufacturer(s)?\b/gi, 'મેન્યુફેક્ચરર')
-                                        .replace(/\bGoods\b/gi, 'ગુડ્સ')
-                                        .replace(/\bServices\b/gi, 'સર્વિસીસ')
-                                        .replace(/\bHSN\b/gi, 'એચએસએન')
-                                        .replace(/\bCode\b/gi, 'કોડ')
-                                        .replace(/\bMobile\b/gi, 'મોબાઇલ')
-                                        .replace(/\bAccessories\b/gi, 'એક્સેસરીઝ')
-                                        .replace(/\bIncoterm(s)?\b/gi, 'ઇનકોટર્મ')
-                                        .replace(/\bFOB\b/gi, 'એફઓબી');
+                                        .replace(/\bRBC\b/gi, 'આરબીસી').replace(/\bImport(s)?\b/gi, 'ઇમ્પોર્ટ').replace(/\bExport(s)?\b/gi, 'એક્સપોર્ટ')
+                                        .replace(/\bChina\b/gi, 'ચાઇના').replace(/\bDelivery\b/gi, 'ડિલિવરી').replace(/\bShipping\b/gi, 'શિપિંગ')
+                                        .replace(/\bCustom(s)?\b/gi, 'કસ્ટમ્સ').replace(/\bProduct(s)?\b/gi, 'પ્રોડક્ટ').replace(/\bTrade\b/gi, 'ટ્રેડ')
+                                        .replace(/\bOrder\b/gi, 'ઓર્ડર').replace(/\bFOB\b/gi, 'એફઓબી');
                                     }
                                     return s;
                                   };
 
-                                  // Build array of text blocks for all sections
-                                  const textParts: string[] = [lessonLang.title];
-                                  if (lessonLang.content?.definition) {
-                                    textParts.push(`${tLang.definition}. ${lessonLang.content.definition}`);
-                                  }
-                                  if (lessonLang.content?.writtenExplanation) {
-                                    textParts.push(`${tLang.simpleExplanation}. ${lessonLang.content.writtenExplanation}`);
-                                  }
-                                  if (lessonLang.content?.businessExample) {
-                                    textParts.push(`${tLang.realBusinessExample}. ${lessonLang.content.businessExample}`);
-                                  }
-                                  if (lessonLang.content?.whyImportant) {
-                                    textParts.push(`${tLang.whyImportant}. ${lessonLang.content.whyImportant}`);
-                                  }
-                                  if (lessonLang.content?.importantNotes && lessonLang.content.importantNotes.length > 0) {
-                                    textParts.push(`${tLang.importantPoints}. ${lessonLang.content.importantNotes.join('. ')}`);
-                                  }
-                                  if (lessonLang.content?.commonMistakes && lessonLang.content.commonMistakes.length > 0) {
-                                    textParts.push(`${tLang.commonMistakes}. ${lessonLang.content.commonMistakes.join('. ')}`);
-                                  }
-                                  if (lessonLang.content?.practicalTips && lessonLang.content.practicalTips.length > 0) {
-                                    textParts.push(`${tLang.practicalTip}. ${lessonLang.content.practicalTips.join('. ')}`);
-                                  }
-                                  if (lessonLang.content?.summary) {
-                                    textParts.push(`${tLang.topicSummary}. ${lessonLang.content.summary}`);
-                                  }
+                                  const parts: string[] = [lessonLang.title];
+                                  if (lessonLang.content?.definition) parts.push(tLang.definition + '. ' + lessonLang.content.definition);
+                                  if (lessonLang.content?.writtenExplanation) parts.push(tLang.simpleExplanation + '. ' + lessonLang.content.writtenExplanation);
+                                  if (lessonLang.content?.businessExample) parts.push(tLang.realBusinessExample + '. ' + lessonLang.content.businessExample);
+                                  if (lessonLang.content?.whyImportant) parts.push(tLang.whyImportant + '. ' + lessonLang.content.whyImportant);
+                                  if (lessonLang.content?.importantNotes?.length) parts.push(tLang.importantPoints + '. ' + lessonLang.content.importantNotes.join('. '));
+                                  if (lessonLang.content?.commonMistakes?.length) parts.push(tLang.commonMistakes + '. ' + lessonLang.content.commonMistakes.join('. '));
+                                  if (lessonLang.content?.practicalTips?.length) parts.push(tLang.practicalTip + '. ' + lessonLang.content.practicalTips.join('. '));
+                                  if (lessonLang.content?.summary) parts.push(tLang.topicSummary + '. ' + lessonLang.content.summary);
 
-                                  // Split into small ~100-character speech queue chunks
-                                  const speechQueue: string[] = [];
-                                  textParts.forEach(part => {
-                                    const subParts = part.split(/([।.,!?\n\r]+)/);
-                                    let current = "";
-                                    for (let i = 0; i < subParts.length; i++) {
-                                      const p = subParts[i];
-                                      if ((current + p).length > 100) {
-                                        if (current.trim()) speechQueue.push(sanitizeSentence(current.trim()));
-                                        current = p;
-                                      } else {
-                                        current += p;
-                                      }
-                                    }
-                                    if (current.trim()) speechQueue.push(sanitizeSentence(current.trim()));
+                                  const queue: string[] = [];
+                                  parts.forEach(part => {
+                                    const chunks = part.split(/([।.,!?\n\r]+)/);
+                                    let cur = '';
+                                    chunks.forEach(c => {
+                                      if ((cur + c).length > 120) { if (cur.trim()) queue.push(sanitize(cur.trim())); cur = c; }
+                                      else { cur += c; }
+                                    });
+                                    if (cur.trim()) queue.push(sanitize(cur.trim()));
                                   });
 
-                                  const sessionId = Date.now();
-                                  (window as any)._activeTTSSessionId = sessionId;
+                                  const langMap: Record<string, string> = { gu: 'gu-IN', hi: 'hi-IN', mr: 'mr-IN', en: 'en-IN' };
+                                  const ttsLang = langMap[activeLangCode] || 'en-IN';
+                                  const newSid = Date.now();
+                                  (window as any)._activeTTSActive = true;
+                                  (window as any)._activeTTSSessionId = newSid;
+                                  setPlayingLessonId(lesson.id);
 
-                                  // Cancel any old speech
-                                  try { window.speechSynthesis.cancel(); } catch (e) {}
-
-                                  function speakChunk(idx: number, sId: number) {
-                                    if ((window as any)._activeTTSSessionId !== sId) return;
+                                  function speak(idx: number): void {
+                                    if ((window as any)._activeTTSSessionId !== newSid) return;
                                     if (!(window as any)._activeTTSActive) { setPlayingLessonId(null); return; }
+                                    if (idx >= queue.length) { setPlayingLessonId(null); (window as any)._activeTTSActive = false; return; }
+                                    const text = queue[idx];
+                                    if (!text?.trim()) { speak(idx + 1); return; }
 
-                                    if (idx >= speechQueue.length) {
-                                      setPlayingLessonId(null);
-                                      (window as any)._activeTTSActive = false;
-                                      return;
-                                    }
-
-                                    const txt = speechQueue[idx];
-                                    if (!txt || !txt.trim()) { speakChunk(idx + 1, sId); return; }
-
-                                    const utter = new SpeechSynthesisUtterance(txt);
-
-                                    // Pick best voice for language
-                                    const langMap: Record<string, string> = { gu: 'gu-IN', hi: 'hi-IN', mr: 'mr-IN', en: 'en-IN' };
-                                    utter.lang = langMap[activeLangCode] || 'en-IN';
-                                    utter.rate = 1.2;
+                                    const utter = new SpeechSynthesisUtterance(text);
+                                    utter.lang = ttsLang;
+                                    utter.rate = 1.15;
                                     utter.pitch = 1.0;
                                     utter.volume = 1.0;
 
-                                    const voices = window.speechSynthesis.getVoices();
-                                    const langPrefix = activeLangCode; // 'gu', 'hi', 'mr', 'en'
-                                    let voice = voices.find(v => v.lang.toLowerCase().startsWith(langPrefix));
-                                    if (!voice && (activeLangCode === 'gu' || activeLangCode === 'mr')) {
-                                      // Fallback: use any Indian voice
-                                      voice = voices.find(v => v.lang.toLowerCase().includes('-in') || v.lang.toLowerCase().startsWith('hi'));
+                                    const allVoices = window.speechSynthesis.getVoices();
+                                    let picked = allVoices.find(v => v.lang.toLowerCase().startsWith(activeLangCode));
+                                    if (!picked && (activeLangCode === 'gu' || activeLangCode === 'mr')) {
+                                      picked = allVoices.find(v => v.lang.toLowerCase().includes('-in') || v.lang.toLowerCase().startsWith('hi'));
                                     }
-                                    if (!voice) voice = voices.find(v => v.lang.toLowerCase().startsWith('en'));
-                                    if (!voice && voices.length > 0) voice = voices[0];
-                                    if (voice) { utter.voice = voice; utter.lang = voice.lang; }
+                                    if (!picked) picked = allVoices.find(v => v.lang.toLowerCase().startsWith('en'));
+                                    if (!picked && allVoices.length > 0) picked = allVoices[0];
+                                    if (picked) { utter.voice = picked; utter.lang = picked.lang; }
 
-                                    utter.onend = () => {
-                                      if ((window as any)._activeTTSSessionId !== sId) return;
-                                      speakChunk(idx + 1, sId);
+                                    utter.onend = () => { if ((window as any)._activeTTSSessionId === newSid) speak(idx + 1); };
+                                    utter.onerror = (ev: SpeechSynthesisErrorEvent) => {
+                                      if (ev?.error === 'interrupted' || ev?.error === 'canceled') return;
+                                      if ((window as any)._activeTTSSessionId === newSid) speak(idx + 1);
                                     };
-                                    utter.onerror = (e: any) => {
-                                      if (e?.error === 'interrupted' || e?.error === 'canceled') return;
-                                      if ((window as any)._activeTTSSessionId !== sId) return;
-                                      speakChunk(idx + 1, sId);
-                                    };
-
                                     window.speechSynthesis.speak(utter);
                                   }
 
-                                  // Start speaking — wait for voices if needed
+                                  // 150ms delay after cancel — Chrome needs this to reset properly
                                   setTimeout(() => {
-                                    if ((window as any)._activeTTSSessionId === sessionId && (window as any)._activeTTSActive) {
-                                      if (window.speechSynthesis.getVoices().length > 0) {
-                                        speakChunk(0, sessionId);
-                                      } else {
-                                        window.speechSynthesis.onvoiceschanged = () => {
-                                          window.speechSynthesis.onvoiceschanged = null;
-                                          speakChunk(0, sessionId);
-                                        };
-                                        setTimeout(() => speakChunk(0, sessionId), 500);
-                                      }
+                                    if ((window as any)._activeTTSSessionId !== newSid || !(window as any)._activeTTSActive) return;
+                                    if (window.speechSynthesis.getVoices().length > 0) {
+                                      speak(0);
+                                    } else {
+                                      window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.onvoiceschanged = null; speak(0); };
+                                      setTimeout(() => speak(0), 600);
                                     }
-                                  }, 80);
+                                  }, 150);
                                 }}
-                                title={playingLessonId === lesson.id ? "Stop reading" : "Listen to this lesson"}
+                                title={playingLessonId === lesson.id ? "Stop reading" : "Listen to this lesson"} === lesson.id ? "Stop reading" : "Listen to this lesson"}
                                 style={{
                                   display: 'flex', alignItems: 'center', gap: '5px',
                                   padding: '4px 10px', borderRadius: '8px', border: '1px solid #e2e8f0',
