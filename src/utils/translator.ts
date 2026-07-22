@@ -410,99 +410,99 @@ export const lessonTextTranslations: {
   gu: {
     'les-mod-1-1': {
       title: "આયાત શું છે?",
-      definition: "આયાત (Import) એ અન્ય દેશમાંથી પોતાના દેશમાં સામાન, સેવાઓ લાવવાની પ્રક્રિયા છે.",
-      whyImportant: "આયાત થી વ્યવસાયોને કાચો માલ, Machinery અને Products સ્થાનિક Market ની સરખામણીમાં સસ્ત ભાવે મળે.",
-      businessExample: "RBC Imports ને 5,000 LED Light Order, China Supplier સંપર્ક, Shipping, Custom Clearance, Delivery.",
-      writtenExplanation: "ભારતીય Trader China Supplier પાસેથી Mobile Accessories ખરીદી ભારત લાવ્યો = Import.",
-      summary: "Import = Foreign Goods ઘરઆંગણે લાવવી.",
-      importantNotes: ["Buyer = Importer.", "Custom Duty ભરવી ફરજિયાત.", "Bill of Lading + Invoice."],
-      commonMistakes: ["Custom Duty ભૂલી Profit ગણવો."],
-      practicalTips: ["Order Confirm પહેલા Landed Cost."]
+      definition: "આયાત એટલે કે વિદેશમાંથી પોતાના દેશમાં સામાન અને સેવાઓ લાવવાની પ્રક્રિયા.",
+      whyImportant: "આયાતથી વ્યવસાયોને કાચો માલ, મશીનરી અને પ્રોડક્ટ્સ સ્થાનિક બજારની સરખામણીમાં સસ્તા ભાવે મળે છે.",
+      businessExample: "આરબીસી ઇમ્પોર્ટ્સ ૫૦૦૦ એલઇડી લાઇટ ઓર્ડર કરે છે, ચીન સપ્લાયરનો સંપર્ક કરીને શિપિંગ અને કસ્ટમ્સ ક્લિયરન્સ સાથે ડિલિવરી લે છે.",
+      writtenExplanation: "ભારતીય વેપારી ચીન સપ્લાયર પાસેથી મોબાઇલ એક્સેસરીઝ ખરીદી ભારત લાવે તેને આયાત કહેવાય.",
+      summary: "વિદેશી માલ પોતાના દેશમાં લાવવો એટલે આયાત.",
+      importantNotes: ["ખરીદનાર એટલે આયાતકાર.", "કસ્ટમ્સ ડ્યુટી ભરવી ફરજિયાત છે.", "બિલ ઓફ લેડિંગ અને ઇનવોઇસ જરૂરી છે."],
+      commonMistakes: ["કસ્ટમ્સ ડ્યુટી ગણ્યા વગર નફો ગણવો."],
+      practicalTips: ["ઓર્ડર કન્ફર્મ કરતા પહેલા લેન્ડેડ કોસ્ટ નક્કી કરો."]
     },
     'les-mod-1-2': {
       title: "નિકાસ (Export) શું છે?",
-      definition: "Export એ ઘર-દેશની Goods/Services વિદેશ Buyer ને વેચવાની Process છે.",
-      whyImportant: "Export થી Foreign Currency+Forex Reserve ઊભું, Factories ને Global Market.",
-      businessExample: "ભારતીય Tea-Spice Exporter USA Buyer ને Shipment = Export.",
-      writtenExplanation: "ઘર-દેશ Produced Goods, Abroad Send = Export.",
-      summary: "Export = Home Goods Sell Abroad.",
-      importantNotes: ["Seller = Exporter.", "Tax Benefits.", "Shipping Bill + Certificate of Origin."],
-      commonMistakes: ["Payment Guarantee ચકાસ્યા વગર Shipment.", "Poor Packing."],
-      practicalTips: ["Export Pre ECGC Insurance."]
+      definition: "નિકાસ એટલે કે પોતાના દેશનો સામાન કે સેવાઓ વિદેશના ખરીદદારને વેચવાની પ્રક્રિયા.",
+      whyImportant: "નિકાસથી વિદેશી ચલણ કમાઈ શકાય છે અને ફેક્ટરીઓને વૈશ્વિક બજાર મળે છે.",
+      businessExample: "ભારતીય ચાય અને મસાલા નિકાસકાર અમેરિકાના બાયરને શિપમેન્ટ મોકલે તેને નિકાસ કહેવાય.",
+      writtenExplanation: "પોતાના દેશમાં બનેલો માલ વિદેશ મોકલવો એટલે નિકાસ.",
+      summary: "પોતાના દેશનો માલ વિદેશમાં વેચવો એટલે નિકાસ.",
+      importantNotes: ["વેચનાર એટલે નિકાસકાર.", "કરવેરામાં રાહત મળે છે.", "શિપિંગ બિલ અને ઓરિજિન સર્ટિફિકેટ જરૂરી છે."],
+      commonMistakes: ["પેમેન્ટ ગેરંટી ચકાસ્યા વગર શિપમેન્ટ મોકલવું.", "ખરાબ પેકિંગ."],
+      practicalTips: ["નિકાસ કરતા પહેલા ઇસીજીસી ઇન્સ્યોરન્સ લો."]
     },
     'les-mod-1-3': {
-      title: "આંતરરાષ્ટ્રીય વ્યાપાર (International Trade) શું?",
-      definition: "2+ Countries Goods+Services Exchange = International Trade.",
-      whyImportant: "Global Business Growth, Shared Resources.",
-      businessExample: "India - Gulf Crude Oil Import, Basmati Rice Export.",
-      writtenExplanation: "Countries Import-Export Balanced = International Trade.",
-      summary: "Global Business = International Trade.",
-      importantNotes: ["WTO Rules.", "Better Country Relations."],
-      commonMistakes: ["Sanctions Ignore."],
-      practicalTips: ["New Country Rules Study."]
+      title: "આંતરરાષ્ટ્રીય વ્યાપાર શું છે?",
+      definition: "બે કે તેથી વધુ દેશો વચ્ચે સામાન અને સેવાઓની લેવડદેવડ એટલે આંતરરાષ્ટ્રીય વ્યાપાર.",
+      whyImportant: "વૈશ્વિક વ્યાપારનો વિકાસ થાય છે અને સંસાધનોની આપલે થાય છે.",
+      businessExample: "ભારત અખાતી દેશોમાંથી ક્રૂડ ઓઇલ આયાત કરે છે અને બાસમતી ચોખા નિકાસ કરે છે.",
+      writtenExplanation: "દેશો વચ્ચે આયાત અને નિકાસનું સંતુલન એટલે આંતરરાષ્ટ્રીય વ્યાપાર.",
+      summary: "વૈશ્વિક સ્તરે થતો વ્યાપાર એટલે આંતરરાષ્ટ્રીય વ્યાપાર.",
+      importantNotes: ["ડબલ્યુટીઓ ના નિયમોનું પાલન કરવું.", "દેશો વચ્ચે સંબંધો સુધરે છે."],
+      commonMistakes: ["આંતરરાષ્ટ્રીય પ્રતિબંધોને અણગણવા."],
+      practicalTips: ["નવા દેશના નિયમોનો અભ્યાસ કરવો."]
     },
     'les-mod-1-4': {
-      title: "સપ્લાયર (Supplier) કોણ?",
-      definition: "Buyer ને Goods/Services Provide = Supplier.",
-      whyImportant: "Trusted Supplier = Quality + Timely Delivery.",
-      businessExample: "China Company RBC Imports ને LED Lights Supply = Supplier.",
-      writtenExplanation: "Order Based Goods Deliver = Supplier.",
-      summary: "Goods Provider = Supplier.",
-      importantNotes: ["Supplier = Manufacturer or Trader.", "Supplier Verification = First Step."],
-      commonMistakes: ["Audit Skip."],
-      practicalTips: ["Sample Order First."]
+      title: "સપ્લાયર કોણ છે?",
+      definition: "ખરીદદારને સામાન કે સેવાઓ આપનાર પાર્ટી એટલે સપ્લાયર.",
+      whyImportant: "વિશ્વસનીય સપ્લાયર સારી ગુણવત્તા અને સમયસર ડિલિવરી આપે છે.",
+      businessExample: "ચીનની કંપની આરબીસી ઇમ્પોર્ટ્સને એલઇડી લાઇટ્સ આપે છે તો તે સપ્લાયર છે.",
+      writtenExplanation: "ઓર્ડર મુજબ માલ પહોંચાડનાર વ્યક્તિ કે કંપની એટલે સપ્લાયર.",
+      summary: "માલ આપનાર પાર્ટી એટલે સપ્લાયર.",
+      importantNotes: ["સપ્લાયર ઉત્પાદક અથવા વેપારી હોઈ શકે છે.", "સપ્લાયરની ચકાસણી પ્રથમ પગલું છે."],
+      commonMistakes: ["ઓડિટ વગર ઓર્ડર આપવો."],
+      practicalTips: ["પહેલા સેમ્પલ ઓર્ડર કરો."]
     },
     'les-mod-1-5': {
-      title: "ખરીદદાર (Buyer) કોણ?",
-      definition: "Supplier પાસેથી Goods Purchase = Buyer.",
-      whyImportant: "Buyer Demand Create = Trade Cycle Active.",
-      businessExample: "RBC China Supplier Buy = RBC = Buyer.",
-      writtenExplanation: "Payment + Ownership Acquire = Buyer.",
-      summary: "Goods Purchaser = Buyer.",
-      importantNotes: ["Buyer = End Consumer or Reseller."],
-      commonMistakes: ["Payment Without Agreement."],
-      practicalTips: ["Use Bank LC."]
+      title: "ખરીદદાર (Buyer) કોણ છે?",
+      definition: "સપ્લાયર પાસેથી સામાન ખરીદનાર વ્યક્તિ કે કંપની એટલે બાયર.",
+      whyImportant: "બાયરની માંગથી વ્યાપાર ચક્ર સક્રિય રહે છે.",
+      businessExample: "આરબીસી કંપની ચીનના સપ્લાયર પાસેથી ખરીદી કરે તો આરબીસી બાયર કહેવાય.",
+      writtenExplanation: "ચુકવણી કરીને માલની માલિકી મેળવનાર એટલે બાયર.",
+      summary: "સામાન ખરીદનાર એટલે બાયર.",
+      importantNotes: ["બાયર ગ્રાહક અથવા રીસેલર હોઈ શકે છે."],
+      commonMistakes: ["કરાર કર્યા વગર પેમેન્ટ કરવું."],
+      practicalTips: ["બેંક એલસીનો ઉપયોગ કરો."]
     },
     'les-mod-1-6': {
-      title: "ઉત્પાદક (Manufacturer) શું?",
-      definition: "Raw Material Convert to Finished Goods = Manufacturer.",
-      whyImportant: "Direct Buy = No Broker Fee = Cheapest.",
-      businessExample: "Copper to Wire = Manufacturer.",
-      writtenExplanation: "Own Factory Production = Manufacturer.",
-      summary: "Self Producer = Manufacturer.",
-      importantNotes: ["Large Scale Capacity."]
+      title: "ઉત્પાદક (Manufacturer) શું છે?",
+      definition: "કાચા માલમાંથી તૈયાર માલ બનાવનાર કંપની એટલે ઉત્પાદક.",
+      whyImportant: "સીધી ખરીદી કરવાથી દલાલનો ખર્ચ બચે છે અને સસ્તો ભાવ મળે છે.",
+      businessExample: "તાંબામાંથી વાયર બનાવતી કંપની એટલે મેન્યુફેક્ચરર.",
+      writtenExplanation: "પોતાની ફેક્ટરીમાં ઉત્પાદન કરતી કંપની એટલે ઉત્પાદક.",
+      summary: "પોતે માલ બનાવનાર એટલે ઉત્પાદક.",
+      importantNotes: ["મોટા પાયે ઉત્પાદન ક્ષમતા."]
     },
     'les-mod-1-7': {
-      title: "ટ્રેડિંગ કંપની (Trading Company) શું?",
-      definition: "Manufacturer Buy + Buyer Sell = Trading Company.",
-      whyImportant: "Multiple Products, Low MOQ.",
-      businessExample: "Toy Agent = Multiple Factories to Buyer = Trading Company.",
-      writtenExplanation: "Middleman = Trading Company.",
-      summary: "Reselling Company = Trading."
+      title: "ટ્રેડિંગ કંપની શું છે?",
+      definition: "ઉત્પાદક પાસેથી ખરીદીને ખરીદદારને વેચતી કંપની એટલે ટ્રેડિંગ કંપની.",
+      whyImportant: "એક જ જગ્યાએથી વિવિધ પ્રોડક્ટ્સ અને ઓછો ઓર્ડર જથ્થો મળે છે.",
+      businessExample: "રમકડાંના એજન્ટ જે વિવિધ ફેક્ટરીઓમાંથી ખરીદીને બાયરને વેચે છે.",
+      writtenExplanation: "વચેટિયા તરીકે કામ કરતી કંપની એટલે ટ્રેડિંગ કંપની.",
+      summary: "માલનું પુનઃવેચાણ કરતી કંપની એટલે ટ્રેડિંગ કંપની."
     },
     'les-mod-1-8': {
-      title: "ફૅક્ટ્રી (Factory) શું?",
-      definition: "Workers + Machines = Production = Factory.",
-      whyImportant: "Factory Audit = Best Supplier Verify.",
-      businessExample: "Shanghai 200 Workers Mobile Assemble = Factory.",
-      writtenExplanation: "Production Plant = Factory.",
-      summary: "Production Place = Factory."
+      title: "ફેક્ટરી શું છે?",
+      definition: "કારીગરો અને મશીનો દ્વારા ઉત્પાદન થતી જગ્યા એટલે ફેક્ટરી.",
+      whyImportant: "ફેક્ટરી ઓડિટ કરવાથી સાચા સપ્લાયરની ચકાસણી થાય છે.",
+      businessExample: "શાંઘાઈમાં ૨૦૦ કારીગરો સાથે મોબાઇલ એસેમ્બલ કરતી જગ્યા એટલે ફેક્ટરી.",
+      writtenExplanation: "ઉત્પાદન પ્લાન્ટ એટલે ફેક્ટરી.",
+      summary: "ઉત્પાદન કરવાની જગ્યા એટલે ફેક્ટરી."
     },
     'les-mod-1-9': {
-      title: "જથ્થાબંધ વેપારી (Wholesaler) કોણ?",
-      definition: "Factory Bulk Buy + Retailers Sell = Wholesaler.",
-      whyImportant: "Discount, but Bulk Required.",
-      businessExample: "Sadar Bazar Trader Container Import Retailers Carton.",
-      writtenExplanation: "Bulk Trader = Wholesaler.",
-      summary: "Bulk Seller = Wholesaler."
+      title: "જથ્થાબંધ વેપારી (Wholesaler) કોણ છે?",
+      definition: "ફેક્ટરીમાંથી મોટા જથ્થામાં ખરીદીને રીટેલર્સને વેચનાર એટલે હોલસેલર.",
+      whyImportant: "વધુ ડિસ્કાઉન્ટ મળે છે પણ મોટો જથ્થો ખરીદવો પડે છે.",
+      businessExample: "સદર બજારના વેપારી કન્ટેનર આયાત કરીને રીટેલર્સને કાર્ટન વેચે છે.",
+      writtenExplanation: "મોટા જથ્થામાં વેપાર કરનાર એટલે હોલસેલર.",
+      summary: "જથ્થાબંધ વેચાણ કરનાર એટલે હોલસેલર."
     },
     'les-mod-1-10': {
-      title: "ફુટકિયો વેપારી (Retailer) કોણ?",
-      definition: "End Consumer Single Piece Sell = Retailer.",
-      whyImportant: "Direct Consumer Feedback.",
-      businessExample: "Mobile Shop Glass+Cover = Retailer.",
-      writtenExplanation: "Small Shops/Online Direct Consumer.",
-      summary: "Retail Seller = Retailer."
+      title: "છૂટક વેપારી (Retailer) કોણ છે?",
+      definition: "અંતિમ ગ્રાહકને એક-એક પીસ વેચનાર વેપારી એટલે રીટેલર.",
+      whyImportant: "ગ્રાહકનો સીધો ફીડબેક મળે છે.",
+      businessExample: "મોબાઇલની દુકાન જે ગ્લાસ અને કવર ગ્રાહકને વેચે છે.",
+      writtenExplanation: "નાની દુકાનો કે ઓનલાઇન સીધા ગ્રાહકને વેચનાર એટલે રીટેલર.",
+      summary: "છૂટક વેચાણ કરનાર એટલે રીટેલર."
     }
   },
   mr: {

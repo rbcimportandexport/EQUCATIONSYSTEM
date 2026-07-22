@@ -701,14 +701,30 @@ export const ModuleScreen: React.FC = () => {
                                   const rawText = textParts.join('. ');
                                   const activeLangCode = language === 'hi' ? 'hi' : language === 'gu' ? 'gu' : language === 'mr' ? 'mr' : 'en';
 
-                                  // Sanitize text for speech: clean colons, zeros, brackets to ensure pristine pronunciation
-                                  const cleanText = rawText
-                                    .replace(/[:\-–—]/g, '. ')
+                                  // Sanitize text for speech: clean colons, zeros, brackets, and English trade words to ensure pristine Gujarati pronunciation
+                                  let cleanText = rawText
+                                    .replace(/[:\-–—\=\+]/g, '. ')
                                     .replace(/\b000\b/g, activeLangCode === 'gu' ? 'હજાર' : activeLangCode === 'hi' || activeLangCode === 'mr' ? 'हजार' : 'thousand')
                                     .replace(/\b0\b/g, activeLangCode === 'gu' ? 'શૂન્ય' : activeLangCode === 'hi' || activeLangCode === 'mr' ? 'शून्य' : 'zero')
                                     .replace(/[\(\)\[\]\{\}\*\#•]/g, ' ')
                                     .replace(/\s+/g, ' ')
                                     .trim();
+
+                                  if (activeLangCode === 'gu') {
+                                    cleanText = cleanText
+                                      .replace(/\bImport\b/gi, 'આયાત')
+                                      .replace(/\bExport\b/gi, 'નિકાસ')
+                                      .replace(/\bSupplier\b/gi, 'સપ્લાયર')
+                                      .replace(/\bBuyer\b/gi, 'બાયર')
+                                      .replace(/\bCustoms\b/gi, 'કસ્ટમ્સ')
+                                      .replace(/\bDuty\b/gi, 'ડ્યુટી')
+                                      .replace(/\bFactory\b/gi, 'ફેક્ટરી')
+                                      .replace(/\bProduct\b/gi, 'પ્રોડક્ટ')
+                                      .replace(/\bTrade\b/gi, 'વ્યાપાર')
+                                      .replace(/\bWholesaler\b/gi, 'હોલસેલર')
+                                      .replace(/\bRetailer\b/gi, 'રીટેલર')
+                                      .replace(/\bManufacturer\b/gi, 'ઉત્પાદક');
+                                  }
 
                                   // Split text into chunks of max 140 characters safely
                                   const getChunks = (txt: string, maxLen = 140): string[] => {
