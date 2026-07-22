@@ -673,6 +673,7 @@ export const ModuleScreen: React.FC = () => {
                                   if (playingLessonId === lesson.id) {
                                     (window as any)._activeTTSActive = false;
                                     (window as any)._activeTTSSessionId = 0;
+                                    clearInterval((window as any)._ttsKeepAliveInterval);
                                     try { window.speechSynthesis.cancel(); } catch (e) {}
                                     setPlayingLessonId(null);
                                     return;
@@ -681,6 +682,7 @@ export const ModuleScreen: React.FC = () => {
                                   // Stop any previous speech
                                   (window as any)._activeTTSActive = false;
                                   (window as any)._activeTTSSessionId = 0;
+                                  clearInterval((window as any)._ttsKeepAliveInterval);
                                   try { window.speechSynthesis.cancel(); } catch (e) {}
 
                                   // Build lesson text
@@ -731,8 +733,8 @@ export const ModuleScreen: React.FC = () => {
 
                                   function speak(idx: number): void {
                                     if ((window as any)._activeTTSSessionId !== newSid) return;
-                                    if (!(window as any)._activeTTSActive) { setPlayingLessonId(null); return; }
-                                    if (idx >= queue.length) { setPlayingLessonId(null); (window as any)._activeTTSActive = false; return; }
+                                    if (!(window as any)._activeTTSActive) { setPlayingLessonId(null); clearInterval((window as any)._ttsKeepAliveInterval); return; }
+                                    if (idx >= queue.length) { setPlayingLessonId(null); (window as any)._activeTTSActive = false; clearInterval((window as any)._ttsKeepAliveInterval); return; }
                                     const text = queue[idx];
                                     if (!text?.trim()) { speak(idx + 1); return; }
 
@@ -762,6 +764,22 @@ export const ModuleScreen: React.FC = () => {
                                   // 150ms delay after cancel — Chrome needs this to reset properly
                                   setTimeout(() => {
                                     if ((window as any)._activeTTSSessionId !== newSid || !(window as any)._activeTTSActive) return;
+
+                                    // ✅ Chrome Bug Fix: Chrome pauses speechSynthesis after ~15s
+                                    // Keep-alive: call resume() every 10 seconds while speaking
+                                    if ((window as any)._ttsKeepAliveInterval) {
+                                      clearInterval((window as any)._ttsKeepAliveInterval);
+                                    }
+                                    (window as any)._ttsKeepAliveInterval = setInterval(() => {
+                                      if (!(window as any)._activeTTSActive || (window as any)._activeTTSSessionId !== newSid) {
+                                        clearInterval((window as any)._ttsKeepAliveInterval);
+                                        return;
+                                      }
+                                      if (window.speechSynthesis.paused) {
+                                        window.speechSynthesis.resume();
+                                      }
+                                    }, 10000);
+
                                     if (window.speechSynthesis.getVoices().length > 0) {
                                       speak(0);
                                     } else {
