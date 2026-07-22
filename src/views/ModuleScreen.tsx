@@ -103,34 +103,44 @@ export const ModuleScreen: React.FC = () => {
     }
   }, [selectedModuleId, modules, setSelectedModuleId]);
 
-  // Pre-load speech synthesis voices on mount
+  // Pre-load speech synthesis voices & ResponsiveVoice engine on mount
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.speechSynthesis) {
-      window.speechSynthesis.getVoices();
-      const handleVoicesChanged = () => {
+    if (typeof window !== 'undefined') {
+      if (window.speechSynthesis) {
         window.speechSynthesis.getVoices();
-      };
-      window.speechSynthesis.addEventListener('voiceschanged', handleVoicesChanged);
-      return () => {
-        window.speechSynthesis.removeEventListener('voiceschanged', handleVoicesChanged);
-      };
+        const handleVoicesChanged = () => { window.speechSynthesis.getVoices(); };
+        window.speechSynthesis.addEventListener('voiceschanged', handleVoicesChanged);
+      }
+      if (!(window as any).responsiveVoice) {
+        const script = document.createElement('script');
+        script.src = 'https://code.responsivevoice.org/responsivevoice.js?key=FREE_KEY';
+        script.async = true;
+        document.head.appendChild(script);
+      }
     }
   }, []);
+
+  const stopActiveTTS = () => {
+    (window as any)._activeTTSActive = false;
+    if ((window as any).responsiveVoice) {
+      try { (window as any).responsiveVoice.cancel(); } catch (e) {}
+    }
+    if ((window as any)._activeTTSAudio) {
+      try {
+        (window as any)._activeTTSAudio.pause();
+        (window as any)._activeTTSAudio.src = "";
+      } catch (e) {}
+      (window as any)._activeTTSAudio = null;
+    }
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      try { window.speechSynthesis.cancel(); } catch (e) {}
+    }
+  };
 
   // Stop any playing TTS audio when the screen unmounts or changes
   useEffect(() => {
     return () => {
-      (window as any)._activeTTSActive = false;
-      if ((window as any)._activeTTSAudio) {
-        try {
-          (window as any)._activeTTSAudio.pause();
-          (window as any)._activeTTSAudio.src = "";
-        } catch (e) { }
-        (window as any)._activeTTSAudio = null;
-      }
-      if (window.speechSynthesis) {
-        window.speechSynthesis.cancel();
-      }
+      stopActiveTTS();
     };
   }, []);
 
@@ -647,35 +657,14 @@ export const ModuleScreen: React.FC = () => {
                                 onClick={() => {
                                   // If currently playing, stop it
                                   if (playingLessonId === lesson.id) {
-                                    (window as any)._activeTTSActive = false;
-                                    if ((window as any)._activeTTSAudio) {
-                                      try {
-                                        (window as any)._activeTTSAudio.pause();
-                                        (window as any)._activeTTSAudio.src = "";
-                                      } catch (e) { }
-                                      (window as any)._activeTTSAudio = null;
-                                    }
-                                    if (window.speechSynthesis) {
-                                      window.speechSynthesis.cancel();
-                                    }
+                                    stopActiveTTS();
                                     setPlayingLessonId(null);
                                     return;
                                   }
 
-                                  // If another lesson was playing, stop it first
-                                  (window as any)._activeTTSActive = false;
-                                  if ((window as any)._activeTTSAudio) {
-                                    try {
-                                      (window as any)._activeTTSAudio.pause();
-                                      (window as any)._activeTTSAudio.src = "";
-                                    } catch (e) { }
-                                    (window as any)._activeTTSAudio = null;
-                                  }
-                                  if (window.speechSynthesis) {
-                                    window.speechSynthesis.cancel();
-                                  }
+                                  stopActiveTTS();
 
-                                  // Now set the new playing states
+                                  // Set new playing states
                                   setPlayingLessonId(lesson.id);
                                   (window as any)._activeTTSActive = true;
 
@@ -709,13 +698,43 @@ export const ModuleScreen: React.FC = () => {
                                   if (lessonLang.content?.summary) {
                                     textParts.push(`${tLang.topicSummary}: ${lessonLang.content.summary}`);
                                   }
-                                  const text = textParts.join('. ');
-
-                                  const voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+                                  const rawText = textParts.join('. ');
                                   const activeLangCode = language === 'hi' ? 'hi' : language === 'gu' ? 'gu' : language === 'mr' ? 'mr' : 'en';
 
-                                  // Local SpeechSynthesis Fallback Function (per chunk)
-                                  function playLocalTTS(chunkText: string) {
+                                  // Sanitize text for speech: clean colons, zeros, brackets to ensure pristine pronunciation
+                                  const cleanText = rawText
+                                    .replace(/[:\-–—]/g, '. ')
+                                    .replace(/\b000\b/g, activeLangCode === 'gu' ? 'હજાર' : activeLangCode === 'hi' || activeLangCode === 'mr' ? 'हजार' : 'thousand')
+                                    .replace(/\b0\b/g, activeLangCode === 'gu' ? 'શૂન્ય' : activeLangCode === 'hi' || activeLangCode === 'mr' ? 'शून्य' : 'zero')
+                                    .replace(/[\(\)\[\]\{\}\*\#•]/g, ' ')
+                                    .replace(/\s+/g, ' ')
+                                    .trim();
+
+                                  // Split text into chunks of max 140 characters safely
+                                  const getChunks = (txt: string, maxLen = 140): string[] => {
+                                    const parts = txt.split(/([।.,!?\n\r]+)/);
+                                    const results: string[] = [];
+                                    let current = "";
+                                    for (let i = 0; i < parts.length; i++) {
+                                      const p = parts[i];
+                                      if ((current + p).length > maxLen) {
+                                        if (current.trim()) results.push(current.trim());
+                                        current = p;
+                                      } else {
+                                        current += p;
+                                      }
+                                    }
+                                    if (current.trim()) results.push(current.trim());
+                                    return results;
+                                  };
+
+                                  const chunks = getChunks(cleanText);
+                                  let currentIdx = 0;
+
+                                  const voices = typeof window !== 'undefined' && window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+
+                                  // Tier C: Web Speech API Fallback
+                                  function playLocalSpeechSynth(chunkText: string) {
                                     if (!(window as any)._activeTTSActive) return;
 
                                     const localLangCodes: Record<string, string> = {
@@ -726,7 +745,6 @@ export const ModuleScreen: React.FC = () => {
                                     };
                                     const targetLangCode = localLangCodes[activeLangCode] || 'en-IN';
 
-                                    // Find native voice matching language
                                     const exactVoice = voices.find(v => {
                                       const l = v.lang.toLowerCase().replace('_', '-');
                                       const n = v.name.toLowerCase();
@@ -766,28 +784,68 @@ export const ModuleScreen: React.FC = () => {
                                     window.speechSynthesis.speak(utter);
                                   }
 
-                                  const elevenLabsApiKey = localStorage.getItem('lms_elevenlabs_api_key') || (import.meta as any).env?.VITE_ELEVENLABS_API_KEY || '';
+                                  // Tier B: ResponsiveVoice Cloud Native Voice
+                                  function playResponsiveVoice(chunkText: string): boolean {
+                                    const rv = (window as any).responsiveVoice;
+                                    if (rv && typeof rv.speak === 'function') {
+                                      const voiceNameMap: Record<string, string> = {
+                                        gu: 'Gujarati Female',
+                                        hi: 'Hindi Female',
+                                        mr: 'Marathi Female',
+                                        en: 'UK English Female'
+                                      };
+                                      const targetVoice = voiceNameMap[activeLangCode] || 'UK English Female';
 
-                                  // Split text into chunks of max 150 characters safely (supporting Purna Viram)
-                                  const getChunks = (txt: string, maxLen = 150): string[] => {
-                                    const parts = txt.split(/([।.,!?\n\r]+)/);
-                                    const results: string[] = [];
-                                    let current = "";
-                                    for (let i = 0; i < parts.length; i++) {
-                                      const p = parts[i];
-                                      if ((current + p).length > maxLen) {
-                                        if (current.trim()) results.push(current.trim());
-                                        current = p;
-                                      } else {
-                                        current += p;
+                                      rv.speak(chunkText, targetVoice, {
+                                        rate: 0.95,
+                                        pitch: 1.0,
+                                        onend: () => {
+                                          if (!(window as any)._activeTTSActive) return;
+                                          currentIdx++;
+                                          playNextChunk();
+                                        },
+                                        onerror: () => {
+                                          playLocalSpeechSynth(chunkText);
+                                        }
+                                      });
+                                      return true;
+                                    }
+                                    return false;
+                                  }
+
+                                  // Tier A: Google Neural Cloud Audio (Fetched via Blob to prevent CORS block)
+                                  async function playGoogleNeuralCloud(chunkText: string) {
+                                    if (!(window as any)._activeTTSActive) return;
+
+                                    try {
+                                      const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunkText)}&tl=${activeLangCode}&client=gtx`;
+                                      const res = await fetch(url);
+                                      if (!res.ok) throw new Error("Google TTS Fetch Error");
+
+                                      const blob = await res.blob();
+                                      const audioUrl = URL.createObjectURL(blob);
+                                      const audio = new Audio(audioUrl);
+                                      (window as any)._activeTTSAudio = audio;
+
+                                      audio.play().then(() => {
+                                        audio.onended = () => {
+                                          URL.revokeObjectURL(audioUrl);
+                                          if (!(window as any)._activeTTSActive) return;
+                                          currentIdx++;
+                                          playNextChunk();
+                                        };
+                                      }).catch(() => {
+                                        URL.revokeObjectURL(audioUrl);
+                                        if (!playResponsiveVoice(chunkText)) {
+                                          playLocalSpeechSynth(chunkText);
+                                        }
+                                      });
+                                    } catch (err) {
+                                      if (!playResponsiveVoice(chunkText)) {
+                                        playLocalSpeechSynth(chunkText);
                                       }
                                     }
-                                    if (current.trim()) results.push(current.trim());
-                                    return results;
-                                  };
-
-                                  const chunks = getChunks(text);
-                                  let currentIdx = 0;
+                                  }
 
                                   async function playNextChunk() {
                                     if (!(window as any)._activeTTSActive) {
@@ -800,91 +858,9 @@ export const ModuleScreen: React.FC = () => {
                                       return;
                                     }
                                     const chunkText = chunks[currentIdx];
-
-                                    if (elevenLabsApiKey) {
-                                      try {
-                                        // Call ElevenLabs API for absolute best human voice synthesis
-                                        const response = await fetch('https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM', {
-                                          method: 'POST',
-                                          headers: {
-                                            'Content-Type': 'application/json',
-                                            'xi-api-key': elevenLabsApiKey
-                                          },
-                                          body: JSON.stringify({
-                                            text: chunkText,
-                                            model_id: 'eleven_multilingual_v2',
-                                            voice_settings: { stability: 0.5, similarity_boost: 0.75 }
-                                          })
-                                        });
-
-                                        if (!response.ok) throw new Error("ElevenLabs API error");
-
-                                        const blob = await response.blob();
-                                        const audioUrl = URL.createObjectURL(blob);
-                                        const audio = new Audio(audioUrl);
-                                        (window as any)._activeTTSAudio = audio;
-
-                                        audio.play().catch(() => {
-                                          playGoogleFallback(chunkText);
-                                        });
-
-                                        audio.onended = () => {
-                                          URL.revokeObjectURL(audioUrl);
-                                          if (!(window as any)._activeTTSActive) return;
-                                          currentIdx++;
-                                          playNextChunk();
-                                        };
-                                        return;
-                                      } catch (err) {
-                                        console.warn("ElevenLabs cloud play failed, falling back to Google TTS", err);
-                                        playGoogleFallback(chunkText);
-                                        return;
-                                      }
-                                    }
-
-                                    // No ElevenLabs key -> direct Google translation cloud neural voice
-                                    playGoogleFallback(chunkText);
+                                    await playGoogleNeuralCloud(chunkText);
                                   }
 
-                                  function playGoogleFallback(chunkText: string) {
-                                    if (!(window as any)._activeTTSActive) return;
-
-                                    const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunkText)}&tl=${activeLangCode}&client=gtx`;
-                                    const audio = new Audio(url);
-                                    (window as any)._activeTTSAudio = audio;
-
-                                    let hasFallenBack = false;
-                                    const triggerFallback = () => {
-                                      if (hasFallenBack) return;
-                                      hasFallenBack = true;
-                                      (window as any)._activeTTSAudio = null;
-                                      playLocalTTS(chunkText);
-                                    };
-
-                                    audio.play().catch(() => {
-                                      const secUrl = `https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=${activeLangCode}&q=${encodeURIComponent(chunkText)}`;
-                                      const secAudio = new Audio(secUrl);
-                                      (window as any)._activeTTSAudio = secAudio;
-                                      secAudio.play().catch(() => triggerFallback());
-                                      secAudio.onended = () => {
-                                        if (!(window as any)._activeTTSActive) return;
-                                        currentIdx++;
-                                        playNextChunk();
-                                      };
-                                      secAudio.onerror = () => triggerFallback();
-                                    });
-
-                                    audio.onended = () => {
-                                      if (!(window as any)._activeTTSActive) return;
-                                      currentIdx++;
-                                      playNextChunk();
-                                    };
-                                    audio.onerror = () => {
-                                      triggerFallback();
-                                    };
-                                  }
-
-                                  // Start playing using the best tier available
                                   playNextChunk();
                                 }}
                                 title={playingLessonId === lesson.id ? "Stop reading" : "Listen to this lesson"}
