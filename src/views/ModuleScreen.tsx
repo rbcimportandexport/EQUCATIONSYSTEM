@@ -54,6 +54,29 @@ export const ModuleScreen: React.FC = () => {
 
   // Active module data
   const activeModule = modules.find(m => m.id === selectedModuleId) || modules[0];
+  const currentModuleIndex = modules.findIndex(m => m.id === activeModule?.id);
+  const prevModule = currentModuleIndex > 0 ? modules[currentModuleIndex - 1] : null;
+  const nextModule = currentModuleIndex >= 0 && currentModuleIndex < modules.length - 1 ? modules[currentModuleIndex + 1] : null;
+
+  const handleGoToModule = (modId: string) => {
+    setSelectedModuleId(modId);
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handleNextModule = () => {
+    if (nextModule) {
+      handleGoToModule(nextModule.id);
+    }
+  };
+
+  const handlePrevModule = () => {
+    if (prevModule) {
+      handleGoToModule(prevModule.id);
+    }
+  };
+
   const moduleLessons = lessons.filter(l => l.moduleId === (activeModule?.id || ''));
 
   // Translate all lessons dynamically on load for the active language
@@ -271,30 +294,86 @@ export const ModuleScreen: React.FC = () => {
 
         {/* Zerodha Varsity Style Module Header */}
         <div style={{ paddingBottom: '24px', marginBottom: '32px', borderBottom: '1px solid #e2e8f0', width: '100%' }}>
-          {/* Back button link */}
-          <button 
-            type="button"
-            onClick={() => setActiveView('Courses')}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              border: 'none',
-              background: 'none',
-              color: '#475569',
-              fontSize: '14px',
-              fontWeight: '600',
-              cursor: 'pointer',
-              marginBottom: '16px',
-              padding: '4px 0',
-              transition: 'color 0.2s'
-            }}
-            onMouseOver={(e) => (e.currentTarget.style.color = '#0284c7')}
-            onMouseOut={(e) => (e.currentTarget.style.color = '#475569')}
-          >
-            <ArrowLeft size={16} />
-            <span>{language === 'hi' ? 'मॉड्यूल सूची पर वापस जाएं' : language === 'gu' ? 'મોડ્યુલ સૂચિ પર પાછા જાઓ' : language === 'mr' ? 'मॉड्यूल सूचीवर परत जा' : 'Back to Modules'}</span>
-          </button>
+          {/* Navigation row with Back button & Prev/Next module links */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '16px' }}>
+            <button 
+              type="button"
+              onClick={() => setActiveView('Courses')}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                border: 'none',
+                background: 'none',
+                color: '#475569',
+                fontSize: '14px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                padding: '4px 0',
+                transition: 'color 0.2s'
+              }}
+              onMouseOver={(e) => (e.currentTarget.style.color = '#0284c7')}
+              onMouseOut={(e) => (e.currentTarget.style.color = '#475569')}
+            >
+              <ArrowLeft size={16} />
+              <span>{language === 'hi' ? 'मॉड्यूल सूची पर वापस जाएं' : language === 'gu' ? 'મોડ્યુલ સૂચિ પર પાછા જાઓ' : language === 'mr' ? 'मॉड्यूल सूचीवर परत जा' : 'Back to Modules'}</span>
+            </button>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              {prevModule && (
+                <button
+                  type="button"
+                  onClick={() => handleGoToModule(prevModule.id)}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '6px 14px',
+                    borderRadius: '20px',
+                    border: '1px solid #cbd5e1',
+                    background: '#ffffff',
+                    color: '#334155',
+                    fontSize: '13px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseOver={(e) => { e.currentTarget.style.borderColor = '#0284c7'; e.currentTarget.style.color = '#0284c7'; }}
+                  onMouseOut={(e) => { e.currentTarget.style.borderColor = '#cbd5e1'; e.currentTarget.style.color = '#334155'; }}
+                >
+                  <ArrowLeft size={14} />
+                  <span>{language === 'hi' ? 'पिछला' : language === 'gu' ? 'અગાઉનું' : language === 'mr' ? 'मागील' : 'Prev'} (Module {prevModule.order})</span>
+                </button>
+              )}
+
+              {nextModule && (
+                <button
+                  type="button"
+                  onClick={() => handleGoToModule(nextModule.id)}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '6px 16px',
+                    borderRadius: '20px',
+                    border: 'none',
+                    background: '#0284c7',
+                    color: '#ffffff',
+                    fontSize: '13px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    boxShadow: '0 2px 8px rgba(2, 132, 199, 0.25)',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseOver={(e) => { e.currentTarget.style.background = '#0369a1'; }}
+                  onMouseOut={(e) => { e.currentTarget.style.background = '#0284c7'; }}
+                >
+                  <span>{language === 'hi' ? 'अगला मॉड्यूल' : language === 'gu' ? 'આગળનું મોડ્યુલ' : language === 'mr' ? 'पुढील मॉड्यूल' : 'Next Module'} ({nextModule.order})</span>
+                  <ArrowRight size={14} />
+                </button>
+              )}
+            </div>
+          </div>
 
           {/* Big Module Number & Accent Line */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '12px' }}>
