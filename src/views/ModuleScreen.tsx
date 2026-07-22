@@ -788,46 +788,8 @@ export const ModuleScreen: React.FC = () => {
                                   (window as any)._activeTTSSessionId = sessionId;
 
                                   async function playGoogleAudioChunk(idx: number, sId: number) {
-                                    if ((window as any)._activeTTSSessionId !== sId) return;
-                                    if (!(window as any)._activeTTSActive) return;
-
-                                    const txt = speechQueue[idx];
-                                    const proxyUrl = `/api/tts?text=${encodeURIComponent(txt)}&lang=${activeLangCode}`;
-
-                                    try {
-                                      const audio = new Audio();
-                                      (window as any)._activeTTSAudio = audio;
-                                      (window as any)._activeTTSAudios = (window as any)._activeTTSAudios || [];
-                                      (window as any)._activeTTSAudios.push(audio);
-
-                                      audio.onended = () => {
-                                        if ((window as any)._activeTTSSessionId !== sId) return;
-                                        if (!(window as any)._activeTTSActive) return;
-                                        playChunk(idx + 1, sId);
-                                      };
-
-                                      audio.onerror = () => {
-                                        if ((window as any)._activeTTSSessionId !== sId) return;
-                                        playDirectGoogleAudio(idx, sId);
-                                      };
-
-                                      audio.src = proxyUrl;
-
-                                      audio.onplay = () => {
-                                        audio.playbackRate = 1.22;
-                                      };
-
-                                      const playPromise = audio.play();
-                                      if (playPromise !== undefined) {
-                                        playPromise.catch(() => {
-                                          if ((window as any)._activeTTSSessionId !== sId) return;
-                                          playDirectGoogleAudio(idx, sId);
-                                        });
-                                      }
-                                    } catch (e) {
-                                      if ((window as any)._activeTTSSessionId !== sId) return;
-                                      playDirectGoogleAudio(idx, sId);
-                                    }
+                                    // Directly use Google Translate audio — no backend proxy needed
+                                    playDirectGoogleAudio(idx, sId);
                                   }
 
                                   function playDirectGoogleAudio(idx: number, sId: number) {
