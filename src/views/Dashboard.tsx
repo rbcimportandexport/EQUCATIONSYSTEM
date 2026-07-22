@@ -368,7 +368,7 @@ export const Dashboard: React.FC = () => {
           </div>
 
           {/* Card 2: Images (Teal / Emerald) */}
-          <div className="varsity-card" onClick={() => { setSelectedModuleTab('images'); setActiveView('Courses'); }}>
+          <div className="varsity-card" onClick={() => { setSelectedModuleTab('images'); setActiveView('Chapters'); }}>
             <div className="varsity-card-header" style={{ background: '#34d399' }}>
               <div className="varsity-card-icon-box">
                 <Image size={26} color="#059669" />
