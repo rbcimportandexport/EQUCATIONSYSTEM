@@ -768,10 +768,49 @@ export const ModuleScreen: React.FC = () => {
 
                                   let queueIdx = 0;
 
+                                  async function playGoogleAudioChunk(idx: number) {
+                                    if (!(window as any)._activeTTSActive) return;
+
+                                    const txt = speechQueue[idx];
+                                    const targetUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(txt)}&tl=${activeLangCode}&client=gtx`;
+                                    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
+
+                                    try {
+                                      const res = await fetch(proxyUrl);
+                                      if (res.ok) {
+                                        const blob = await res.blob();
+                                        if (blob && blob.size > 200) {
+                                          const audioUrl = URL.createObjectURL(blob);
+                                          const audio = new Audio(audioUrl);
+                                          (window as any)._activeTTSAudio = audio;
+
+                                          audio.onended = () => {
+                                            URL.revokeObjectURL(audioUrl);
+                                            if (!(window as any)._activeTTSActive) return;
+                                            playChunk(idx + 1);
+                                          };
+
+                                          audio.onerror = () => {
+                                            URL.revokeObjectURL(audioUrl);
+                                            playChunk(idx + 1);
+                                          };
+
+                                          audio.play().catch(() => {
+                                            URL.revokeObjectURL(audioUrl);
+                                            playChunk(idx + 1);
+                                          });
+                                          return;
+                                        }
+                                      }
+                                    } catch (e) { }
+
+                                    playChunk(idx + 1);
+                                  }
+
                                   function playWebSpeechChunk(idx: number) {
                                     if (!(window as any)._activeTTSActive) return;
                                     if (typeof window === 'undefined' || !window.speechSynthesis) {
-                                      setPlayingLessonId(null);
+                                      playGoogleAudioChunk(idx);
                                       return;
                                     }
 
@@ -815,35 +854,31 @@ export const ModuleScreen: React.FC = () => {
 
                                     utter.onend = () => {
                                       if (!(window as any)._activeTTSActive) return;
-                                      queueIdx++;
-                                      playQueueChunk();
+                                      playChunk(idx + 1);
                                     };
 
                                     utter.onerror = (evt: any) => {
                                       if (evt?.error === 'interrupted' || evt?.error === 'canceled') return;
-                                      if (!(window as any)._activeTTSActive) return;
-                                      queueIdx++;
-                                      playQueueChunk();
+                                      playGoogleAudioChunk(idx);
                                     };
 
                                     window.speechSynthesis.speak(utter);
                                   }
 
-                                  function playQueueChunk() {
+                                  function playChunk(idx: number) {
                                     if (!(window as any)._activeTTSActive) {
                                       setPlayingLessonId(null);
                                       return;
                                     }
-                                    if (queueIdx >= speechQueue.length) {
+                                    if (idx >= speechQueue.length) {
                                       setPlayingLessonId(null);
                                       (window as any)._activeTTSActive = false;
                                       return;
                                     }
 
-                                    const txt = speechQueue[queueIdx];
+                                    const txt = speechQueue[idx];
                                     if (!txt || !txt.trim()) {
-                                      queueIdx++;
-                                      playQueueChunk();
+                                      playChunk(idx + 1);
                                       return;
                                     }
 
@@ -862,21 +897,20 @@ export const ModuleScreen: React.FC = () => {
                                         pitch: 1.0,
                                         onend: () => {
                                           if (!(window as any)._activeTTSActive) return;
-                                          queueIdx++;
-                                          playQueueChunk();
+                                          playChunk(idx + 1);
                                         },
                                         onerror: () => {
-                                          playWebSpeechChunk(queueIdx);
+                                          playWebSpeechChunk(idx);
                                         }
                                       });
                                     } else {
-                                      playWebSpeechChunk(queueIdx);
+                                      playWebSpeechChunk(idx);
                                     }
                                   }
 
                                   setTimeout(() => {
                                     if ((window as any)._activeTTSActive) {
-                                      playQueueChunk();
+                                      playChunk(0);
                                     }
                                   }, 60);
                                 }}
