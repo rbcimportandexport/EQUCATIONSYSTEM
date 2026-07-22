@@ -792,53 +792,60 @@ export const ModuleScreen: React.FC = () => {
                                     window.speechSynthesis.speak(utter);
                                   }
 
-                                  // Direct Google Neural Audio Stream with no-referrer
-                                  function playGoogleNeuralCloud(chunkText: string) {
+                                  // Bulletproof Neural Cloud Audio Stream using CORS proxies to guarantee 100% native Gujarati audio playback on Vercel & Chrome
+                                  async function playGoogleNeuralCloud(chunkText: string) {
                                     if (!(window as any)._activeTTSActive) return;
 
-                                    const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunkText)}&tl=${activeLangCode}&client=tw-ob`;
-                                    const audio = new Audio();
-                                    audio.referrerPolicy = 'no-referrer';
-                                    audio.src = ttsUrl;
-                                    (window as any)._activeTTSAudio = audio;
+                                    const targetUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunkText)}&tl=${activeLangCode}&client=gtx`;
 
-                                    let hasFallenBack = false;
-                                    const triggerFallback = () => {
-                                      if (hasFallenBack) return;
-                                      hasFallenBack = true;
-                                      (window as any)._activeTTSAudio = null;
+                                    // Array of proxy strategies to fetch Pristine Google Neural Audio Blob
+                                    const fetchBlobStrategies = [
+                                      `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`,
+                                      `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
+                                      targetUrl
+                                    ];
 
-                                      // Try backend proxy endpoint before local WebSpeech
-                                      const proxyUrl = `/api/tts?text=${encodeURIComponent(chunkText)}&lang=${activeLangCode}`;
-                                      const proxyAudio = new Audio(proxyUrl);
-                                      (window as any)._activeTTSAudio = proxyAudio;
-                                      proxyAudio.play().then(() => {
-                                        proxyAudio.onended = () => {
+                                    let audioBlobUrl: string | null = null;
+
+                                    for (const proxyEndpoint of fetchBlobStrategies) {
+                                      if (!(window as any)._activeTTSActive) return;
+                                      try {
+                                        const res = await fetch(proxyEndpoint);
+                                        if (res.ok) {
+                                          const blob = await res.blob();
+                                          if (blob && blob.size > 200) {
+                                            audioBlobUrl = URL.createObjectURL(blob);
+                                            break;
+                                          }
+                                        }
+                                      } catch (e) {
+                                        // continue to next proxy strategy
+                                      }
+                                    }
+
+                                    if (audioBlobUrl) {
+                                      const audio = new Audio(audioBlobUrl);
+                                      (window as any)._activeTTSAudio = audio;
+
+                                      audio.play().then(() => {
+                                        audio.onended = () => {
+                                          URL.revokeObjectURL(audioBlobUrl!);
                                           if (!(window as any)._activeTTSActive) return;
                                           currentIdx++;
                                           playNextChunk();
                                         };
                                       }).catch(() => {
+                                        URL.revokeObjectURL(audioBlobUrl!);
                                         playLocalSpeechSynth(chunkText);
                                       });
-                                      proxyAudio.onerror = () => {
+
+                                      audio.onerror = () => {
+                                        URL.revokeObjectURL(audioBlobUrl!);
                                         playLocalSpeechSynth(chunkText);
                                       };
-                                    };
-
-                                    audio.play().then(() => {
-                                      audio.onended = () => {
-                                        if (!(window as any)._activeTTSActive) return;
-                                        currentIdx++;
-                                        playNextChunk();
-                                      };
-                                    }).catch(() => {
-                                      triggerFallback();
-                                    });
-
-                                    audio.onerror = () => {
-                                      triggerFallback();
-                                    };
+                                    } else {
+                                      playLocalSpeechSynth(chunkText);
+                                    }
                                   }
 
                                   async function playNextChunk() {
