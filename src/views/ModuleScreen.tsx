@@ -841,7 +841,7 @@ export const ModuleScreen: React.FC = () => {
                                       (window as any)._activeTTSAudio = audio;
                                       (window as any)._activeTTSAudios = (window as any)._activeTTSAudios || [];
                                       (window as any)._activeTTSAudios.push(audio);
-                                      audio.referrerPolicy = "no-referrer";
+                                      audio.setAttribute('referrerpolicy', 'no-referrer');
 
                                       audio.onended = () => {
                                         if ((window as any)._activeTTSSessionId !== sId) return;
