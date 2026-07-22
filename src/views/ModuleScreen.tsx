@@ -918,6 +918,7 @@ export const ModuleScreen: React.FC = () => {
                                       return;
                                     }
 
+                                    playGoogleAudioChunk(idx);
                                   }
 
                                   setTimeout(() => {
