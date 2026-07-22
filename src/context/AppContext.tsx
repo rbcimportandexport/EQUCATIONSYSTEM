@@ -126,8 +126,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // 1. Initial Data Loading
   useEffect(() => {
     const savedCourses = localStorage.getItem('lms_courses_ie');
-    const savedModules = localStorage.getItem('lms_modules_ie');
-    const savedLessons = localStorage.getItem('lms_lessons_ie');
+    const savedModules = localStorage.getItem('lms_modules_v3_ie');
+    const savedLessons = localStorage.getItem('lms_lessons_v3_ie');
     const savedUsers = localStorage.getItem('lms_users_v2_ie');
     const savedCerts = localStorage.getItem('lms_certs_ie');
     const savedProgress = localStorage.getItem('lms_progress_ie');
@@ -146,7 +146,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (savedModules) setModules(JSON.parse(savedModules));
     else {
       setModules(initialModules);
-      localStorage.setItem('lms_modules_ie', JSON.stringify(initialModules));
+      localStorage.setItem('lms_modules_v3_ie', JSON.stringify(initialModules));
     }
 
     if (savedLessons) {
@@ -157,17 +157,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         );
         if (hasOutdatedQuiz) {
           setLessons(initialLessons);
-          localStorage.setItem('lms_lessons_ie', JSON.stringify(initialLessons));
+          localStorage.setItem('lms_lessons_v3_ie', JSON.stringify(initialLessons));
         } else {
           setLessons(parsed);
         }
       } catch (e) {
         setLessons(initialLessons);
-        localStorage.setItem('lms_lessons_ie', JSON.stringify(initialLessons));
+        localStorage.setItem('lms_lessons_v3_ie', JSON.stringify(initialLessons));
       }
     } else {
       setLessons(initialLessons);
-      localStorage.setItem('lms_lessons_ie', JSON.stringify(initialLessons));
+      localStorage.setItem('lms_lessons_v3_ie', JSON.stringify(initialLessons));
     }
 
     if (savedUsers) setUsers(JSON.parse(savedUsers));
@@ -243,8 +243,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Database Reset
   const resetDatabase = () => {
     localStorage.removeItem('lms_courses_ie');
-    localStorage.removeItem('lms_modules_ie');
-    localStorage.removeItem('lms_lessons_ie');
+    localStorage.removeItem('lms_modules_v3_ie');
+    localStorage.removeItem('lms_lessons_v3_ie');
     localStorage.removeItem('lms_users_v2_ie');
     localStorage.removeItem('lms_certs_ie');
     localStorage.removeItem('lms_progress_ie');
@@ -309,7 +309,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         updated = [...prev, module];
       }
       updated.sort((a, b) => a.order - b.order);
-      saveToLocal('lms_modules_ie', updated);
+      saveToLocal('lms_modules_v3_ie', updated);
       return updated;
     });
   };
@@ -317,7 +317,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const deleteModule = (id: string) => {
     setModules(prev => {
       const updated = prev.filter(c => c.id !== id);
-      saveToLocal('lms_modules_ie', updated);
+      saveToLocal('lms_modules_v3_ie', updated);
       return updated;
     });
     const lessonsToDelete = lessons.filter(l => l.moduleId === id);
@@ -335,7 +335,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         updated = [...prev, lesson];
       }
       updated.sort((a, b) => a.order - b.order);
-      saveToLocal('lms_lessons_ie', updated);
+      saveToLocal('lms_lessons_v3_ie', updated);
       return updated;
     });
   };
@@ -343,7 +343,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const deleteLesson = (id: string) => {
     setLessons(prev => {
       const updated = prev.filter(l => l.id !== id);
-      saveToLocal('lms_lessons_ie', updated);
+      saveToLocal('lms_lessons_v3_ie', updated);
       return updated;
     });
     setBookmarks(prev => {
@@ -368,7 +368,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         return l;
       });
       updated.sort((a, b) => a.order - b.order);
-      saveToLocal('lms_lessons_ie', updated);
+      saveToLocal('lms_lessons_v3_ie', updated);
       return updated;
     });
   };
