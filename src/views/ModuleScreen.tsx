@@ -673,32 +673,6 @@ export const ModuleScreen: React.FC = () => {
                                   const lessonLang = getTranslatedLesson(rawLesson, language);
                                   const tLang = uiTranslations[language];
 
-                                  const textParts = [lessonLang.title];
-                                  if (lessonLang.content?.definition) {
-                                    textParts.push(`${tLang.definition}: ${lessonLang.content.definition}`);
-                                  }
-                                  if (lessonLang.content?.writtenExplanation) {
-                                    textParts.push(`${tLang.simpleExplanation}: ${lessonLang.content.writtenExplanation}`);
-                                  }
-                                  if (lessonLang.content?.businessExample) {
-                                    textParts.push(`${tLang.realBusinessExample}: ${lessonLang.content.businessExample}`);
-                                  }
-                                  if (lessonLang.content?.whyImportant) {
-                                    textParts.push(`${tLang.whyImportant}: ${lessonLang.content.whyImportant}`);
-                                  }
-                                  if (lessonLang.content?.importantNotes && lessonLang.content.importantNotes.length > 0) {
-                                    textParts.push(`${tLang.importantPoints}: ${lessonLang.content.importantNotes.join('. ')}`);
-                                  }
-                                  if (lessonLang.content?.commonMistakes && lessonLang.content.commonMistakes.length > 0) {
-                                    textParts.push(`${tLang.commonMistakes}: ${lessonLang.content.commonMistakes.join('. ')}`);
-                                  }
-                                  if (lessonLang.content?.practicalTips && lessonLang.content.practicalTips.length > 0) {
-                                    textParts.push(`${tLang.practicalTip}: ${lessonLang.content.practicalTips.join('. ')}`);
-                                  }
-                                  if (lessonLang.content?.summary) {
-                                    textParts.push(`${tLang.topicSummary}: ${lessonLang.content.summary}`);
-                                  }
-                                  const rawText = textParts.join('. ');
                                   const activeLangCode = language === 'hi' ? 'hi' : language === 'gu' ? 'gu' : language === 'mr' ? 'mr' : 'en';
 
                                   const sanitizeSentence = (txt: string) => {
