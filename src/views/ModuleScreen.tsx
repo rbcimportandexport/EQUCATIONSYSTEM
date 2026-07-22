@@ -678,6 +678,7 @@ export const ModuleScreen: React.FC = () => {
                                   const sanitizeSentence = (txt: string) => {
                                     let s = txt
                                       .replace(/[:\-–—\=\+]/g, '. ')
+                                      .replace(/\b5[,.]?000\b/g, activeLangCode === 'gu' ? 'પાંચ હજાર' : activeLangCode === 'hi' || activeLangCode === 'mr' ? 'पांच हजार' : 'five thousand')
                                       .replace(/\b000\b/g, activeLangCode === 'gu' ? 'હજાર' : activeLangCode === 'hi' || activeLangCode === 'mr' ? 'हजार' : 'thousand')
                                       .replace(/\b0\b/g, activeLangCode === 'gu' ? 'શૂન્ય' : activeLangCode === 'hi' || activeLangCode === 'mr' ? 'शून्य' : 'zero')
                                       .replace(/[\(\)\[\]\{\}\*\#•]/g, ' ')
@@ -686,18 +687,37 @@ export const ModuleScreen: React.FC = () => {
 
                                     if (activeLangCode === 'gu') {
                                       s = s
-                                        .replace(/\bImport\b/gi, 'આયાત')
-                                        .replace(/\bExport\b/gi, 'નિકાસ')
-                                        .replace(/\bSupplier\b/gi, 'સપ્લાયર')
-                                        .replace(/\bBuyer\b/gi, 'બાયર')
-                                        .replace(/\bCustoms\b/gi, 'કસ્ટમ્સ')
+                                        .replace(/\bRBC\b/gi, 'આરબીસી')
+                                        .replace(/\bImport(s)?\b/gi, 'આયાત')
+                                        .replace(/\bExport(s)?\b/gi, 'નિકાસ')
+                                        .replace(/\bLED\b/gi, 'એલઈડી')
+                                        .replace(/\bLight(s)?\b/gi, 'લાઈટ')
+                                        .replace(/\bOrder\b/gi, 'ઓર્ડર')
+                                        .replace(/\bChina\b/gi, 'ચાઈના')
+                                        .replace(/\bSupplier(s)?\b/gi, 'સપ્લાયર')
+                                        .replace(/\bBuyer(s)?\b/gi, 'બાયર')
+                                        .replace(/\bCustom(s)?\b/gi, 'કસ્ટમ્સ')
+                                        .replace(/\bClearance\b/gi, 'ક્લિયરન્સ')
+                                        .replace(/\bDelivery\b/gi, 'ડિલિવરી')
+                                        .replace(/\bShipping\b/gi, 'શિપિંગ')
                                         .replace(/\bDuty\b/gi, 'ડ્યુટી')
+                                        .replace(/\bInvoice\b/gi, 'ઈનવોઈસ')
+                                        .replace(/\bBill\b/gi, 'બિલ')
+                                        .replace(/\bLading\b/gi, 'લેડિંગ')
+                                        .replace(/\bProfit\b/gi, 'નફો')
+                                        .replace(/\bCost\b/gi, 'કોસ્ટ')
+                                        .replace(/\bLanded\b/gi, 'લેન્ડેડ')
                                         .replace(/\bFactory\b/gi, 'ફેક્ટરી')
-                                        .replace(/\bProduct\b/gi, 'પ્રોડક્ટ')
+                                        .replace(/\bProduct(s)?\b/gi, 'પ્રોડક્ટ')
                                         .replace(/\bTrade\b/gi, 'વ્યાપાર')
-                                        .replace(/\bWholesaler\b/gi, 'હોલસેલર')
-                                        .replace(/\bRetailer\b/gi, 'રીટેલર')
-                                        .replace(/\bManufacturer\b/gi, 'ઉત્પાદક');
+                                        .replace(/\bTrader(s)?\b/gi, 'વેપારી')
+                                        .replace(/\bWholesaler(s)?\b/gi, 'હોલસેલર')
+                                        .replace(/\bRetailer(s)?\b/gi, 'રીટેલર')
+                                        .replace(/\bManufacturer(s)?\b/gi, 'ઉત્પાદક')
+                                        .replace(/\bGoods\b/gi, 'સામાન')
+                                        .replace(/\bServices\b/gi, 'સેવાઓ')
+                                        .replace(/\bHSN\b/gi, 'એચએસએન')
+                                        .replace(/\bCode\b/gi, 'કોડ');
                                     }
                                     return s;
                                   };
