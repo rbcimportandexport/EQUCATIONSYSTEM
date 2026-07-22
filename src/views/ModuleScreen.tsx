@@ -248,19 +248,6 @@ export const ModuleScreen: React.FC = () => {
     }, 60);
   };
 
-  // Cross-module navigators
-  const currentModIndex = modules.findIndex(m => m.id === activeModule?.id);
-  const prevModule = currentModIndex > 0 ? modules[currentModIndex - 1] : null;
-  const nextModule = currentModIndex < modules.length - 1 ? modules[currentModIndex + 1] : null;
-
-  const handlePrevModule = () => {
-    if (prevModule) setSelectedModuleId(prevModule.id);
-  };
-
-  const handleNextModule = () => {
-    if (nextModule) setSelectedModuleId(nextModule.id);
-  };
-
   const handleBookmarkToggle = () => {
     if (!activeModule) return;
     toggleBookmark({
@@ -1320,6 +1307,6 @@ export const ModuleScreen: React.FC = () => {
           </div>
         </div>
       </aside>
-    </div >
+    </div>
   );
 };
