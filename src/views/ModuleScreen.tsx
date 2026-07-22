@@ -787,122 +787,13 @@ export const ModuleScreen: React.FC = () => {
                                   const sessionId = Date.now();
                                   (window as any)._activeTTSSessionId = sessionId;
 
-                                  async function playGoogleAudioChunk(idx: number, sId: number) {
-                                    // Directly use Google Translate audio — no backend proxy needed
-                                    playDirectGoogleAudio(idx, sId);
-                                  }
+                                  // Cancel any old speech
+                                  try { window.speechSynthesis.cancel(); } catch (e) {}
 
-                                  function playDirectGoogleAudio(idx: number, sId: number) {
+                                  function speakChunk(idx: number, sId: number) {
                                     if ((window as any)._activeTTSSessionId !== sId) return;
-                                    if (!(window as any)._activeTTSActive) return;
-                                    const txt = speechQueue[idx];
-                                    const googleUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(txt)}&tl=${activeLangCode}&client=tw-ob`;
+                                    if (!(window as any)._activeTTSActive) { setPlayingLessonId(null); return; }
 
-                                    try {
-                                      const audio = new Audio();
-                                      (window as any)._activeTTSAudio = audio;
-                                      (window as any)._activeTTSAudios = (window as any)._activeTTSAudios || [];
-                                      (window as any)._activeTTSAudios.push(audio);
-                                      audio.setAttribute('referrerpolicy', 'no-referrer');
-
-                                      audio.onended = () => {
-                                        if ((window as any)._activeTTSSessionId !== sId) return;
-                                        if (!(window as any)._activeTTSActive) return;
-                                        playChunk(idx + 1, sId);
-                                      };
-
-                                      audio.onerror = () => {
-                                        if ((window as any)._activeTTSSessionId !== sId) return;
-                                        playWebSpeechChunk(idx, sId);
-                                      };
-
-                                      audio.src = googleUrl;
-
-                                      audio.onplay = () => {
-                                        audio.playbackRate = 1.22;
-                                      };
-
-                                      const playPromise = audio.play();
-                                      if (playPromise !== undefined) {
-                                        playPromise.catch(() => {
-                                          if ((window as any)._activeTTSSessionId !== sId) return;
-                                          playWebSpeechChunk(idx, sId);
-                                        });
-                                      }
-                                    } catch (e) {
-                                      if ((window as any)._activeTTSSessionId !== sId) return;
-                                      playWebSpeechChunk(idx, sId);
-                                    }
-                                  }
-
-                                  function playWebSpeechChunk(idx: number, sId: number) {
-                                    if ((window as any)._activeTTSSessionId !== sId) return;
-                                    if (!(window as any)._activeTTSActive) return;
-                                    if (typeof window === 'undefined' || !window.speechSynthesis) {
-                                      setPlayingLessonId(null);
-                                      (window as any)._activeTTSActive = false;
-                                      return;
-                                    }
-
-                                    const localLangCodes: Record<string, string> = { hi: 'hi-IN', gu: 'gu-IN', mr: 'mr-IN', en: 'en-IN' };
-                                    const targetLangCode = localLangCodes[activeLangCode] || 'en-IN';
-
-                                    let vList = window.speechSynthesis.getVoices();
-                                    if (!vList || vList.length === 0) {
-                                      vList = (window as any)._cachedVoices || [];
-                                    }
-
-                                    let exactVoice = vList.find(v => {
-                                      const l = v.lang.toLowerCase().replace('_', '-');
-                                      const n = v.name.toLowerCase();
-                                      if (activeLangCode === 'gu') return l.startsWith('gu') || n.includes('gujarati') || n.includes('ગુજરાતી');
-                                      if (activeLangCode === 'hi') return l.startsWith('hi') || n.includes('hindi') || n.includes('हिन्दी');
-                                      if (activeLangCode === 'mr') return l.startsWith('mr') || n.includes('marathi') || n.includes('મરાઠી');
-                                      return l.startsWith('en');
-                                    });
-
-                                    if (!exactVoice && (activeLangCode === 'gu' || activeLangCode === 'hi' || activeLangCode === 'mr')) {
-                                      exactVoice = vList.find(v => {
-                                        const l = v.lang.toLowerCase();
-                                        const n = v.name.toLowerCase();
-                                        return l.includes('hi') || l.includes('in') || n.includes('hindi') || n.includes('india') || n.includes('hemant');
-                                      });
-                                    }
-
-                                    if (!exactVoice && vList.length > 0) {
-                                      exactVoice = vList[0];
-                                    }
-
-                                    const utter = new SpeechSynthesisUtterance(speechQueue[idx]);
-                                    if (exactVoice) {
-                                      utter.voice = exactVoice;
-                                      utter.lang = exactVoice.lang;
-                                    } else {
-                                      utter.lang = targetLangCode;
-                                    }
-                                    utter.rate = 1.18; // Faster WebSpeech rate
-
-                                    utter.onend = () => {
-                                      if ((window as any)._activeTTSSessionId !== sId) return;
-                                      if (!(window as any)._activeTTSActive) return;
-                                      playChunk(idx + 1, sId);
-                                    };
-
-                                    utter.onerror = (evt: any) => {
-                                      if (evt?.error === 'interrupted' || evt?.error === 'canceled') return;
-                                      if ((window as any)._activeTTSSessionId !== sId) return;
-                                      playChunk(idx + 1, sId);
-                                    };
-
-                                    window.speechSynthesis.speak(utter);
-                                  }
-
-                                  function playChunk(idx: number, sId: number) {
-                                    if ((window as any)._activeTTSSessionId !== sId) return;
-                                    if (!(window as any)._activeTTSActive) {
-                                      setPlayingLessonId(null);
-                                      return;
-                                    }
                                     if (idx >= speechQueue.length) {
                                       setPlayingLessonId(null);
                                       (window as any)._activeTTSActive = false;
@@ -910,7 +801,41 @@ export const ModuleScreen: React.FC = () => {
                                     }
 
                                     const txt = speechQueue[idx];
-                                    if (!txt || !txt.trim()) {
+                                    if (!txt || !txt.trim()) { speakChunk(idx + 1, sId); return; }
+
+                                    const utter = new SpeechSynthesisUtterance(txt);
+
+                                    // Pick best voice for language
+                                    const langMap: Record<string, string> = { gu: 'gu-IN', hi: 'hi-IN', mr: 'mr-IN', en: 'en-IN' };
+                                    utter.lang = langMap[activeLangCode] || 'en-IN';
+                                    utter.rate = 1.2;
+                                    utter.pitch = 1.0;
+                                    utter.volume = 1.0;
+
+                                    const voices = window.speechSynthesis.getVoices();
+                                    const langPrefix = activeLangCode; // 'gu', 'hi', 'mr', 'en'
+                                    let voice = voices.find(v => v.lang.toLowerCase().startsWith(langPrefix));
+                                    if (!voice && (activeLangCode === 'gu' || activeLangCode === 'mr')) {
+                                      // Fallback: use any Indian voice
+                                      voice = voices.find(v => v.lang.toLowerCase().includes('-in') || v.lang.toLowerCase().startsWith('hi'));
+                                    }
+                                    if (!voice) voice = voices.find(v => v.lang.toLowerCase().startsWith('en'));
+                                    if (!voice && voices.length > 0) voice = voices[0];
+                                    if (voice) { utter.voice = voice; utter.lang = voice.lang; }
+
+                                    utter.onend = () => {
+                                      if ((window as any)._activeTTSSessionId !== sId) return;
+                                      speakChunk(idx + 1, sId);
+                                    };
+                                    utter.onerror = (e: any) => {
+                                      if (e?.error === 'interrupted' || e?.error === 'canceled') return;
+                                      if ((window as any)._activeTTSSessionId !== sId) return;
+                                      speakChunk(idx + 1, sId);
+                                    };
+
+                                    window.speechSynthesis.speak(utter);
+                                  }
+
                                       playChunk(idx + 1, sId);
                                       return;
                                     }
