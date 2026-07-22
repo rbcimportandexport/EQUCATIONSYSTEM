@@ -749,12 +749,7 @@ export const ModuleScreen: React.FC = () => {
                                     textParts.push(`${tLang.topicSummary}. ${lessonLang.content.summary}`);
                                   }
 
-                                  // Split into small ~100-character speech queue chunks
-                                  const speechQueue: string[] = [];
-                                  textParts.forEach(part => {
-                                    const subParts = part.split(/([।.,!?\n\r]+)/);
-                                    let current = "";
-                                   const activeLangCode = language === 'hi' ? 'hi' : language === 'gu' ? 'gu' : language === 'mr' ? 'mr' : 'en';
+                                  const activeLangCode = language === 'hi' ? 'hi' : language === 'gu' ? 'gu' : language === 'mr' ? 'mr' : 'en';
 
                                   const sanitizeSentence = (txt: string) => {
                                     let s = txt
