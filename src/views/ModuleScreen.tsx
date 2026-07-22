@@ -122,9 +122,22 @@ export const ModuleScreen: React.FC = () => {
 
   const stopActiveTTS = () => {
     (window as any)._activeTTSActive = false;
-    if ((window as any).responsiveVoice) {
-      try { (window as any).responsiveVoice.cancel(); } catch (e) { }
+    (window as any)._activeTTSSessionId = 0; // Cancel any running sessions
+
+    if ((window as any)._activeTTSAudios) {
+      try {
+        (window as any)._activeTTSAudios.forEach((audio: any) => {
+          if (audio) {
+            audio.pause();
+            audio.src = "";
+            audio.onended = null;
+            audio.onerror = null;
+          }
+        });
+      } catch (e) { }
+      (window as any)._activeTTSAudios = [];
     }
+
     if ((window as any)._activeTTSAudio) {
       try {
         (window as any)._activeTTSAudio.pause();
@@ -132,6 +145,7 @@ export const ModuleScreen: React.FC = () => {
       } catch (e) { }
       (window as any)._activeTTSAudio = null;
     }
+
     if (typeof window !== 'undefined' && window.speechSynthesis) {
       try { window.speechSynthesis.cancel(); } catch (e) { }
     }
@@ -783,6 +797,8 @@ export const ModuleScreen: React.FC = () => {
                                     try {
                                       const audio = new Audio();
                                       (window as any)._activeTTSAudio = audio;
+                                      (window as any)._activeTTSAudios = (window as any)._activeTTSAudios || [];
+                                      (window as any)._activeTTSAudios.push(audio);
 
                                       audio.onended = () => {
                                         if ((window as any)._activeTTSSessionId !== sId) return;
@@ -823,6 +839,8 @@ export const ModuleScreen: React.FC = () => {
                                     try {
                                       const audio = new Audio();
                                       (window as any)._activeTTSAudio = audio;
+                                      (window as any)._activeTTSAudios = (window as any)._activeTTSAudios || [];
+                                      (window as any)._activeTTSAudios.push(audio);
                                       audio.referrerPolicy = "no-referrer";
 
                                       audio.onended = () => {
