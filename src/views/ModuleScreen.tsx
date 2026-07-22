@@ -754,6 +754,91 @@ export const ModuleScreen: React.FC = () => {
                                   textParts.forEach(part => {
                                     const subParts = part.split(/([।.,!?\n\r]+)/);
                                     let current = "";
+                                   const activeLangCode = language === 'hi' ? 'hi' : language === 'gu' ? 'gu' : language === 'mr' ? 'mr' : 'en';
+
+                                  const sanitizeSentence = (txt: string) => {
+                                    let s = txt
+                                      .replace(/[:\-–—\=\+]/g, '. ')
+                                      .replace(/\b5[,.]?000\b/g, activeLangCode === 'gu' ? 'પાંચ હજાર' : activeLangCode === 'hi' || activeLangCode === 'mr' ? 'पांच हजार' : 'five thousand')
+                                      .replace(/\b000\b/g, activeLangCode === 'gu' ? 'હજાર' : activeLangCode === 'hi' || activeLangCode === 'mr' ? 'हजार' : 'thousand')
+                                      .replace(/\b0\b/g, activeLangCode === 'gu' ? 'શૂન્ય' : activeLangCode === 'hi' || activeLangCode === 'mr' ? 'शून्य' : 'zero')
+                                      .replace(/[\(\)\[\]\{\}\*\#•]/g, ' ')
+                                      .replace(/\s+/g, ' ')
+                                      .trim();
+
+                                    if (activeLangCode === 'gu') {
+                                      s = s
+                                        .replace(/\bRBC\b/gi, 'આરબીસી')
+                                        .replace(/\bImport(s)?\b/gi, 'ઇમ્પોર્ટ')
+                                        .replace(/\bExport(s)?\b/gi, 'એક્સપોર્ટ')
+                                        .replace(/\bLED\b/gi, 'એલઇડી')
+                                        .replace(/\bLight(s)?\b/gi, 'લાઇટ')
+                                        .replace(/\bOrder\b/gi, 'ઓર્ડર')
+                                        .replace(/\bChina\b/gi, 'ચાઇના')
+                                        .replace(/\bSupplier(s)?\b/gi, 'સપ્લાયર')
+                                        .replace(/\bBuyer(s)?\b/gi, 'બાયર')
+                                        .replace(/\bCustom(s)?\b/gi, 'કસ્ટમ્સ')
+                                        .replace(/\bClearance\b/gi, 'ક્લિયરન્સ')
+                                        .replace(/\bDelivery\b/gi, 'ડિલિવરી')
+                                        .replace(/\bShipping\b/gi, 'શિપિંગ')
+                                        .replace(/\bDuty\b/gi, 'ડ્યુટી')
+                                        .replace(/\bInvoice\b/gi, 'ઇનવોઇસ')
+                                        .replace(/\bBill\b/gi, 'બિલ')
+                                        .replace(/\bLading\b/gi, 'લેડિંગ')
+                                        .replace(/\bProfit\b/gi, 'પ્રોફિટ')
+                                        .replace(/\bCost\b/gi, 'કોસ્ટ')
+                                        .replace(/\bLanded\b/gi, 'લેન્ડેડ')
+                                        .replace(/\bFactory\b/gi, 'ફેક્ટરી')
+                                        .replace(/\bProduct(s)?\b/gi, 'પ્રોડક્ટ')
+                                        .replace(/\bTrade\b/gi, 'ટ્રેડ')
+                                        .replace(/\bTrader(s)?\b/gi, 'ટ્રેડર')
+                                        .replace(/\bWholesaler(s)?\b/gi, 'હોલસેલર')
+                                        .replace(/\bRetailer(s)?\b/gi, 'રીટેલર')
+                                        .replace(/\bManufacturer(s)?\b/gi, 'મેન્યુફેક્ચરર')
+                                        .replace(/\bGoods\b/gi, 'ગુડ્સ')
+                                        .replace(/\bServices\b/gi, 'સર્વિસીસ')
+                                        .replace(/\bHSN\b/gi, 'એચએસએન')
+                                        .replace(/\bCode\b/gi, 'કોડ')
+                                        .replace(/\bMobile\b/gi, 'મોબાઇલ')
+                                        .replace(/\bAccessories\b/gi, 'એક્સેસરીઝ')
+                                        .replace(/\bIncoterm(s)?\b/gi, 'ઇનકોટર્મ')
+                                        .replace(/\bFOB\b/gi, 'એફઓબી');
+                                    }
+                                    return s;
+                                  };
+
+                                  // Build array of text blocks for all sections
+                                  const textParts: string[] = [lessonLang.title];
+                                  if (lessonLang.content?.definition) {
+                                    textParts.push(`${tLang.definition}. ${lessonLang.content.definition}`);
+                                  }
+                                  if (lessonLang.content?.writtenExplanation) {
+                                    textParts.push(`${tLang.simpleExplanation}. ${lessonLang.content.writtenExplanation}`);
+                                  }
+                                  if (lessonLang.content?.businessExample) {
+                                    textParts.push(`${tLang.realBusinessExample}. ${lessonLang.content.businessExample}`);
+                                  }
+                                  if (lessonLang.content?.whyImportant) {
+                                    textParts.push(`${tLang.whyImportant}. ${lessonLang.content.whyImportant}`);
+                                  }
+                                  if (lessonLang.content?.importantNotes && lessonLang.content.importantNotes.length > 0) {
+                                    textParts.push(`${tLang.importantPoints}. ${lessonLang.content.importantNotes.join('. ')}`);
+                                  }
+                                  if (lessonLang.content?.commonMistakes && lessonLang.content.commonMistakes.length > 0) {
+                                    textParts.push(`${tLang.commonMistakes}. ${lessonLang.content.commonMistakes.join('. ')}`);
+                                  }
+                                  if (lessonLang.content?.practicalTips && lessonLang.content.practicalTips.length > 0) {
+                                    textParts.push(`${tLang.practicalTip}. ${lessonLang.content.practicalTips.join('. ')}`);
+                                  }
+                                  if (lessonLang.content?.summary) {
+                                    textParts.push(`${tLang.topicSummary}. ${lessonLang.content.summary}`);
+                                  }
+
+                                  // Split into small ~100-character speech queue chunks
+                                  const speechQueue: string[] = [];
+                                  textParts.forEach(part => {
+                                    const subParts = part.split(/([।.,!?\n\r]+)/);
+                                    let current = "";
                                     for (let i = 0; i < subParts.length; i++) {
                                       const p = subParts[i];
                                       if ((current + p).length > 100) {
@@ -786,6 +871,12 @@ export const ModuleScreen: React.FC = () => {
                                       };
 
                                       audio.src = googleUrl;
+
+                                      // Speed up speech rate slightly to 1.15x for crisper, faster playback
+                                      audio.onplay = () => {
+                                        audio.playbackRate = 1.15;
+                                      };
+
                                       const playPromise = audio.play();
                                       if (playPromise !== undefined) {
                                         playPromise.catch(() => {
@@ -841,7 +932,7 @@ export const ModuleScreen: React.FC = () => {
                                     } else {
                                       utter.lang = targetLangCode;
                                     }
-                                    utter.rate = 0.88;
+                                    utter.rate = 1.08; // Speeds up WebSpeech to 1.08x
 
                                     utter.onend = () => {
                                       if (!(window as any)._activeTTSActive) return;
@@ -850,7 +941,6 @@ export const ModuleScreen: React.FC = () => {
 
                                     utter.onerror = (evt: any) => {
                                       if (evt?.error === 'interrupted' || evt?.error === 'canceled') return;
-                                      // If WebSpeech also fails, skip to next chunk to continue speech
                                       playChunk(idx + 1);
                                     };
 
@@ -871,7 +961,7 @@ export const ModuleScreen: React.FC = () => {
                                       const selectedVoice = voiceMap[activeLangCode] || 'Gujarati Female';
 
                                       rv.speak(txt, selectedVoice, {
-                                        rate: 0.92,
+                                        rate: 1.08, // Speeds up ResponsiveVoice to 1.08x
                                         pitch: 1.0,
                                         onend: () => {
                                           if (!(window as any)._activeTTSActive) return;
@@ -903,8 +993,6 @@ export const ModuleScreen: React.FC = () => {
                                       return;
                                     }
 
-                                    // Run Google Audio primary chunk player
-                                    playGoogleAudioChunk(idx);
                                   }
 
                                   setTimeout(() => {
