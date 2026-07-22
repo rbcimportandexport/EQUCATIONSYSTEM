@@ -103,49 +103,25 @@ export const ModuleScreen: React.FC = () => {
     }
   }, [selectedModuleId, modules, setSelectedModuleId]);
 
-  // Pre-load speech synthesis voices & ResponsiveVoice engine on mount
+  // Pre-load speech synthesis voices on mount
+  const ttsSessionRef = useRef<number>(0);
+  const ttsActiveRef = useRef<boolean>(false);
+  const ttsKeepAliveRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
+
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (window.speechSynthesis) {
-        window.speechSynthesis.getVoices();
-        const handleVoicesChanged = () => { window.speechSynthesis.getVoices(); };
-        window.speechSynthesis.addEventListener('voiceschanged', handleVoicesChanged);
-      }
-      if (!(window as any).responsiveVoice) {
-        const script = document.createElement('script');
-        script.src = 'https://code.responsivevoice.org/responsivevoice.js?key=FREE_KEY';
-        script.async = true;
-        document.head.appendChild(script);
-      }
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.getVoices();
+      const handleVoicesChanged = () => { window.speechSynthesis.getVoices(); };
+      window.speechSynthesis.addEventListener('voiceschanged', handleVoicesChanged);
+      return () => { window.speechSynthesis.removeEventListener('voiceschanged', handleVoicesChanged); };
     }
   }, []);
 
   const stopActiveTTS = () => {
-    (window as any)._activeTTSActive = false;
-    (window as any)._activeTTSSessionId = 0; // Cancel any running sessions
-
-    if ((window as any)._activeTTSAudios) {
-      try {
-        (window as any)._activeTTSAudios.forEach((audio: any) => {
-          if (audio) {
-            audio.pause();
-            audio.src = "";
-            audio.onended = null;
-            audio.onerror = null;
-          }
-        });
-      } catch (e) { }
-      (window as any)._activeTTSAudios = [];
-    }
-
-    if ((window as any)._activeTTSAudio) {
-      try {
-        (window as any)._activeTTSAudio.pause();
-        (window as any)._activeTTSAudio.src = "";
-      } catch (e) { }
-      (window as any)._activeTTSAudio = null;
-    }
-
+    ttsActiveRef.current = false;
+    ttsSessionRef.current = 0;
+    clearInterval(ttsKeepAliveRef.current);
+    ttsKeepAliveRef.current = undefined;
     if (typeof window !== 'undefined' && window.speechSynthesis) {
       try { window.speechSynthesis.cancel(); } catch (e) { }
     }
@@ -671,19 +647,13 @@ export const ModuleScreen: React.FC = () => {
                                 onClick={() => {
                                   // Toggle stop if already playing this lesson
                                   if (playingLessonId === lesson.id) {
-                                    (window as any)._activeTTSActive = false;
-                                    (window as any)._activeTTSSessionId = 0;
-                                    clearInterval((window as any)._ttsKeepAliveInterval);
-                                    try { window.speechSynthesis.cancel(); } catch (e) {}
+                                    stopActiveTTS();
                                     setPlayingLessonId(null);
                                     return;
                                   }
 
                                   // Stop any previous speech
-                                  (window as any)._activeTTSActive = false;
-                                  (window as any)._activeTTSSessionId = 0;
-                                  clearInterval((window as any)._ttsKeepAliveInterval);
-                                  try { window.speechSynthesis.cancel(); } catch (e) {}
+                                  stopActiveTTS();
 
                                   // Build lesson text
                                   const rawLesson = moduleLessons.find(l => l.id === lesson.id) || lesson;
@@ -727,14 +697,14 @@ export const ModuleScreen: React.FC = () => {
                                   const langMap: Record<string, string> = { gu: 'gu-IN', hi: 'hi-IN', mr: 'mr-IN', en: 'en-IN' };
                                   const ttsLang = langMap[activeLangCode] || 'en-IN';
                                   const newSid = Date.now();
-                                  (window as any)._activeTTSActive = true;
-                                  (window as any)._activeTTSSessionId = newSid;
+                                  ttsActiveRef.current = true;
+                                  ttsSessionRef.current = newSid;
                                   setPlayingLessonId(lesson.id);
 
                                   function speak(idx: number): void {
-                                    if ((window as any)._activeTTSSessionId !== newSid) return;
-                                    if (!(window as any)._activeTTSActive) { setPlayingLessonId(null); clearInterval((window as any)._ttsKeepAliveInterval); return; }
-                                    if (idx >= queue.length) { setPlayingLessonId(null); (window as any)._activeTTSActive = false; clearInterval((window as any)._ttsKeepAliveInterval); return; }
+                                    if (ttsSessionRef.current !== newSid) return;
+                                    if (!ttsActiveRef.current) { setPlayingLessonId(null); clearInterval(ttsKeepAliveRef.current); return; }
+                                    if (idx >= queue.length) { setPlayingLessonId(null); ttsActiveRef.current = false; clearInterval(ttsKeepAliveRef.current); return; }
                                     const text = queue[idx];
                                     if (!text?.trim()) { speak(idx + 1); return; }
 
@@ -753,26 +723,26 @@ export const ModuleScreen: React.FC = () => {
                                     if (!picked && allVoices.length > 0) picked = allVoices[0];
                                     if (picked) { utter.voice = picked; utter.lang = picked.lang; }
 
-                                    utter.onend = () => { if ((window as any)._activeTTSSessionId === newSid) speak(idx + 1); };
+                                    utter.onend = () => { if (ttsSessionRef.current === newSid) speak(idx + 1); };
                                     utter.onerror = (ev: SpeechSynthesisErrorEvent) => {
                                       if (ev?.error === 'interrupted' || ev?.error === 'canceled') return;
-                                      if ((window as any)._activeTTSSessionId === newSid) speak(idx + 1);
+                                      if (ttsSessionRef.current === newSid) speak(idx + 1);
                                     };
                                     window.speechSynthesis.speak(utter);
                                   }
 
                                   // 150ms delay after cancel — Chrome needs this to reset properly
                                   setTimeout(() => {
-                                    if ((window as any)._activeTTSSessionId !== newSid || !(window as any)._activeTTSActive) return;
+                                    if (ttsSessionRef.current !== newSid || !ttsActiveRef.current) return;
 
                                     // ✅ Chrome Bug Fix: Chrome pauses speechSynthesis after ~15s
                                     // Keep-alive: call resume() every 10 seconds while speaking
-                                    if ((window as any)._ttsKeepAliveInterval) {
-                                      clearInterval((window as any)._ttsKeepAliveInterval);
+                                    if (ttsKeepAliveRef.current) {
+                                      clearInterval(ttsKeepAliveRef.current);
                                     }
-                                    (window as any)._ttsKeepAliveInterval = setInterval(() => {
-                                      if (!(window as any)._activeTTSActive || (window as any)._activeTTSSessionId !== newSid) {
-                                        clearInterval((window as any)._ttsKeepAliveInterval);
+                                    ttsKeepAliveRef.current = setInterval(() => {
+                                      if (!ttsActiveRef.current || ttsSessionRef.current !== newSid) {
+                                        clearInterval(ttsKeepAliveRef.current);
                                         return;
                                       }
                                       if (window.speechSynthesis.paused) {
