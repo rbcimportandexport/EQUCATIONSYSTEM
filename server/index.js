@@ -47,6 +47,26 @@ const connectDB = async () => {
 // ─── Routes ──────────────────────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
 
+// TTS Audio Proxy Endpoint for high quality Gujarati, Hindi, Marathi speech
+app.get('/api/tts', async (req, res) => {
+  const { text, lang = 'gu' } = req.query;
+  if (!text) return res.status(400).send('Text parameter required');
+  try {
+    const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${encodeURIComponent(lang)}&client=tw-ob`;
+    const googleRes = await fetch(ttsUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      }
+    });
+    if (!googleRes.ok) return res.status(500).send('TTS upstream error');
+    res.setHeader('Content-Type', 'audio/mpeg');
+    const buffer = await googleRes.arrayBuffer();
+    res.send(Buffer.from(buffer));
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({

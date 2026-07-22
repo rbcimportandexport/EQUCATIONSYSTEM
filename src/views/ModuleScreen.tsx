@@ -730,10 +730,9 @@ export const ModuleScreen: React.FC = () => {
 
                                   const chunks = getChunks(cleanText);
                                   let currentIdx = 0;
-
                                   const voices = typeof window !== 'undefined' && window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
 
-                                  // Tier C: Web Speech API Fallback
+                                  // Web Speech API Fallback
                                   function playLocalSpeechSynth(chunkText: string) {
                                     if (!(window as any)._activeTTSActive) return;
 
@@ -745,7 +744,7 @@ export const ModuleScreen: React.FC = () => {
                                     };
                                     const targetLangCode = localLangCodes[activeLangCode] || 'en-IN';
 
-                                    const exactVoice = voices.find(v => {
+                                    let exactVoice = voices.find(v => {
                                       const l = v.lang.toLowerCase().replace('_', '-');
                                       const n = v.name.toLowerCase();
                                       if (activeLangCode === 'gu') {
@@ -760,6 +759,15 @@ export const ModuleScreen: React.FC = () => {
                                       return l.startsWith('en');
                                     });
 
+                                    // Prevent Windows from defaulting to US English (Microsoft Zira) for Indian languages
+                                    if (!exactVoice && (activeLangCode === 'gu' || activeLangCode === 'hi' || activeLangCode === 'mr')) {
+                                      exactVoice = voices.find(v => {
+                                        const l = v.lang.toLowerCase();
+                                        const n = v.name.toLowerCase();
+                                        return l.includes('hi') || l.includes('in') || n.includes('hindi') || n.includes('india') || n.includes('hemant');
+                                      });
+                                    }
+
                                     const utter = new SpeechSynthesisUtterance(chunkText);
                                     if (exactVoice) {
                                       utter.voice = exactVoice;
@@ -767,7 +775,7 @@ export const ModuleScreen: React.FC = () => {
                                     } else {
                                       utter.lang = targetLangCode;
                                     }
-                                    utter.rate = 0.9;
+                                    utter.rate = 0.88;
                                     utter.pitch = 1.0;
 
                                     utter.onend = () => {
@@ -784,67 +792,53 @@ export const ModuleScreen: React.FC = () => {
                                     window.speechSynthesis.speak(utter);
                                   }
 
-                                  // Tier B: ResponsiveVoice Cloud Native Voice
-                                  function playResponsiveVoice(chunkText: string): boolean {
-                                    const rv = (window as any).responsiveVoice;
-                                    if (rv && typeof rv.speak === 'function') {
-                                      const voiceNameMap: Record<string, string> = {
-                                        gu: 'Gujarati Female',
-                                        hi: 'Hindi Female',
-                                        mr: 'Marathi Female',
-                                        en: 'UK English Female'
-                                      };
-                                      const targetVoice = voiceNameMap[activeLangCode] || 'UK English Female';
-
-                                      rv.speak(chunkText, targetVoice, {
-                                        rate: 0.95,
-                                        pitch: 1.0,
-                                        onend: () => {
-                                          if (!(window as any)._activeTTSActive) return;
-                                          currentIdx++;
-                                          playNextChunk();
-                                        },
-                                        onerror: () => {
-                                          playLocalSpeechSynth(chunkText);
-                                        }
-                                      });
-                                      return true;
-                                    }
-                                    return false;
-                                  }
-
-                                  // Tier A: Google Neural Cloud Audio (Fetched via Blob to prevent CORS block)
-                                  async function playGoogleNeuralCloud(chunkText: string) {
+                                  // Direct Google Neural Audio Stream with no-referrer
+                                  function playGoogleNeuralCloud(chunkText: string) {
                                     if (!(window as any)._activeTTSActive) return;
 
-                                    try {
-                                      const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunkText)}&tl=${activeLangCode}&client=gtx`;
-                                      const res = await fetch(url);
-                                      if (!res.ok) throw new Error("Google TTS Fetch Error");
+                                    const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunkText)}&tl=${activeLangCode}&client=tw-ob`;
+                                    const audio = new Audio();
+                                    audio.referrerPolicy = 'no-referrer';
+                                    audio.src = ttsUrl;
+                                    (window as any)._activeTTSAudio = audio;
 
-                                      const blob = await res.blob();
-                                      const audioUrl = URL.createObjectURL(blob);
-                                      const audio = new Audio(audioUrl);
-                                      (window as any)._activeTTSAudio = audio;
+                                    let hasFallenBack = false;
+                                    const triggerFallback = () => {
+                                      if (hasFallenBack) return;
+                                      hasFallenBack = true;
+                                      (window as any)._activeTTSAudio = null;
 
-                                      audio.play().then(() => {
-                                        audio.onended = () => {
-                                          URL.revokeObjectURL(audioUrl);
+                                      // Try backend proxy endpoint before local WebSpeech
+                                      const proxyUrl = `/api/tts?text=${encodeURIComponent(chunkText)}&lang=${activeLangCode}`;
+                                      const proxyAudio = new Audio(proxyUrl);
+                                      (window as any)._activeTTSAudio = proxyAudio;
+                                      proxyAudio.play().then(() => {
+                                        proxyAudio.onended = () => {
                                           if (!(window as any)._activeTTSActive) return;
                                           currentIdx++;
                                           playNextChunk();
                                         };
                                       }).catch(() => {
-                                        URL.revokeObjectURL(audioUrl);
-                                        if (!playResponsiveVoice(chunkText)) {
-                                          playLocalSpeechSynth(chunkText);
-                                        }
-                                      });
-                                    } catch (err) {
-                                      if (!playResponsiveVoice(chunkText)) {
                                         playLocalSpeechSynth(chunkText);
-                                      }
-                                    }
+                                      });
+                                      proxyAudio.onerror = () => {
+                                        playLocalSpeechSynth(chunkText);
+                                      };
+                                    };
+
+                                    audio.play().then(() => {
+                                      audio.onended = () => {
+                                        if (!(window as any)._activeTTSActive) return;
+                                        currentIdx++;
+                                        playNextChunk();
+                                      };
+                                    }).catch(() => {
+                                      triggerFallback();
+                                    });
+
+                                    audio.onerror = () => {
+                                      triggerFallback();
+                                    };
                                   }
 
                                   async function playNextChunk() {
