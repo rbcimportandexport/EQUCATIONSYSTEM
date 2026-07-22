@@ -774,7 +774,7 @@ export const ModuleScreen: React.FC = () => {
                                     if (!(window as any)._activeTTSActive) return;
 
                                     const txt = speechQueue[idx];
-                                    const googleUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(txt)}&tl=${activeLangCode}&client=tw-ob`;
+                                    const proxyUrl = `/api/tts?text=${encodeURIComponent(txt)}&lang=${activeLangCode}`;
 
                                     try {
                                       const audio = new Audio();
@@ -786,12 +786,11 @@ export const ModuleScreen: React.FC = () => {
                                       };
 
                                       audio.onerror = () => {
-                                        playResponsiveVoiceFallback(idx);
+                                        playDirectGoogleAudio(idx);
                                       };
 
-                                      audio.src = googleUrl;
+                                      audio.src = proxyUrl;
 
-                                      // Speed up speech rate slightly to 1.15x for crisper, faster playback
                                       audio.onplay = () => {
                                         audio.playbackRate = 1.15;
                                       };
@@ -799,11 +798,47 @@ export const ModuleScreen: React.FC = () => {
                                       const playPromise = audio.play();
                                       if (playPromise !== undefined) {
                                         playPromise.catch(() => {
-                                          playResponsiveVoiceFallback(idx);
+                                          playDirectGoogleAudio(idx);
                                         });
                                       }
                                     } catch (e) {
-                                      playResponsiveVoiceFallback(idx);
+                                      playDirectGoogleAudio(idx);
+                                    }
+                                  }
+
+                                  function playDirectGoogleAudio(idx: number) {
+                                    if (!(window as any)._activeTTSActive) return;
+                                    const txt = speechQueue[idx];
+                                    const googleUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(txt)}&tl=${activeLangCode}&client=tw-ob`;
+
+                                    try {
+                                      const audio = new Audio();
+                                      (window as any)._activeTTSAudio = audio;
+                                      audio.referrerPolicy = "no-referrer";
+
+                                      audio.onended = () => {
+                                        if (!(window as any)._activeTTSActive) return;
+                                        playChunk(idx + 1);
+                                      };
+
+                                      audio.onerror = () => {
+                                        playWebSpeechChunk(idx);
+                                      };
+
+                                      audio.src = googleUrl;
+
+                                      audio.onplay = () => {
+                                        audio.playbackRate = 1.15;
+                                      };
+
+                                      const playPromise = audio.play();
+                                      if (playPromise !== undefined) {
+                                        playPromise.catch(() => {
+                                          playWebSpeechChunk(idx);
+                                        });
+                                      }
+                                    } catch (e) {
+                                      playWebSpeechChunk(idx);
                                     }
                                   }
 
@@ -851,7 +886,7 @@ export const ModuleScreen: React.FC = () => {
                                     } else {
                                       utter.lang = targetLangCode;
                                     }
-                                    utter.rate = 1.08; // Speeds up WebSpeech to 1.08x
+                                    utter.rate = 1.08;
 
                                     utter.onend = () => {
                                       if (!(window as any)._activeTTSActive) return;
@@ -864,35 +899,6 @@ export const ModuleScreen: React.FC = () => {
                                     };
 
                                     window.speechSynthesis.speak(utter);
-                                  }
-
-                                  function playResponsiveVoiceFallback(idx: number) {
-                                    if (!(window as any)._activeTTSActive) return;
-                                    const txt = speechQueue[idx];
-                                    const rv = (window as any).responsiveVoice;
-                                    if (rv && typeof rv.speak === 'function') {
-                                      const voiceMap: Record<string, string> = {
-                                        gu: 'Gujarati Female',
-                                        hi: 'Hindi Female',
-                                        mr: 'Marathi Female',
-                                        en: 'UK English Female'
-                                      };
-                                      const selectedVoice = voiceMap[activeLangCode] || 'Gujarati Female';
-
-                                      rv.speak(txt, selectedVoice, {
-                                        rate: 1.08, // Speeds up ResponsiveVoice to 1.08x
-                                        pitch: 1.0,
-                                        onend: () => {
-                                          if (!(window as any)._activeTTSActive) return;
-                                          playChunk(idx + 1);
-                                        },
-                                        onerror: () => {
-                                          playWebSpeechChunk(idx);
-                                        }
-                                      });
-                                    } else {
-                                      playWebSpeechChunk(idx);
-                                    }
                                   }
 
                                   function playChunk(idx: number) {
