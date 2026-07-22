@@ -750,38 +750,41 @@ export const ModuleScreen: React.FC = () => {
 
                                   // Pre-fetched audio Blob URLs cache (index -> blobUrl)
                                   const preloadedAudioUrls: Record<number, string> = {};
-                                  const preloadingStatus: Record<number, boolean> = {};
+                                  const preloadingPromises: Record<number, Promise<string | null>> = {};
 
-                                  async function preloadChunkAudio(idx: number): Promise<string | null> {
-                                    if (idx >= chunks.length || preloadedAudioUrls[idx]) {
-                                      return preloadedAudioUrls[idx] || null;
-                                    }
-                                    if (preloadingStatus[idx]) return null;
-                                    preloadingStatus[idx] = true;
+                                  function preloadChunkAudio(idx: number): Promise<string | null> {
+                                    if (idx >= chunks.length) return Promise.resolve(null);
+                                    if (preloadedAudioUrls[idx]) return Promise.resolve(preloadedAudioUrls[idx]);
+                                    if (preloadingPromises[idx]) return preloadingPromises[idx];
 
-                                    const chunkText = chunks[idx];
-                                    const targetUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunkText)}&tl=${activeLangCode}&client=gtx`;
-                                    const fetchBlobStrategies = [
-                                      `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`,
-                                      `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
-                                      targetUrl
-                                    ];
+                                    const promise = (async () => {
+                                      const chunkText = chunks[idx];
+                                      const targetUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunkText)}&tl=${activeLangCode}&client=gtx`;
+                                      const fetchBlobStrategies = [
+                                        `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`,
+                                        `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
+                                        targetUrl
+                                      ];
 
-                                    for (const proxyEndpoint of fetchBlobStrategies) {
-                                      if (!(window as any)._activeTTSActive) break;
-                                      try {
-                                        const res = await fetch(proxyEndpoint);
-                                        if (res.ok) {
-                                          const blob = await res.blob();
-                                          if (blob && blob.size > 200) {
-                                            const url = URL.createObjectURL(blob);
-                                            preloadedAudioUrls[idx] = url;
-                                            return url;
+                                      for (const proxyEndpoint of fetchBlobStrategies) {
+                                        if (!(window as any)._activeTTSActive) break;
+                                        try {
+                                          const res = await fetch(proxyEndpoint);
+                                          if (res.ok) {
+                                            const blob = await res.blob();
+                                            if (blob && blob.size > 200) {
+                                              const url = URL.createObjectURL(blob);
+                                              preloadedAudioUrls[idx] = url;
+                                              return url;
+                                            }
                                           }
-                                        }
-                                      } catch (e) { }
-                                    }
-                                    return null;
+                                        } catch (e) { }
+                                      }
+                                      return null;
+                                    })();
+
+                                    preloadingPromises[idx] = promise;
+                                    return promise;
                                   }
 
                                   // Pre-fetch the first 2 chunks immediately in parallel
