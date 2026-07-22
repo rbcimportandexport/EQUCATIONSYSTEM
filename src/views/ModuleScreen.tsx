@@ -836,18 +836,20 @@ export const ModuleScreen: React.FC = () => {
                                     window.speechSynthesis.speak(utter);
                                   }
 
-                                      playChunk(idx + 1, sId);
-                                      return;
-                                    }
-
-                                    playGoogleAudioChunk(idx, sId);
-                                  }
-
+                                  // Start speaking — wait for voices if needed
                                   setTimeout(() => {
                                     if ((window as any)._activeTTSSessionId === sessionId && (window as any)._activeTTSActive) {
-                                      playChunk(0, sessionId);
+                                      if (window.speechSynthesis.getVoices().length > 0) {
+                                        speakChunk(0, sessionId);
+                                      } else {
+                                        window.speechSynthesis.onvoiceschanged = () => {
+                                          window.speechSynthesis.onvoiceschanged = null;
+                                          speakChunk(0, sessionId);
+                                        };
+                                        setTimeout(() => speakChunk(0, sessionId), 500);
+                                      }
                                     }
-                                  }, 60);
+                                  }, 80);
                                 }}
                                 title={playingLessonId === lesson.id ? "Stop reading" : "Listen to this lesson"}
                                 style={{
