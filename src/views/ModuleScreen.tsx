@@ -726,8 +726,8 @@ export const ModuleScreen: React.FC = () => {
                                       .replace(/\bManufacturer\b/gi, 'ઉત્પાદક');
                                   }
 
-                                  // Split text into chunks of max 140 characters safely
-                                  const getChunks = (txt: string, maxLen = 140): string[] => {
+                                  // Split text into larger natural sentence blocks (max 280 characters) to minimize chunk transitions
+                                  const getChunks = (txt: string, maxLen = 280): string[] => {
                                     const parts = txt.split(/([।.,!?\n\r]+)/);
                                     const results: string[] = [];
                                     let current = "";
@@ -747,6 +747,46 @@ export const ModuleScreen: React.FC = () => {
                                   const chunks = getChunks(cleanText);
                                   let currentIdx = 0;
                                   const voices = typeof window !== 'undefined' && window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+
+                                  // Pre-fetched audio Blob URLs cache (index -> blobUrl)
+                                  const preloadedAudioUrls: Record<number, string> = {};
+                                  const preloadingStatus: Record<number, boolean> = {};
+
+                                  async function preloadChunkAudio(idx: number): Promise<string | null> {
+                                    if (idx >= chunks.length || preloadedAudioUrls[idx]) {
+                                      return preloadedAudioUrls[idx] || null;
+                                    }
+                                    if (preloadingStatus[idx]) return null;
+                                    preloadingStatus[idx] = true;
+
+                                    const chunkText = chunks[idx];
+                                    const targetUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunkText)}&tl=${activeLangCode}&client=gtx`;
+                                    const fetchBlobStrategies = [
+                                      `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`,
+                                      `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
+                                      targetUrl
+                                    ];
+
+                                    for (const proxyEndpoint of fetchBlobStrategies) {
+                                      if (!(window as any)._activeTTSActive) break;
+                                      try {
+                                        const res = await fetch(proxyEndpoint);
+                                        if (res.ok) {
+                                          const blob = await res.blob();
+                                          if (blob && blob.size > 200) {
+                                            const url = URL.createObjectURL(blob);
+                                            preloadedAudioUrls[idx] = url;
+                                            return url;
+                                          }
+                                        }
+                                      } catch (e) { }
+                                    }
+                                    return null;
+                                  }
+
+                                  // Pre-fetch the first 2 chunks immediately in parallel
+                                  preloadChunkAudio(0);
+                                  preloadChunkAudio(1);
 
                                   // Web Speech API Fallback
                                   function playLocalSpeechSynth(chunkText: string) {
@@ -770,12 +810,11 @@ export const ModuleScreen: React.FC = () => {
                                         return l.startsWith('hi') || n.includes('hindi') || n.includes('हिन्दी');
                                       }
                                       if (activeLangCode === 'mr') {
-                                        return l.startsWith('mr') || n.includes('marathi') || n.includes('मराठी');
+                                        return l.startsWith('mr') || n.includes('marathi') || n.includes('મરાઠી');
                                       }
                                       return l.startsWith('en');
                                     });
 
-                                    // Prevent Windows from defaulting to US English (Microsoft Zira) for Indian languages
                                     if (!exactVoice && (activeLangCode === 'gu' || activeLangCode === 'hi' || activeLangCode === 'mr')) {
                                       exactVoice = voices.find(v => {
                                         const l = v.lang.toLowerCase();
@@ -808,74 +847,51 @@ export const ModuleScreen: React.FC = () => {
                                     window.speechSynthesis.speak(utter);
                                   }
 
-                                  // Bulletproof Neural Cloud Audio Stream using CORS proxies to guarantee 100% native Gujarati audio playback on Vercel & Chrome
-                                  async function playGoogleNeuralCloud(chunkText: string) {
-                                    if (!(window as any)._activeTTSActive) return;
-
-                                    const targetUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(chunkText)}&tl=${activeLangCode}&client=gtx`;
-
-                                    // Array of proxy strategies to fetch Pristine Google Neural Audio Blob
-                                    const fetchBlobStrategies = [
-                                      `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`,
-                                      `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
-                                      targetUrl
-                                    ];
-
-                                    let audioBlobUrl: string | null = null;
-
-                                    for (const proxyEndpoint of fetchBlobStrategies) {
-                                      if (!(window as any)._activeTTSActive) return;
-                                      try {
-                                        const res = await fetch(proxyEndpoint);
-                                        if (res.ok) {
-                                          const blob = await res.blob();
-                                          if (blob && blob.size > 200) {
-                                            audioBlobUrl = URL.createObjectURL(blob);
-                                            break;
-                                          }
-                                        }
-                                      } catch (e) {
-                                        // continue to next proxy strategy
-                                      }
-                                    }
-
-                                    if (audioBlobUrl) {
-                                      const audio = new Audio(audioBlobUrl);
-                                      (window as any)._activeTTSAudio = audio;
-
-                                      audio.play().then(() => {
-                                        audio.onended = () => {
-                                          URL.revokeObjectURL(audioBlobUrl!);
-                                          if (!(window as any)._activeTTSActive) return;
-                                          currentIdx++;
-                                          playNextChunk();
-                                        };
-                                      }).catch(() => {
-                                        URL.revokeObjectURL(audioBlobUrl!);
-                                        playLocalSpeechSynth(chunkText);
-                                      });
-
-                                      audio.onerror = () => {
-                                        URL.revokeObjectURL(audioBlobUrl!);
-                                        playLocalSpeechSynth(chunkText);
-                                      };
-                                    } else {
-                                      playLocalSpeechSynth(chunkText);
-                                    }
-                                  }
-
                                   async function playNextChunk() {
                                     if (!(window as any)._activeTTSActive) {
                                       setPlayingLessonId(null);
+                                      Object.values(preloadedAudioUrls).forEach(u => URL.revokeObjectURL(u));
                                       return;
                                     }
                                     if (currentIdx >= chunks.length) {
                                       (window as any)._activeTTSAudio = null;
                                       setPlayingLessonId(null);
+                                      Object.values(preloadedAudioUrls).forEach(u => URL.revokeObjectURL(u));
                                       return;
                                     }
+
+                                    // Trigger background pre-fetching for upcoming 2 chunks ahead!
+                                    preloadChunkAudio(currentIdx + 1);
+                                    preloadChunkAudio(currentIdx + 2);
+
                                     const chunkText = chunks[currentIdx];
-                                    await playGoogleNeuralCloud(chunkText);
+
+                                    // Get preloaded audio or fetch if not ready yet
+                                    let audioBlobUrl = preloadedAudioUrls[currentIdx];
+                                    if (!audioBlobUrl) {
+                                      audioBlobUrl = await preloadChunkAudio(currentIdx);
+                                    }
+
+                                    if (audioBlobUrl && (window as any)._activeTTSActive) {
+                                      const audio = new Audio(audioBlobUrl);
+                                      (window as any)._activeTTSAudio = audio;
+
+                                      audio.play().then(() => {
+                                        audio.onended = () => {
+                                          if (!(window as any)._activeTTSActive) return;
+                                          currentIdx++;
+                                          playNextChunk();
+                                        };
+                                      }).catch(() => {
+                                        playLocalSpeechSynth(chunkText);
+                                      });
+
+                                      audio.onerror = () => {
+                                        playLocalSpeechSynth(chunkText);
+                                      };
+                                    } else {
+                                      playLocalSpeechSynth(chunkText);
+                                    }
                                   }
 
                                   playNextChunk();
