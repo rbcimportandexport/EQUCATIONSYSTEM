@@ -770,7 +770,7 @@ export const ModuleScreen: React.FC = () => {
                                     }
                                   }, 150);
                                 }}
-                                title={playingLessonId === lesson.id ? "Stop reading" : "Listen to this lesson"} === lesson.id ? "Stop reading" : "Listen to this lesson"}
+                                title={playingLessonId === lesson.id ? "Stop reading" : "Listen to this lesson"}
                                 style={{
                                   display: 'flex', alignItems: 'center', gap: '5px',
                                   padding: '4px 10px', borderRadius: '8px', border: '1px solid #e2e8f0',
