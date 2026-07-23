@@ -447,6 +447,62 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
   // MOD-2: PRODUCT TERMS — All 10 topics with real content
   // ══════════════════════════════════════════════════════════
 
+  // ══════════════════════════════════════════════════════════
+  // MOD-3: WEIGHT & MEASUREMENT — Detailed real content
+  // ══════════════════════════════════════════════════════════
+
+  if (title === 'CBM') {
+    return {
+      definition: 'CBM stands for Cubic Meter (Cubic Metre) — the standard metric unit used in international shipping to measure cargo volume. 1 CBM is the space occupied by a cube measuring 1 meter in length, 1 meter in width, and 1 meter in height (1m × 1m × 1m = 1 m³).',
+      whyImportant: 'Ocean freight lines and LCL consolidators calculate shipping charges based on CBM volume or weight, whichever is higher (1 CBM = 1,000 kg for sea freight). Total CBM determines whether you should ship via LCL or book a full 20FT, 40FT, or 40HQ container.',
+      businessExample: 'RBC imports 100 master cartons of LED lights. Each carton measures 50cm × 40cm × 30cm. CBM per carton = (50 × 40 × 30) ÷ 1,000,000 = 0.06 CBM. Total CBM for 100 cartons = 0.06 × 100 = 6.0 CBM. Since 6 CBM is well below a 20FT container capacity (28 CBM), RBC ships via LCL (Less than Container Load), saving significant freight cost.',
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure 3.1: Measuring master carton dimensions (L × W × H) to calculate CBM volume.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 450
+      },
+      pdf: { pdfUrl: '#', title: 'CBM Calculation & Container Selection Guide.pdf', totalPages: 2, size: '520 KB', mockPagesText: ['Page 1: How to calculate CBM step-by-step with formulas for cm, inches, and meters.', 'Page 2: Container volume capacities: 20FT (28 CBM), 40FT (58 CBM), 40HQ (68 CBM).'] },
+      downloadOption: { title: 'CBM & Freight Cost Calculator', fileUrl: '#', size: '85 KB', type: 'xls' },
+      relatedTopics: ['Gross Weight', 'FCL', 'LCL', 'Container Planning'],
+      faqs: [
+        { question: 'What is the formula to calculate CBM?', answer: 'CBM = Length (m) × Width (m) × Height (m). If measured in cm: CBM = (Length × Width × Height in cm) ÷ 1,000,000.' },
+        { question: 'How many CBM fit in a 20FT container?', answer: 'A standard 20FT container has an internal volume of ~33 CBM, but practical loading capacity is 28–30 CBM due to box packing gaps.' }
+      ],
+      commonMistakes: [
+        'Measuring inner box size instead of the outer master carton dimensions — outer dimensions determine actual CBM.',
+        'Forgetting to convert centimeters to meters before multiplying — leads to massive calculation errors.',
+        'Not accounting for pallet volume when goods are palletized before shipping.'
+      ],
+      practicalTips: [
+        'Always ask your supplier for outer master carton dimensions (L × W × H in cm) and total carton count.',
+        'Use the CBM formula: (L × W × H in cm) ÷ 1,000,000 × Number of Cartons = Total CBM.',
+        'If total volume exceeds 15 CBM, compare LCL charges vs 20FT FCL rates — 20FT FCL is often cheaper above 15 CBM.'
+      ],
+      summary: 'CBM (Cubic Meter) is the metric unit for cargo volume (L × W × H in meters). It determines ocean freight charges, container selection (20FT/40FT), and space utilization. Calculate CBM accurately using outer carton dimensions to optimize shipping costs.',
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'What does CBM stand for in international shipping and freight logistics?',
+          options: ['Cubic Barometer Metric', 'Cubic Meter', 'Cargo Base Measurement', 'Container Batch Meter'],
+          correctAnswers: ['1'],
+          explanation: 'CBM = Cubic Meter (Cubic Metre) — the standard unit measuring cargo volume in shipping (1m × 1m × 1m).'
+        }
+      ],
+      objectives: ['Learn what CBM means and the exact formula to calculate it.', 'Understand how CBM determines container selection and freight cost.'],
+      writtenExplanation: 'CBM (Cubic Meter) measures the volume space occupied by cargo in shipping. Calculated as Length × Width × Height in meters, CBM is the primary metric for ocean freight billing, LCL consolidation, and container stuffing optimization. Accurately measuring outer carton dimensions is mandatory for every import-export shipment.',
+      importantNotes: ['Formula: (Length × Width × Height in cm) ÷ 1,000,000 = CBM per box.', '1 CBM = 1,000 kg volume-to-weight ratio for ocean freight.'],
+      keyPoints: ['CBM = Cubic Meter (Cargo Volume)', 'Formula = L(m) × W(m) × H(m)', '20FT Container = ~28 CBM capacity']
+    };
+  }
+
   if (title === 'MOQ') {
     return {
       definition: 'MOQ stands for Minimum Order Quantity — the smallest number of units a supplier is willing to produce or sell in a single order. For example, if a factory sets an MOQ of 500 units, you cannot order 200 units; you must order at least 500.',
