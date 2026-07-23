@@ -122,6 +122,12 @@ export const ModuleScreen: React.FC = () => {
     ttsSessionRef.current = 0;
     clearInterval(ttsKeepAliveRef.current);
     ttsKeepAliveRef.current = undefined;
+    // Stop Google TTS Audio element
+    const audio = (window as any)._ttsCurrentAudio as HTMLAudioElement | null;
+    if (audio) { try { audio.pause(); audio.src = ''; } catch (e) {} (window as any)._ttsCurrentAudio = null; }
+    // Stop ResponsiveVoice
+    try { const rv = (window as any).responsiveVoice; if (rv) rv.cancel(); } catch (e) {}
+    // Stop WebSpeech
     if (typeof window !== 'undefined' && window.speechSynthesis) {
       try { window.speechSynthesis.cancel(); } catch (e) { }
     }
@@ -656,15 +662,14 @@ export const ModuleScreen: React.FC = () => {
                                   // Build lesson text
                                   const rawLesson = moduleLessons.find(l => l.id === lesson.id) || lesson;
                                   const lessonLang = getTranslatedLesson(rawLesson, language);
-                                  const tLang = uiTranslations[language];
                                   const activeLangCode = language === 'hi' ? 'hi' : language === 'gu' ? 'gu' : language === 'mr' ? 'mr' : 'en';
 
-                                  const sanitize = (txt: string): string => {
-                                    let s = txt.replace(/[:\-–—=+]/g, ' ').replace(/[()[\]{}*#•]/g, ' ').replace(/\s+/g, ' ').trim();
-                                    return s;
-                                  };
+                                  // Clean text — keep unicode chars, only remove special symbols
+                                  const clean = (txt: string) =>
+                                    txt.replace(/[:\-–—=+*#•[\](){}]/g, ' ').replace(/\s+/g, ' ').trim();
 
-                                  const parts: string[] = [lessonLang.title];
+                                  const parts: string[] = [];
+                                  if (lessonLang.title) parts.push(lessonLang.title);
                                   if (lessonLang.content?.definition) parts.push(lessonLang.content.definition);
                                   if (lessonLang.content?.writtenExplanation) parts.push(lessonLang.content.writtenExplanation);
                                   if (lessonLang.content?.businessExample) parts.push(lessonLang.content.businessExample);
@@ -674,85 +679,80 @@ export const ModuleScreen: React.FC = () => {
                                   if (lessonLang.content?.practicalTips?.length) parts.push(lessonLang.content.practicalTips.join('. '));
                                   if (lessonLang.content?.summary) parts.push(lessonLang.content.summary);
 
-                                  const fullText = parts.map(p => sanitize(p)).filter(p => p.trim().length > 0).join('. ');
+                                  const fullText = parts.map(clean).filter(p => p.length > 0).join('. ');
 
-                                  // ResponsiveVoice voice names for each language
-                                  const rvVoiceMap: Record<string, string> = {
-                                    gu: 'Gujarati Female',
-                                    hi: 'Hindi Female',
-                                    mr: 'Marathi Female',
-                                    en: 'UK English Female',
-                                  };
-                                  const rvVoice = rvVoiceMap[activeLangCode] || 'UK English Female';
+                                  // Split into chunks ≤ 150 chars at word/sentence boundaries for Google TTS
+                                  const chunks: string[] = [];
+                                  const sentences = fullText.split(/(?<=[.।?!])\s+/);
+                                  let cur = '';
+                                  for (const s of sentences) {
+                                    if ((cur + ' ' + s).trim().length > 150) {
+                                      if (cur.trim()) chunks.push(cur.trim());
+                                      cur = s;
+                                    } else {
+                                      cur = cur ? cur + ' ' + s : s;
+                                    }
+                                  }
+                                  if (cur.trim()) chunks.push(cur.trim());
+                                  if (chunks.length === 0) chunks.push(fullText.substring(0, 150));
 
                                   const newSid = Date.now();
                                   ttsActiveRef.current = true;
                                   ttsSessionRef.current = newSid;
                                   setPlayingLessonId(lesson.id);
 
-                                  const rv = (window as any).responsiveVoice;
+                                  // ─── PRIMARY: Google Translate TTS via Audio element ───
+                                  // No backend needed, no CORS issues, free Gujarati audio
+                                  const gttsLang = activeLangCode === 'mr' ? 'mr' : activeLangCode;
 
-                                  if (rv && rv.voiceSupport()) {
-                                    // ✅ PRIMARY: ResponsiveVoice — supports Gujarati Female natively
-                                    rv.speak(fullText, rvVoice, {
-                                      rate: 1,
-                                      pitch: 1,
-                                      volume: 1,
-                                      onstart: () => { /* speaking started */ },
-                                      onend: () => {
-                                        if (ttsSessionRef.current === newSid) {
-                                          setPlayingLessonId(null);
-                                          ttsActiveRef.current = false;
-                                        }
-                                      },
-                                      onerror: () => {
-                                        if (ttsSessionRef.current === newSid) {
-                                          setPlayingLessonId(null);
-                                          ttsActiveRef.current = false;
-                                        }
-                                      },
-                                    });
-                                  } else {
-                                    // ✅ FALLBACK: WebSpeech API
-                                    const langMap: Record<string, string> = { gu: 'gu-IN', hi: 'hi-IN', mr: 'mr-IN', en: 'en-IN' };
-                                    const ttsLang = langMap[activeLangCode] || 'en-IN';
+                                  const playChunk = (idx: number) => {
+                                    if (ttsSessionRef.current !== newSid || !ttsActiveRef.current) return;
+                                    if (idx >= chunks.length) {
+                                      setPlayingLessonId(null);
+                                      ttsActiveRef.current = false;
+                                      return;
+                                    }
 
-                                    const startSpeak = (voices: SpeechSynthesisVoice[]) => {
+                                    const text = chunks[idx];
+                                    const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${gttsLang}&client=tw-ob&ttsspeed=0.9`;
+
+                                    const audio = new Audio();
+                                    audio.src = url;
+                                    (window as any)._ttsCurrentAudio = audio;
+
+                                    audio.onended = () => {
+                                      if (ttsSessionRef.current === newSid) playChunk(idx + 1);
+                                    };
+                                    audio.onerror = () => {
+                                      // Google TTS failed → try ResponsiveVoice for this chunk onwards
                                       if (ttsSessionRef.current !== newSid || !ttsActiveRef.current) return;
-                                      const utter = new SpeechSynthesisUtterance(fullText);
-                                      utter.lang = ttsLang;
-                                      utter.rate = 1.0;
-                                      utter.volume = 1.0;
-
-                                      let picked = voices.find(v => v.lang.toLowerCase().startsWith(activeLangCode));
-                                      if (!picked) picked = voices.find(v => v.lang.toLowerCase().includes('-in'));
-                                      if (!picked) picked = voices.find(v => v.lang.toLowerCase().startsWith('en'));
-                                      if (!picked && voices.length > 0) picked = voices[0];
-                                      if (picked) { utter.voice = picked; utter.lang = picked.lang; }
-
-                                      utter.onend = () => {
-                                        if (ttsSessionRef.current === newSid) { setPlayingLessonId(null); ttsActiveRef.current = false; clearInterval(ttsKeepAliveRef.current); }
-                                      };
-                                      utter.onerror = (ev: SpeechSynthesisErrorEvent) => {
-                                        if (ev?.error === 'interrupted' || ev?.error === 'canceled') return;
-                                        if (ttsSessionRef.current === newSid) { setPlayingLessonId(null); ttsActiveRef.current = false; clearInterval(ttsKeepAliveRef.current); }
-                                      };
-                                      window.speechSynthesis.speak(utter);
-
-                                      clearInterval(ttsKeepAliveRef.current);
-                                      ttsKeepAliveRef.current = setInterval(() => {
-                                        if (!ttsActiveRef.current || ttsSessionRef.current !== newSid) { clearInterval(ttsKeepAliveRef.current); return; }
-                                        if (window.speechSynthesis.paused) window.speechSynthesis.resume();
-                                      }, 5000);
+                                      const rv = (window as any).responsiveVoice;
+                                      const rvMap: Record<string, string> = { gu: 'Gujarati Female', hi: 'Hindi Female', mr: 'Marathi Female', en: 'UK English Female' };
+                                      const remaining = chunks.slice(idx).join('. ');
+                                      if (rv) {
+                                        rv.speak(remaining, rvMap[activeLangCode] || 'UK English Female', {
+                                          rate: 1, pitch: 1, volume: 1,
+                                          onend: () => { if (ttsSessionRef.current === newSid) { setPlayingLessonId(null); ttsActiveRef.current = false; } },
+                                          onerror: () => { if (ttsSessionRef.current === newSid) { setPlayingLessonId(null); ttsActiveRef.current = false; } },
+                                        });
+                                      } else {
+                                        // Final fallback: WebSpeech
+                                        const utter = new SpeechSynthesisUtterance(remaining);
+                                        const lm: Record<string, string> = { gu: 'gu-IN', hi: 'hi-IN', mr: 'mr-IN', en: 'en-IN' };
+                                        utter.lang = lm[activeLangCode] || 'en-IN';
+                                        utter.rate = 1.0;
+                                        utter.onend = () => { if (ttsSessionRef.current === newSid) { setPlayingLessonId(null); ttsActiveRef.current = false; } };
+                                        window.speechSynthesis.speak(utter);
+                                      }
                                     };
 
-                                    const v = window.speechSynthesis.getVoices();
-                                    if (v.length > 0) { startSpeak(v); }
-                                    else {
-                                      window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.onvoiceschanged = null; startSpeak(window.speechSynthesis.getVoices()); };
-                                      setTimeout(() => startSpeak(window.speechSynthesis.getVoices()), 1000);
-                                    }
-                                  }
+                                    audio.play().catch(() => {
+                                      // autoplay blocked — try to play on next user interaction
+                                      audio.onerror?.(new Event('error'));
+                                    });
+                                  };
+
+                                  playChunk(0);
                                 }}
                                 title={playingLessonId === lesson.id ? "Stop reading" : "Listen to this lesson"}
                                 style={{
