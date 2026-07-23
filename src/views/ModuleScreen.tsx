@@ -107,6 +107,9 @@ export const ModuleScreen: React.FC = () => {
   const ttsSessionRef = useRef<number>(0);
   const ttsActiveRef = useRef<boolean>(false);
   const ttsKeepAliveRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
+  const ttsChunkIndexMapRef = useRef<Record<string, number>>({});
+  const pausedAudioLessonIdRef = useRef<string | null>(null);
+  const isTTSPausedRef = useRef<boolean>(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.speechSynthesis) {
@@ -117,8 +120,24 @@ export const ModuleScreen: React.FC = () => {
     }
   }, []);
 
+  const pauseActiveTTS = (lessonId: string) => {
+    isTTSPausedRef.current = true;
+    pausedAudioLessonIdRef.current = lessonId;
+
+    const audio = (window as any)._ttsCurrentAudio as HTMLAudioElement | null;
+    if (audio) {
+      try { audio.pause(); } catch (e) {}
+    }
+    try { const rv = (window as any).responsiveVoice; if (rv && rv.pause) rv.pause(); } catch (e) {}
+    if (typeof window !== 'undefined' && window.speechSynthesis && window.speechSynthesis.speaking) {
+      try { window.speechSynthesis.pause(); } catch (e) {}
+    }
+  };
+
   const stopActiveTTS = () => {
     ttsActiveRef.current = false;
+    isTTSPausedRef.current = false;
+    pausedAudioLessonIdRef.current = null;
     ttsSessionRef.current = 0;
     clearInterval(ttsKeepAliveRef.current);
     ttsKeepAliveRef.current = undefined;
@@ -651,12 +670,35 @@ export const ModuleScreen: React.FC = () => {
                             <div onClick={e => e.stopPropagation()}>
                               <button
                                 onClick={() => {
-                                  // Toggle stop
+                                  // 1. If currently playing THIS lesson -> PAUSE IT NATIVELY
                                   if (playingLessonId === lesson.id) {
-                                    stopActiveTTS();
+                                    pauseActiveTTS(lesson.id);
                                     setPlayingLessonId(null);
                                     return;
                                   }
+
+                                  // 2. If PAUSED on THIS lesson -> RESUME IT NATIVELY
+                                  if (isTTSPausedRef.current && pausedAudioLessonIdRef.current === lesson.id) {
+                                    isTTSPausedRef.current = false;
+                                    setPlayingLessonId(lesson.id);
+
+                                    const audio = (window as any)._ttsCurrentAudio as HTMLAudioElement | null;
+                                    if (audio && audio.src) {
+                                      audio.play().catch(() => {});
+                                      return;
+                                    }
+                                    if (typeof window !== 'undefined' && window.speechSynthesis && window.speechSynthesis.paused) {
+                                      window.speechSynthesis.resume();
+                                      return;
+                                    }
+                                    const rv = (window as any).responsiveVoice;
+                                    if (rv && rv.resume) {
+                                      rv.resume();
+                                      return;
+                                    }
+                                  }
+
+                                  // 3. Otherwise -> START FRESH
                                   stopActiveTTS();
 
                                   // Build lesson text
@@ -705,14 +747,21 @@ export const ModuleScreen: React.FC = () => {
                                   // No backend needed, no CORS issues, free Gujarati audio
                                   const gttsLang = activeLangCode === 'mr' ? 'mr' : activeLangCode;
 
+                                  const startIdx = ttsChunkIndexMapRef.current[lesson.id] || 0;
+
                                   const playChunk = (idx: number) => {
                                     if (ttsSessionRef.current !== newSid || !ttsActiveRef.current) return;
                                     if (idx >= chunks.length) {
+                                      ttsChunkIndexMapRef.current[lesson.id] = 0;
+                                      isTTSPausedRef.current = false;
+                                      pausedAudioLessonIdRef.current = null;
+                                      (window as any)._ttsCurrentAudio = null;
                                       setPlayingLessonId(null);
                                       ttsActiveRef.current = false;
                                       return;
                                     }
 
+                                    ttsChunkIndexMapRef.current[lesson.id] = idx;
                                     const text = chunks[idx];
                                     const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${gttsLang}&client=tw-ob&ttsspeed=0.9`;
 
@@ -732,8 +781,8 @@ export const ModuleScreen: React.FC = () => {
                                       if (rv) {
                                         rv.speak(remaining, rvMap[activeLangCode] || 'UK English Female', {
                                           rate: 1, pitch: 1, volume: 1,
-                                          onend: () => { if (ttsSessionRef.current === newSid) { setPlayingLessonId(null); ttsActiveRef.current = false; } },
-                                          onerror: () => { if (ttsSessionRef.current === newSid) { setPlayingLessonId(null); ttsActiveRef.current = false; } },
+                                          onend: () => { if (ttsSessionRef.current === newSid) { ttsChunkIndexMapRef.current[lesson.id] = 0; isTTSPausedRef.current = false; pausedAudioLessonIdRef.current = null; setPlayingLessonId(null); ttsActiveRef.current = false; } },
+                                          onerror: () => { if (ttsSessionRef.current === newSid) { ttsChunkIndexMapRef.current[lesson.id] = 0; isTTSPausedRef.current = false; pausedAudioLessonIdRef.current = null; setPlayingLessonId(null); ttsActiveRef.current = false; } },
                                         });
                                       } else {
                                         // Final fallback: WebSpeech
@@ -741,7 +790,7 @@ export const ModuleScreen: React.FC = () => {
                                         const lm: Record<string, string> = { gu: 'gu-IN', hi: 'hi-IN', mr: 'mr-IN', en: 'en-IN' };
                                         utter.lang = lm[activeLangCode] || 'en-IN';
                                         utter.rate = 1.0;
-                                        utter.onend = () => { if (ttsSessionRef.current === newSid) { setPlayingLessonId(null); ttsActiveRef.current = false; } };
+                                        utter.onend = () => { if (ttsSessionRef.current === newSid) { ttsChunkIndexMapRef.current[lesson.id] = 0; isTTSPausedRef.current = false; pausedAudioLessonIdRef.current = null; setPlayingLessonId(null); ttsActiveRef.current = false; } };
                                         window.speechSynthesis.speak(utter);
                                       }
                                     };
@@ -752,13 +801,13 @@ export const ModuleScreen: React.FC = () => {
                                     });
                                   };
 
-                                  playChunk(0);
+                                  playChunk(startIdx);
                                 }}
-                                title={playingLessonId === lesson.id ? "Stop reading" : "Listen to this lesson"}
+                                title={playingLessonId === lesson.id ? "Pause reading" : (ttsChunkIndexMapRef.current[lesson.id] > 0 ? "Resume reading" : "Listen to this lesson")}
                                 style={{
                                   display: 'flex', alignItems: 'center', gap: '5px',
                                   padding: '4px 10px', borderRadius: '8px', border: '1px solid #e2e8f0',
-                                  background: playingLessonId === lesson.id ? '#ef4444' : '#f8fafc',
+                                  background: playingLessonId === lesson.id ? '#ef4444' : (ttsChunkIndexMapRef.current[lesson.id] > 0 ? '#eff6ff' : '#f8fafc'),
                                   cursor: 'pointer',
                                   fontSize: '12px', color: playingLessonId === lesson.id ? '#ffffff' : '#3b82f6',
                                   fontWeight: '600',
@@ -768,8 +817,10 @@ export const ModuleScreen: React.FC = () => {
                                 {playingLessonId === lesson.id ? <Pause size={13} /> : <Volume2 size={13} />}
                                 <span>
                                   {playingLessonId === lesson.id
-                                    ? (language === 'hi' ? 'रोकें' : language === 'gu' ? 'અટકાવો' : 'Stop')
-                                    : (language === 'hi' ? 'सुनें' : language === 'gu' ? 'સાંભળો' : 'Listen')}
+                                    ? (language === 'hi' ? 'रोकें' : language === 'gu' ? 'અટકાવો' : language === 'mr' ? 'थांबवा' : 'Pause')
+                                    : (ttsChunkIndexMapRef.current[lesson.id] > 0
+                                        ? (language === 'hi' ? 'आगे सुनें' : language === 'gu' ? 'આગળ સાંભળો' : language === 'mr' ? 'पुढे ऐका' : 'Resume')
+                                        : (language === 'hi' ? 'सुनें' : language === 'gu' ? 'સાંભળો' : language === 'mr' ? 'ऐका' : 'Listen'))}
                                 </span>
                               </button>
                             </div>
