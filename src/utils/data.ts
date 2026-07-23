@@ -2548,6 +2548,226 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
     };
   }
 
+  if (title === 'Lead') {
+    return {
+      definition: "Lead is a potential business contact or customer inquiry indicating interest in purchasing or importing specific products.",
+      whyImportant: "Capturing and qualifying leads effectively builds the sales pipeline and drives new import/export business opportunities.",
+      businessExample: "RBC receives an inquiry lead from a builder in Mumbai requesting a quote for 5,000 square meters of imported ceramic tiles.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Workflow illustration for Lead.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Lead Workflow Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Lead Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Purchase Order', 'Quotation', 'Lead'],
+      faqs: [{ question: 'What is the role of Lead?', answer: "Lead is a potential business contact or customer inquiry indicating interest in purchasing or importing specific products." }],
+      commonMistakes: ["Failing to qualify leads based on budget, quantity, and import readiness before investing time."],
+      practicalTips: ["Use a CRM tool to log lead source, contact details, and initial product specifications."],
+      summary: "Lead is an initial potential sales opportunity representing prospective buyer interest.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Lead mean?', options: ["Lead is a potential business contact or customer inquiry indicating interest in purchasing or importing specific products.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Lead is a potential business contact or customer inquiry indicating interest in purchasing or importing specific products." }],
+      objectives: ['Understand operational meaning of Lead.'],
+      writtenExplanation: "Lead is a potential business contact or customer inquiry indicating interest in purchasing or importing specific products.",
+      importantNotes: ["Use a CRM tool to log lead source, contact details, and initial product specifications."],
+      keyPoints: ["Lead is an initial potential sales opportunity representing prospective buyer interest."]
+    };
+  }
+
+  if (title === 'Inquiry') {
+    return {
+      definition: "Inquiry is a formal written request sent by a buyer to a supplier detailing required product specifications, target quantity, packaging preferences, and delivery terms.",
+      whyImportant: "Sending a clear, detailed inquiry enables suppliers to provide accurate price quotations without back-and-forth email delays.",
+      businessExample: "RBC sends a technical inquiry to 3 factories in Ningbo asking for unit prices, MOQ, and lead times for 10,000mAh magnetic power banks.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Workflow illustration for Inquiry.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Inquiry Workflow Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Inquiry Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Purchase Order', 'Quotation', 'Lead'],
+      faqs: [{ question: 'What is the role of Inquiry?', answer: "Inquiry is a formal written request sent by a buyer to a supplier detailing required product specifications, target quantity, packaging preferences, and delivery terms." }],
+      commonMistakes: ["Sending vague inquiries without exact specifications, material requirements, or target quantities."],
+      practicalTips: ["Attach a detailed Product Specification Sheet to your inquiry email to receive precise quotes."],
+      summary: "Inquiry is a formal written request sent to suppliers detailing product requirements and quantities.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Inquiry mean?', options: ["Inquiry is a formal written request sent by a buyer to a supplier detailing required product specifications, target quantity, packaging preferences, and delivery terms.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Inquiry is a formal written request sent by a buyer to a supplier detailing required product specifications, target quantity, packaging preferences, and delivery terms." }],
+      objectives: ['Understand operational meaning of Inquiry.'],
+      writtenExplanation: "Inquiry is a formal written request sent by a buyer to a supplier detailing required product specifications, target quantity, packaging preferences, and delivery terms.",
+      importantNotes: ["Attach a detailed Product Specification Sheet to your inquiry email to receive precise quotes."],
+      keyPoints: ["Inquiry is a formal written request sent to suppliers detailing product requirements and quantities."]
+    };
+  }
+
+  if (title === 'Quotation') {
+    return {
+      definition: "Quotation (Proforma Offer) is a formal commercial document issued by a supplier detailing unit prices, bulk discounts, MOQ, payment terms, Incoterms, and price validity period.",
+      whyImportant: "Comparing quotations from multiple suppliers helps importers negotiate competitive prices and favorable payment terms.",
+      businessExample: "Factory A submits a quotation of $4.50/pc FOB Shanghai with 30% advance deposit and 20 days production time for RBC's order.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Workflow illustration for Quotation.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Quotation Workflow Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Quotation Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Purchase Order', 'Quotation', 'Lead'],
+      faqs: [{ question: 'What is the role of Quotation?', answer: "Quotation (Proforma Offer) is a formal commercial document issued by a supplier detailing unit prices, bulk discounts, MOQ, payment terms, Incoterms, and price validity period." }],
+      commonMistakes: ["Accepting quotations without checking validity dates or hidden packaging fees."],
+      practicalTips: ["Request quotation break-ups showing raw material cost, packaging cost, and export inland freight."],
+      summary: "Quotation is a formal price and terms proposal submitted by a supplier.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Quotation mean?', options: ["Quotation (Proforma Offer) is a formal commercial document issued by a supplier detailing unit prices, bulk discounts, MOQ, payment terms, Incoterms, and price validity period.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Quotation (Proforma Offer) is a formal commercial document issued by a supplier detailing unit prices, bulk discounts, MOQ, payment terms, Incoterms, and price validity period." }],
+      objectives: ['Understand operational meaning of Quotation.'],
+      writtenExplanation: "Quotation (Proforma Offer) is a formal commercial document issued by a supplier detailing unit prices, bulk discounts, MOQ, payment terms, Incoterms, and price validity period.",
+      importantNotes: ["Request quotation break-ups showing raw material cost, packaging cost, and export inland freight."],
+      keyPoints: ["Quotation is a formal price and terms proposal submitted by a supplier."]
+    };
+  }
+
+  if (title === 'Purchase Order') {
+    return {
+      definition: "Purchase Order (PO) is a legally binding contract issued by a buyer to a supplier confirming product specs, exact order quantity, agreed unit price, payment terms, and delivery deadline.",
+      whyImportant: "Protects the importer legally — if the supplier manufactures wrong goods or delays shipment, the PO serves as the primary legal evidence.",
+      businessExample: "RBC issues PO #PO-8849 for 2,000 Bluetooth speakers at $8.00/unit FOB Ningbo, specifying a mandatory delivery deadline of August 25.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Workflow illustration for Purchase Order.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Purchase Order Workflow Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Purchase Order Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Purchase Order', 'Quotation', 'Lead'],
+      faqs: [{ question: 'What is the role of Purchase Order?', answer: "Purchase Order (PO) is a legally binding contract issued by a buyer to a supplier confirming product specs, exact order quantity, agreed unit price, payment terms, and delivery deadline." }],
+      commonMistakes: ["Placing orders via chat messages without issuing a formal signed Purchase Order."],
+      practicalTips: ["Include quality inspection pass requirements and penalty clauses for late delivery inside the PO."],
+      summary: "Purchase Order is a legally binding order contract issued by buyer to supplier.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Purchase Order mean?', options: ["Purchase Order (PO) is a legally binding contract issued by a buyer to a supplier confirming product specs, exact order quantity, agreed unit price, payment terms, and delivery deadline.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Purchase Order (PO) is a legally binding contract issued by a buyer to a supplier confirming product specs, exact order quantity, agreed unit price, payment terms, and delivery deadline." }],
+      objectives: ['Understand operational meaning of Purchase Order.'],
+      writtenExplanation: "Purchase Order (PO) is a legally binding contract issued by a buyer to a supplier confirming product specs, exact order quantity, agreed unit price, payment terms, and delivery deadline.",
+      importantNotes: ["Include quality inspection pass requirements and penalty clauses for late delivery inside the PO."],
+      keyPoints: ["Purchase Order is a legally binding order contract issued by buyer to supplier."]
+    };
+  }
+
+  if (title === 'Sales Order') {
+    return {
+      definition: "Sales Order (SO) is an internal sales confirmation document issued by the seller to acknowledge receipt of the buyer's Purchase Order and schedule factory production.",
+      whyImportant: "Confirms that the seller has accepted the PO terms and allocated factory raw materials for manufacturing.",
+      businessExample: "Upon receiving RBC's signed PO, the factory issues Sales Order #SO-39201 and locks the production schedule in their ERP system.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Workflow illustration for Sales Order.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Sales Order Workflow Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Sales Order Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Purchase Order', 'Quotation', 'Lead'],
+      faqs: [{ question: 'What is the role of Sales Order?', answer: "Sales Order (SO) is an internal sales confirmation document issued by the seller to acknowledge receipt of the buyer's Purchase Order and schedule factory production." }],
+      commonMistakes: ["Assuming production has started before receiving a signed Sales Order confirmation from factory."],
+      practicalTips: ["Cross-check the Sales Order line items against your original PO to verify zero price or spec discrepancies."],
+      summary: "Sales Order is a seller confirmation acknowledging PO receipt and locking production scheduling.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Sales Order mean?', options: ["Sales Order (SO) is an internal sales confirmation document issued by the seller to acknowledge receipt of the buyer's Purchase Order and schedule factory production.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Sales Order (SO) is an internal sales confirmation document issued by the seller to acknowledge receipt of the buyer's Purchase Order and schedule factory production." }],
+      objectives: ['Understand operational meaning of Sales Order.'],
+      writtenExplanation: "Sales Order (SO) is an internal sales confirmation document issued by the seller to acknowledge receipt of the buyer's Purchase Order and schedule factory production.",
+      importantNotes: ["Cross-check the Sales Order line items against your original PO to verify zero price or spec discrepancies."],
+      keyPoints: ["Sales Order is a seller confirmation acknowledging PO receipt and locking production scheduling."]
+    };
+  }
+
+  if (title === 'Follow-up') {
+    return {
+      definition: "Follow-up is the continuous operational tracking of factory production progress, raw material sourcing, and quality checkpoints to ensure on-time delivery.",
+      whyImportant: "Regular weekly follow-ups prevent factory delays, identify production bottlenecks early, and keep shipping schedules on track.",
+      businessExample: "RBC's sourcing manager conducts weekly follow-up video calls with the factory manager to inspect raw material dyeing and assembly progress.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Workflow illustration for Follow-up.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Follow-up Workflow Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Follow-up Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Purchase Order', 'Quotation', 'Lead'],
+      faqs: [{ question: 'What is the role of Follow-up?', answer: "Follow-up is the continuous operational tracking of factory production progress, raw material sourcing, and quality checkpoints to ensure on-time delivery." }],
+      commonMistakes: ["Waiting until the scheduled completion date to contact the factory without weekly follow-ups."],
+      practicalTips: ["Request weekly photo and video updates showing raw material inventory and assembly progress."],
+      summary: "Follow-up is continuous production tracking ensuring manufacturing milestones stay on schedule.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Follow-up mean?', options: ["Follow-up is the continuous operational tracking of factory production progress, raw material sourcing, and quality checkpoints to ensure on-time delivery.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Follow-up is the continuous operational tracking of factory production progress, raw material sourcing, and quality checkpoints to ensure on-time delivery." }],
+      objectives: ['Understand operational meaning of Follow-up.'],
+      writtenExplanation: "Follow-up is the continuous operational tracking of factory production progress, raw material sourcing, and quality checkpoints to ensure on-time delivery.",
+      importantNotes: ["Request weekly photo and video updates showing raw material inventory and assembly progress."],
+      keyPoints: ["Follow-up is continuous production tracking ensuring manufacturing milestones stay on schedule."]
+    };
+  }
+
+  if (title === 'Order Confirmation') {
+    return {
+      definition: "Order Confirmation is the final signed bilateral agreement between buyer and seller locking product specs, final pricing, deposit payment receipt, and estimated shipping date.",
+      whyImportant: "Signals the formal transition from negotiation to active manufacturing execution.",
+      businessExample: "Supplier signs the Order Confirmation acknowledging receipt of RBC's 30% advance deposit ($3,600) and confirming ETD of September 10.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Workflow illustration for Order Confirmation.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Order Confirmation Workflow Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Order Confirmation Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Purchase Order', 'Quotation', 'Lead'],
+      faqs: [{ question: 'What is the role of Order Confirmation?', answer: "Order Confirmation is the final signed bilateral agreement between buyer and seller locking product specs, final pricing, deposit payment receipt, and estimated shipping date." }],
+      commonMistakes: ["Wiring advance deposit before both parties have signed the Order Confirmation."],
+      practicalTips: ["Ensure Order Confirmation states exact bank SWIFT details and deposit currency."],
+      summary: "Order Confirmation is the final signed bilateral agreement triggering active manufacturing.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Order Confirmation mean?', options: ["Order Confirmation is the final signed bilateral agreement between buyer and seller locking product specs, final pricing, deposit payment receipt, and estimated shipping date.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Order Confirmation is the final signed bilateral agreement between buyer and seller locking product specs, final pricing, deposit payment receipt, and estimated shipping date." }],
+      objectives: ['Understand operational meaning of Order Confirmation.'],
+      writtenExplanation: "Order Confirmation is the final signed bilateral agreement between buyer and seller locking product specs, final pricing, deposit payment receipt, and estimated shipping date.",
+      importantNotes: ["Ensure Order Confirmation states exact bank SWIFT details and deposit currency."],
+      keyPoints: ["Order Confirmation is the final signed bilateral agreement triggering active manufacturing."]
+    };
+  }
+
+  if (title === 'Production Timeline') {
+    return {
+      definition: "Production Timeline is a detailed schedule mapping out every manufacturing phase — raw material procurement, component assembly, testing, quality inspection, and export packing.",
+      whyImportant: "Helps importers coordinate vessel bookings and customer delivery dates with precision.",
+      businessExample: "The factory provides a 30-day Production Timeline: Days 1-7 (Material Sourcing), Days 8-20 (Assembly), Days 21-25 (Testing), Days 26-30 (PSI Inspection & Packing).",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Workflow illustration for Production Timeline.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Production Timeline Workflow Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Production Timeline Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Purchase Order', 'Quotation', 'Lead'],
+      faqs: [{ question: 'What is the role of Production Timeline?', answer: "Production Timeline is a detailed schedule mapping out every manufacturing phase — raw material procurement, component assembly, testing, quality inspection, and export packing." }],
+      commonMistakes: ["Not accounting for Chinese New Year or national holiday shutdowns when planning production timelines."],
+      practicalTips: ["Add a 7-day buffer time to the production timeline for unforeseen material shortages."],
+      summary: "Production Timeline maps out manufacturing milestones from raw material sourcing to packing.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Production Timeline mean?', options: ["Production Timeline is a detailed schedule mapping out every manufacturing phase — raw material procurement, component assembly, testing, quality inspection, and export packing.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Production Timeline is a detailed schedule mapping out every manufacturing phase — raw material procurement, component assembly, testing, quality inspection, and export packing." }],
+      objectives: ['Understand operational meaning of Production Timeline.'],
+      writtenExplanation: "Production Timeline is a detailed schedule mapping out every manufacturing phase — raw material procurement, component assembly, testing, quality inspection, and export packing.",
+      importantNotes: ["Add a 7-day buffer time to the production timeline for unforeseen material shortages."],
+      keyPoints: ["Production Timeline maps out manufacturing milestones from raw material sourcing to packing."]
+    };
+  }
+
+  if (title === 'Dispatch') {
+    return {
+      definition: "Dispatch is the official handover of packed export cartons from the factory warehouse to the logistics transporter for carriage to the port.",
+      whyImportant: "Triggers container stuffing, origin customs clearance, and issuance of the Bill of Lading.",
+      businessExample: "The factory dispatches 500 master cartons loaded onto a container truck bound for Shanghai Port terminal on August 28.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Workflow illustration for Dispatch.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Dispatch Workflow Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Dispatch Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Purchase Order', 'Quotation', 'Lead'],
+      faqs: [{ question: 'What is the role of Dispatch?', answer: "Dispatch is the official handover of packed export cartons from the factory warehouse to the logistics transporter for carriage to the port." }],
+      commonMistakes: ["Dispatching goods without verifying container seal numbers and truck weight bridge tickets."],
+      practicalTips: ["Require factory to send photos of container seal lock and loaded truck before gate-out."],
+      summary: "Dispatch is the physical handover of finished goods from factory to port transport.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Dispatch mean?', options: ["Dispatch is the official handover of packed export cartons from the factory warehouse to the logistics transporter for carriage to the port.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Dispatch is the official handover of packed export cartons from the factory warehouse to the logistics transporter for carriage to the port." }],
+      objectives: ['Understand operational meaning of Dispatch.'],
+      writtenExplanation: "Dispatch is the official handover of packed export cartons from the factory warehouse to the logistics transporter for carriage to the port.",
+      importantNotes: ["Require factory to send photos of container seal lock and loaded truck before gate-out."],
+      keyPoints: ["Dispatch is the physical handover of finished goods from factory to port transport."]
+    };
+  }
+
+  if (title === 'Delivery Confirmation') {
+    return {
+      definition: "Delivery Confirmation is the final signed receipt issued by the buyer upon physically receiving, inspecting, and unloading the container at their warehouse.",
+      whyImportant: "Completes the commercial transaction cycle and confirms that goods arrived in acceptable condition.",
+      businessExample: "RBC signs the Delivery Confirmation after receiving and unloading the 20FT container at their Ahmedabad warehouse with zero damage.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Workflow illustration for Delivery Confirmation.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Delivery Confirmation Workflow Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Delivery Confirmation Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Purchase Order', 'Quotation', 'Lead'],
+      faqs: [{ question: 'What is the role of Delivery Confirmation?', answer: "Delivery Confirmation is the final signed receipt issued by the buyer upon physically receiving, inspecting, and unloading the container at their warehouse." }],
+      commonMistakes: ["Signing clean delivery receipts without inspecting master carton condition for water damage or crushed boxes."],
+      practicalTips: ["Note any outer box damages or broken seals directly on the trucker delivery proof before signing."],
+      summary: "Delivery Confirmation is the final buyer sign-off confirming successful cargo receipt at warehouse.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Delivery Confirmation mean?', options: ["Delivery Confirmation is the final signed receipt issued by the buyer upon physically receiving, inspecting, and unloading the container at their warehouse.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Delivery Confirmation is the final signed receipt issued by the buyer upon physically receiving, inspecting, and unloading the container at their warehouse." }],
+      objectives: ['Understand operational meaning of Delivery Confirmation.'],
+      writtenExplanation: "Delivery Confirmation is the final signed receipt issued by the buyer upon physically receiving, inspecting, and unloading the container at their warehouse.",
+      importantNotes: ["Note any outer box damages or broken seals directly on the trucker delivery proof before signing."],
+      keyPoints: ["Delivery Confirmation is the final buyer sign-off confirming successful cargo receipt at warehouse."]
+    };
+  }
+
   if (title === 'MOQ') {
     return {
       definition: 'MOQ stands for Minimum Order Quantity — the smallest number of units a supplier is willing to produce or sell in a single order. For example, if a factory sets an MOQ of 500 units, you cannot order 200 units; you must order at least 500.',
