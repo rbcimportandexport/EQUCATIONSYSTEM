@@ -4036,9 +4036,9 @@ export const initialLessons: Lesson[] = (() => {
             faqs: [
               { question: `What is the role of ${title} in global transit?`, answer: `It clarifies handling protocols, standard documentation clearances, and freight quotes for cargo logistics.` }
             ],
-            commonMistakes: [info.mistake, 'Failing to verify documentation details before vessel dispatch.'],
-            practicalTips: [info.tip, 'Consult your customs broker (CHA) before finalizing purchase contracts.'],
-            summary: `This lesson covered the foundational definition, business examples, FAQs, and risk assessments related to ${title}.`,
+            commonMistakes: [info.mistake, 'पोत प्रस्थान से पहले दस्तावेजों के विवरण की पुष्टि न करना।'],
+            practicalTips: [info.tip, 'खरीद अनुबंधों को अंतिम रूप देने से पहले अपने कस्टम्स ब्रोकर (CHA) से सलाह लें।'],
+            summary: `इस पाठ में ${title} से संबंधित मौलिक परिभाषा, व्यावसायिक उदाहरणों, अक्सर पूछे जाने वाले प्रश्नों और जोखिम मूल्यांकनों को कवर किया गया है।`,
             quiz: generateProgrammaticQuiz(title, lessonId, idx),
             objectives: [`Understand the operational definition of ${title}.`, `Analyze the trade importance of ${title}.`],
             writtenExplanation: info.def,
