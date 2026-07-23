@@ -1093,9 +1093,9 @@ export const initialLessons: Lesson[] = (() => {
           duration: 10,
           order,
           content: {
-            definition: `${title} is a core operational term in global logistics and trade logistics. It represents the standards for specifying, handling, and executing shipments.`,
-            whyImportant: `Understanding ${title} allows supply chain teams to allocate freight costs, avoid terminal demurrage, clear customs duties, and trace transport milestones successfully.`,
-            businessExample: `An import firm sourcing cargo from Munich uses ${title} rules to determine custom declarations, container stuffing bounds, and freight insurance coverage.`,
+            definition: `${title} is a standard commercial and operational term in global import-export trade. It dictates the procedures, requirements, and compliance standards for handling international shipments.`,
+            whyImportant: `Understanding ${title} is vital for importers and exporters to optimize freight costs, ensure smooth customs clearance, avoid port detention fees, and maintain supply chain reliability.`,
+            businessExample: `An international trading firm sourcing goods under ${title} guidelines coordinates with freight forwarders, customs brokers, and port authorities to verify documentation and ensure compliance.`,
             images: [
               {
                 url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
@@ -1138,7 +1138,7 @@ export const initialLessons: Lesson[] = (() => {
             summary: `This lesson covered the foundational definition, business examples, FAQs, and risk assessments related to ${title}.`,
             quiz: generateProgrammaticQuiz(title, lessonId, idx),
             objectives: [`Understand the operational definition of ${title}.`, `Analyze the trade importance of ${title}.`],
-            writtenExplanation: `Detailed explanation block for ${title} in international logistics. Managing ${title} requires standard documentation, custom declarations, and cargo tracking protocols.`,
+            writtenExplanation: `${title} is an essential operational component in international trade. Proper management and documentation of ${title} ensures full regulatory compliance, cost efficiency, and timely delivery of cargo.`,
             importantNotes: [`Always check local compliance guides for ${title}.`],
             keyPoints: [`Accurate execution of ${title} reduces demurrage risk.`, `Consolidate variables with forwarders beforehand.`]
           }
