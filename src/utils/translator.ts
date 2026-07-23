@@ -982,9 +982,10 @@ export const translateDynamicContent = (
 
   let translated = text;
 
-  // 1. Exact replacements for Hindi
+  // 1. Replacements for Hindi (hi)
   if (lang === 'hi') {
     translated = translated
+      // Specific Gross Weight / Net Weight / Volume Weight definitions
       .replaceAll('Gross Weight is the total weight of a shipment including the actual product, inner packaging, protective foam, export master cartons, and pallets. Formula: Gross Weight = Net Weight + Packaging Weight + Pallet Weight.',
         'ग्रॉस वेट (Gross Weight) शिपमेंट का कुल वजन है जिसमें वास्तविक उत्पाद, आंतरिक पैकेजिंग, सुरक्षात्मक फोम, निर्यात मास्टर कार्टन और पैलेट शामिल हैं। फॉर्मूला: Gross Weight = Net Weight + Packaging Weight + Pallet Weight।')
       .replaceAll('Gross Weight determines ocean freight charges, air cargo billing, container payload safety limits, and road weight laws. Falsifying Gross Weight leads to port detention, vessel instability risks, and heavy customs fines.',
@@ -1004,107 +1005,149 @@ export const translateDynamicContent = (
       .replaceAll('Freight carriers charge based on Chargeable Weight = Max(Actual Gross Weight, Volume Weight). If you ship lightweight large items (like pillows or plastic toys), you pay based on Volume Weight.',
         'फ्रेट कैरियर Chargeable Weight = Max(Actual Gross Weight, Volume Weight) के आधार पर शुल्क लेते हैं। यदि आप हल्के लेकिन बड़े उत्पाद (जैसे तकिये या खिलौने) भेजते हैं, तो आप Volume Weight के आधार पर भुगतान करते हैं।')
 
-      // Dynamic Module fallbacks
-      .replaceAll(`${title} is a standard commercial and operational term in global import-export trade. It dictates the procedures, requirements, and compliance standards for handling international shipments.`,
-        `${title} अंतरराष्ट्रीय आयात-निर्यात व्यापार में एक मानक वाणिज्यिक और परिचालन शब्द है। यह अंतरराष्ट्रीय शिपमेंट को संभालने की प्रक्रियाओं, आवश्यकताओं और अनुपालन मानकों को निर्धारित करता है।`)
-      .replaceAll(`Understanding ${title} is vital for importers and exporters to optimize freight costs, ensure smooth customs clearance, avoid port detention fees, and maintain supply chain reliability.`,
-        `${title} को समझना आयातकों और निर्यातकों के लिए भाड़ा लागत को कम करने, सुचारू सीमा शुल्क निकासी सुनिश्चित करने, बंदरगाह दंड शुल्क से बचने और आपूर्ति श्रृंखला की विश्वसनीयता बनाए रखने के लिए अत्यंत आवश्यक है।`)
-      .replaceAll(`An international trading firm sourcing goods under ${title} guidelines coordinates with freight forwarders, customs brokers, and port authorities to verify documentation and ensure compliance.`,
-        `${title} के दिशा-निर्देशों के तहत माल मंगाने वाली अंतरराष्ट्रीय व्यापार फर्म दस्तावेज सत्यापन और अनुपालन के लिए फ्रेट फारवर्डर, कस्टम ब्रोकर और पोर्ट अधिकारियों के साथ समन्वय करती है।`)
-      .replaceAll(`${title} is an essential operational component in international trade. Proper management and documentation of ${title} ensures full regulatory compliance, cost efficiency, and timely delivery of cargo.`,
-        `${title} अंतरराष्ट्रीय व्यापार में एक आवश्यक परिचालन घटक है। ${title} का उचित प्रबंधन और दस्तावेजीकरण पूर्ण नियामक अनुपालन, लागत दक्षता और माल की समय पर डिलीवरी सुनिश्चित करता है।`)
+      // Dynamic Module fallbacks for Mod-3 to Mod-15
       .replaceAll(`${title} is a critical weight and measurement standard in cargo logistics. It dictates cargo density, space allocation, container loading capacity, and freight cost billing for sea and air transport.`,
         `${title} कार्गो लॉजिस्टिक्स में एक महत्वपूर्ण वजन और माप मानक है। यह समुद्री और हवाई परिवहन के लिए कार्गो घनत्व, स्थान आवंटन, कंटेनर लोडिंग क्षमता और माल ढुलाई लागत तय करता है।`)
       .replaceAll(`Accurately computing ${title} prevents freight overcharges, container overloading penalties, vessel stability risks, and customs clearance delays at origin and destination ports.`,
         `${title} की सटीक गणना माल ढुलाई के अधिक शुल्क, कंटेनर ओवरलोडिंग जुर्माने, जहाज की स्थिरता के जोखिमों और बंदरगाहों पर सीमा शुल्क निकासी में देरी को रोकती है।`)
+      
+      .replaceAll(`${title} is an essential container transport concept defining container utilization, loading method, and cargo security protocols during ocean freight.`,
+        `${title} महासागर माल ढुलाई के दौरान कंटेनर उपयोग, लोडिंग विधि और कार्गो सुरक्षा प्रोटोकॉल को परिभाषित करने वाली एक आवश्यक कंटेनर परिवहन अवधारणा है।`)
+      .replaceAll(`Choosing the right container strategy (${title}) optimizes ocean freight rates, protects goods against transit damage, and ensures smooth port operations.`,
+        `सही कंटेनर रणनीति (${title}) चुनने से समुद्री माल भाड़ा दरें अनुकूलित होती हैं, माल की पारगमन क्षति से रक्षा होती है और सुचारू पोर्ट संचालन सुनिश्चित होता है।`)
+      
+      .replaceAll(`${title} represents a core maritime and air freight shipping term governing vessel schedules, transit times, carrier bookings, and freight movement.`,
+        `${title} पोत अनुसूचियों (vessel schedules), यात्रा समय (transit times), वाहक बुकिंग और माल ढुलाई की आवाजाही को नियंत्रित करने वाला एक मुख्य समुद्री और हवाई माल ढुलाई शब्द है।`)
+      .replaceAll(`Understanding ${title} enables importers to track cargo milestones, plan inventory arrival schedules, and avoid unexpected port demurrage or transit delays.`,
+        `${title} को समझने से आयातकों को कार्गो माइलस्टोन को ट्रैक करने, इन्वेंट्री आगमन शेड्यूल की योजना बनाने और अप्रत्याशित बंदरगाह डेमरेज या पारगमन देरी से बचने में मदद मिलती है।`)
+      
+      .replaceAll(`${title} is an official Incoterm (International Commercial Term) published by the ICC defining the exact point of risk transfer, cost allocation, and division of responsibilities between seller and buyer.`,
+        `${title} ICC द्वारा प्रकाशित एक आधिकारिक इंकोटर्म (Incoterm) है जो विक्रेता और खरीदार के बीच जोखिम हस्तांतरण, लागत आवंटन और जिम्मेदारियों के विभाजन के सटीक बिंदु को परिभाषित करता है।`)
+      .replaceAll(`${title} clearly establishes who pays ocean freight, who purchases marine insurance, and who handles export/import customs clearance, preventing costly legal disputes.`,
+        `${title} स्पष्ट रूप से स्थापित करता है कि कौन समुद्री भाड़ा देता है, कौन समुद्री बीमा खरीदता है, और कौन निर्यात/आयात सीमा शुल्क निकासी संभालता है, जिससे महंगे कानूनी विवाद बचते हैं।`)
+      
+      .replaceAll(`${title} is a key port and infrastructure concept in international trade, facilitating cargo handling, inland transit, warehousing, and customs clearance.`,
+        `${title} अंतरराष्ट्रीय व्यापार में एक प्रमुख बंदरगाह और बुनियादी ढांचा अवधारणा है, जो कार्गो हैंडलिंग, अंतर्देशीय पारगमन, भंडारण और सीमा शुल्क निकासी की सुविधा प्रदान करती है।`)
+      .replaceAll(`Proper utilization of ${title} infrastructure speeds up cargo movement, reduces port dwell time, and avoids costly demurrage and detention charges.`,
+        `${title} बुनियादी ढांचे का उचित उपयोग कार्गो की आवाजाही को गति देता है, बंदरगाह में ठहरने के समय को कम करता है और महंगे डेमरेज और डिटेंशन शुल्क से बचाता है।`)
+      
+      .replaceAll(`${title} is a critical trade document required for legal compliance, customs clearance, foreign exchange settlement, and title of ownership in international trade.`,
+        `${title} अंतरराष्ट्रीय व्यापार में कानूनी अनुपालन, सीमा शुल्क निकासी (customs clearance), विदेशी मुद्रा निपटान और स्वामित्व के अधिकार के लिए आवश्यक एक महत्वपूर्ण व्यापारिक दस्तावेज (document) है।`)
+      .replaceAll(`Without an accurate ${title}, customs authorities cannot assess duty or clear shipments, leading to container holds, port fines, and payment delays.`,
+        `सटीक ${title} के बिना, सीमा शुल्क (Customs) अधिकारी शुल्क का आकलन नहीं कर सकते या शिपमेंट को क्लियर नहीं कर सकते, जिससे कंटेनर होल्ड, पोर्ट जुर्माना और भुगतान में देरी होती है।`)
+      
+      .replaceAll(`${title} is a statutory customs regulation, tariff classification, or compliance requirement governing import duties, taxes, and entry clearance.`,
+        `${title} आयात शुल्क, करों और प्रवेश निकासी को नियंत्रित करने वाला एक वैधानिक सीमा शुल्क विनियमन, शुल्क वर्गीकरण या अनुपालन आवश्यकता है।`)
+      .replaceAll(`Strict compliance with ${title} ensures smooth customs release, prevents heavy penalty duties, avoids cargo confiscation, and ensures legal import entry.`,
+        `${title} का सख्त अनुपालन सुचारू सीमा शुल्क जारी करना सुनिश्चित करता है, भारी जुर्माना शुल्क रोकता है, माल जब्ती से बचाता है और कानूनी आयात प्रवेश सुनिश्चित करता है।`)
+      
+      .replaceAll(`${title} is a standard international financial payment mechanism governing trade settlement, credit risk management, and banking transfers.`,
+        `${title} व्यापार निपटान, ऋण जोखिम प्रबंधन और बैंकिंग हस्तांतरण को नियंत्रित करने वाला एक मानक अंतरराष्ट्रीय वित्तीय भुगतान तंत्र है।`)
+      .replaceAll(`Using appropriate ${title} protects buyer and seller against payment default, currency fluctuations, and non-delivery of goods.`,
+        `उचित ${title} का उपयोग करने से खरीदार और विक्रेता भुगतान चूक, मुद्रा के उतार-चढ़ाव और माल की गैर-डिलीवरी से सुरक्षित रहते हैं।`)
+      
+      .replaceAll(`${title} refers to specific freight, terminal, or port handling fee charged by shipping lines, port authorities, and forwarders during cargo movement.`,
+        `${title} कार्गो आवाजाही के दौरान शिपिंग लाइनों, बंदरगाह अधिकारियों और फॉरवर्डर्स द्वारा लिए जाने वाले विशिष्ट भाड़ा, टर्मिनल या पोर्ट हैंडलिंग शुल्क को संदर्भित करता है।`)
+      .replaceAll(`Tracking ${title} prevents unexpected landed cost inflation and helps importers negotiate competitive all-inclusive freight quotes.`,
+        `${title} को ट्रैक करने से अप्रत्याशित लैंडेड लागत वृद्धि से बचा जा सकता है और आयातकों को प्रतिस्पर्धी माल भाड़ा दरों पर बातचीत करने में मदद मिलती है।`)
+      
+      .replaceAll(`${title} is a formal quality control procedure, defect inspection method, or compliance standard ensuring manufactured goods meet required specifications.`,
+        `${title} एक औपचारिक गुणवत्ता नियंत्रण प्रक्रिया, दोष निरीक्षण विधि या अनुपालन मानक है जो यह सुनिश्चित करता है कि निर्मित उत्पाद आवश्यक विनिर्देशों को पूरा करते हैं।`)
+      .replaceAll(`Implementing ${title} prevents receiving defective or non-compliant goods, protecting brand reputation and avoiding costly product recalls.`,
+        `${title} को लागू करने से दोषपूर्ण या गैर-अनुपालन वाले सामान प्राप्त करने से बचा जा सकता है, जिससे ब्रांड की प्रतिष्ठा सुरक्षित रहती है।`)
+      
+      .replaceAll(`${title} is a core operational process in international business workflows, governing order processing, quotation, production tracking, and order fulfillment.`,
+        `${title} अंतरराष्ट्रीय व्यावसायिक वर्कफ़्लो में एक मुख्य परिचालन प्रक्रिया है, जो ऑर्डर प्रोसेसिंग, कोटेशन, उत्पादन ट्रैकिंग और ऑर्डर पूर्ति को नियंत्रित करती है।`)
+      .replaceAll(`Streamlining ${title} ensures timely production execution, clear supplier communication, and reliable product delivery schedules.`,
+        `${title} को सुव्यवस्थित करने से समय पर उत्पादन निष्पादन, स्पष्ट सप्लायर संचार और विश्वसनीय उत्पाद वितरण कार्यक्रम सुनिश्चित होते हैं।`)
+      
+      .replaceAll(`${title} is a key risk management protocol, insurance provision, or legal remedy designed to mitigate trade losses, transit damage, and contract breaches.`,
+        `${title} व्यापार के नुकसान, पारगमन क्षति और अनुबंध के उल्लंघनों को कम करने के लिए डिज़ाइन किया गया एक प्रमुख जोखिम प्रबंधन प्रोटोकॉल, बीमा प्रावधान या कानूनी उपाय है।`)
+      .replaceAll(`Effective ${title} management protects business capital against unexpected maritime losses, shipment delays, and supplier default.`,
+        `प्रभावी ${title} प्रबंधन अप्रत्याशित समुद्री नुकसान, शिपमेंट में देरी और सप्लायर डिफ़ॉल्ट के खिलाफ व्यावसायिक पूंजी की रक्षा करता है।`)
+      
+      .replaceAll(`${title} is a specialized internal operational workflow at RBC designed to ensure quality control, supplier verification, and seamless import execution.`,
+        `${title} गुणवत्ता नियंत्रण, सप्लायर सत्यापन और निर्बाध आयात निष्पादन सुनिश्चित करने के लिए RBC में एक विशेष आंतरिक परिचालन कार्यप्रवाह (workflow) है।`)
+      .replaceAll(`Following the ${title} procedure guarantees operational consistency, risk mitigation, and high customer satisfaction across all trade transactions.`,
+        `${title} प्रक्रिया का पालन करना सभी व्यापारिक लेनदेन में परिचालन स्थिरता, जोखिम में कमी और उच्च ग्राहक संतुष्टि की गारंटी देता है।`)
+      
+      .replaceAll(`RBC verifies every detail on the ${title} (buyer name, invoice number, HSN codes, weights) before submitting it to customs brokers and banking channels.`,
+        `RBC कस्टम ब्रोकर और बैंकिंग चैनलों को जमा करने से पहले ${title} पर प्रत्येक विवरण (खरीदार का नाम, चालान संख्या, HSN कोड, वजन) को सत्यापित करता है।`)
       .replaceAll(`RBC imports cargo under precise ${title} parameters, coordinating with freight forwarders to verify gross mass certificates (VGM) and optimize container space utilization.`,
         `RBC सटीक ${title} मापदंडों के तहत माल आयात करता है, सकल द्रव्यमान प्रमाणपत्र (VGM) सत्यापित करने और कंटेनर स्थान उपयोग को अनुकूलित करने के लिए फ्रेट फारवर्डर के साथ समन्वय करता है।`)
-      
+      .replaceAll(`RBC plans container logistics using ${title} standards, selecting the appropriate container size and seal specifications to safely transport goods from overseas suppliers.`,
+        `RBC ${title} मानकों का उपयोग करके कंटेनर लॉजिस्टिक्स की योजना बनाता है, विदेशी सप्लायरों से माल को सुरक्षित रूप से ले जाने के लिए उपयुक्त कंटेनर आकार और सील विनिर्देशों का चयन करता है।`)
+      .replaceAll(`RBC monitors ${title} status on international tracking portals to coordinate destination customs clearance and warehouse receiving schedules.`,
+        `RBC गंतव्य सीमा शुल्क निकासी और गोदाम प्राप्ति शेड्यूल का समन्वय करने के लिए अंतरराष्ट्रीय ट्रैकिंग पोर्टलों पर ${title} स्थिति की निगरानी करता है।`)
+      .replaceAll(`RBC negotiates contracts under ${title} terms, ensuring clear agreement on shipping costs, freight insurance coverage, and customs duty responsibilities.`,
+        `RBC ${title} शर्तों के तहत अनुबंधों पर बातचीत करता है, जिससे शिपिंग लागत, भाड़ा बीमा कवरेज और सीमा शुल्क जिम्मेदारियों पर स्पष्ट सहमति सुनिश्चित होती है।`)
+      .replaceAll(`RBC routes imported containers through designated ${title} facilities for efficient customs inspection, container de-stuffing, and final door delivery.`,
+        `RBC कुशल सीमा शुल्क निरीक्षण, कंटेनर डी-स्टफिंग और अंतिम डोर डिलीवरी के लिए निर्दिष्ट ${title} सुविधाओं के माध्यम से आयातित कंटेनरों को भेजता है।`)
+      .replaceAll(`RBC consults licensed CHA brokers to verify ${title} duty rates, applicable cesses (BCD, SWS, IGST), and mandatory regulatory approvals before importing.`,
+        `RBC आयात करने से पहले ${title} शुल्क दरों, लागू उपकरों (BCD, SWS, IGST) और अनिवार्य नियामक अनुमोदनों की पुष्टि करने के लिए लाइसेंस प्राप्त CHA दलालों से परामर्श करता है।`)
+      .replaceAll(`RBC executes financial transactions using ${title} protocols, ensuring secure fund transfers through SWIFT banking channels upon document verification.`,
+        `RBC दस्तावेज सत्यापन पर SWIFT बैंकिंग चैनलों के माध्यम से सुरक्षित फंड ट्रांसफर सुनिश्चित करते हुए ${title} प्रोटोकॉल का उपयोग करके वित्तीय लेनदेन निष्पादित करता है।`)
+      .replaceAll(`RBC audits all freight invoices against agreed rate cards to verify ${title} items before approving payment to logistics providers.`,
+        `RBC लॉजिस्टिक्स प्रदाताओं को भुगतान स्वीकृत करने से पहले ${title} वस्तुओं की पुष्टि करने के लिए सहमत दर कार्ड के खिलाफ सभी फ्रेट चालानों का ऑडिट करता है।`)
+      .replaceAll(`RBC hires certified third-party inspection agencies to perform ${title} at the supplier factory before approving final balance payment.`,
+        `RBC अंतिम शेष भुगतान को मंजूरी देने से पहले सप्लायर फैक्ट्री में ${title} करने के लिए प्रमाणित तीसरे पक्ष की निरीक्षण एजेंसियों को नियुक्त करता है।`)
+      .replaceAll(`RBC tracks ${title} milestones in its ERP software to maintain real-time visibility over supplier order status and customer delivery commitments.`,
+        `RBC सप्लायर ऑर्डर स्थिति और ग्राहक वितरण प्रतिबद्धताओं पर वास्तविक समय की दृश्यता बनाए रखने के लिए अपने ERP सॉफ्टवेयर में ${title} मील के पत्थरों को ट्रैक करता है।`)
+      .replaceAll(`RBC manages trade risks by implementing ${title} measures, purchasing comprehensive cargo insurance, and enforcing clear contract terms.`,
+        `RBC ${title} उपायों को लागू करके, व्यापक कार्गो बीमा खरीदकर और स्पष्ट अनुबंध शर्तों को लागू करके व्यापार जोखिमों का प्रबंधन करता है।`)
+      .replaceAll(`RBC team members execute ${title} according to standard operating procedures, ensuring every step from supplier check to delivery is audited.`,
+        `RBC टीम के सदस्य मानक संचालन प्रक्रियाओं के अनुसार ${title} निष्पादित करते हैं, यह सुनिश्चित करते हुए कि सप्लायर चेक से लेकर डिलीवरी तक के हर कदम का ऑडिट किया जाता है।`)
+
       // Common phrase fallbacks
+      .replaceAll('Always check local compliance guides for', 'हमेशा लोकल कंप्लायंस गाइड देखें -')
       .replaceAll('Always double-check outer carton dimensions and total scale weight before signing the final Packing List and VGM declaration.',
         'अंतिम पैकिंग सूची (Packing List) और VGM घोषणा पर हस्ताक्षर करने से पहले हमेशा बाहरी कार्टन आयामों और कुल वजन की दोबारा जांच करें।')
-      .replaceAll('Relying on estimated packaging weights or inner box dimensions rather than actual outer master carton measurements.',
-        'वास्तविक बाहरी मास्टर कार्टन मापों के बजाय अनुमानित पैकेजिंग वजन या आंतरिक बॉक्स आयामों पर भरोसा करना।')
-      .replaceAll('Declaring only product weight on shipping documents instead of total Gross Weight.',
-        'शिपिंग दस्तावेजों पर कुल Gross Weight के बजाय केवल उत्पाद का वजन घोषित करना।')
-      .replaceAll('Forgetting to include pallet weights (each wooden pallet weighs 15-25 kg).',
-        'पैलेट के वजन को शामिल करना भूल जाना (प्रत्येक लकड़ी के पैलेट का वजन 15-25 किलोग्राम होता है)।')
-      .replaceAll('Weigh packed master cartons on a certified digital scale at the factory before loading.',
-        'लोडिंग से पहले फैक्ट्री में एक प्रमाणित डिजिटल स्केल पर पैक किए गए मास्टर कार्टन का वजन करें।')
-      .replaceAll('Ensure Gross Weight on Packing List matches Commercial Invoice and VGM certificate exactly.',
-        'सुनिश्चित करें कि पैकिंग सूची पर Gross Weight वाणिज्यिक चालान और VGM प्रमाण पत्र से सटीक रूप से मेल खाता है।')
-      .replaceAll('Confusing Net Weight with Gross Weight on customs declarations.',
-        'सीमा शुल्क घोषणाओं पर Net Weight को Gross Weight के साथ भ्रमित करना।')
-      .replaceAll('Including inner retail packaging weight in Net Weight calculation.',
-        'Net Weight गणना में आंतरिक खुदरा पैकेजिंग वजन को शामिल करना।')
-      .replaceAll('List both Net Weight and Gross Weight clearly on every line item of your Packing List.',
-        'अपनी पैकिंग सूची के प्रत्येक आइटम पर Net Weight और Gross Weight दोनों को स्पष्ट रूप से सूचीबद्ध करें।')
-      .replaceAll('Verify Net Weight for bulk commodity imports to ensure supplier did not short-ship goods.',
-        'यह सुनिश्चित करने के लिए थोक जिंस आयात के लिए Net Weight की जांच करें कि सप्लायर ने कम माल तो नहीं भेजा है।')
-      .replaceAll('Gross Weight is the total combined weight of goods + packaging + pallets. It is critical for container safety, freight calculation, and SOLAS VGM compliance.',
-        'Gross Weight माल + पैकेजिंग + पैलेट का कुल संयुक्त वजन है। यह कंटेनर सुरक्षा, भाड़ा गणना और SOLAS VGM अनुपालन के लिए महत्वपूर्ण है।')
-      .replaceAll('Net Weight is the pure weight of goods excluding packaging. It is essential for commodity pricing, yield verification, and customs valuation.',
-        'Net Weight पैकेजिंग को छोड़कर माल का शुद्ध वजन है। यह जिंस मूल्य निर्धारण, उपज सत्यापन और सीमा शुल्क मूल्यांकन के लिए आवश्यक है।');
+      .replaceAll('Inspect container floor integrity, door seal gaskets, and bolt seal numbers before signing container loading reports.',
+        'कंटेनर लोडिंग रिपोर्ट पर हस्ताक्षर करने से पहले कंटेनर के फर्श, दरवाजे की सील और बोल्ट सील नंबर का निरीक्षण करें।')
+      .replaceAll('Request regular milestone updates (ETD, ETA, transshipment logs) from your freight forwarder to manage supply chain expectations.',
+        'आपूर्ति श्रृंखला अपेक्षाओं को प्रबंधित करने के लिए अपने फ्रेट फारवर्डर से नियमित मील के पत्थर अपडेट (ETD, ETA) का अनुरोध करें।')
+      .replaceAll('Always specify the exact named port or place alongside', 'हमेशा निर्दिष्ट पोर्ट या स्थान का नाम स्पष्ट रूप से लिखें -')
+      .replaceAll('Ensure descriptions, values, HSN codes, and party names match identically across all trade documents',
+        'सुनिश्चित करें कि विवरण, मूल्य, HSN कोड और पार्टियों के नाम सभी व्यापारिक दस्तावेजों पर समान रूप से मेल खाते हैं -')
+      .replaceAll('Verify HSN code classification and duty structure under current customs tariff schedules before placing import orders.',
+        'आयात ऑर्डर देने से पहले वर्तमान सीमा शुल्क टैरिफ अनुसूचियों के तहत HSN कोड वर्गीकरण और शुल्क संरचना की पुष्टि करें।')
+      .replaceAll('Always use audited corporate bank accounts and verified bank SWIFT codes for',
+        'हमेशा बैंक SWIFT कोड और पंजीकृत कॉर्पोरेट खातों का उपयोग करें -')
+      .replaceAll('Request an itemized break-up of all origin and destination', 'हमेशा सभी मूल और गंतव्य प्रभारों का विवरण मांगें -')
+      .replaceAll('Define acceptable quality limits (AQL) and defect criteria in writing within your Purchase Order before production starts.',
+        'उत्पादन शुरू होने से पहले अपने खरीद आदेश (PO) में लिखित रूप में स्वीकार्य गुणवत्ता सीमाओं (AQL) को परिभाषित करें।')
+      .replaceAll('Confirm all terms (pricing, lead time, specs, terms) in writing during', 'लिखित रूप में सभी शर्तों की पुष्टि करें -')
+      .replaceAll('Document cargo damage or shortages immediately with photos and written notices to carriers upon container opening.',
+        'कंटेनर खोलते ही तस्वीरों और लिखित नोटिस के साथ कार्गो क्षति या कमी का तुरंत दस्तावेजीकरण करें।')
+      .replaceAll('Complete all required checklist items in', 'हमेशा चेकलिस्ट पूरा करें -');
   }
 
-  // 2. Exact replacements for Gujarati
+  // 2. Replacements for Gujarati (gu)
   else if (lang === 'gu') {
     translated = translated
       .replaceAll('Gross Weight is the total weight of a shipment including the actual product, inner packaging, protective foam, export master cartons, and pallets. Formula: Gross Weight = Net Weight + Packaging Weight + Pallet Weight.',
         'ગ્રોસ વેટ (Gross Weight) એ શિપમેન્ટનું કુલ વજન છે જેમાં પ્રોડક્ટ, અંદરનું પેકિંગ, ફોમ, બહારના બોક્સ અને પેલેટનું વજન સામેલ છે. સૂત્ર: Gross Weight = Net Weight + Packaging Weight + Pallet Weight.')
-      .replaceAll('Gross Weight determines ocean freight charges, air cargo billing, container payload safety limits, and road weight laws. Falsifying Gross Weight leads to port detention, vessel instability risks, and heavy customs fines.',
-        'Gross Weight શિપિંગ ભાડું અને કન્ટેનર વજન મર્યાદા નક્કી કરે છે. ખોટું વજન દર્શાવવાથી કસ્ટમ્સ દંડ થાય છે.')
-      
       .replaceAll('Net Weight is the actual weight of the product/goods alone, excluding all inner boxes, protective bubble wrap, master cartons, and pallets. Formula: Net Weight = Gross Weight - Packaging Weight.',
         'નેટ વેટ (Net Weight) એ પેકિંગ, બોક્સ અને પેલેટ વગરનું માત્ર પ્રોડક્ટનું શુદ્ધ વજન છે. સૂત્ર: Net Weight = Gross Weight - Packaging Weight.')
-      .replaceAll('Net Weight is used by customs authorities to calculate weight-based import duties for commodities (e.g., metals, food, chemicals) and by buyers to verify exact product yield received.',
-        'Net Weight નો ઉપયોગ કસ્ટમ્સ ડ્યુટીની ગણતરી કરવા અને મળેલ માલની ચોક્કસ માત્રા ચકાસવા થાય છે.')
-      .replaceAll('Net Weight is the net mass of the product without any packaging. It represents the actual product quantity purchased and is declared on Commercial Invoices and Bills of Entry.',
-        'Net Weight એ કોઈ પણ પેકિંગ વગરનું ઉત્પાદનનું શુદ્ધ વજન છે, જે ઇનવોઇસ અને બિલ ઓફ એન્ટ્રી પર દર્શાવવામાં આવે છે.')
-
-      .replaceAll('Volume Weight (Dimensional Weight / Volumetric Weight) is a pricing formula used by airlines and courier companies (DHL, FedEx) to charge freight for bulky but lightweight cargo. Formula: Volume Weight (kg) = (Length × Width × Height in cm) ÷ 6,000 (or ÷ 5,000 for express courier).',
-        'વોલ્યુમ વેટ (Volume Weight) એ એરલાઇન્સ અને કુરિયર કંપનીઓ દ્વારા હળવા પણ મોટા માલ માટે શિપિંગ ભાડું ગણવાનું સૂત્ર છે. સૂત્ર: Volume Weight (kg) = (L × W × H cm માં) ÷ 6,000.')
-      .replaceAll('Freight carriers charge based on Chargeable Weight = Max(Actual Gross Weight, Volume Weight). If you ship lightweight large items (like pillows or plastic toys), you pay based on Volume Weight.',
-        'શિપિંગ કંપનીઓ Chargeable Weight (વધુ વજન) ના આધારે ભાડું લે છે. જો તમે હળવો પણ મોટો માલ મોકલો છો, તો Volume Weight મુજબ ભાડું ચુકવવું પડે છે.')
-
-      .replaceAll(`${title} is a standard commercial and operational term in global import-export trade. It dictates the procedures, requirements, and compliance standards for handling international shipments.`,
-        `${title} એ આંતરરાષ્ટ્રીય આયાત-નિકાસ વેપારમાં પ્રમાણભૂત વ્યાપારી અને ઓપરેશનલ શબ્દ છે. તે શિપમેન્ટ હેન્ડલિંગના નિયમો દર્શાવે છે.`)
-      .replaceAll(`Understanding ${title} is vital for importers and exporters to optimize freight costs, ensure smooth customs clearance, avoid port detention fees, and maintain supply chain reliability.`,
-        `${title} ને સમજવાથી આયાતકારો અને નિકાસકારોને ભાડા ખર્ચ ઘટાડવામાં અને કસ્ટમ્સ વિલંબ અટકાવવામાં મદદ મળે છે.`)
-      .replaceAll(`An international trading firm sourcing cargo from Munich uses ${title} rules to determine custom declarations, container stuffing bounds, and freight insurance coverage.`,
-        `${title} મુજબ માલ મંગાવતી વેપારી પેઢી કસ્ટમ્સ ક્લિયરન્સ અને ડોક્યુમેન્ટ ચકાસણી માટે ફ્રેટ ફોરવર્ડર અને કસ્ટમ્સ એજન્ટ સાથે કામ કરે છે.`)
-      .replaceAll(`${title} is an essential operational component in international trade. Proper management and documentation of ${title} ensures full regulatory compliance, cost efficiency, and timely delivery of cargo.`,
-        `${title} એ આંતરરાષ્ટ્રીય વેપારમાં એક મહત્વપૂર્ણ ભાગ છે. ${title} નું સાચું સંચાલન અને દસ્તાવેજીકરણ સમયસર ડિલિવરી અને કસ્ટમ્સ પાલન સુનિશ્ચિત કરે છે.`)
-
-      .replaceAll('Confusing Net Weight with Gross Weight on customs declarations.',
-        'કસ્ટમ્સ ડિક્લેરેશન પર Net Weight અને Gross Weight વચ્ચે ગૂંચવણ ઊભી કરવી.')
-      .replaceAll('Including inner retail packaging weight in Net Weight calculation.',
-        'Net Weight ની ગણતરીમાં અંદરના રીટેલ પેકિંગનું વજન ઉમેરી દેવું.')
-      .replaceAll('List both Net Weight and Gross Weight clearly on every line item of your Packing List.',
-        'તમારી પેકિંગ લિસ્ટની દરેક આઇટમ પર Net Weight અને Gross Weight બંને સ્પષ્ટ દર્શાવો.')
-      .replaceAll('Verify Net Weight for bulk commodity imports to ensure supplier did not short-ship goods.',
-        'સપ્લાયરે ઓછો માલ નથી મોકલ્યો તે ચકાસવા માટે Net Weight ની ખાતરી કરો.')
-      .replaceAll('Gross Weight is the total combined weight of goods + packaging + pallets. It is critical for container safety, freight calculation, and SOLAS VGM compliance.',
-        'Gross Weight એ માલ + પેકિંગ + પેલેટનું કુલ વજન છે, જે કન્ટેનર સુરક્ષા અને ભાડા ગણતરી માટે જરૂરી છે.')
-      .replaceAll('Net Weight is the pure weight of goods excluding packaging. It is essential for commodity pricing, yield verification, and customs valuation.',
-        'Net Weight એ પેકિંગ વગરનું પ્રોડક્ટનું શુદ્ધ વજન છે, જે કસ્ટમ્સ અને માલની સાચી માત્રા ચકાસવા જરૂરી છે.');
+      .replaceAll(`${title} is a critical trade document required for legal compliance, customs clearance, foreign exchange settlement, and title of ownership in international trade.`,
+        `${title} એ આંતરરાષ્ટ્રીય વેપારમાં કાયદાકીય પાલન, કસ્ટમ્સ ક્લિયરન્સ અને ચૂકવણી માટે અત્યંત જરૂરી મહત્વપૂર્ણ દસ્તાવેજ છે.`)
+      .replaceAll(`Without an accurate ${title}, customs authorities cannot assess duty or clear shipments, leading to container holds, port fines, and payment delays.`,
+        `સચોટ ${title} વિના કસ્ટમ્સ અધિકારીઓ માલ ક્લિયર કરી શકતા નથી, જેનાથી પોર્ટ દંડ અને ચૂકવણીમાં વિલંબ થાય છે.`)
+      .replaceAll(`RBC verifies every detail on the ${title} (buyer name, invoice number, HSN codes, weights) before submitting it to customs brokers and banking channels.`,
+        `RBC કસ્ટમ્સ એજન્ટ અને બેંકિંગમાં જમા કરાવતા પહેલાં ${title} ના તમામ વિગતોની ચકાસણી કરે છે.`);
   }
 
-  // 3. Exact replacements for Marathi
+  // 3. Replacements for Marathi (mr)
   else if (lang === 'mr') {
     translated = translated
       .replaceAll('Gross Weight is the total weight of a shipment including the actual product, inner packaging, protective foam, export master cartons, and pallets. Formula: Gross Weight = Net Weight + Packaging Weight + Pallet Weight.',
-        'ગ્રાસ વેટ (Gross Weight) હે સંપૂર્ણ શિપમેન્ટચે एकूण વજન આહે ત્યામધ્યે પ્રોડક્ટ, આતીલ પૅકિંગ, બોક્સ આણિ પૅલેટ સમાવિક આહેત. સૂત્ર: Gross Weight = Net Weight + Packaging Weight + Pallet Weight.')
+        'ગ્રાસ વેટ (Gross Weight) હે સંપૂર્ણ શિપમેન્ટચે एकूण વજન આહે. સૂત્ર: Gross Weight = Net Weight + Packaging Weight + Pallet Weight.')
       .replaceAll('Net Weight is the actual weight of the product/goods alone, excluding all inner boxes, protective bubble wrap, master cartons, and pallets. Formula: Net Weight = Gross Weight - Packaging Weight.',
         'નેટ વેટ (Net Weight) હે પૅકિંગ આણિ બોક્સશિવાય ફક્ત માલાચે નિ્વ્હળ વજન આહે. સૂત્ર: Net Weight = Gross Weight - Packaging Weight.')
-      .replaceAll(`${title} is a standard commercial and operational term in global import-export trade. It dictates the procedures, requirements, and compliance standards for handling international shipments.`,
-        `${title} હી આંતરરાષ્ટ્રીય આયાત-નિર્યાત વ્યાપારાતીલ એક માનક સંકલ્પના આહે.`)
-      .replaceAll(`Understanding ${title} is vital for importers and exporters to optimize freight costs, ensure smooth customs clearance, avoid port detention fees, and maintain supply chain reliability.`,
-        `${title} સમજૂન ઘેતલ્યાને આયાતદાર વ નિર્યાતદારાન્ના માલવાહતૂક ખર્ચ નિયંત્રિત ઠેવણ્યાસ આણિ કસ્ટમ્સ વિલંબ ટાળણ્યાસ મદદ હોતે.`)
-      .replaceAll(`An international trading firm sourcing cargo from Munich uses ${title} rules to determine custom declarations, container stuffing bounds, and freight insurance coverage.`,
-        `${title} અટીંનુસાર માલ માગવણારી સંસ્થા કસ્ટમ્સ ક્લિઅરન્સ આણિ કાગદપત્રે પડતાળણીસાઠી ફ્રેટ ફોરવર્ડર્સશી સમન્વય સાધતે.`)
-      .replaceAll(`${title} is an essential operational component in international trade. Proper management and documentation of ${title} ensures full regulatory compliance, cost efficiency, and timely delivery of cargo.`,
-        `${title} હા આંતરરાષ્ટ્રીય વ્યાપારાતીલ એક મહત્વચા ઘટક આહે. ${title} ચે યોગ્ય વ્યવસ્થાપન વેળેવર ડિલિવરી સુનિશ્ચિત કરતે.`);
+      .replaceAll(`${title} is a critical trade document required for legal compliance, customs clearance, foreign exchange settlement, and title of ownership in international trade.`,
+        `${title} હા આંતરરાષ્ટ્રીય व्यापारात कायदेशीर सुसंगतता आणि कस्टम्स क्लिअरन्ससाठी अत्यंत आवश्यक कागदपत्र आहे.`)
+      .replaceAll(`Without an accurate ${title}, customs authorities cannot assess duty or clear shipments, leading to container holds, port fines, and payment delays.`,
+        `અચૂક ${title} શિવાય કસ્ટમ્સ અધિકારી માલ સોડત નાહીત, જ્યામુળે પોર્ટ દંડ આણિ વિલંબ હોતો.`);
   }
 
   return translated;
