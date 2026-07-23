@@ -1932,6 +1932,270 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
     };
   }
 
+  if (title === 'Fumigation Certificate') {
+    return {
+      definition: "Fumigation Certificate is an official pest control document certifying that wooden packaging materials (pallets, crates) have been chemically treated (ISPM-15) to kill timber pests before shipment.",
+      whyImportant: "Required by quarantine authorities in India, USA, Australia, and EU. Unfumigated wood leads to immediate container rejection at destination port or expensive forced quarantine treatment.",
+      businessExample: "RBC imports 20 tons of tiles on wooden pallets from China. RBC requires the supplier to furnish an ISPM-15 Fumigation Certificate issued by a licensed quarantine authority before shipping.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Technical visualization for Fumigation Certificate.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Fumigation Certificate Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Fumigation Certificate Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Customs Clearance', 'Bill of Lading', 'FOB'],
+      faqs: [{ question: 'What is the role of Fumigation Certificate?', answer: "Fumigation Certificate is an official pest control document certifying that wooden packaging materials (pallets, crates) have been chemically treated (ISPM-15) to kill timber pests before shipment." }],
+      commonMistakes: ['Failing to verify document details before submission.'],
+      practicalTips: ['Always double-check HSN codes and values.'],
+      summary: "Fumigation Certificate is an official pest control document certifying that wooden packaging materials (pallets, crates) have been chemically treated (ISPM-15) to kill timber pests before shipment.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Fumigation Certificate?', options: ["Fumigation Certificate is an official pest control document certifying that wooden packaging materials (pallets, crates) have been chemically treated (ISPM-15) to kill timber pests before shipment.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Fumigation Certificate is an official pest control document certifying that wooden packaging materials (pallets, crates) have been chemically treated (ISPM-15) to kill timber pests before shipment." }],
+      objectives: ['Understand operational meaning of Fumigation Certificate.'],
+      writtenExplanation: "Fumigation Certificate is an official pest control document certifying that wooden packaging materials (pallets, crates) have been chemically treated (ISPM-15) to kill timber pests before shipment.",
+      importantNotes: ['Verify all details on Fumigation Certificate.'],
+      keyPoints: ["Fumigation Certificate is an official pest control document certifying that wooden packaging materials (pallets, crates) have been chemically treated (ISPM-15) to kill timber pests before shipment."]
+    };
+  }
+
+  if (title === 'Inspection Certificate') {
+    return {
+      definition: "Inspection Certificate is a quality, quantity, and technical compliance audit report issued by an independent inspection agency (such as SGS, Intertek, or TÜV) after physically auditing finished goods at the factory.",
+      whyImportant: "Protects buyers from receiving defective goods, short quantities, or wrong specifications before releasing the final balance payment to overseas suppliers.",
+      businessExample: "RBC hires SGS to perform a pre-shipment inspection of 1,000 laptops at the Shenzhen factory. SGS issues an Inspection Certificate confirming zero defects before RBC wires the 70% balance payment.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Technical visualization for Inspection Certificate.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Inspection Certificate Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Inspection Certificate Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Customs Clearance', 'Bill of Lading', 'FOB'],
+      faqs: [{ question: 'What is the role of Inspection Certificate?', answer: "Inspection Certificate is a quality, quantity, and technical compliance audit report issued by an independent inspection agency (such as SGS, Intertek, or TÜV) after physically auditing finished goods at the factory." }],
+      commonMistakes: ['Failing to verify document details before submission.'],
+      practicalTips: ['Always double-check HSN codes and values.'],
+      summary: "Inspection Certificate is a quality, quantity, and technical compliance audit report issued by an independent inspection agency (such as SGS, Intertek, or TÜV) after physically auditing finished goods at the factory.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Inspection Certificate?', options: ["Inspection Certificate is a quality, quantity, and technical compliance audit report issued by an independent inspection agency (such as SGS, Intertek, or TÜV) after physically auditing finished goods at the factory.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Inspection Certificate is a quality, quantity, and technical compliance audit report issued by an independent inspection agency (such as SGS, Intertek, or TÜV) after physically auditing finished goods at the factory." }],
+      objectives: ['Understand operational meaning of Inspection Certificate.'],
+      writtenExplanation: "Inspection Certificate is a quality, quantity, and technical compliance audit report issued by an independent inspection agency (such as SGS, Intertek, or TÜV) after physically auditing finished goods at the factory.",
+      importantNotes: ['Verify all details on Inspection Certificate.'],
+      keyPoints: ["Inspection Certificate is a quality, quantity, and technical compliance audit report issued by an independent inspection agency (such as SGS, Intertek, or TÜV) after physically auditing finished goods at the factory."]
+    };
+  }
+
+  if (title === 'Air Way Bill') {
+    return {
+      definition: "Air Way Bill (AWB) is the official non-negotiable transport document issued by an airline for cargo transported by air, serving as a carriage contract and receipt of goods.",
+      whyImportant: "Contains 11-digit tracking number allowing real-time tracking of air shipments on airline cargo portals and enables fast airport customs clearance.",
+      businessExample: "Emirates SkyCargo issues AWB #176-48201934 for RBC's 200kg express electronic shipment from Shanghai Airport to Mumbai Airport.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Technical visualization for Air Way Bill.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Air Way Bill Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Air Way Bill Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Customs Clearance', 'Bill of Lading', 'FOB'],
+      faqs: [{ question: 'What is the role of Air Way Bill?', answer: "Air Way Bill (AWB) is the official non-negotiable transport document issued by an airline for cargo transported by air, serving as a carriage contract and receipt of goods." }],
+      commonMistakes: ['Failing to verify document details before submission.'],
+      practicalTips: ['Always double-check HSN codes and values.'],
+      summary: "Air Way Bill (AWB) is the official non-negotiable transport document issued by an airline for cargo transported by air, serving as a carriage contract and receipt of goods.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Air Way Bill?', options: ["Air Way Bill (AWB) is the official non-negotiable transport document issued by an airline for cargo transported by air, serving as a carriage contract and receipt of goods.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Air Way Bill (AWB) is the official non-negotiable transport document issued by an airline for cargo transported by air, serving as a carriage contract and receipt of goods." }],
+      objectives: ['Understand operational meaning of Air Way Bill.'],
+      writtenExplanation: "Air Way Bill (AWB) is the official non-negotiable transport document issued by an airline for cargo transported by air, serving as a carriage contract and receipt of goods.",
+      importantNotes: ['Verify all details on Air Way Bill.'],
+      keyPoints: ["Air Way Bill (AWB) is the official non-negotiable transport document issued by an airline for cargo transported by air, serving as a carriage contract and receipt of goods."]
+    };
+  }
+
+  if (title === 'Delivery Order') {
+    return {
+      definition: "Delivery Order (DO) is a release document issued by the shipping line or freight forwarder to the port terminal/CFS authorizing the surrender of cargo to the importer after freight and local charges are settled.",
+      whyImportant: "Without a valid DO, port authorities will NOT allow trucks to pick up the container from the port or ICD yard.",
+      businessExample: "RBC pays local terminal handling charges ($250) to Maersk Line India. Maersk issues a digital Delivery Order (DO) enabling RBC's transporter to gate-out the container from Mundra Port.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Technical visualization for Delivery Order.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Delivery Order Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Delivery Order Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Customs Clearance', 'Bill of Lading', 'FOB'],
+      faqs: [{ question: 'What is the role of Delivery Order?', answer: "Delivery Order (DO) is a release document issued by the shipping line or freight forwarder to the port terminal/CFS authorizing the surrender of cargo to the importer after freight and local charges are settled." }],
+      commonMistakes: ['Failing to verify document details before submission.'],
+      practicalTips: ['Always double-check HSN codes and values.'],
+      summary: "Delivery Order (DO) is a release document issued by the shipping line or freight forwarder to the port terminal/CFS authorizing the surrender of cargo to the importer after freight and local charges are settled.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Delivery Order?', options: ["Delivery Order (DO) is a release document issued by the shipping line or freight forwarder to the port terminal/CFS authorizing the surrender of cargo to the importer after freight and local charges are settled.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Delivery Order (DO) is a release document issued by the shipping line or freight forwarder to the port terminal/CFS authorizing the surrender of cargo to the importer after freight and local charges are settled." }],
+      objectives: ['Understand operational meaning of Delivery Order.'],
+      writtenExplanation: "Delivery Order (DO) is a release document issued by the shipping line or freight forwarder to the port terminal/CFS authorizing the surrender of cargo to the importer after freight and local charges are settled.",
+      importantNotes: ['Verify all details on Delivery Order.'],
+      keyPoints: ["Delivery Order (DO) is a release document issued by the shipping line or freight forwarder to the port terminal/CFS authorizing the surrender of cargo to the importer after freight and local charges are settled."]
+    };
+  }
+
+  if (title === 'Shipping Bill') {
+    return {
+      definition: "Shipping Bill is an official export declaration document filed electronically by the exporter with Customs (via ICEGATE) to obtain \"Let Export Order\" (LEO) permission to ship goods out of India.",
+      whyImportant: "Mandatory for legal export clearance, claiming export incentive schemes (RoDTEP, Duty Drawback), and verifying GST zero-rated export sales.",
+      businessExample: "RBC files Shipping Bill #8492019 under Duty Drawback scheme at Nhava Sheva Customs for exporting Indian spices to Dubai.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Technical visualization for Shipping Bill.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Shipping Bill Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Shipping Bill Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Customs Clearance', 'Bill of Lading', 'FOB'],
+      faqs: [{ question: 'What is the role of Shipping Bill?', answer: "Shipping Bill is an official export declaration document filed electronically by the exporter with Customs (via ICEGATE) to obtain \"Let Export Order\" (LEO) permission to ship goods out of India." }],
+      commonMistakes: ['Failing to verify document details before submission.'],
+      practicalTips: ['Always double-check HSN codes and values.'],
+      summary: "Shipping Bill is an official export declaration document filed electronically by the exporter with Customs (via ICEGATE) to obtain \"Let Export Order\" (LEO) permission to ship goods out of India.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Shipping Bill?', options: ["Shipping Bill is an official export declaration document filed electronically by the exporter with Customs (via ICEGATE) to obtain \"Let Export Order\" (LEO) permission to ship goods out of India.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Shipping Bill is an official export declaration document filed electronically by the exporter with Customs (via ICEGATE) to obtain \"Let Export Order\" (LEO) permission to ship goods out of India." }],
+      objectives: ['Understand operational meaning of Shipping Bill.'],
+      writtenExplanation: "Shipping Bill is an official export declaration document filed electronically by the exporter with Customs (via ICEGATE) to obtain \"Let Export Order\" (LEO) permission to ship goods out of India.",
+      importantNotes: ['Verify all details on Shipping Bill.'],
+      keyPoints: ["Shipping Bill is an official export declaration document filed electronically by the exporter with Customs (via ICEGATE) to obtain \"Let Export Order\" (LEO) permission to ship goods out of India."]
+    };
+  }
+
+  if (title === 'Bill of Entry') {
+    return {
+      definition: "Bill of Entry (BOE) is a statutory import declaration document filed by an importer/CHA with Customs (via ICEGATE) detailing imported cargo value, HSN codes, and duty calculations for clearance.",
+      whyImportant: "Customs assesses Basic Customs Duty (BCD), SWS, and IGST directly on the Bill of Entry. Clearance is granted (\"Out of Charge\") once duties are paid.",
+      businessExample: "RBC's CHA files Bill of Entry #3928104 at ICD Ahmedabad for a container of solar cells, calculating 7.5% BCD and 18% IGST to be paid via ICEGATE portal.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Technical visualization for Bill of Entry.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Bill of Entry Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Bill of Entry Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Customs Clearance', 'Bill of Lading', 'FOB'],
+      faqs: [{ question: 'What is the role of Bill of Entry?', answer: "Bill of Entry (BOE) is a statutory import declaration document filed by an importer/CHA with Customs (via ICEGATE) detailing imported cargo value, HSN codes, and duty calculations for clearance." }],
+      commonMistakes: ['Failing to verify document details before submission.'],
+      practicalTips: ['Always double-check HSN codes and values.'],
+      summary: "Bill of Entry (BOE) is a statutory import declaration document filed by an importer/CHA with Customs (via ICEGATE) detailing imported cargo value, HSN codes, and duty calculations for clearance.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Bill of Entry?', options: ["Bill of Entry (BOE) is a statutory import declaration document filed by an importer/CHA with Customs (via ICEGATE) detailing imported cargo value, HSN codes, and duty calculations for clearance.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Bill of Entry (BOE) is a statutory import declaration document filed by an importer/CHA with Customs (via ICEGATE) detailing imported cargo value, HSN codes, and duty calculations for clearance." }],
+      objectives: ['Understand operational meaning of Bill of Entry.'],
+      writtenExplanation: "Bill of Entry (BOE) is a statutory import declaration document filed by an importer/CHA with Customs (via ICEGATE) detailing imported cargo value, HSN codes, and duty calculations for clearance.",
+      importantNotes: ['Verify all details on Bill of Entry.'],
+      keyPoints: ["Bill of Entry (BOE) is a statutory import declaration document filed by an importer/CHA with Customs (via ICEGATE) detailing imported cargo value, HSN codes, and duty calculations for clearance."]
+    };
+  }
+
+  if (title === 'Certificate of Origin') {
+    return {
+      definition: "Certificate of Origin (COO) is an official document issued by a Chamber of Commerce or government authority certifying the country where the imported product was manufactured.",
+      whyImportant: "Required to claim concessional customs duty rates under Free Trade Agreements (FTAs) like India-ASEAN, CEPA, or APTA.",
+      businessExample: "RBC imports fabric from Vietnam. By presenting a preferential Certificate of Origin (Form E), RBC gets customs duty reduced from 10% to 0% under India-ASEAN FTA.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Technical visualization for Certificate of Origin.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Certificate of Origin Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Certificate of Origin Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Customs Clearance', 'Bill of Lading', 'FOB'],
+      faqs: [{ question: 'What is the role of Certificate of Origin?', answer: "Certificate of Origin (COO) is an official document issued by a Chamber of Commerce or government authority certifying the country where the imported product was manufactured." }],
+      commonMistakes: ['Failing to verify document details before submission.'],
+      practicalTips: ['Always double-check HSN codes and values.'],
+      summary: "Certificate of Origin (COO) is an official document issued by a Chamber of Commerce or government authority certifying the country where the imported product was manufactured.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Certificate of Origin?', options: ["Certificate of Origin (COO) is an official document issued by a Chamber of Commerce or government authority certifying the country where the imported product was manufactured.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Certificate of Origin (COO) is an official document issued by a Chamber of Commerce or government authority certifying the country where the imported product was manufactured." }],
+      objectives: ['Understand operational meaning of Certificate of Origin.'],
+      writtenExplanation: "Certificate of Origin (COO) is an official document issued by a Chamber of Commerce or government authority certifying the country where the imported product was manufactured.",
+      importantNotes: ['Verify all details on Certificate of Origin.'],
+      keyPoints: ["Certificate of Origin (COO) is an official document issued by a Chamber of Commerce or government authority certifying the country where the imported product was manufactured."]
+    };
+  }
+
+  if (title === 'Insurance Certificate') {
+    return {
+      definition: "Insurance Certificate is an official policy document issued by a marine insurance underwriter confirming that cargo is insured against loss, damage, theft, or vessel sinking during transit.",
+      whyImportant: "Required for CIF/CIP contracts and bank LC negotiation. Protects the importer against total financial loss if a container falls overboard or catches fire at sea.",
+      businessExample: "RBC purchases Marine Cargo Insurance policy #MAR-88492 covering 110% of CIF cargo value ($55,000) for a shipment traveling from Ningbo to Mundra.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Technical visualization for Insurance Certificate.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Insurance Certificate Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Insurance Certificate Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Customs Clearance', 'Bill of Lading', 'FOB'],
+      faqs: [{ question: 'What is the role of Insurance Certificate?', answer: "Insurance Certificate is an official policy document issued by a marine insurance underwriter confirming that cargo is insured against loss, damage, theft, or vessel sinking during transit." }],
+      commonMistakes: ['Failing to verify document details before submission.'],
+      practicalTips: ['Always double-check HSN codes and values.'],
+      summary: "Insurance Certificate is an official policy document issued by a marine insurance underwriter confirming that cargo is insured against loss, damage, theft, or vessel sinking during transit.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Insurance Certificate?', options: ["Insurance Certificate is an official policy document issued by a marine insurance underwriter confirming that cargo is insured against loss, damage, theft, or vessel sinking during transit.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Insurance Certificate is an official policy document issued by a marine insurance underwriter confirming that cargo is insured against loss, damage, theft, or vessel sinking during transit." }],
+      objectives: ['Understand operational meaning of Insurance Certificate.'],
+      writtenExplanation: "Insurance Certificate is an official policy document issued by a marine insurance underwriter confirming that cargo is insured against loss, damage, theft, or vessel sinking during transit.",
+      importantNotes: ['Verify all details on Insurance Certificate.'],
+      keyPoints: ["Insurance Certificate is an official policy document issued by a marine insurance underwriter confirming that cargo is insured against loss, damage, theft, or vessel sinking during transit."]
+    };
+  }
+
+  if (title === 'Customs') {
+    return {
+      definition: "Customs is the government border authority enforcing import/export trade laws, inspecting international shipments, and collecting customs duties and taxes.",
+      whyImportant: "Ensures national security, prevents smuggling, protects domestic industries, and generates federal trade revenue.",
+      businessExample: "Indian Customs audits RBC's incoming shipment at Mundra Port to verify product valuation, safety standards, and correct duty payments.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Technical visualization for Customs.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Customs Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Customs Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Customs Clearance', 'Bill of Lading', 'FOB'],
+      faqs: [{ question: 'What is the role of Customs?', answer: "Customs is the government border authority enforcing import/export trade laws, inspecting international shipments, and collecting customs duties and taxes." }],
+      commonMistakes: ['Failing to verify document details before submission.'],
+      practicalTips: ['Always double-check HSN codes and values.'],
+      summary: "Customs is the government border authority enforcing import/export trade laws, inspecting international shipments, and collecting customs duties and taxes.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Customs?', options: ["Customs is the government border authority enforcing import/export trade laws, inspecting international shipments, and collecting customs duties and taxes.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Customs is the government border authority enforcing import/export trade laws, inspecting international shipments, and collecting customs duties and taxes." }],
+      objectives: ['Understand operational meaning of Customs.'],
+      writtenExplanation: "Customs is the government border authority enforcing import/export trade laws, inspecting international shipments, and collecting customs duties and taxes.",
+      importantNotes: ['Verify all details on Customs.'],
+      keyPoints: ["Customs is the government border authority enforcing import/export trade laws, inspecting international shipments, and collecting customs duties and taxes."]
+    };
+  }
+
+  if (title === 'Customs Clearance') {
+    return {
+      definition: "Customs Clearance is the official administrative procedure of obtaining permission from customs authorities to import or export cargo across international borders.",
+      whyImportant: "Without customs clearance, imported goods remain locked at the port terminal and cannot be moved to importer warehouses.",
+      businessExample: "RBC's CHA completes customs clearance for a container of medical gear in 48 hours by submitting the BOE, invoice, packing list, and paying duty.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Technical visualization for Customs Clearance.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Customs Clearance Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Customs Clearance Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Customs Clearance', 'Bill of Lading', 'FOB'],
+      faqs: [{ question: 'What is the role of Customs Clearance?', answer: "Customs Clearance is the official administrative procedure of obtaining permission from customs authorities to import or export cargo across international borders." }],
+      commonMistakes: ['Failing to verify document details before submission.'],
+      practicalTips: ['Always double-check HSN codes and values.'],
+      summary: "Customs Clearance is the official administrative procedure of obtaining permission from customs authorities to import or export cargo across international borders.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Customs Clearance?', options: ["Customs Clearance is the official administrative procedure of obtaining permission from customs authorities to import or export cargo across international borders.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Customs Clearance is the official administrative procedure of obtaining permission from customs authorities to import or export cargo across international borders." }],
+      objectives: ['Understand operational meaning of Customs Clearance.'],
+      writtenExplanation: "Customs Clearance is the official administrative procedure of obtaining permission from customs authorities to import or export cargo across international borders.",
+      importantNotes: ['Verify all details on Customs Clearance.'],
+      keyPoints: ["Customs Clearance is the official administrative procedure of obtaining permission from customs authorities to import or export cargo across international borders."]
+    };
+  }
+
+  if (title === 'CHA') {
+    return {
+      definition: "CHA (Customs House Agent) or Customs Broker is a licensed professional authorized by Customs to handle import/export documentation, tariff classification, and cargo clearance for trade clients.",
+      whyImportant: "Navigates complex customs laws, prevents ICEGATE filing errors, expedites physical inspection, and avoids port demurrage penalties.",
+      businessExample: "RBC appoints a licensed CHA at Mundra Port to handle electronic filing of Bill of Entry, port assessment, and vessel gate-out operations.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Technical visualization for CHA.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'CHA Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'CHA Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Customs Clearance', 'Bill of Lading', 'FOB'],
+      faqs: [{ question: 'What is the role of CHA?', answer: "CHA (Customs House Agent) or Customs Broker is a licensed professional authorized by Customs to handle import/export documentation, tariff classification, and cargo clearance for trade clients." }],
+      commonMistakes: ['Failing to verify document details before submission.'],
+      practicalTips: ['Always double-check HSN codes and values.'],
+      summary: "CHA (Customs House Agent) or Customs Broker is a licensed professional authorized by Customs to handle import/export documentation, tariff classification, and cargo clearance for trade clients.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is CHA?', options: ["CHA (Customs House Agent) or Customs Broker is a licensed professional authorized by Customs to handle import/export documentation, tariff classification, and cargo clearance for trade clients.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "CHA (Customs House Agent) or Customs Broker is a licensed professional authorized by Customs to handle import/export documentation, tariff classification, and cargo clearance for trade clients." }],
+      objectives: ['Understand operational meaning of CHA.'],
+      writtenExplanation: "CHA (Customs House Agent) or Customs Broker is a licensed professional authorized by Customs to handle import/export documentation, tariff classification, and cargo clearance for trade clients.",
+      importantNotes: ['Verify all details on CHA.'],
+      keyPoints: ["CHA (Customs House Agent) or Customs Broker is a licensed professional authorized by Customs to handle import/export documentation, tariff classification, and cargo clearance for trade clients."]
+    };
+  }
+
+  if (title === 'HSN Code') {
+    return {
+      definition: "HSN Code (Harmonized System of Nomenclature) is an international 6-to-8 digit standardized numerical code used worldwide to classify traded commodities for customs duty calculation.",
+      whyImportant: "Determines the exact Basic Customs Duty rate, IGST rate, BIS compliance rules, and import licensing policies for every imported item.",
+      businessExample: "RBC classifies imported LED bulbs under HSN Code 8539.50.00, which carries a 10% BCD and 18% IGST tariff rate.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Technical visualization for HSN Code.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'HSN Code Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'HSN Code Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Customs Clearance', 'Bill of Lading', 'FOB'],
+      faqs: [{ question: 'What is the role of HSN Code?', answer: "HSN Code (Harmonized System of Nomenclature) is an international 6-to-8 digit standardized numerical code used worldwide to classify traded commodities for customs duty calculation." }],
+      commonMistakes: ['Failing to verify document details before submission.'],
+      practicalTips: ['Always double-check HSN codes and values.'],
+      summary: "HSN Code (Harmonized System of Nomenclature) is an international 6-to-8 digit standardized numerical code used worldwide to classify traded commodities for customs duty calculation.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is HSN Code?', options: ["HSN Code (Harmonized System of Nomenclature) is an international 6-to-8 digit standardized numerical code used worldwide to classify traded commodities for customs duty calculation.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "HSN Code (Harmonized System of Nomenclature) is an international 6-to-8 digit standardized numerical code used worldwide to classify traded commodities for customs duty calculation." }],
+      objectives: ['Understand operational meaning of HSN Code.'],
+      writtenExplanation: "HSN Code (Harmonized System of Nomenclature) is an international 6-to-8 digit standardized numerical code used worldwide to classify traded commodities for customs duty calculation.",
+      importantNotes: ['Verify all details on HSN Code.'],
+      keyPoints: ["HSN Code (Harmonized System of Nomenclature) is an international 6-to-8 digit standardized numerical code used worldwide to classify traded commodities for customs duty calculation."]
+    };
+  }
+
   if (title === 'MOQ') {
     return {
       definition: 'MOQ stands for Minimum Order Quantity — the smallest number of units a supplier is willing to produce or sell in a single order. For example, if a factory sets an MOQ of 500 units, you cannot order 200 units; you must order at least 500.',
