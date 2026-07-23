@@ -2768,6 +2768,402 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
     };
   }
 
+  if (title === 'Cargo Insurance') {
+    return {
+      definition: "Cargo Insurance is a commercial marine policy protecting buyers and sellers against financial loss if goods are lost, damaged, stolen, or destroyed during sea, air, or road transit.",
+      whyImportant: "Buying Institute Cargo Clauses (A) all-risk insurance guarantees full financial recovery even if a container falls overboard or catches fire at sea.",
+      businessExample: "RBC purchases Marine Cargo Insurance covering 110% of CIF shipment value ($66,000) for a container of medical equipment traveling from Ningbo to Mundra Port.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Risk management illustration for Cargo Insurance.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Cargo Insurance Risk Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Risk framework.', 'Page 2: Mitigation checklist.'] },
+      downloadOption: { title: 'Cargo Insurance Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Cargo Insurance', 'Force Majeure', 'Dispute Resolution'],
+      faqs: [{ question: 'What is the role of Cargo Insurance?', answer: "Cargo Insurance is a commercial marine policy protecting buyers and sellers against financial loss if goods are lost, damaged, stolen, or destroyed during sea, air, or road transit." }],
+      commonMistakes: ["Shipping cargo under basic carrier liability instead of comprehensive all-risk marine insurance."],
+      practicalTips: ["Insure cargo for 110% of CIF value to cover expected profit margins in case of loss."],
+      summary: "Cargo Insurance is marine policy protection covering financial loss against transit damage or theft.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Cargo Insurance mean?', options: ["Cargo Insurance is a commercial marine policy protecting buyers and sellers against financial loss if goods are lost, damaged, stolen, or destroyed during sea, air, or road transit.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Cargo Insurance is a commercial marine policy protecting buyers and sellers against financial loss if goods are lost, damaged, stolen, or destroyed during sea, air, or road transit." }],
+      objectives: ['Understand operational meaning of Cargo Insurance.'],
+      writtenExplanation: "Cargo Insurance is a commercial marine policy protecting buyers and sellers against financial loss if goods are lost, damaged, stolen, or destroyed during sea, air, or road transit.",
+      importantNotes: ["Insure cargo for 110% of CIF value to cover expected profit margins in case of loss."],
+      keyPoints: ["Cargo Insurance is marine policy protection covering financial loss against transit damage or theft."]
+    };
+  }
+
+  if (title === 'Force Majeure') {
+    return {
+      definition: "Force Majeure is a standard legal contract clause exempting both buyer and seller from contractual liability during unavoidable natural disasters, wars, port strikes, or government lockdowns.",
+      whyImportant: "Prevents financial breach penalties when extraordinary events beyond human control delay factory production or vessel transit.",
+      businessExample: "During a major typhoon shutting down Shanghai Port for 7 days, the supplier invokes the Force Majeure clause to extend the shipping deadline without incurring late delivery fines.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Risk management illustration for Force Majeure.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Force Majeure Risk Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Risk framework.', 'Page 2: Mitigation checklist.'] },
+      downloadOption: { title: 'Force Majeure Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Cargo Insurance', 'Force Majeure', 'Dispute Resolution'],
+      faqs: [{ question: 'What is the role of Force Majeure?', answer: "Force Majeure is a standard legal contract clause exempting both buyer and seller from contractual liability during unavoidable natural disasters, wars, port strikes, or government lockdowns." }],
+      commonMistakes: ["Assuming routine raw material shortages count as valid Force Majeure events."],
+      practicalTips: ["Specify explicit notice timelines (e.g. 7 days written notice) inside Force Majeure contract clauses."],
+      summary: "Force Majeure exempts contractual liability during extraordinary acts of God or uncontrollable events.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Force Majeure mean?', options: ["Force Majeure is a standard legal contract clause exempting both buyer and seller from contractual liability during unavoidable natural disasters, wars, port strikes, or government lockdowns.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Force Majeure is a standard legal contract clause exempting both buyer and seller from contractual liability during unavoidable natural disasters, wars, port strikes, or government lockdowns." }],
+      objectives: ['Understand operational meaning of Force Majeure.'],
+      writtenExplanation: "Force Majeure is a standard legal contract clause exempting both buyer and seller from contractual liability during unavoidable natural disasters, wars, port strikes, or government lockdowns.",
+      importantNotes: ["Specify explicit notice timelines (e.g. 7 days written notice) inside Force Majeure contract clauses."],
+      keyPoints: ["Force Majeure exempts contractual liability during extraordinary acts of God or uncontrollable events."]
+    };
+  }
+
+  if (title === 'Delay') {
+    return {
+      definition: "Delay refers to unscheduled disruptions in raw material sourcing, factory assembly, or carrier shipping routes that push cargo arrival past agreed delivery dates.",
+      whyImportant: "Unmanaged shipping delays cause warehouse stockouts, missed retail seasons, and severe financial cash flow bottlenecks.",
+      businessExample: "RBC tracks vessel transshipment logs at Colombo Port, detecting a 4-day port congestion delay and notifying downstream customers immediately.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Risk management illustration for Delay.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Delay Risk Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Risk framework.', 'Page 2: Mitigation checklist.'] },
+      downloadOption: { title: 'Delay Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Cargo Insurance', 'Force Majeure', 'Dispute Resolution'],
+      faqs: [{ question: 'What is the role of Delay?', answer: "Delay refers to unscheduled disruptions in raw material sourcing, factory assembly, or carrier shipping routes that push cargo arrival past agreed delivery dates." }],
+      commonMistakes: ["Failing to include liquidated damages clauses for unexcused supplier production delays."],
+      practicalTips: ["Maintain a 10-day buffer stock in local warehouses to absorb international transit delays."],
+      summary: "Delay represents transit or production schedule slowdowns extending delivery deadlines.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Delay mean?', options: ["Delay refers to unscheduled disruptions in raw material sourcing, factory assembly, or carrier shipping routes that push cargo arrival past agreed delivery dates.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Delay refers to unscheduled disruptions in raw material sourcing, factory assembly, or carrier shipping routes that push cargo arrival past agreed delivery dates." }],
+      objectives: ['Understand operational meaning of Delay.'],
+      writtenExplanation: "Delay refers to unscheduled disruptions in raw material sourcing, factory assembly, or carrier shipping routes that push cargo arrival past agreed delivery dates.",
+      importantNotes: ["Maintain a 10-day buffer stock in local warehouses to absorb international transit delays."],
+      keyPoints: ["Delay represents transit or production schedule slowdowns extending delivery deadlines."]
+    };
+  }
+
+  if (title === 'Damage Claim') {
+    return {
+      definition: "Damage Claim is a formal legal compensation claim filed by an importer against a shipping line, port authority, or insurance underwriter for physical cargo damage occurring during transit.",
+      whyImportant: "Filing a claim within statutory time limits (typically within 3 to 7 days of container discharge) ensures 100% financial reimbursement for broken or wet goods.",
+      businessExample: "Upon discovering 15 crushed master cartons during container de-stuffing, RBC takes timestamped photos, endorses the trucker delivery note, and files a $3,200 Damage Claim with the marine insurer.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Risk management illustration for Damage Claim.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Damage Claim Risk Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Risk framework.', 'Page 2: Mitigation checklist.'] },
+      downloadOption: { title: 'Damage Claim Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Cargo Insurance', 'Force Majeure', 'Dispute Resolution'],
+      faqs: [{ question: 'What is the role of Damage Claim?', answer: "Damage Claim is a formal legal compensation claim filed by an importer against a shipping line, port authority, or insurance underwriter for physical cargo damage occurring during transit." }],
+      commonMistakes: ["Failing to notify carriers of damage within statutory time limits, invalidating insurance claims."],
+      practicalTips: ["Document cargo damage immediately with photos and written notice upon container opening."],
+      summary: "Damage Claim is a formal compensation claim filed for transit-damaged cargo.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Damage Claim mean?', options: ["Damage Claim is a formal legal compensation claim filed by an importer against a shipping line, port authority, or insurance underwriter for physical cargo damage occurring during transit.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Damage Claim is a formal legal compensation claim filed by an importer against a shipping line, port authority, or insurance underwriter for physical cargo damage occurring during transit." }],
+      objectives: ['Understand operational meaning of Damage Claim.'],
+      writtenExplanation: "Damage Claim is a formal legal compensation claim filed by an importer against a shipping line, port authority, or insurance underwriter for physical cargo damage occurring during transit.",
+      importantNotes: ["Document cargo damage immediately with photos and written notice upon container opening."],
+      keyPoints: ["Damage Claim is a formal compensation claim filed for transit-damaged cargo."]
+    };
+  }
+
+  if (title === 'Shortage') {
+    return {
+      definition: "Shortage is a physical discrepancy where the actual number of delivered master cartons or units received at the warehouse is less than declared on the Commercial Invoice and Packing List.",
+      whyImportant: "Promptly identifying shortages protects importers from paying customs duty or supplier invoices for missing un-received inventory.",
+      businessExample: "RBC receives 480 cartons instead of the 500 declared on the Packing List. RBC immediately obtains a Joint Inspection Survey Report at the CFS to claim reimbursement for the missing 20 boxes.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Risk management illustration for Shortage.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Shortage Risk Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Risk framework.', 'Page 2: Mitigation checklist.'] },
+      downloadOption: { title: 'Shortage Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Cargo Insurance', 'Force Majeure', 'Dispute Resolution'],
+      faqs: [{ question: 'What is the role of Shortage?', answer: "Shortage is a physical discrepancy where the actual number of delivered master cartons or units received at the warehouse is less than declared on the Commercial Invoice and Packing List." }],
+      commonMistakes: ["Signing clean trucker delivery notes before tallying total master carton counts."],
+      practicalTips: ["Conduct box tallying immediately upon container unloading at port CFS or warehouse."],
+      summary: "Shortage is a physical carton count discrepancy between delivered cargo and packing documents.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Shortage mean?', options: ["Shortage is a physical discrepancy where the actual number of delivered master cartons or units received at the warehouse is less than declared on the Commercial Invoice and Packing List.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Shortage is a physical discrepancy where the actual number of delivered master cartons or units received at the warehouse is less than declared on the Commercial Invoice and Packing List." }],
+      objectives: ['Understand operational meaning of Shortage.'],
+      writtenExplanation: "Shortage is a physical discrepancy where the actual number of delivered master cartons or units received at the warehouse is less than declared on the Commercial Invoice and Packing List.",
+      importantNotes: ["Conduct box tallying immediately upon container unloading at port CFS or warehouse."],
+      keyPoints: ["Shortage is a physical carton count discrepancy between delivered cargo and packing documents."]
+    };
+  }
+
+  if (title === 'Misdeclaration') {
+    return {
+      definition: "Misdeclaration is the illegal or erroneous declaration of incorrect product values, HSN tariff codes, cargo weights, or country of origin on customs import documents.",
+      whyImportant: "Misdeclaration leads to heavy customs fines, ICEGATE Blacklisting, cargo seizure under Customs Act Section 111, and criminal prosecution.",
+      businessExample: "An importer misdeclares high-duty lithium batteries as plastic casings to evade duty. Customs detects the fraud via scanner audit, seizing the container and imposing a 300% penalty.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Risk management illustration for Misdeclaration.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Misdeclaration Risk Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Risk framework.', 'Page 2: Mitigation checklist.'] },
+      downloadOption: { title: 'Misdeclaration Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Cargo Insurance', 'Force Majeure', 'Dispute Resolution'],
+      faqs: [{ question: 'What is the role of Misdeclaration?', answer: "Misdeclaration is the illegal or erroneous declaration of incorrect product values, HSN tariff codes, cargo weights, or country of origin on customs import documents." }],
+      commonMistakes: ["Under-declaring Commercial Invoice value to evade customs duties."],
+      practicalTips: ["Verify HSN codes and assessable values with licensed CHA brokers prior to ICEGATE filing."],
+      summary: "Misdeclaration is filing false values or HSN codes on customs entries leading to seizure and fines.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Misdeclaration mean?', options: ["Misdeclaration is the illegal or erroneous declaration of incorrect product values, HSN tariff codes, cargo weights, or country of origin on customs import documents.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Misdeclaration is the illegal or erroneous declaration of incorrect product values, HSN tariff codes, cargo weights, or country of origin on customs import documents." }],
+      objectives: ['Understand operational meaning of Misdeclaration.'],
+      writtenExplanation: "Misdeclaration is the illegal or erroneous declaration of incorrect product values, HSN tariff codes, cargo weights, or country of origin on customs import documents.",
+      importantNotes: ["Verify HSN codes and assessable values with licensed CHA brokers prior to ICEGATE filing."],
+      keyPoints: ["Misdeclaration is filing false values or HSN codes on customs entries leading to seizure and fines."]
+    };
+  }
+
+  if (title === 'Dispute Resolution') {
+    return {
+      definition: "Dispute Resolution is the formal contractual arbitration or court litigation procedure used by buyer and seller to settle commercial disagreements over quality defects, delayed shipments, or unpaid invoices.",
+      whyImportant: "Specifying international arbitration venues (such as SIAC Singapore or Indian Council of Arbitration) in purchase contracts avoids endless foreign court litigation.",
+      businessExample: "RBC and a Ningbo supplier resolve a quality specification disagreement through expedited SIAC arbitration, resulting in a mutually agreed 15% price credit refund.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Risk management illustration for Dispute Resolution.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Dispute Resolution Risk Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Risk framework.', 'Page 2: Mitigation checklist.'] },
+      downloadOption: { title: 'Dispute Resolution Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Cargo Insurance', 'Force Majeure', 'Dispute Resolution'],
+      faqs: [{ question: 'What is the role of Dispute Resolution?', answer: "Dispute Resolution is the formal contractual arbitration or court litigation procedure used by buyer and seller to settle commercial disagreements over quality defects, delayed shipments, or unpaid invoices." }],
+      commonMistakes: ["Omitting governing law and arbitration jurisdiction clauses from international purchase contracts."],
+      practicalTips: ["Include SIAC or ICA arbitration clauses in all overseas Purchase Orders for fast resolution."],
+      summary: "Dispute Resolution is contractual arbitration or litigation settling commercial buyer-seller conflicts.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Dispute Resolution mean?', options: ["Dispute Resolution is the formal contractual arbitration or court litigation procedure used by buyer and seller to settle commercial disagreements over quality defects, delayed shipments, or unpaid invoices.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Dispute Resolution is the formal contractual arbitration or court litigation procedure used by buyer and seller to settle commercial disagreements over quality defects, delayed shipments, or unpaid invoices." }],
+      objectives: ['Understand operational meaning of Dispute Resolution.'],
+      writtenExplanation: "Dispute Resolution is the formal contractual arbitration or court litigation procedure used by buyer and seller to settle commercial disagreements over quality defects, delayed shipments, or unpaid invoices.",
+      importantNotes: ["Include SIAC or ICA arbitration clauses in all overseas Purchase Orders for fast resolution."],
+      keyPoints: ["Dispute Resolution is contractual arbitration or litigation settling commercial buyer-seller conflicts."]
+    };
+  }
+
+  if (title === 'Inquiry Form') {
+    return {
+      definition: "Inquiry Form is the internal RBC workflow document used by account managers to record customer product requirements, target landed costs, and quantity specifications.",
+      whyImportant: "Capturing clear client requirements in the Inquiry Form ensures sourcing teams find exact factory matches without specs confusion.",
+      businessExample: "RBC's sales team fills the Inquiry Form for 5,000 sets of wireless earbuds, logging target price ($6.50/unit) and Bluetooth 5.3 specs.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Internal process illustration for Inquiry Form.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Inquiry Form Internal Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process workflow.', 'Page 2: SOP checklist.'] },
+      downloadOption: { title: 'Inquiry Form SOP Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Inquiry Form', 'Product Approval', 'Supplier Verification'],
+      faqs: [{ question: 'What is the role of Inquiry Form?', answer: "Inquiry Form is the internal RBC workflow document used by account managers to record customer product requirements, target landed costs, and quantity specifications." }],
+      commonMistakes: ["Accepting client inquiries without specifying target delivery deadlines or quality standards."],
+      practicalTips: ["Require clients to sign off on the Inquiry Form before initiating supplier sourcing."],
+      summary: "Inquiry Form is the internal document recording client product requirements and target pricing.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Inquiry Form mean?', options: ["Inquiry Form is the internal RBC workflow document used by account managers to record customer product requirements, target landed costs, and quantity specifications.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Inquiry Form is the internal RBC workflow document used by account managers to record customer product requirements, target landed costs, and quantity specifications." }],
+      objectives: ['Understand operational meaning of Inquiry Form.'],
+      writtenExplanation: "Inquiry Form is the internal RBC workflow document used by account managers to record customer product requirements, target landed costs, and quantity specifications.",
+      importantNotes: ["Require clients to sign off on the Inquiry Form before initiating supplier sourcing."],
+      keyPoints: ["Inquiry Form is the internal document recording client product requirements and target pricing."]
+    };
+  }
+
+  if (title === 'Product Approval') {
+    return {
+      definition: "Product Approval is RBC's internal technical verification phase where engineering teams evaluate pre-production factory samples for design, durability, and compliance.",
+      whyImportant: "Formal Product Approval prevents mass production of flawed goods, protecting client investment and brand reputation.",
+      businessExample: "RBC's quality lab conducts drop tests and battery cycle audits on 2 factory sample units before issuing formal Product Approval.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Internal process illustration for Product Approval.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Product Approval Internal Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process workflow.', 'Page 2: SOP checklist.'] },
+      downloadOption: { title: 'Product Approval SOP Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Inquiry Form', 'Product Approval', 'Supplier Verification'],
+      faqs: [{ question: 'What is the role of Product Approval?', answer: "Product Approval is RBC's internal technical verification phase where engineering teams evaluate pre-production factory samples for design, durability, and compliance." }],
+      commonMistakes: ["Approving mass production based on digital photos instead of physical sample testing."],
+      practicalTips: ["Store signed Golden Samples in RBC warehouse to serve as reference benchmarks for PSI inspections."],
+      summary: "Product Approval is internal technical sample evaluation validating specs before mass production.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Product Approval mean?', options: ["Product Approval is RBC's internal technical verification phase where engineering teams evaluate pre-production factory samples for design, durability, and compliance.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Product Approval is RBC's internal technical verification phase where engineering teams evaluate pre-production factory samples for design, durability, and compliance." }],
+      objectives: ['Understand operational meaning of Product Approval.'],
+      writtenExplanation: "Product Approval is RBC's internal technical verification phase where engineering teams evaluate pre-production factory samples for design, durability, and compliance.",
+      importantNotes: ["Store signed Golden Samples in RBC warehouse to serve as reference benchmarks for PSI inspections."],
+      keyPoints: ["Product Approval is internal technical sample evaluation validating specs before mass production."]
+    };
+  }
+
+  if (title === 'Quotation Approval') {
+    return {
+      definition: "Quotation Approval is RBC's internal financial review process where management evaluates supplier landed cost quotes and validates target profit margins.",
+      whyImportant: "Ensures every import deal meets corporate gross margin requirements before sending formal quotes to clients.",
+      businessExample: "RBC management approves Quotation #Q-9918 after verifying that the landed cost ($7.20) yields a healthy 25% profit margin at selling price ($9.60).",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Internal process illustration for Quotation Approval.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Quotation Approval Internal Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process workflow.', 'Page 2: SOP checklist.'] },
+      downloadOption: { title: 'Quotation Approval SOP Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Inquiry Form', 'Product Approval', 'Supplier Verification'],
+      faqs: [{ question: 'What is the role of Quotation Approval?', answer: "Quotation Approval is RBC's internal financial review process where management evaluates supplier landed cost quotes and validates target profit margins." }],
+      commonMistakes: ["Failing to include destination port handling fees in landed cost calculations prior to approval."],
+      practicalTips: ["Use automated landed cost calculators accounting for customs duties, freight, and local logistics."],
+      summary: "Quotation Approval is internal management sign-off validating landed costs and profit margins.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Quotation Approval mean?', options: ["Quotation Approval is RBC's internal financial review process where management evaluates supplier landed cost quotes and validates target profit margins.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Quotation Approval is RBC's internal financial review process where management evaluates supplier landed cost quotes and validates target profit margins." }],
+      objectives: ['Understand operational meaning of Quotation Approval.'],
+      writtenExplanation: "Quotation Approval is RBC's internal financial review process where management evaluates supplier landed cost quotes and validates target profit margins.",
+      importantNotes: ["Use automated landed cost calculators accounting for customs duties, freight, and local logistics."],
+      keyPoints: ["Quotation Approval is internal management sign-off validating landed costs and profit margins."]
+    };
+  }
+
+  if (title === 'Purchase Process') {
+    return {
+      definition: "Purchase Process covers RBC's operational workflow for drafting binding Purchase Orders, negotiating payment terms, and remitting 30% advance deposits to factories.",
+      whyImportant: "Establishes contractual clarity and triggers official factory raw material procurement.",
+      businessExample: "RBC procurement team issues PO #PO-40291 and wires $4,500 advance deposit to start production of 1,000 smart watch units.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Internal process illustration for Purchase Process.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Purchase Process Internal Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process workflow.', 'Page 2: SOP checklist.'] },
+      downloadOption: { title: 'Purchase Process SOP Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Inquiry Form', 'Product Approval', 'Supplier Verification'],
+      faqs: [{ question: 'What is the role of Purchase Process?', answer: "Purchase Process covers RBC's operational workflow for drafting binding Purchase Orders, negotiating payment terms, and remitting 30% advance deposits to factories." }],
+      commonMistakes: ["Omitting quality penalty clauses from Purchase Orders during the purchasing process."],
+      practicalTips: ["Require factory sign-off on Purchase Order terms before executing bank wire transfers."],
+      summary: "Purchase Process executes legally binding PO drafting and advance deposit transfers.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Purchase Process mean?', options: ["Purchase Process covers RBC's operational workflow for drafting binding Purchase Orders, negotiating payment terms, and remitting 30% advance deposits to factories.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Purchase Process covers RBC's operational workflow for drafting binding Purchase Orders, negotiating payment terms, and remitting 30% advance deposits to factories." }],
+      objectives: ['Understand operational meaning of Purchase Process.'],
+      writtenExplanation: "Purchase Process covers RBC's operational workflow for drafting binding Purchase Orders, negotiating payment terms, and remitting 30% advance deposits to factories.",
+      importantNotes: ["Require factory sign-off on Purchase Order terms before executing bank wire transfers."],
+      keyPoints: ["Purchase Process executes legally binding PO drafting and advance deposit transfers."]
+    };
+  }
+
+  if (title === 'Payment Process') {
+    return {
+      definition: "Payment Process is RBC's finance workflow auditing shipping documents (B/L, Commercial Invoice, Packing List, PSI Report) before releasing balance 70% payments.",
+      whyImportant: "Protects RBC capital by ensuring full balance payments are wired only after verified passing PSI reports and ocean B/L surrender.",
+      businessExample: "RBC finance audits the passed SGS inspection report and Telex Release B/L before releasing the final $10,500 balance wire to the vendor.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Internal process illustration for Payment Process.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Payment Process Internal Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process workflow.', 'Page 2: SOP checklist.'] },
+      downloadOption: { title: 'Payment Process SOP Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Inquiry Form', 'Product Approval', 'Supplier Verification'],
+      faqs: [{ question: 'What is the role of Payment Process?', answer: "Payment Process is RBC's finance workflow auditing shipping documents (B/L, Commercial Invoice, Packing List, PSI Report) before releasing balance 70% payments." }],
+      commonMistakes: ["Releasing balance payment before verifying clean B/L issuance or inspection reports."],
+      practicalTips: ["Implement dual-authorization sign-off inside finance software for international TT wire transfers."],
+      summary: "Payment Process audits shipping documents before releasing final vendor balance payments.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Payment Process mean?', options: ["Payment Process is RBC's finance workflow auditing shipping documents (B/L, Commercial Invoice, Packing List, PSI Report) before releasing balance 70% payments.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Payment Process is RBC's finance workflow auditing shipping documents (B/L, Commercial Invoice, Packing List, PSI Report) before releasing balance 70% payments." }],
+      objectives: ['Understand operational meaning of Payment Process.'],
+      writtenExplanation: "Payment Process is RBC's finance workflow auditing shipping documents (B/L, Commercial Invoice, Packing List, PSI Report) before releasing balance 70% payments.",
+      importantNotes: ["Implement dual-authorization sign-off inside finance software for international TT wire transfers."],
+      keyPoints: ["Payment Process audits shipping documents before releasing final vendor balance payments."]
+    };
+  }
+
+  if (title === 'Production Tracking') {
+    return {
+      definition: "Production Tracking is RBC's operational monitoring protocol tracking factory raw material dyeing, assembly milestones, and completion percentages weekly.",
+      whyImportant: "Prevents unexpected factory production delays, enabling early carrier vessel booking.",
+      businessExample: "RBC sourcing logs 50% assembly completion on Day 15, confirming the factory is on track for PSI inspection on Day 25.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Internal process illustration for Production Tracking.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Production Tracking Internal Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process workflow.', 'Page 2: SOP checklist.'] },
+      downloadOption: { title: 'Production Tracking SOP Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Inquiry Form', 'Product Approval', 'Supplier Verification'],
+      faqs: [{ question: 'What is the role of Production Tracking?', answer: "Production Tracking is RBC's operational monitoring protocol tracking factory raw material dyeing, assembly milestones, and completion percentages weekly." }],
+      commonMistakes: ["Failing to request weekly photo/video proof during active production cycles."],
+      practicalTips: ["Use digital production tracking dashboards updated directly by factory quality managers."],
+      summary: "Production Tracking monitors factory assembly milestones to guarantee on-time completion.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Production Tracking mean?', options: ["Production Tracking is RBC's operational monitoring protocol tracking factory raw material dyeing, assembly milestones, and completion percentages weekly.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Production Tracking is RBC's operational monitoring protocol tracking factory raw material dyeing, assembly milestones, and completion percentages weekly." }],
+      objectives: ['Understand operational meaning of Production Tracking.'],
+      writtenExplanation: "Production Tracking is RBC's operational monitoring protocol tracking factory raw material dyeing, assembly milestones, and completion percentages weekly.",
+      importantNotes: ["Use digital production tracking dashboards updated directly by factory quality managers."],
+      keyPoints: ["Production Tracking monitors factory assembly milestones to guarantee on-time completion."]
+    };
+  }
+
+  if (title === 'Shipment Tracking') {
+    return {
+      definition: "Shipment Tracking is RBC's logistics monitoring process following vessel location, container transshipment ports, and updated ETD/ETA milestones in real time.",
+      whyImportant: "Enables CHA brokers to file advance customs Bill of Entry 2 days before vessel arrival, eliminating port demurrage.",
+      businessExample: "RBC tracks Container #MSCU8849201 via satellite API, detecting vessel arrival at Mundra Port on July 24 at 14:00 hrs.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Internal process illustration for Shipment Tracking.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Shipment Tracking Internal Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process workflow.', 'Page 2: SOP checklist.'] },
+      downloadOption: { title: 'Shipment Tracking SOP Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Inquiry Form', 'Product Approval', 'Supplier Verification'],
+      faqs: [{ question: 'What is the role of Shipment Tracking?', answer: "Shipment Tracking is RBC's logistics monitoring process following vessel location, container transshipment ports, and updated ETD/ETA milestones in real time." }],
+      commonMistakes: ["Ignoring transshipment port delay notices from ocean freight forwarders."],
+      practicalTips: ["Integrate automated container tracking APIs inside RBC ERP for real-time vessel alerts."],
+      summary: "Shipment Tracking monitors real-time vessel location and container ETA milestones.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Shipment Tracking mean?', options: ["Shipment Tracking is RBC's logistics monitoring process following vessel location, container transshipment ports, and updated ETD/ETA milestones in real time.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Shipment Tracking is RBC's logistics monitoring process following vessel location, container transshipment ports, and updated ETD/ETA milestones in real time." }],
+      objectives: ['Understand operational meaning of Shipment Tracking.'],
+      writtenExplanation: "Shipment Tracking is RBC's logistics monitoring process following vessel location, container transshipment ports, and updated ETD/ETA milestones in real time.",
+      importantNotes: ["Integrate automated container tracking APIs inside RBC ERP for real-time vessel alerts."],
+      keyPoints: ["Shipment Tracking monitors real-time vessel location and container ETA milestones."]
+    };
+  }
+
+  if (title === 'Customs Process') {
+    return {
+      definition: "Customs Process is RBC's clearance workflow coordinating with CHA brokers to file Bill of Entry, pay customs duties (BCD/IGST), and obtain Out-of-Charge release.",
+      whyImportant: "Ensures zero customs penalties, fast ICEGATE duty clearance, and immediate container gate-out from port terminals.",
+      businessExample: "RBC CHA files Bill of Entry #8849201, pays ₹1,24,000 IGST via ICEGATE, and secures Customs Out-of-Charge order within 24 hours of vessel discharge.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Internal process illustration for Customs Process.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Customs Process Internal Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process workflow.', 'Page 2: SOP checklist.'] },
+      downloadOption: { title: 'Customs Process SOP Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Inquiry Form', 'Product Approval', 'Supplier Verification'],
+      faqs: [{ question: 'What is the role of Customs Process?', answer: "Customs Process is RBC's clearance workflow coordinating with CHA brokers to file Bill of Entry, pay customs duties (BCD/IGST), and obtain Out-of-Charge release." }],
+      commonMistakes: ["Delaying duty payment after customs assessment, accumulating daily port demurrage fees."],
+      practicalTips: ["Maintain sufficient balance in ICEGATE e-cash ledger for instant one-click duty payments."],
+      summary: "Customs Process coordinates CHA filing, duty payments, and ICEGATE clearance release.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Customs Process mean?', options: ["Customs Process is RBC's clearance workflow coordinating with CHA brokers to file Bill of Entry, pay customs duties (BCD/IGST), and obtain Out-of-Charge release.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Customs Process is RBC's clearance workflow coordinating with CHA brokers to file Bill of Entry, pay customs duties (BCD/IGST), and obtain Out-of-Charge release." }],
+      objectives: ['Understand operational meaning of Customs Process.'],
+      writtenExplanation: "Customs Process is RBC's clearance workflow coordinating with CHA brokers to file Bill of Entry, pay customs duties (BCD/IGST), and obtain Out-of-Charge release.",
+      importantNotes: ["Maintain sufficient balance in ICEGATE e-cash ledger for instant one-click duty payments."],
+      keyPoints: ["Customs Process coordinates CHA filing, duty payments, and ICEGATE clearance release."]
+    };
+  }
+
+  if (title === 'Warehouse Process') {
+    return {
+      definition: "Warehouse Process is RBC's inbound logistics workflow for container de-stuffing, carton physical count tallying, quality damage inspection, and inventory SKU stocking.",
+      whyImportant: "Ensures accurate inventory barcode scanning, verifies box counts, and identifies transit damage before goods enter available sellable stock.",
+      businessExample: "RBC warehouse team de-stuffs 20FT container, scans 500 master cartons into ERP inventory, and reports zero box shortages.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Internal process illustration for Warehouse Process.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Warehouse Process Internal Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process workflow.', 'Page 2: SOP checklist.'] },
+      downloadOption: { title: 'Warehouse Process SOP Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Inquiry Form', 'Product Approval', 'Supplier Verification'],
+      faqs: [{ question: 'What is the role of Warehouse Process?', answer: "Warehouse Process is RBC's inbound logistics workflow for container de-stuffing, carton physical count tallying, quality damage inspection, and inventory SKU stocking." }],
+      commonMistakes: ["Mixing uninspected inbound cargo directly into active sellable warehouse shelves."],
+      practicalTips: ["Use barcode handheld scanners during container unloading for automated inventory logging."],
+      summary: "Warehouse Process manages container de-stuffing, box count tallying, and ERP inventory stocking.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Warehouse Process mean?', options: ["Warehouse Process is RBC's inbound logistics workflow for container de-stuffing, carton physical count tallying, quality damage inspection, and inventory SKU stocking.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Warehouse Process is RBC's inbound logistics workflow for container de-stuffing, carton physical count tallying, quality damage inspection, and inventory SKU stocking." }],
+      objectives: ['Understand operational meaning of Warehouse Process.'],
+      writtenExplanation: "Warehouse Process is RBC's inbound logistics workflow for container de-stuffing, carton physical count tallying, quality damage inspection, and inventory SKU stocking.",
+      importantNotes: ["Use barcode handheld scanners during container unloading for automated inventory logging."],
+      keyPoints: ["Warehouse Process manages container de-stuffing, box count tallying, and ERP inventory stocking."]
+    };
+  }
+
+  if (title === 'Customer Delivery Process') {
+    return {
+      definition: "Customer Delivery Process is RBC's outbound logistics workflow scheduling local truck transport, issuing GST tax invoices, and delivering goods to client doors.",
+      whyImportant: "Guarantees safe final-mile delivery, secures signed proof of delivery (POD), and enables client invoice collection.",
+      businessExample: "RBC dispatches 2 trucks delivering cleared imported machinery to client's factory in Pune with E-Way Bill #39201920.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Internal process illustration for Customer Delivery Process.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Customer Delivery Process Internal Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process workflow.', 'Page 2: SOP checklist.'] },
+      downloadOption: { title: 'Customer Delivery Process SOP Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Inquiry Form', 'Product Approval', 'Supplier Verification'],
+      faqs: [{ question: 'What is the role of Customer Delivery Process?', answer: "Customer Delivery Process is RBC's outbound logistics workflow scheduling local truck transport, issuing GST tax invoices, and delivering goods to client doors." }],
+      commonMistakes: ["Dispatching trucks without generating mandatory GST E-Way bills for inter-state transit."],
+      practicalTips: ["Require truck drivers to obtain signed and stamped Delivery Proof (POD) upon client receipt."],
+      summary: "Customer Delivery Process manages final-mile truck transport, E-Way bills, and client delivery proof.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Customer Delivery Process mean?', options: ["Customer Delivery Process is RBC's outbound logistics workflow scheduling local truck transport, issuing GST tax invoices, and delivering goods to client doors.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Customer Delivery Process is RBC's outbound logistics workflow scheduling local truck transport, issuing GST tax invoices, and delivering goods to client doors." }],
+      objectives: ['Understand operational meaning of Customer Delivery Process.'],
+      writtenExplanation: "Customer Delivery Process is RBC's outbound logistics workflow scheduling local truck transport, issuing GST tax invoices, and delivering goods to client doors.",
+      importantNotes: ["Require truck drivers to obtain signed and stamped Delivery Proof (POD) upon client receipt."],
+      keyPoints: ["Customer Delivery Process manages final-mile truck transport, E-Way bills, and client delivery proof."]
+    };
+  }
+
+  if (title === 'After Sales Support') {
+    return {
+      definition: "After Sales Support is RBC's customer service framework managing warranty claims, technical usage assistance, spare parts replacement, and repeat import reorders.",
+      whyImportant: "Builds long-term client trust, drives customer retention, and generates high-value repeat import contract orders.",
+      businessExample: "RBC provides 12-month replacement warranty and supplies spare circuit boards within 48 hours for a machinery client in Ahmedabad.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Internal process illustration for After Sales Support.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'After Sales Support Internal Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Process workflow.', 'Page 2: SOP checklist.'] },
+      downloadOption: { title: 'After Sales Support SOP Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Inquiry Form', 'Product Approval', 'Supplier Verification'],
+      faqs: [{ question: 'What is the role of After Sales Support?', answer: "After Sales Support is RBC's customer service framework managing warranty claims, technical usage assistance, spare parts replacement, and repeat import reorders." }],
+      commonMistakes: ["Ignoring customer post-delivery quality feedback or warranty replacement requests."],
+      practicalTips: ["Conduct a follow-up feedback call 14 days post-delivery to measure customer satisfaction."],
+      summary: "After Sales Support provides warranty service, technical spare parts, and repeat order management.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does After Sales Support mean?', options: ["After Sales Support is RBC's customer service framework managing warranty claims, technical usage assistance, spare parts replacement, and repeat import reorders.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "After Sales Support is RBC's customer service framework managing warranty claims, technical usage assistance, spare parts replacement, and repeat import reorders." }],
+      objectives: ['Understand operational meaning of After Sales Support.'],
+      writtenExplanation: "After Sales Support is RBC's customer service framework managing warranty claims, technical usage assistance, spare parts replacement, and repeat import reorders.",
+      importantNotes: ["Conduct a follow-up feedback call 14 days post-delivery to measure customer satisfaction."],
+      keyPoints: ["After Sales Support provides warranty service, technical spare parts, and repeat order management."]
+    };
+  }
+
   if (title === 'MOQ') {
     return {
       definition: 'MOQ stands for Minimum Order Quantity — the smallest number of units a supplier is willing to produce or sell in a single order. For example, if a factory sets an MOQ of 500 units, you cannot order 200 units; you must order at least 500.',
