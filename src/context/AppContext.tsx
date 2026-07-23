@@ -128,11 +128,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const savedCourses = localStorage.getItem('lms_courses_ie');
     const savedModules = localStorage.getItem('lms_modules_v3_ie');
     // Clear legacy lesson cache keys to prevent stale English content from sticking in localStorage
-    ['lms_lessons_ie', 'lms_lessons_v2_ie', 'lms_lessons_v3_ie', 'lms_lessons_v4_ie', 'lms_lessons_v5_ie', 'lms_lessons_v6_ie', 'lms_lessons_v7_ie', 'lms_lessons_v8_ie', 'lms_lessons_v9_ie', 'lms_lessons_v10_ie', 'lms_lessons_v11_ie', 'lms_lessons_v12_ie', 'lms_lessons_v13_ie', 'lms_lessons_v14_ie', 'lms_lessons_v15_ie', 'lms_lessons_v16_ie'].forEach(k => {
+    ['lms_lessons_ie', 'lms_lessons_v2_ie', 'lms_lessons_v3_ie', 'lms_lessons_v4_ie', 'lms_lessons_v5_ie', 'lms_lessons_v6_ie', 'lms_lessons_v7_ie', 'lms_lessons_v8_ie', 'lms_lessons_v9_ie', 'lms_lessons_v10_ie', 'lms_lessons_v11_ie', 'lms_lessons_v12_ie', 'lms_lessons_v13_ie', 'lms_lessons_v14_ie', 'lms_lessons_v15_ie', 'lms_lessons_v16_ie', 'lms_lessons_v17_ie'].forEach(k => {
       try { localStorage.removeItem(k); } catch (e) {}
     });
 
-    const savedLessons = localStorage.getItem('lms_lessons_v17_ie');
+    const savedLessons = localStorage.getItem('lms_lessons_v18_ie');
     const savedUsers = localStorage.getItem('lms_users_v2_ie');
     const savedCerts = localStorage.getItem('lms_certs_ie');
     const savedProgress = localStorage.getItem('lms_progress_ie');
@@ -155,7 +155,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
 
     setLessons(initialLessons);
-    localStorage.setItem('lms_lessons_v17_ie', JSON.stringify(initialLessons));
+    localStorage.setItem('lms_lessons_v18_ie', JSON.stringify(initialLessons));
 
     if (savedUsers) setUsers(JSON.parse(savedUsers));
     else {
