@@ -572,6 +572,128 @@ export const lessonTextTranslations: {
       commonMistakes: ["उत्पत्ति/गंतव्य CFS हैंडलिंग शुल्क पर विचार न करना जिससे बड़े LCL शिपमेंट महंगे हो जाते हैं।", "बिना अतिरिक्त लकड़ी के क्रेट सुरक्षा के LCL द्वारा नाजुक सामान भेजना।"],
       practicalTips: ["10 CBM से कम के ऑर्डर के लिए LCL का उपयोग करें।", "LCL के लिए मास्टर कार्टन पैकेजिंग को मजबूत करें।"]
     },
+    
+    'les-mod-dynamic-freight': {
+      title: "Freight",
+      definition: "फ्रेट (Freight)origin से destination तक कार्गो ले जाने के लिए शिपिंग लाइन, एयरलाइन या लॉजिस्टिक्स कैरियर को दिया जाने वाला माल ढुलाई शुल्क (भाड़ा) है।",
+      whyImportant: "फ्रेट लैंडेड कॉस्ट (Landed Cost) गणना का एक बड़ा हिस्सा है। प्रतिस्पर्धी भाड़ा दरों पर बातचीत करने से सीधे मुनाफे का मार्जिन बढ़ता है।",
+      businessExample: "RBC शंघाई से मुंद्रा पोर्ट तक 20FT कंटेनर ले जाने के लिए मर्सक (Maersk) लाइन को $1,800 ओशन फ्रेट का भुगतान करता है।",
+      writtenExplanation: "फ्रेट (Freight)origin से destination तक कार्गो ले जाने के लिए शिपिंग लाइन, एयरलाइन या लॉजिस्टिक्स कैरियर को दिया जाने वाला माल ढुलाई शुल्क (भाड़ा) है।",
+      summary: "फ्रेट समुद्र, हवा या भूमि द्वारा कार्गो के परिवहन के लिए दिया जाने वाला माल ढुलाई शुल्क है।",
+      importantNotes: ["हमेशा ओशन फ्रेट, BAF (ईंधन अधिभार) और CAF का अलग-अलग विवरण दिखाने वाला फ्रेट कोटेशन मांगें।"],
+      commonMistakes: ["महंगे स्थानीय टर्मिनल हैंडलिंग शुल्क को नजरअंदाज करते हुए केवल सस्ते ओशन फ्रेट पर ध्यान केंद्रित करना।"],
+      practicalTips: ["हमेशा ओशन फ्रेट, BAF (ईंधन अधिभार) और CAF का अलग-अलग विवरण दिखाने वाला फ्रेट कोटेशन मांगें।"]
+    },
+    'les-mod-dynamic-seafreight': {
+      title: "Sea Freight",
+      definition: "सी फ्रेट (Sea Freight) अंतरराष्ट्रीय समुद्री बंदरगाहों के बीच समुद्री मार्गों पर शिपिंग कंटेनरों या बल्क जहाजों में माल का परिवहन है।",
+      whyImportant: "सी फ्रेट बड़े थोक कार्गो के लिए सबसे किफायती शिपिंग तरीका है, जो वैश्विक व्यापार मात्रा के 90% हिस्से का वहन करता है।",
+      businessExample: "RBC निंगबो से न्हावा शेवा पोर्ट तक सी फ्रेट द्वारा 10 टन औद्योगिक मशीनरी का आयात करता है, जिसमें कम लागत पर 18 दिन का समय लगता है।",
+      writtenExplanation: "सी फ्रेट (Sea Freight) अंतरराष्ट्रीय समुद्री बंदरगाहों के बीच समुद्री मार्गों पर शिपिंग कंटेनरों या बल्क जहाजों में माल का परिवहन है।",
+      summary: "सी फ्रेट सबसे कम यूनिट लागत पर कंटेनर और बल्क कार्गो का समुद्री जहाज परिवहन है।",
+      importantNotes: ["पीक सीजन (जैसे दिवाली से पहले या चीनी नव वर्ष) के दौरान 2-3 सप्ताह पहले सी फ्रेट स्पेस बुक करें।"],
+      commonMistakes: ["हवाई फ्रेट के बजाय सी फ्रेट द्वारा जरूरी सैंपल भेजना, जिससे ग्राहक को डिलीवरी में देरी होती है।"],
+      practicalTips: ["पीक सीजन (जैसे दिवाली से पहले या चीनी नव वर्ष) के दौरान 2-3 सप्ताह पहले सी फ्रेट स्पेस बुक करें।"]
+    },
+    'les-mod-dynamic-airfreight': {
+      title: "Air Freight",
+      definition: "एयर फ्रेट (Air Freight) समर्पित मालवाहक विमानों या यात्री विमानों के कार्गो होल्ड के माध्यम से माल का तीव्र परिवहन है।",
+      whyImportant: "एयर फ्रेट उच्च-मूल्य, जल्दी खराब होने वाले, नाजुक या समय के प्रति संवेदनशील शिपमेंट के लिए आवश्यक है जिन्हें 3-5 दिनों के भीतर पहुंचने की आवश्यकता होती है।",
+      businessExample: "RBC एक नई उत्पाद श्रृंखला शुरू करने के लिए 3 दिनों में एयर फ्रेट के माध्यम से शेनझेन से मुंबई हवाई अड्डे तक इलेक्ट्रॉनिक प्रोटोटाइप भेजता है।",
+      writtenExplanation: "एयर फ्रेट (Air Freight) समर्पित मालवाहक विमानों या यात्री विमानों के कार्गो होल्ड के माध्यम से माल का तीव्र परिवहन है।",
+      summary: "एयर फ्रेट उच्च-मूल्य या जरूरी सामान के लिए सबसे तेज हवाई कार्गो परिवहन है।",
+      importantNotes: ["एयर फ्रेट बुक करने से पहले Chargeable Weight (स्केल वजन बनाम वॉल्यूम वजन ÷ 6000 का अधिक) की गणना करें।"],
+      commonMistakes: ["हवाई फ्रेट द्वारा कम मूल्य वाले भारी सामान भेजना, जिससे फ्रेट लागत उत्पाद मूल्य से अधिक हो जाती है।"],
+      practicalTips: ["एयर फ्रेट बुक करने से पहले Chargeable Weight (स्केल वजन बनाम वॉल्यूम वजन ÷ 6000 का अधिक) की गणना करें।"]
+    },
+    'les-mod-dynamic-pol': {
+      title: "POL",
+      definition: "POL का मतलब Port of Loading (लोडिंग पोर्ट) है — निर्यातक देश का वह निर्दिष्ट समुद्री बंदरगाह जहां कंटेनर कार्गो को जहाज पर लादा जाता है।",
+      whyImportant: "जहाज ट्रैकिंग और मूल नियम अनुपालन के लिए बिल ऑफ लैडिंग और मूल कस्टम दस्तावेजों पर सही POL घोषित करना अनिवार्य है।",
+      businessExample: "चीन से भारत में RBC के आयात के लिए, निंगबो पोर्ट POL (लोडिंग पोर्ट) है। सप्लायर निंगबो POL टर्मिनल पर पैक किया गया कंटेनर पहुंचाता है।",
+      writtenExplanation: "POL का मतलब Port of Loading (लोडिंग पोर्ट) है — निर्यातक देश का वह निर्दिष्ट समुद्री बंदरगाह जहां कंटेनर कार्गो को जहाज पर लादा जाता है।",
+      summary: "POL = Port of Loading (मूल समुद्री बंदरगाह जहां जहाज पर कंटेनर लोड किया जाता है)।",
+      importantNotes: ["यह सुनिश्चित करने के लिए कि जहाज प्रस्थान से पहले कंटेनर गेट-इन हो जाए, ओरिजिन POL टर्मिनल कटऑफ तिथियों (CY Cutoff) की पुष्टि करें।"],
+      commonMistakes: ["परिवहन दस्तावेजों पर लोडिंग पोर्ट (POL) को डिस्चार्ज पोर्ट (POD) के साथ भ्रमित करना।"],
+      practicalTips: ["यह सुनिश्चित करने के लिए कि जहाज प्रस्थान से पहले कंटेनर गेट-इन हो जाए, ओरिजिन POL टर्मिनल कटऑफ तिथियों (CY Cutoff) की पुष्टि करें।"]
+    },
+    'les-mod-dynamic-pod': {
+      title: "POD",
+      definition: "POD का मतलब Port of Discharge (डिस्चार्ज पोर्ट) है — आयातक देश का वह गंतव्य समुद्री बंदरगाह जहां जहाज से कंटेनर को उतारा जाता है।",
+      whyImportant: "जैसे ही जहाज POD पर रुकता है, कस्टम्स क्लीयरेंस फाइलिंग (Bill of Entry) और पोर्ट डेमरेज फ्री-डेज की गणना शुरू हो जाती है।",
+      businessExample: "निंगबो से मुंद्रा तक RBC के शिपमेंट के लिए, मुंद्रा पोर्ट POD (डिस्चार्ज पोर्ट) है। RBC मुंद्रा POD पर कस्टम्स बिल ऑफ एंट्री दाखिल करता है।",
+      writtenExplanation: "POD का मतलब Port of Discharge (डिस्चार्ज पोर्ट) है — आयातक देश का वह गंतव्य समुद्री बंदरगाह जहां जहाज से कंटेनर को उतारा जाता है।",
+      summary: "POD = Port of Discharge (गंतव्य समुद्री बंदरगाह जहां जहाज से कंटेनर उतारा जाता है)।",
+      importantNotes: ["डिस्चार्ज के तुरंत बाद कस्टम्स क्लियर करने के लिए POD पर जहाज आने से 2 दिन पहले एडवांस बिल ऑफ एंट्री फाइल करें।"],
+      commonMistakes: ["POD पर जहाज के आने के समय (ETA) को ट्रैक न करना, जिससे कंटेनर बंदरगाह पर रुकता है और महंगा डेमरेज चार्ज लगता है।"],
+      practicalTips: ["डिस्चार्ज के तुरंत बाद कस्टम्स क्लियर करने के लिए POD पर जहाज आने से 2 दिन पहले एडवांस बिल ऑफ एंट्री फाइल करें।"]
+    },
+    'les-mod-dynamic-icd': {
+      title: "ICD",
+      definition: "ICD का मतलब Inland Container Depot (ड्राई पोर्ट / इनलैंड डिपो) है — समुद्र तट से दूर स्थित एक अंतर्देशीय सीमा शुल्क कंटेनर सुविधा।",
+      whyImportant: "ICD भीतरी शहरों (जैसे दिल्ली, अहमदाबाद, जयपुर) के आयातकों को समुद्री बंदरगाहों की यात्रा किए बिना अपने शहर के पास कस्टम्स क्लियर करने की अनुमति देता है।",
+      businessExample: "RBC मुंद्रा पोर्ट से सीधे रेल द्वारा अपने गोदाम से 15 मिनट दूर ICD अहमदाबाद (ड्राई पोर्ट) में कंटेनर भेजता है और स्थानीय स्तर पर कस्टम्स क्लियर करता है।",
+      writtenExplanation: "ICD का मतलब Inland Container Depot (ड्राई पोर्ट / इनलैंड डिपो) है — समुद्र तट से दूर स्थित एक अंतर्देशीय सीमा शुल्क कंटेनर सुविधा।",
+      summary: "ICD = इनलैंड कंटेनर डिपो (ड्राई पोर्ट)। समुद्री बंदरगाहों से दूर स्थानीय निकासी के लिए अंतर्देशीय कस्टम सुविधा।",
+      importantNotes: ["बिल ऑफ लैडिंग पर अंतिम गंतव्य के रूप में अपने स्थानीय ICD कोड (जैसे ICD अहमदाबाद) को निर्दिष्ट करें।"],
+      commonMistakes: ["अपने शहर के पास ICD उपलब्ध होने पर समुद्री बंदरगाह पर कस्टम्स क्लियर करना, जिससे ट्रकिंग लागत बढ़ जाती है।"],
+      practicalTips: ["बिल ऑफ लैडिंग पर अंतिम गंतव्य के रूप में अपने स्थानीय ICD कोड (जैसे ICD अहमदाबाद) को निर्दिष्ट करें।"]
+    },
+    'les-mod-dynamic-cfs': {
+      title: "CFS",
+      definition: "CFS का मतलब Container Freight Station है — बंदरगाह या ICD पर एक सीमा शुल्क-बंधुआ गोदाम जहां LCL कार्गो को समेकित या अलग (sort) किया जाता है।",
+      whyImportant: "गंतव्य CFS पर, साझा LCL कंटेनर खोले जाते हैं, अलग-अलग आयातक कार्टन को सॉर्ट किया जाता है, और कस्टम्स निरीक्षण होता है।",
+      businessExample: "RBC का साझा LCL कंटेनर मुंद्रा CFS पर आता है। श्रमिक कंटेनर को खाली करते हैं और कस्टम्स ऑडिट के लिए RBC के 10 मास्टर कार्टन को अलग करते हैं।",
+      writtenExplanation: "CFS का मतलब Container Freight Station है — बंदरगाह या ICD पर एक सीमा शुल्क-बंधुआ गोदाम जहां LCL कार्गो को समेकित या अलग (sort) किया जाता है।",
+      summary: "CFS = कंटेनर फ्रेट स्टेशन। LCL कार्गो को जोड़ने और सॉर्ट करने के लिए सीमा शुल्क गोदाम।",
+      importantNotes: ["CFS पर कंटेनर आने से पहले CFS हैंडलिंग चार्ज और फ्री स्टोरेज दिनों (आमतौर पर 5 दिन) की पुष्टि करें।"],
+      commonMistakes: ["मुफ्त भंडारण अवधि के बाद CFS में LCL सामान छोड़ना, जिससे भारी दैनिक भंडारण किराया लगता है।"],
+      practicalTips: ["CFS पर कंटेनर आने से पहले CFS हैंडलिंग चार्ज और फ्री स्टोरेज दिनों (आमतौर पर 5 दिन) की पुष्टि करें।"]
+    },
+    'les-mod-dynamic-proformainvoice': {
+      title: "Proforma Invoice",
+      definition: "प्रोफॉर्मर्मा इनवॉइस (Proforma Invoice - PI) ऑर्डर की पुष्टि से पहले विक्रेता द्वारा भेजा गया एक प्रारंभिक बिलिंग दस्तावेज है, जिसमें उत्पाद विनिर्देश, मूल्य और बैंक विवरण शामिल होते हैं।",
+      whyImportant: "PI एक आधिकारिक खरीद समझौते के रूप में कार्य करता है जिसका उपयोग खरीदार अग्रिम भुगतान जमा (Advance Deposit) ट्रांसफर करने और बैंकों के साथ पत्र ऑफ क्रेडिट (LC) खोलने के लिए करते हैं।",
+      businessExample: "RBC को $8 प्रति पीस पर 1,000 LED लाइटों के लिए निंगबो सप्लायर से प्रोफॉर्मर्मा इनवॉइस प्राप्त होता है। RBC PI पर हस्ताक्षर करता है और उत्पादन शुरू करने के लिए 30% डिपॉजिट ($2,400) भेजता है।",
+      writtenExplanation: "प्रोफॉर्मर्मा इनवॉइस (Proforma Invoice - PI) ऑर्डर की पुष्टि से पहले विक्रेता द्वारा भेजा गया एक प्रारंभिक बिलिंग दस्तावेज है, जिसमें उत्पाद विनिर्देश, मूल्य और बैंक विवरण शामिल होते हैं।",
+      summary: "प्रोफॉर्मर्मा इनवॉइस अग्रिम भुगतान जमा करने और LC खोलने के लिए उपयोग किया जाने वाला प्रारंभिक बिक्री समझौता है।",
+      importantNotes: ["भुगतान करने से पहले जांचें कि PI में स्पष्ट रूप से इंकोटर्म्स (FOB/CIF), HSN कोड, भुगतान शर्तें और बैंक SWIFT विवरण सूचीबद्ध हैं या नहीं।"],
+      commonMistakes: ["हस्ताक्षरित औपचारिक प्रोफॉर्मर्मा इनवॉइस के बजाय अनौपचारिक चैट या ईमेल कोटेशन के आधार पर अग्रिम जमा का भुगतान करना।"],
+      practicalTips: ["भुगतान करने से पहले जांचें कि PI में स्पष्ट रूप से इंकोटर्म्स (FOB/CIF), HSN कोड, भुगतान शर्तें और बैंक SWIFT विवरण सूचीबद्ध हैं या नहीं।"]
+    },
+    'les-mod-dynamic-commercialinvoice': {
+      title: "Commercial Invoice",
+      definition: "कमर्शियल इनवॉइस (Commercial Invoice - CI) प्रस्थान पर विक्रेता द्वारा जारी किया गया कानूनी बिलिंग दस्तावेज है, जो सीमा शुल्क मूल्यांकन के लिए प्राथमिक आधार के रूप में कार्य करता है।",
+      whyImportant: "सीमा शुल्क अधिकारी सीधे कमर्शियल इनवॉइस पर घोषित मूल्यांकन योग्य मूल्य (Assessable Value) से आयात शुल्क और जीएसटी करों की गणना करते हैं।",
+      businessExample: "RBC भारतीय सीमा शुल्क को सप्लायर का कमर्शियल इनवॉइस ($12,000 CIF मुंद्रा) प्रस्तुत करता है। कस्टम्स इस CI के आधार पर 7.5% BCD + 18% IGST का आकलन करता है।",
+      writtenExplanation: "कमर्शियल इनवॉइस (Commercial Invoice - CI) प्रस्थान पर विक्रेता द्वारा जारी किया गया कानूनी बिलिंग दस्तावेज है, जो सीमा शुल्क मूल्यांकन के लिए प्राथमिक आधार के रूप में कार्य करता है।",
+      summary: "कमर्शियल इनवॉइस कार्गो मूल्यांकन, कस्टम्स ड्यूटी गणना और बैंकिंग निपटान के लिए मुख्य कानूनी बिलिंग दस्तावेज है।",
+      importantNotes: ["सुनिश्चित करें कि चालान संख्या, तिथि, खरीदार/विक्रेता टैक्स आईडी, इंकोटर्म्स, HSN कोड और मुद्रा सटीक रूप से बताई गई है।"],
+      commonMistakes: ["सीमा शुल्क चोरी करने के लिए कमर्शियल इनवॉइस मूल्य की कम घोषणा करना, जो एक आपराधिक अपराध है जिसके परिणामस्वरूप भारी जुर्माना और माल जब्ती होती है।"],
+      practicalTips: ["सुनिश्चित करें कि चालान संख्या, तिथि, खरीदार/विक्रेता टैक्स आईडी, इंकोटर्म्स, HSN कोड और मुद्रा सटीक रूप से बताई गई है।"]
+    },
+    'les-mod-dynamic-packinglist': {
+      title: "Packing List",
+      definition: "पैकिंग लिस्ट (Packing List - PL) निर्यातक द्वारा बनाया गया एक विस्तृत परिवहन दस्तावेज है जो बॉक्स की संख्या, आयाम, ग्रॉस वेट, नेट वेट और प्रत्येक मास्टर कार्टन की सामग्री निर्दिष्ट करता है।",
+      whyImportant: "कस्टम्स अधिकारी और गोदाम टीम निरीक्षण के दौरान भौतिक बॉक्स की संख्या की पुष्टि करने और खरीद आदेशों के साथ आने वाली इन्वेंट्री का मिलान करने के लिए पैकिंग लिस्ट का उपयोग करते हैं।",
+      businessExample: "RBC की पैकिंग लिस्ट में कहा गया है: 50 मास्टर कार्टन, ग्रॉस वेट 1,000 किग्रा, नेट वेट 850 किग्रा, कुल वॉल्यूम 6 CBM। कार्टन #1-30 में लाल इकाइयां हैं, #31-50 में काली इकाइयां हैं।",
+      writtenExplanation: "पैकिंग लिस्ट (Packing List - PL) निर्यातक द्वारा बनाया गया एक विस्तृत परिवहन दस्तावेज है जो बॉक्स की संख्या, आयाम, ग्रॉस वेट, नेट वेट और प्रत्येक मास्टर कार्टन की सामग्री निर्दिष्ट करता है।",
+      summary: "पैकिंग लिस्ट कस्टम्स सत्यापन के लिए कुल कार्टन, वजन (ग्रॉस/नेट), आयाम (CBM) और आइटम सामग्री का विवरण देती है।",
+      importantNotes: ["कंटेनर बॉक्स #1 के अंदर पैकिंग लिस्ट की एक प्रति संलग्न करें और बाहरी कार्टन की दीवारों पर कॉपी पेस्ट करें।"],
+      commonMistakes: ["पैकिंग लिस्ट और बिल ऑफ लैडिंग के बीच बॉक्स संख्या या वजन में विसंगति होना, जिससे कस्टम्स क्लीयरेंस रुक जाता है।"],
+      practicalTips: ["कंटेनर बॉक्स #1 के अंदर पैकिंग लिस्ट की एक प्रति संलग्न करें और बाहरी कार्टन की दीवारों पर कॉपी पेस्ट करें।"]
+    },
+    'les-mod-dynamic-billoflading': {
+      title: "Bill of Lading",
+      definition: "बिल ऑफ लेडिंग (Bill of Lading - B/L) शिपिंग लाइन द्वारा जारी आधिकारिक समुद्री परिवहन दस्तावेज है जो कार्गो रसीद, परिवहन के अनुबंध और स्वामित्व के कानूनी दस्तावेज के रूप में कार्य करता है।",
+      whyImportant: "ओरिजिनल B/L कार्गो के कानूनी स्वामित्व का प्रतिनिधित्व करने वाला एक परक्राम्य दस्तावेज है। वाहक B/L सरेंडर के बिना गंतव्य बंदरगाह पर कंटेनर जारी नहीं करेगा।",
+      businessExample: "मर्सक चीन सप्लायर को 3 ओरिजिनल बिल ऑफ लैडिंग जारी करता है। एक बार जब RBC शेष 70% का भुगतान कर देता है, तो सप्लायर B/L सरेंडर (Telex Release) करता है ताकि RBC भारत में कंटेनर का दावा कर सके।",
+      writtenExplanation: "बिल ऑफ लेडिंग (Bill of Lading - B/L) शिपिंग लाइन द्वारा जारी आधिकारिक समुद्री परिवहन दस्तावेज है जो कार्गो रसीद, परिवहन के अनुबंध और स्वामित्व के कानूनी दस्तावेज के रूप में कार्य करता है।",
+      summary: "बिल ऑफ लेडिंग (B/L) शिपिंग लाइन द्वारा जारी स्वामित्व और समुद्री परिवहन अनुबंध का प्राथमिक दस्तावेज है।",
+      importantNotes: ["अंतरराष्ट्रीय कूरियर के माध्यम से भौतिक मूल कागजी दस्तावेज भेजने से बचने के लिए सप्लायर से टेलेक्स रिलीज (Surrender B/L) का अनुरोध करें।"],
+      commonMistakes: ["मूल भौतिक बिल ऑफ लैडिंग कागजी दस्तावेजों को खोना, जिसके लिए बैंक गारंटी और कंटेनर को जारी करने में महीनों की देरी की आवश्यकता होती है।"],
+      practicalTips: ["अंतरराष्ट्रीय कूरियर के माध्यम से भौतिक मूल कागजी दस्तावेज भेजने से बचने के लिए सप्लायर से टेलेक्स रिलीज (Surrender B/L) का अनुरोध करें।"]
+    },
     'les-mod-3-1': {
       title: "CBM (क्यूबिक मीटर - कार्गो वॉल्यूम)",
       definition: "CBM का मतलब है Cubic Meter (क्यूबिक मीटर) — अंतरराष्ट्रीय शिपिंग में कार्गो का आयतन (वॉल्यूम/जगह) मापने की मानक इकाई। 1 CBM = 1 मीटर लंबाई × 1 मीटर चौड़ाई × 1 मीटर ऊंचाई (1m × 1m × 1m = 1 m³)।",
@@ -985,6 +1107,50 @@ export const translateDynamicContent = (
   // 1. Replacements for Hindi (hi)
   if (lang === 'hi') {
     translated = translated
+      // POL vs POD specific replacements
+      .replaceAll('POL refers to Port of Loading — the designated seaport in the exporting country where container cargo is loaded onto the vessel.',
+        'POL का मतलब Port of Loading (लोडिंग पोर्ट) है — निर्यातक देश का वह निर्दिष्ट समुद्री बंदरगाह जहां कंटेनर कार्गो को जहाज पर लादा जाता है।')
+      .replaceAll('POD refers to Port of Discharge — the destination seaport in the importing country where the container is unloaded from the vessel.',
+        'POD का मतलब Port of Discharge (डिस्चार्ज पोर्ट) है — आयातक देश का वह गंतव्य समुद्री बंदरगाह जहां जहाज से कंटेनर को उतारा जाता है।')
+      .replaceAll('ICD refers to Inland Container Depot (Dry Port) — an inland customs-bonded container handling facility located away from ocean ports.',
+        'ICD का मतलब Inland Container Depot (ड्राई पोर्ट / इनलैंड डिपो) है — समुद्र तट से दूर स्थित एक अंतर्देशीय सीमा शुल्क कंटेनर सुविधा।')
+      .replaceAll('CFS refers to Container Freight Station — a customs-bonded warehouse at port or ICD where LCL cargo is consolidated or de-consolidated.',
+        'CFS का मतलब Container Freight Station है — बंदरगाह या ICD पर एक सीमा शुल्क-बंधुआ गोदाम जहां LCL कार्गो को समेकित या अलग (sort) किया जाता है।')
+      .replaceAll('Proforma Invoice refers to a preliminary billing document sent by the seller before order confirmation, detailing product specs, prices, terms, and bank details.',
+        'प्रोफॉर्मर्मा इनवॉइस (Proforma Invoice - PI) ऑर्डर की पुष्टि से पहले विक्रेता द्वारा भेजा गया एक प्रारंभिक बिलिंग दस्तावेज है, जिसमें उत्पाद विनिर्देश, मूल्य और बैंक विवरण शामिल होते हैं।')
+      .replaceAll('Commercial Invoice refers to the legal billing document issued by seller upon dispatch, serving as the official record of sale and primary basis for customs valuation.',
+        'कमर्शियल इनवॉइस (Commercial Invoice - CI) प्रस्थान पर विक्रेता द्वारा जारी किया गया कानूनी बिलिंग दस्तावेज है, जो सीमा शुल्क मूल्यांकन के लिए प्राथमिक आधार के रूप में कार्य करता है।')
+      .replaceAll('Packing List refers to a detailed transport document created by the exporter specifying box count, dimensions, gross weight, net weight, and exact contents of every master carton.',
+        'पैकिंग लिस्ट (Packing List - PL) निर्यातक द्वारा बनाया गया एक विस्तृत परिवहन दस्तावेज है जो बॉक्स की संख्या, आयाम, ग्रॉस वेट, नेट वेट और प्रत्येक मास्टर कार्टन की सामग्री निर्दिष्ट करता है।')
+      .replaceAll('Bill of Lading refers to the official ocean transport document issued by shipping line serving as a cargo receipt, contract of carriage, and legal document of title (ownership).',
+        'बिल ऑफ लेडिंग (Bill of Lading - B/L) शिपिंग लाइन द्वारा जारी आधिकारिक समुद्री परिवहन दस्तावेज है जो कार्गो रसीद, परिवहन के अनुबंध और स्वामित्व के कानूनी दस्तावेज के रूप में कार्य करता है।')
+
+      .replaceAll('For RBC\'s import from China to India, Ningbo Port is POL (Port of Loading). Supplier delivers packed container to Ningbo POL terminal.',
+        'चीन से भारत में RBC के आयात के लिए, निंगबो पोर्ट POL (लोडिंग पोर्ट) है। सप्लायर निंगबो POL टर्मिनल पर पैक किया गया कंटेनर पहुंचाता है।')
+      .replaceAll('For RBC\'s shipment from Ningbo to Mundra, Mundra Port is POD (Port of Discharge). RBC files customs Bill of Entry at Mundra POD.',
+        'निंगबो से मुंद्रा तक RBC के शिपमेंट के लिए, मुंद्रा पोर्ट POD (डिस्चार्ज पोर्ट) है। RBC मुंद्रा POD पर कस्टम्स बिल ऑफ एंट्री दाखिल करता है।')
+      .replaceAll('RBC ships container by rail from Mundra seaport directly to ICD Ahmedabad (Dry Port) to clear customs 15 minutes away from their warehouse.',
+        'RBC मुंद्रा पोर्ट से सीधे रेल द्वारा अपने गोदाम से 15 मिनट दूर ICD अहमदाबाद (ड्राई पोर्ट) में कंटेनर भेजता है और स्थानीय स्तर पर कस्टम्स क्लियर करता है।')
+      .replaceAll('RBC\'s shared LCL container arrives at Mundra CFS. Workers de-stuff container and separate RBC\'s 10 master cartons for customs audit.',
+        'RBC का साझा LCL कंटेनर मुंद्रा CFS पर आता है। श्रमिक कंटेनर को खाली करते हैं और कस्टम्स ऑडिट के लिए RBC के 10 मास्टर कार्टन को अलग करते हैं।')
+
+      .replaceAll('Verify origin POL terminal cutoff dates (CY Cutoff) to ensure container is gated in before ship departs.',
+        'यह सुनिश्चित करने के लिए कि जहाज प्रस्थान से पहले कंटेनर गेट-इन हो जाए, ओरिजिन POL टर्मिनल कटऑफ तिथियों (CY Cutoff) की पुष्टि करें।')
+      .replaceAll('File advance Bill of Entry 2 days before vessel ETA at POD to clear customs immediately upon discharge.',
+        'डिस्चार्ज के तुरंत बाद कस्टम्स क्लियर करने के लिए POD पर जहाज आने से 2 दिन पहले एडवांस बिल ऑफ एंट्री फाइल करें।')
+      .replaceAll('Specify your local ICD code as final destination on Bill of Lading (e.g., Destination: ICD Ahmedabad - SBIAD).',
+        'बिल ऑफ लैडिंग पर अंतिम गंतव्य के रूप में अपने स्थानीय ICD कोड (जैसे ICD अहमदाबाद) को निर्दिष्ट करें।')
+      .replaceAll('Verify CFS handling charges and free storage days (usually 5 days) before container arrival at CFS.',
+        'CFS पर कंटेनर आने से पहले CFS हैंडलिंग चार्ज और फ्री स्टोरेज दिनों (आमतौर पर 5 दिन) की पुष्टि करें।')
+
+      .replaceAll('Confusing Port of Loading (POL) with Port of Discharge (POD) on transport documentation.',
+        'परिवहन दस्तावेजों पर लोडिंग पोर्ट (POL) को डिस्चार्ज पोर्ट (POD) के साथ भ्रमित करना।')
+      .replaceAll('Failing to track vessel ETA at POD, causing container to sit at port and incur expensive demurrage charges.',
+        'POD पर जहाज के आने के समय (ETA) को ट्रैक न करना, जिससे कंटेनर बंदरगाह पर रुकता है और महंगा डेमरेज चार्ज लगता है।')
+      .replaceAll('Clearing customs at seaport when an inland ICD is available near your city, increasing double handling truck costs.',
+        'अपने शहर के पास ICD उपलब्ध होने पर समुद्री बंदरगाह पर कस्टम्स क्लियर करना, जिससे ट्रकिंग लागत बढ़ जाती है।')
+      .replaceAll('Leaving LCL goods at CFS beyond free storage period, incurring heavy daily storage rent.',
+        'मुफ्त भंडारण अवधि के बाद CFS में LCL सामान छोड़ना, जिससे भारी दैनिक भंडारण किराया लगता है।')
       // Specific Gross Weight / Net Weight / Volume Weight definitions
       .replaceAll('Gross Weight is the total weight of a shipment including the actual product, inner packaging, protective foam, export master cartons, and pallets. Formula: Gross Weight = Net Weight + Packaging Weight + Pallet Weight.',
         'ग्रॉस वेट (Gross Weight) शिपमेंट का कुल वजन है जिसमें वास्तविक उत्पाद, आंतरिक पैकेजिंग, सुरक्षात्मक फोम, निर्यात मास्टर कार्टन और पैलेट शामिल हैं। फॉर्मूला: Gross Weight = Net Weight + Packaging Weight + Pallet Weight।')

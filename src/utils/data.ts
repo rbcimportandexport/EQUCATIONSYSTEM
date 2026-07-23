@@ -1019,6 +1019,479 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
     };
   }
 
+  if (title === 'Freight') {
+    return {
+      definition: "Freight refers to the transportation charge paid to a shipping line, airline, or logistics carrier for moving cargo from origin to destination.",
+      whyImportant: "Freight is a major component of Landed Cost calculation. Negotiating competitive freight rates directly increases business profit margins.",
+      businessExample: "RBC pays $1,800 ocean freight to Maersk line for transporting a 20FT container from Shanghai to Mundra port.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of Freight in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'Freight Practical Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Technical definitions and operations.', 'Page 2: Practical checklist.'] },
+      downloadOption: { title: 'Freight Reference Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of Freight?', answer: "Freight is the carrier fee for transporting cargo by sea, air, or land." }
+      ],
+      commonMistakes: ["Focusing only on cheap ocean freight while ignoring expensive local terminal handling surcharges."],
+      practicalTips: ["Request an itemized freight quote showing ocean freight, BAF (bunker fuel), and CAF (currency adjustment)."],
+      summary: "Freight is the carrier fee for transporting cargo by sea, air, or land.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes Freight?',
+          options: ["Freight is the carrier fee for transporting cargo by sea, air, or land.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "Freight is the carrier fee for transporting cargo by sea, air, or land."
+        }
+      ],
+      objectives: ['Understand operational meaning of Freight.', 'Apply rules in trade management.'],
+      writtenExplanation: "Freight refers to the transportation charge paid to a shipping line, airline, or logistics carrier for moving cargo from origin to destination.",
+      importantNotes: ["Request an itemized freight quote showing ocean freight, BAF (bunker fuel), and CAF (currency adjustment)."],
+      keyPoints: ["Freight is the carrier fee for transporting cargo by sea, air, or land."]
+    };
+  }
+
+  if (title === 'Sea Freight') {
+    return {
+      definition: "Sea Freight is the transportation of goods in shipping containers or bulk vessels across ocean routes between international seaports.",
+      whyImportant: "Sea Freight is the most economical shipping method for large bulk cargo, accounting for 90% of global trade volume.",
+      businessExample: "RBC imports 10 tons of industrial machinery via Sea Freight from Ningbo to Nhava Sheva port, taking 18 days transit time at low cost.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of Sea Freight in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'Sea Freight Practical Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Technical definitions and operations.', 'Page 2: Practical checklist.'] },
+      downloadOption: { title: 'Sea Freight Reference Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of Sea Freight?', answer: "Sea Freight is ocean vessel transport for containers and bulk cargo at lowest unit cost." }
+      ],
+      commonMistakes: ["Shipping urgent time-sensitive samples via sea freight instead of air freight, causing customer delays."],
+      practicalTips: ["Book sea freight space 2-3 weeks in advance during peak import seasons (like Pre-Diwali or Chinese New Year)."],
+      summary: "Sea Freight is ocean vessel transport for containers and bulk cargo at lowest unit cost.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes Sea Freight?',
+          options: ["Sea Freight is ocean vessel transport for containers and bulk cargo at lowest unit cost.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "Sea Freight is ocean vessel transport for containers and bulk cargo at lowest unit cost."
+        }
+      ],
+      objectives: ['Understand operational meaning of Sea Freight.', 'Apply rules in trade management.'],
+      writtenExplanation: "Sea Freight is the transportation of goods in shipping containers or bulk vessels across ocean routes between international seaports.",
+      importantNotes: ["Book sea freight space 2-3 weeks in advance during peak import seasons (like Pre-Diwali or Chinese New Year)."],
+      keyPoints: ["Sea Freight is ocean vessel transport for containers and bulk cargo at lowest unit cost."]
+    };
+  }
+
+  if (title === 'Air Freight') {
+    return {
+      definition: "Air Freight is the rapid transport of cargo via dedicated freighter aircraft or passenger plane belly holds.",
+      whyImportant: "Air Freight is essential for high-value, perishable, fragile, or time-critical shipments that require arrival within 3-5 days.",
+      businessExample: "RBC ships urgent electronic prototypes from Shenzhen to Mumbai Airport via Air Freight in 3 days to launch a new product line.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of Air Freight in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'Air Freight Practical Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Technical definitions and operations.', 'Page 2: Practical checklist.'] },
+      downloadOption: { title: 'Air Freight Reference Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of Air Freight?', answer: "Air Freight is fast air cargo transport ideal for high-value or time-sensitive goods." }
+      ],
+      commonMistakes: ["Shipping low-value heavy bulk cargo via air freight, which results in freight costs exceeding product value."],
+      practicalTips: ["Calculate Chargeable Weight (Max of scale weight vs volume weight ÷ 6000) before booking air freight."],
+      summary: "Air Freight is fast air cargo transport ideal for high-value or time-sensitive goods.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes Air Freight?',
+          options: ["Air Freight is fast air cargo transport ideal for high-value or time-sensitive goods.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "Air Freight is fast air cargo transport ideal for high-value or time-sensitive goods."
+        }
+      ],
+      objectives: ['Understand operational meaning of Air Freight.', 'Apply rules in trade management.'],
+      writtenExplanation: "Air Freight is the rapid transport of cargo via dedicated freighter aircraft or passenger plane belly holds.",
+      importantNotes: ["Calculate Chargeable Weight (Max of scale weight vs volume weight ÷ 6000) before booking air freight."],
+      keyPoints: ["Air Freight is fast air cargo transport ideal for high-value or time-sensitive goods."]
+    };
+  }
+
+  if (title === 'POL') {
+    return {
+      definition: "POL stands for Port of Loading — the designated seaport in the exporting country where container cargo is loaded onto the vessel.",
+      whyImportant: "Declaring the correct POL on Bills of Lading and origin customs documents is mandatory for vessel tracking and tariff origin compliance.",
+      businessExample: "For RBC's import from China to India, Ningbo Port is POL (Port of Loading). Supplier delivers packed container to Ningbo POL terminal.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of POL in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'POL Practical Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Technical definitions and operations.', 'Page 2: Practical checklist.'] },
+      downloadOption: { title: 'POL Reference Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of POL?', answer: "POL = Port of Loading (Origin seaport where ship is loaded with container)." }
+      ],
+      commonMistakes: ["Confusing Port of Loading (POL) with Port of Discharge (POD) on transport documentation."],
+      practicalTips: ["Verify origin POL terminal cutoff dates (CY Cutoff) to ensure container is gated in before ship departs."],
+      summary: "POL = Port of Loading (Origin seaport where ship is loaded with container).",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes POL?',
+          options: ["POL = Port of Loading (Origin seaport where ship is loaded with container).", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "POL = Port of Loading (Origin seaport where ship is loaded with container)."
+        }
+      ],
+      objectives: ['Understand operational meaning of POL.', 'Apply rules in trade management.'],
+      writtenExplanation: "POL stands for Port of Loading — the designated seaport in the exporting country where container cargo is loaded onto the vessel.",
+      importantNotes: ["Verify origin POL terminal cutoff dates (CY Cutoff) to ensure container is gated in before ship departs."],
+      keyPoints: ["POL = Port of Loading (Origin seaport where ship is loaded with container)."]
+    };
+  }
+
+  if (title === 'POD') {
+    return {
+      definition: "POD stands for Port of Discharge — the destination seaport in the importing country where the container is unloaded from the vessel.",
+      whyImportant: "Customs clearance filing (Bill of Entry) and port demurrage free-days calculation start as soon as vessel docks at POD.",
+      businessExample: "For RBC's shipment from Ningbo to Mundra, Mundra Port is POD (Port of Discharge). RBC files customs Bill of Entry at Mundra POD.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of POD in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'POD Practical Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Technical definitions and operations.', 'Page 2: Practical checklist.'] },
+      downloadOption: { title: 'POD Reference Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of POD?', answer: "POD = Port of Discharge (Destination seaport where container is unloaded from vessel)." }
+      ],
+      commonMistakes: ["Failing to track vessel ETA at POD, causing container to sit at port and incur expensive demurrage charges."],
+      practicalTips: ["File advance Bill of Entry 2 days before vessel ETA at POD to clear customs immediately upon discharge."],
+      summary: "POD = Port of Discharge (Destination seaport where container is unloaded from vessel).",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes POD?',
+          options: ["POD = Port of Discharge (Destination seaport where container is unloaded from vessel).", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "POD = Port of Discharge (Destination seaport where container is unloaded from vessel)."
+        }
+      ],
+      objectives: ['Understand operational meaning of POD.', 'Apply rules in trade management.'],
+      writtenExplanation: "POD stands for Port of Discharge — the destination seaport in the importing country where the container is unloaded from the vessel.",
+      importantNotes: ["File advance Bill of Entry 2 days before vessel ETA at POD to clear customs immediately upon discharge."],
+      keyPoints: ["POD = Port of Discharge (Destination seaport where container is unloaded from vessel)."]
+    };
+  }
+
+  if (title === 'ICD') {
+    return {
+      definition: "ICD stands for Inland Container Depot (Dry Port) — an inland customs-bonded container handling facility located away from ocean ports.",
+      whyImportant: "ICDs allow importers in inland cities (like Delhi, Ahmedabad, Jaipur) to complete customs clearance locally near their business without traveling to seaports.",
+      businessExample: "RBC ships container by rail from Mundra seaport directly to ICD Ahmedabad (Dry Port) to clear customs 15 minutes away from their warehouse.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of ICD in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'ICD Practical Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Technical definitions and operations.', 'Page 2: Practical checklist.'] },
+      downloadOption: { title: 'ICD Reference Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of ICD?', answer: "ICD = Inland Container Depot (Dry Port). Inland customs facility for local clearance away from seaports." }
+      ],
+      commonMistakes: ["Clearing customs at seaport when an inland ICD is available near your city, increasing double handling truck costs."],
+      practicalTips: ["Specify your local ICD code as final destination on Bill of Lading (e.g., Destination: ICD Ahmedabad - SBIAD)."],
+      summary: "ICD = Inland Container Depot (Dry Port). Inland customs facility for local clearance away from seaports.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes ICD?',
+          options: ["ICD = Inland Container Depot (Dry Port). Inland customs facility for local clearance away from seaports.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "ICD = Inland Container Depot (Dry Port). Inland customs facility for local clearance away from seaports."
+        }
+      ],
+      objectives: ['Understand operational meaning of ICD.', 'Apply rules in trade management.'],
+      writtenExplanation: "ICD stands for Inland Container Depot (Dry Port) — an inland customs-bonded container handling facility located away from ocean ports.",
+      importantNotes: ["Specify your local ICD code as final destination on Bill of Lading (e.g., Destination: ICD Ahmedabad - SBIAD)."],
+      keyPoints: ["ICD = Inland Container Depot (Dry Port). Inland customs facility for local clearance away from seaports."]
+    };
+  }
+
+  if (title === 'CFS') {
+    return {
+      definition: "CFS stands for Container Freight Station — a customs-bonded warehouse at port or ICD where LCL cargo is consolidated or de-consolidated.",
+      whyImportant: "At destination CFS, shared LCL containers are opened, individual importer cartons are sorted, and customs inspection takes place.",
+      businessExample: "RBC's shared LCL container arrives at Mundra CFS. Workers de-stuff container and separate RBC's 10 master cartons for customs audit.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of CFS in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'CFS Practical Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Technical definitions and operations.', 'Page 2: Practical checklist.'] },
+      downloadOption: { title: 'CFS Reference Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of CFS?', answer: "CFS = Container Freight Station. Customs warehouse for consolidating and sorting LCL cargo." }
+      ],
+      commonMistakes: ["Leaving LCL goods at CFS beyond free storage period, incurring heavy daily storage rent."],
+      practicalTips: ["Verify CFS handling charges and free storage days (usually 5 days) before container arrival at CFS."],
+      summary: "CFS = Container Freight Station. Customs warehouse for consolidating and sorting LCL cargo.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes CFS?',
+          options: ["CFS = Container Freight Station. Customs warehouse for consolidating and sorting LCL cargo.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "CFS = Container Freight Station. Customs warehouse for consolidating and sorting LCL cargo."
+        }
+      ],
+      objectives: ['Understand operational meaning of CFS.', 'Apply rules in trade management.'],
+      writtenExplanation: "CFS stands for Container Freight Station — a customs-bonded warehouse at port or ICD where LCL cargo is consolidated or de-consolidated.",
+      importantNotes: ["Verify CFS handling charges and free storage days (usually 5 days) before container arrival at CFS."],
+      keyPoints: ["CFS = Container Freight Station. Customs warehouse for consolidating and sorting LCL cargo."]
+    };
+  }
+
+  if (title === 'Proforma Invoice') {
+    return {
+      definition: "Proforma Invoice (PI) is a preliminary billing document sent by the seller before order confirmation, detailing product specs, prices, terms, and bank details.",
+      whyImportant: "PI serves as the official purchase agreement used by buyers to transfer advance payment deposits and open Letters of Credit (LC) with banks.",
+      businessExample: "RBC receives a Proforma Invoice from Ningbo supplier for 1,000 LED lights at $8/pc (Total $8,000). RBC signs PI and wires 30% deposit ($2,400) to start production.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of Proforma Invoice in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'Proforma Invoice Practical Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Technical definitions and operations.', 'Page 2: Practical checklist.'] },
+      downloadOption: { title: 'Proforma Invoice Reference Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of Proforma Invoice?', answer: "Proforma Invoice is a preliminary sales agreement used for advance deposit payment and LC opening." }
+      ],
+      commonMistakes: ["Paying advance deposit based on an informal WeChat or email quote instead of a signed formal Proforma Invoice."],
+      practicalTips: ["Check that PI explicitly lists Incoterms (FOB/CIF), HSN codes, payment terms, and factory bank SWIFT details before paying."],
+      summary: "Proforma Invoice is a preliminary sales agreement used for advance deposit payment and LC opening.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes Proforma Invoice?',
+          options: ["Proforma Invoice is a preliminary sales agreement used for advance deposit payment and LC opening.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "Proforma Invoice is a preliminary sales agreement used for advance deposit payment and LC opening."
+        }
+      ],
+      objectives: ['Understand operational meaning of Proforma Invoice.', 'Apply rules in trade management.'],
+      writtenExplanation: "Proforma Invoice (PI) is a preliminary billing document sent by the seller before order confirmation, detailing product specs, prices, terms, and bank details.",
+      importantNotes: ["Check that PI explicitly lists Incoterms (FOB/CIF), HSN codes, payment terms, and factory bank SWIFT details before paying."],
+      keyPoints: ["Proforma Invoice is a preliminary sales agreement used for advance deposit payment and LC opening."]
+    };
+  }
+
+  if (title === 'Commercial Invoice') {
+    return {
+      definition: "Commercial Invoice (CI) is the legal billing document issued by seller upon dispatch, serving as the official record of sale and primary basis for customs valuation.",
+      whyImportant: "Customs authorities calculate import duty and GST taxes directly from the Assessable Value declared on the Commercial Invoice.",
+      businessExample: "RBC submits the seller's Commercial Invoice ($12,000 CIF Mundra) to Indian Customs. Customs assesses 7.5% BCD + 18% IGST based on this CI.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of Commercial Invoice in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'Commercial Invoice Practical Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Technical definitions and operations.', 'Page 2: Practical checklist.'] },
+      downloadOption: { title: 'Commercial Invoice Reference Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of Commercial Invoice?', answer: "Commercial Invoice is the legal billing document for cargo valuation, customs duty calculation, and banking settlement." }
+      ],
+      commonMistakes: ["Under-declaring Commercial Invoice value to evade customs duty, which is a criminal offense leading to heavy penalties and cargo seizure."],
+      practicalTips: ["Ensure Invoice Number, Date, Buyer/Seller Tax IDs, Incoterms, HSN Codes, and Currency are accurately stated."],
+      summary: "Commercial Invoice is the legal billing document for cargo valuation, customs duty calculation, and banking settlement.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes Commercial Invoice?',
+          options: ["Commercial Invoice is the legal billing document for cargo valuation, customs duty calculation, and banking settlement.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "Commercial Invoice is the legal billing document for cargo valuation, customs duty calculation, and banking settlement."
+        }
+      ],
+      objectives: ['Understand operational meaning of Commercial Invoice.', 'Apply rules in trade management.'],
+      writtenExplanation: "Commercial Invoice (CI) is the legal billing document issued by seller upon dispatch, serving as the official record of sale and primary basis for customs valuation.",
+      importantNotes: ["Ensure Invoice Number, Date, Buyer/Seller Tax IDs, Incoterms, HSN Codes, and Currency are accurately stated."],
+      keyPoints: ["Commercial Invoice is the legal billing document for cargo valuation, customs duty calculation, and banking settlement."]
+    };
+  }
+
+  if (title === 'Packing List') {
+    return {
+      definition: "Packing List (PL) is a detailed transport document created by the exporter specifying box count, dimensions, gross weight, net weight, and exact contents of every master carton.",
+      whyImportant: "Customs officers and warehouse team use the Packing List to verify physical box count during inspection and match incoming inventory with purchase orders.",
+      businessExample: "RBC's Packing List states: 50 Master Cartons, Gross Weight 1,000 kg, Net Weight 850 kg, Total Volume 6 CBM. Cartons #1-30 contain Red Units, #31-50 contain Black Units.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of Packing List in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'Packing List Practical Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Technical definitions and operations.', 'Page 2: Practical checklist.'] },
+      downloadOption: { title: 'Packing List Reference Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of Packing List?', answer: "Packing List details total cartons, weights (Gross/Net), dimensions (CBM), and item contents for customs verification." }
+      ],
+      commonMistakes: ["Mismatched box counts or weight discrepancies between Packing List and Bill of Lading, causing customs clearance holds."],
+      practicalTips: ["Attach a copy of the Packing List inside Container Box #1 and paste pouch copies on outer carton walls."],
+      summary: "Packing List details total cartons, weights (Gross/Net), dimensions (CBM), and item contents for customs verification.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes Packing List?',
+          options: ["Packing List details total cartons, weights (Gross/Net), dimensions (CBM), and item contents for customs verification.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "Packing List details total cartons, weights (Gross/Net), dimensions (CBM), and item contents for customs verification."
+        }
+      ],
+      objectives: ['Understand operational meaning of Packing List.', 'Apply rules in trade management.'],
+      writtenExplanation: "Packing List (PL) is a detailed transport document created by the exporter specifying box count, dimensions, gross weight, net weight, and exact contents of every master carton.",
+      importantNotes: ["Attach a copy of the Packing List inside Container Box #1 and paste pouch copies on outer carton walls."],
+      keyPoints: ["Packing List details total cartons, weights (Gross/Net), dimensions (CBM), and item contents for customs verification."]
+    };
+  }
+
+  if (title === 'Bill of Lading') {
+    return {
+      definition: "Bill of Lading (B/L) is the official ocean transport document issued by shipping line serving as a cargo receipt, contract of carriage, and legal document of title (ownership).",
+      whyImportant: "Original B/L is a negotiable instrument representing legal ownership of cargo. Carrier will NOT release container at destination port without B/L surrender.",
+      businessExample: "Maersk issues 3 Original Bills of Lading to China supplier. Once RBC pays balance 70% payment, supplier surrenders B/L (Telex Release) so RBC can claim container in India.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of Bill of Lading in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'Bill of Lading Practical Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Technical definitions and operations.', 'Page 2: Practical checklist.'] },
+      downloadOption: { title: 'Bill of Lading Reference Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of Bill of Lading?', answer: "Bill of Lading (B/L) is the primary document of title and ocean transport contract issued by shipping line." }
+      ],
+      commonMistakes: ["Losing original physical Bill of Lading paper documents, which requires bank guarantees and months of delay to get container released."],
+      practicalTips: ["Request Telex Release (Surrender B/L) from supplier to avoid mailing physical original paper documents via international courier."],
+      summary: "Bill of Lading (B/L) is the primary document of title and ocean transport contract issued by shipping line.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes Bill of Lading?',
+          options: ["Bill of Lading (B/L) is the primary document of title and ocean transport contract issued by shipping line.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "Bill of Lading (B/L) is the primary document of title and ocean transport contract issued by shipping line."
+        }
+      ],
+      objectives: ['Understand operational meaning of Bill of Lading.', 'Apply rules in trade management.'],
+      writtenExplanation: "Bill of Lading (B/L) is the official ocean transport document issued by shipping line serving as a cargo receipt, contract of carriage, and legal document of title (ownership).",
+      importantNotes: ["Request Telex Release (Surrender B/L) from supplier to avoid mailing physical original paper documents via international courier."],
+      keyPoints: ["Bill of Lading (B/L) is the primary document of title and ocean transport contract issued by shipping line."]
+    };
+  }
+
   if (title === 'MOQ') {
     return {
       definition: 'MOQ stands for Minimum Order Quantity — the smallest number of units a supplier is willing to produce or sell in a single order. For example, if a factory sets an MOQ of 500 units, you cannot order 200 units; you must order at least 500.',
