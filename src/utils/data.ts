@@ -503,6 +503,522 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
     };
   }
 
+  if (title === 'Gross Weight') {
+    return {
+      definition: "Gross Weight is the total weight of a shipment including the actual product, inner packaging, protective foam, export master cartons, and pallets. Formula: Gross Weight = Net Weight + Packaging Weight + Pallet Weight.",
+      whyImportant: "Gross Weight determines ocean freight charges, air cargo billing, container payload safety limits, and road weight laws. Falsifying Gross Weight leads to port detention, vessel instability risks, and heavy customs fines.",
+      businessExample: "RBC imports 500 laptops. Net Weight of laptops = 750 kg. Inner retail boxes + foam = 150 kg. Master cartons + wooden pallets = 100 kg. Total Gross Weight = 750 + 150 + 100 = 1,000 kg (1.0 Metric Ton). This 1,000 kg figure is declared on the Bill of Lading and Packing List.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of Gross Weight in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'Gross Weight Practical Industry Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Industry standards and definitions.', 'Page 2: Operations checklist.'] },
+      downloadOption: { title: 'Gross Weight Operational Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of Gross Weight?', answer: "Gross Weight is the total combined weight of goods + packaging + pallets. It is critical for container safety, freight calculation, and SOLAS VGM compliance." }
+      ],
+      commonMistakes: ["Declaring only product weight on shipping documents instead of total Gross Weight.","Forgetting to include pallet weights (each wooden pallet weighs 15-25 kg)."],
+      practicalTips: ["Weigh packed master cartons on a certified digital scale at the factory before loading.","Ensure Gross Weight on Packing List matches Commercial Invoice and VGM certificate exactly."],
+      summary: "Gross Weight is the total combined weight of goods + packaging + pallets. It is critical for container safety, freight calculation, and SOLAS VGM compliance.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes Gross Weight?',
+          options: ["Gross Weight is the total combined weight of goods + packaging + pallets. It is critical for container safety, freight calculation, and SOLAS VGM compliance.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "Gross Weight is the total combined weight of goods + packaging + pallets. It is critical for container safety, freight calculation, and SOLAS VGM compliance."
+        }
+      ],
+      objectives: ['Understand operational meaning of Gross Weight.', 'Apply rules in trade management.'],
+      writtenExplanation: "Gross Weight is the complete weight of cargo including all protective packaging materials and pallets. It is used by shipping lines for weight verification (VGM - Verified Gross Mass) under SOLAS regulations.",
+      importantNotes: ["Weigh packed master cartons on a certified digital scale at the factory before loading.","Ensure Gross Weight on Packing List matches Commercial Invoice and VGM certificate exactly."],
+      keyPoints: ["Gross Weight is the total combined weight of goods + packaging + pallets. It is critical for container safety, freight calculation, and SOLAS VGM compliance."]
+    };
+  }
+
+  if (title === 'Net Weight') {
+    return {
+      definition: "Net Weight is the actual weight of the product/goods alone, excluding all inner boxes, protective bubble wrap, master cartons, and pallets. Formula: Net Weight = Gross Weight - Packaging Weight.",
+      whyImportant: "Net Weight is used by customs authorities to calculate weight-based import duties for commodities (e.g., metals, food, chemicals) and by buyers to verify exact product yield received.",
+      businessExample: "RBC imports 2,000 kg of copper wire coils. The wooden spools and export boxes weigh 200 kg, making Gross Weight = 2,200 kg. RBC pays supplier and customs duty based on Net Weight = 2,000 kg of pure copper wire.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of Net Weight in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'Net Weight Practical Industry Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Industry standards and definitions.', 'Page 2: Operations checklist.'] },
+      downloadOption: { title: 'Net Weight Operational Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of Net Weight?', answer: "Net Weight is the pure weight of goods excluding packaging. It is essential for commodity pricing, yield verification, and customs valuation." }
+      ],
+      commonMistakes: ["Confusing Net Weight with Gross Weight on customs declarations.","Including inner retail packaging weight in Net Weight calculation."],
+      practicalTips: ["List both Net Weight and Gross Weight clearly on every line item of your Packing List.","Verify Net Weight for bulk commodity imports to ensure supplier did not short-ship goods."],
+      summary: "Net Weight is the pure weight of goods excluding packaging. It is essential for commodity pricing, yield verification, and customs valuation.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes Net Weight?',
+          options: ["Net Weight is the pure weight of goods excluding packaging. It is essential for commodity pricing, yield verification, and customs valuation.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "Net Weight is the pure weight of goods excluding packaging. It is essential for commodity pricing, yield verification, and customs valuation."
+        }
+      ],
+      objectives: ['Understand operational meaning of Net Weight.', 'Apply rules in trade management.'],
+      writtenExplanation: "Net Weight is the net mass of the product without any packaging. It represents the actual product quantity purchased and is declared on Commercial Invoices and Bills of Entry.",
+      importantNotes: ["List both Net Weight and Gross Weight clearly on every line item of your Packing List.","Verify Net Weight for bulk commodity imports to ensure supplier did not short-ship goods."],
+      keyPoints: ["Net Weight is the pure weight of goods excluding packaging. It is essential for commodity pricing, yield verification, and customs valuation."]
+    };
+  }
+
+  if (title === 'Volume Weight') {
+    return {
+      definition: "Volume Weight (Dimensional Weight / Volumetric Weight) is a pricing formula used by airlines and courier companies (DHL, FedEx) to charge freight for bulky but lightweight cargo. Formula: Volume Weight (kg) = (Length × Width × Height in cm) ÷ 6,000 (or ÷ 5,000 for express courier).",
+      whyImportant: "Freight carriers charge based on Chargeable Weight = Max(Actual Gross Weight, Volume Weight). If you ship lightweight large items (like pillows or plastic toys), you pay based on Volume Weight.",
+      businessExample: "RBC ships 10 boxes of plush teddy bears by air cargo. Actual Gross Weight = 50 kg. Box dimensions: 60cm × 50cm × 40cm × 10 boxes = 1,200,000 cm³. Volume Weight = 1,200,000 ÷ 6,000 = 200 kg. Airline charges RBC for 200 kg Chargeable Weight, not 50 kg.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of Volume Weight in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'Volume Weight Practical Industry Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Industry standards and definitions.', 'Page 2: Operations checklist.'] },
+      downloadOption: { title: 'Volume Weight Operational Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of Volume Weight?', answer: "Volume Weight = (L × W × H cm) ÷ 6000. Express carriers charge on whichever is higher between scale weight and volume weight." }
+      ],
+      commonMistakes: ["Assuming air freight is charged only on scale weight without checking box dimensions.","Using oversized boxes with empty air space, resulting in inflated volumetric freight charges."],
+      practicalTips: ["Compress bulky items (like textiles or plush goods) using vacuum packaging before air freight.","Optimize box dimensions to eliminate empty space and lower Volume Weight."],
+      summary: "Volume Weight = (L × W × H cm) ÷ 6000. Express carriers charge on whichever is higher between scale weight and volume weight.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes Volume Weight?',
+          options: ["Volume Weight = (L × W × H cm) ÷ 6000. Express carriers charge on whichever is higher between scale weight and volume weight.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "Volume Weight = (L × W × H cm) ÷ 6000. Express carriers charge on whichever is higher between scale weight and volume weight."
+        }
+      ],
+      objectives: ['Understand operational meaning of Volume Weight.', 'Apply rules in trade management.'],
+      writtenExplanation: "Volume Weight calculates cargo density space. Air carriers use it to ensure lightweight bulky cargo pays for the aircraft hold space it occupies.",
+      importantNotes: ["Compress bulky items (like textiles or plush goods) using vacuum packaging before air freight.","Optimize box dimensions to eliminate empty space and lower Volume Weight."],
+      keyPoints: ["Volume Weight = (L × W × H cm) ÷ 6000. Express carriers charge on whichever is higher between scale weight and volume weight."]
+    };
+  }
+
+  if (title === 'Carton Size') {
+    return {
+      definition: "Carton Size refers to the outer physical dimensions (Length × Width × Height) of an export master box, measured in centimeters (cm) or inches (in).",
+      whyImportant: "Carton Size is required to compute CBM, optimize container loading layouts, calculate pallet fit, and determine volumetric freight charges.",
+      businessExample: "RBC specifies Carton Size = 60cm × 40cm × 30cm to supplier. This precise size allows exactly 4 cartons per pallet layer with zero overhang, maximizing container space efficiency.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of Carton Size in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'Carton Size Practical Industry Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Industry standards and definitions.', 'Page 2: Operations checklist.'] },
+      downloadOption: { title: 'Carton Size Operational Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of Carton Size?', answer: "Carton Size is the outer L × W × H measurement of export boxes used for CBM and container planning." }
+      ],
+      commonMistakes: ["Measuring inner dimensions instead of outer dimensions.","Not accounting for box bulging after packing."],
+      practicalTips: ["Measure outer dimensions after boxes are fully packed and sealed.","Standardize carton sizes across product lines to simplify palletization."],
+      summary: "Carton Size is the outer L × W × H measurement of export boxes used for CBM and container planning.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes Carton Size?',
+          options: ["Carton Size is the outer L × W × H measurement of export boxes used for CBM and container planning.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "Carton Size is the outer L × W × H measurement of export boxes used for CBM and container planning."
+        }
+      ],
+      objectives: ['Understand operational meaning of Carton Size.', 'Apply rules in trade management.'],
+      writtenExplanation: "Carton Size defines the outer boundaries of export packaging, critical for warehouse stacking and container capacity planning.",
+      importantNotes: ["Measure outer dimensions after boxes are fully packed and sealed.","Standardize carton sizes across product lines to simplify palletization."],
+      keyPoints: ["Carton Size is the outer L × W × H measurement of export boxes used for CBM and container planning."]
+    };
+  }
+
+  if (title === 'Master Carton') {
+    return {
+      definition: "A Master Carton is a heavy-duty 5-ply or 7-ply corrugated cardboard box containing multiple individual retail units for protection during sea/air export shipping.",
+      whyImportant: "Master Cartons protect products from crushing when stacked 6-8 boxes high in containers and carry mandatory shipping marks (Consignee, Country of Origin, Gross Weight).",
+      businessExample: "RBC orders 1,000 smartwatches packed 20 pcs per Master Carton = 50 Master Cartons total. Each Master Carton is printed with RBC logo, handling symbols (Fragile, Keep Dry), and Gross Weight.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of Master Carton in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'Master Carton Practical Industry Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Industry standards and definitions.', 'Page 2: Operations checklist.'] },
+      downloadOption: { title: 'Master Carton Operational Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of Master Carton?', answer: "Master Carton is the heavy-duty outer box carrying multiple units with export shipping marks." }
+      ],
+      commonMistakes: ["Using thin 3-ply cartons that collapse under heavy stacking in sea containers.","Omitting mandatory export shipping marks on master carton walls."],
+      practicalTips: ["Require double-walled 5-ply or 7-ply corrugated cartons for all sea freight shipments.","Print shipping marks on at least two sides of every master carton."],
+      summary: "Master Carton is the heavy-duty outer box carrying multiple units with export shipping marks.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes Master Carton?',
+          options: ["Master Carton is the heavy-duty outer box carrying multiple units with export shipping marks.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "Master Carton is the heavy-duty outer box carrying multiple units with export shipping marks."
+        }
+      ],
+      objectives: ['Understand operational meaning of Master Carton.', 'Apply rules in trade management.'],
+      writtenExplanation: "Master Carton is the primary outer protective packaging for international export shipping.",
+      importantNotes: ["Require double-walled 5-ply or 7-ply corrugated cartons for all sea freight shipments.","Print shipping marks on at least two sides of every master carton."],
+      keyPoints: ["Master Carton is the heavy-duty outer box carrying multiple units with export shipping marks."]
+    };
+  }
+
+  if (title === 'Pallet') {
+    return {
+      definition: "A Pallet is a flat wooden or plastic platform used to stack and consolidate master cartons for fast loading and unloading using forklifts. Standard sizes: Euro Pallet (1200mm × 800mm) and Standard Industrial Pallet (1200mm × 1000mm).",
+      whyImportant: "Pallets reduce container loading/unloading time from hours to minutes, prevent box damage, and keep goods off damp container floors. Wooden pallets MUST be ISPM-15 heat-treated or fumigated.",
+      businessExample: "RBC palletizes 40 master cartons onto 2 wooden pallets. The pallets are shrink-wrapped and strapped. Forklift loads both pallets into container in 10 minutes without manually handling individual boxes.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of Pallet in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'Pallet Practical Industry Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Industry standards and definitions.', 'Page 2: Operations checklist.'] },
+      downloadOption: { title: 'Pallet Operational Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of Pallet?', answer: "Pallets enable forklift handling and cargo protection. Wooden pallets require ISPM-15 fumigation stamp." }
+      ],
+      commonMistakes: ["Using non-treated wooden pallets resulting in customs rejection due to ISPM-15 pest regulations.","Allowing cartons to overhang pallet edges, causing box crushing."],
+      practicalTips: ["Ensure supplier provides ISPM-15 Phytosanitary Certificate for all wooden pallets.","Use plastic pallets for food or medical product imports."],
+      summary: "Pallets enable forklift handling and cargo protection. Wooden pallets require ISPM-15 fumigation stamp.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes Pallet?',
+          options: ["Pallets enable forklift handling and cargo protection. Wooden pallets require ISPM-15 fumigation stamp.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "Pallets enable forklift handling and cargo protection. Wooden pallets require ISPM-15 fumigation stamp."
+        }
+      ],
+      objectives: ['Understand operational meaning of Pallet.', 'Apply rules in trade management.'],
+      writtenExplanation: "Pallets enable mechanized cargo handling and protect goods during ocean transport.",
+      importantNotes: ["Ensure supplier provides ISPM-15 Phytosanitary Certificate for all wooden pallets.","Use plastic pallets for food or medical product imports."],
+      keyPoints: ["Pallets enable forklift handling and cargo protection. Wooden pallets require ISPM-15 fumigation stamp."]
+    };
+  }
+
+  if (title === 'Loading Capacity') {
+    return {
+      definition: "Loading Capacity refers to the maximum volume (CBM) and maximum weight payload (kg) that a shipping container or truck can safely carry.",
+      whyImportant: "Exceeding loading capacity damages containers, violates road weight limits, and causes severe port fines or shipping line rejections.",
+      businessExample: "20FT Container Loading Capacity = ~28 CBM volume and ~21,700 kg payload limit. RBC imports heavy steel valves (20,000 kg). Even though volume is only 12 CBM, container reaches weight capacity limit.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of Loading Capacity in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'Loading Capacity Practical Industry Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Industry standards and definitions.', 'Page 2: Operations checklist.'] },
+      downloadOption: { title: 'Loading Capacity Operational Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of Loading Capacity?', answer: "Loading Capacity defines container volume (CBM) and payload weight (kg) limits for safe transport." }
+      ],
+      commonMistakes: ["Focusing only on CBM volume and overloading container weight payload.","Not factoring in box packing gaps when estimating CBM loading."],
+      practicalTips: ["For heavy cargo (machinery, metals), check weight payload limit first.","For light voluminous cargo (garments, toys), check CBM volume capacity first."],
+      summary: "Loading Capacity defines container volume (CBM) and payload weight (kg) limits for safe transport.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes Loading Capacity?',
+          options: ["Loading Capacity defines container volume (CBM) and payload weight (kg) limits for safe transport.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "Loading Capacity defines container volume (CBM) and payload weight (kg) limits for safe transport."
+        }
+      ],
+      objectives: ['Understand operational meaning of Loading Capacity.', 'Apply rules in trade management.'],
+      writtenExplanation: "Loading Capacity balances volume (CBM) and weight limits (Payload) for containers and transport vehicles.",
+      importantNotes: ["For heavy cargo (machinery, metals), check weight payload limit first.","For light voluminous cargo (garments, toys), check CBM volume capacity first."],
+      keyPoints: ["Loading Capacity defines container volume (CBM) and payload weight (kg) limits for safe transport."]
+    };
+  }
+
+  if (title === 'FCL') {
+    return {
+      definition: "FCL stands for Full Container Load — a shipping mode where an importer books an entire container (20FT, 40FT, or 40HQ) exclusively for their cargo.",
+      whyImportant: "FCL is faster, safer, and cheaper per unit for large orders. The container is sealed at the factory and opened only at the destination warehouse, eliminating handling damage.",
+      businessExample: "RBC orders 1,200 cartons of home appliances. Total volume = 26 CBM. RBC books a 20FT FCL container. Factory seals container with Seal #RBC9982. It travels directly to RBC warehouse untouched.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of FCL in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'FCL Practical Industry Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Industry standards and definitions.', 'Page 2: Operations checklist.'] },
+      downloadOption: { title: 'FCL Operational Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of FCL?', answer: "FCL = Full Container Load. Dedicated container for one buyer, offering faster transit and higher security." }
+      ],
+      commonMistakes: ["Booking LCL for 20 CBM cargo when FCL 20FT is cheaper and faster.","Not checking container inspection before loading."],
+      practicalTips: ["Compare FCL vs LCL rates whenever cargo volume exceeds 14-15 CBM.","Ensure container bolt seal number is recorded on Bill of Lading."],
+      summary: "FCL = Full Container Load. Dedicated container for one buyer, offering faster transit and higher security.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes FCL?',
+          options: ["FCL = Full Container Load. Dedicated container for one buyer, offering faster transit and higher security.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "FCL = Full Container Load. Dedicated container for one buyer, offering faster transit and higher security."
+        }
+      ],
+      objectives: ['Understand operational meaning of FCL.', 'Apply rules in trade management.'],
+      writtenExplanation: "FCL means exclusive container usage by one buyer, providing direct transit and maximum security.",
+      importantNotes: ["Compare FCL vs LCL rates whenever cargo volume exceeds 14-15 CBM.","Ensure container bolt seal number is recorded on Bill of Lading."],
+      keyPoints: ["FCL = Full Container Load. Dedicated container for one buyer, offering faster transit and higher security."]
+    };
+  }
+
+  if (title === 'LCL') {
+    return {
+      definition: "LCL stands for Less than Container Load — a shipping mode where multiple importers share space in a single container. Freight forwarder consolidates small shipments at a Container Freight Station (CFS).",
+      whyImportant: "LCL allows small businesses to import goods without ordering enough volume to fill a full container. You pay only for the exact CBM volume your cargo occupies.",
+      businessExample: "RBC imports 4 CBM of sample solar panels. Rather than paying $2,000 for full container, RBC ships via LCL and pays $320 based on 4 CBM volume rate.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of LCL in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: 'LCL Practical Industry Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Industry standards and definitions.', 'Page 2: Operations checklist.'] },
+      downloadOption: { title: 'LCL Operational Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of LCL?', answer: "LCL = Less than Container Load. Shared container space for small orders billed per CBM." }
+      ],
+      commonMistakes: ["Not factoring in origin/destination CFS handling charges which make large LCL shipments expensive.","Shipping fragile goods via LCL without extra wooden crate protection."],
+      practicalTips: ["Use LCL for small trial shipments under 10 CBM.","Reinforce master carton packaging for LCL because goods are handled multiple times at CFS."],
+      summary: "LCL = Less than Container Load. Shared container space for small orders billed per CBM.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes LCL?',
+          options: ["LCL = Less than Container Load. Shared container space for small orders billed per CBM.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "LCL = Less than Container Load. Shared container space for small orders billed per CBM."
+        }
+      ],
+      objectives: ['Understand operational meaning of LCL.', 'Apply rules in trade management.'],
+      writtenExplanation: "LCL consolidates multiple small shipments into one shared container, enabling cost-effective small orders.",
+      importantNotes: ["Use LCL for small trial shipments under 10 CBM.","Reinforce master carton packaging for LCL because goods are handled multiple times at CFS."],
+      keyPoints: ["LCL = Less than Container Load. Shared container space for small orders billed per CBM."]
+    };
+  }
+
+  if (title === '20FT Container') {
+    return {
+      definition: "A 20FT Container (20 Feet Standard Container) is a standard ocean container measuring 20ft L × 8ft W × 8.5ft H. Volume capacity: ~28-30 CBM. Max Payload: ~21,700 kg.",
+      whyImportant: "The 20FT container is the industry workhorse for heavy cargo (metals, stone, machinery, liquids) where weight limit is reached before volume is filled.",
+      businessExample: "RBC imports 18 tons of ceramic tiles. Volume is only 15 CBM, but weight is 18,000 kg. A 20FT container is the ideal choice due to weight capacity.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of 20FT Container in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: '20FT Container Practical Industry Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Industry standards and definitions.', 'Page 2: Operations checklist.'] },
+      downloadOption: { title: '20FT Container Operational Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of 20FT Container?', answer: "20FT Container = 28-30 CBM volume, 21.7 ton payload. Best for heavy dense cargo." }
+      ],
+      commonMistakes: ["Trying to fit more than 28 CBM of boxed goods into a 20FT container.","Exceeding maximum road weight limits when loading heavy cargo."],
+      practicalTips: ["Use 20FT for heavy goods (metals, minerals, liquids).","Effective usable volume is 28 CBM for standard boxes."],
+      summary: "20FT Container = 28-30 CBM volume, 21.7 ton payload. Best for heavy dense cargo.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes 20FT Container?',
+          options: ["20FT Container = 28-30 CBM volume, 21.7 ton payload. Best for heavy dense cargo.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "20FT Container = 28-30 CBM volume, 21.7 ton payload. Best for heavy dense cargo."
+        }
+      ],
+      objectives: ['Understand operational meaning of 20FT Container.', 'Apply rules in trade management.'],
+      writtenExplanation: "20FT Container is standard 6-meter ocean container optimized for heavy dense cargo.",
+      importantNotes: ["Use 20FT for heavy goods (metals, minerals, liquids).","Effective usable volume is 28 CBM for standard boxes."],
+      keyPoints: ["20FT Container = 28-30 CBM volume, 21.7 ton payload. Best for heavy dense cargo."]
+    };
+  }
+
+  if (title === '40FT Container') {
+    return {
+      definition: "A 40FT Container (40 Feet Standard Container) measures 40ft L × 8ft W × 8.5ft H. Volume capacity: ~58-60 CBM. Max Payload: ~26,500 kg.",
+      whyImportant: "Offers double the volume of a 20FT container at only 30-50% higher ocean freight cost, making it highly economical for general volume cargo.",
+      businessExample: "RBC imports 550 cartons of footwear. Total volume = 55 CBM, weight = 7,000 kg. RBC books a 40FT container for maximum cost efficiency per box.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of 40FT Container in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: '40FT Container Practical Industry Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Industry standards and definitions.', 'Page 2: Operations checklist.'] },
+      downloadOption: { title: '40FT Container Operational Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of 40FT Container?', answer: "40FT Container = 58-60 CBM volume, 26.5 ton payload. Double volume of 20FT at lower cost." }
+      ],
+      commonMistakes: ["Booking two 20FT containers instead of one 40FT container (one 40FT is much cheaper).","Overloading weight limit on 40FT with dense goods."],
+      practicalTips: ["Book 40FT for general consumer goods, footwear, textiles.","Effective usable volume is 58 CBM."],
+      summary: "40FT Container = 58-60 CBM volume, 26.5 ton payload. Double volume of 20FT at lower cost.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes 40FT Container?',
+          options: ["40FT Container = 58-60 CBM volume, 26.5 ton payload. Double volume of 20FT at lower cost.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "40FT Container = 58-60 CBM volume, 26.5 ton payload. Double volume of 20FT at lower cost."
+        }
+      ],
+      objectives: ['Understand operational meaning of 40FT Container.', 'Apply rules in trade management.'],
+      writtenExplanation: "40FT Container is 12-meter ocean container designed for medium-density general cargo.",
+      importantNotes: ["Book 40FT for general consumer goods, footwear, textiles.","Effective usable volume is 58 CBM."],
+      keyPoints: ["40FT Container = 58-60 CBM volume, 26.5 ton payload. Double volume of 20FT at lower cost."]
+    };
+  }
+
+  if (title === '40HQ Container') {
+    return {
+      definition: "A 40HQ Container (40 Feet High Cube Container) measures 40ft L × 8ft W × 9.5ft H (1 foot taller than standard 40FT). Volume capacity: ~68-70 CBM.",
+      whyImportant: "Provides maximum volume capacity (68 CBM) for light bulky goods like furniture, luggage, electronics, and toys at nearly the same rate as standard 40FT.",
+      businessExample: "RBC imports office chairs (65 CBM). A standard 40FT (58 CBM) cannot fit all chairs. RBC books 40HQ (68 CBM) and fits entire order in one container.",
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+          caption: 'Figure: Technical and operational visualization of 40HQ Container in trade logistics.',
+          highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
+        }
+      ],
+      video: {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+        duration: 400
+      },
+      pdf: { pdfUrl: '#', title: '40HQ Container Practical Industry Guide.pdf', totalPages: 2, size: '500 KB', mockPagesText: ['Page 1: Industry standards and definitions.', 'Page 2: Operations checklist.'] },
+      downloadOption: { title: '40HQ Container Operational Sheet', fileUrl: '#', size: '75 KB', type: 'pdf' },
+      relatedTopics: ['CBM', 'FCL', 'LCL', 'Customs Clearance'],
+      faqs: [
+        { question: 'What is the primary role of 40HQ Container?', answer: "40HQ Container = 68-70 CBM volume. 1ft taller than 40FT, maximum volume for light bulky cargo." }
+      ],
+      commonMistakes: ["Not checking destination warehouse door height for High Cube container clearance.","Forgetting that weight limit is same as 40FT (26.5 tons)."],
+      practicalTips: ["Always request 40HQ over standard 40FT for light bulky goods — rate difference is minimal.","Effective usable volume is 68 CBM."],
+      summary: "40HQ Container = 68-70 CBM volume. 1ft taller than 40FT, maximum volume for light bulky cargo.",
+      quiz: [
+        {
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: 'Which statement accurately describes 40HQ Container?',
+          options: ["40HQ Container = 68-70 CBM volume. 1ft taller than 40FT, maximum volume for light bulky cargo.", 'An illegal trading practice.', 'A tax exemption certificate.', 'A carrier penalty.'],
+          correctAnswers: ['0'],
+          explanation: "40HQ Container = 68-70 CBM volume. 1ft taller than 40FT, maximum volume for light bulky cargo."
+        }
+      ],
+      objectives: ['Understand operational meaning of 40HQ Container.', 'Apply rules in trade management.'],
+      writtenExplanation: "40HQ Container is 1 foot taller than standard 40FT, providing 10 extra CBM of volume for light bulky goods.",
+      importantNotes: ["Always request 40HQ over standard 40FT for light bulky goods — rate difference is minimal.","Effective usable volume is 68 CBM."],
+      keyPoints: ["40HQ Container = 68-70 CBM volume. 1ft taller than 40FT, maximum volume for light bulky cargo."]
+    };
+  }
+
   if (title === 'MOQ') {
     return {
       definition: 'MOQ stands for Minimum Order Quantity — the smallest number of units a supplier is willing to produce or sell in a single order. For example, if a factory sets an MOQ of 500 units, you cannot order 200 units; you must order at least 500.',
@@ -1118,6 +1634,112 @@ const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: 
 };
 
 // Seeding engine to populate all 15 modules and their respective lessons
+
+// Helper to generate rich domain-specific content per module for all fallback topics
+const getModuleDomainInfo = (title: string, moduleId: string) => {
+  const map: { [key: string]: { def: string; imp: string; ex: string; tip: string; mistake: string } } = {
+    'mod-3': {
+      def: `${title} is a critical weight and measurement standard in cargo logistics. It dictates cargo density, space allocation, container loading capacity, and freight cost billing for sea and air transport.`,
+      imp: `Accurately computing ${title} prevents freight overcharges, container overloading penalties, vessel stability risks, and customs clearance delays at origin and destination ports.`,
+      ex: `RBC imports cargo under precise ${title} parameters, coordinating with freight forwarders to verify gross mass certificates (VGM) and optimize container space utilization.`,
+      tip: `Always double-check outer carton dimensions and total scale weight before signing the final Packing List and VGM declaration.`,
+      mistake: `Relying on estimated packaging weights or inner box dimensions rather than actual outer master carton measurements.`
+    },
+    'mod-4': {
+      def: `${title} is an essential container transport concept defining container utilization, loading method, and cargo security protocols during ocean freight.`,
+      imp: `Choosing the right container strategy (${title}) optimizes ocean freight rates, protects goods against transit damage, and ensures smooth port operations.`,
+      ex: `RBC plans container logistics using ${title} standards, selecting the appropriate container size and seal specifications to safely transport goods from overseas suppliers.`,
+      tip: `Inspect container floor integrity, door seal gaskets, and bolt seal numbers before signing container loading reports.`,
+      mistake: `Selecting an improper container type or shipping mode leading to underutilized container space or excess freight charges.`
+    },
+    'mod-5': {
+      def: `${title} represents a core maritime and air freight shipping term governing vessel schedules, transit times, carrier bookings, and freight movement.`,
+      imp: `Understanding ${title} enables importers to track cargo milestones, plan inventory arrival schedules, and avoid unexpected port demurrage or transit delays.`,
+      ex: `RBC monitors ${title} status on international tracking portals to coordinate destination customs clearance and warehouse receiving schedules.`,
+      tip: `Request regular milestone updates (ETD, ETA, transshipment logs) from your freight forwarder to manage supply chain expectations.`,
+      mistake: `Ignoring transit schedule updates and failing to prepare customs clearance documents before vessel arrival.`
+    },
+    'mod-6': {
+      def: `${title} is an official Incoterm (International Commercial Term) published by the ICC defining the exact point of risk transfer, cost allocation, and division of responsibilities between seller and buyer.`,
+      imp: `${title} clearly establishes who pays ocean freight, who purchases marine insurance, and who handles export/import customs clearance, preventing costly legal disputes.`,
+      ex: `RBC negotiates contracts under ${title} terms, ensuring clear agreement on shipping costs, freight insurance coverage, and customs duty responsibilities.`,
+      tip: `Always specify the exact named port or place alongside ${title} on your Purchase Order and Commercial Invoice (e.g. ${title} Shanghai Port).`,
+      mistake: `Using ${title} without specifying a clear named port or failing to clarify who buys freight insurance.`
+    },
+    'mod-7': {
+      def: `${title} is a key port and infrastructure concept in international trade, facilitating cargo handling, inland transit, warehousing, and customs clearance.`,
+      imp: `Proper utilization of ${title} infrastructure speeds up cargo movement, reduces port dwell time, and avoids costly demurrage and detention charges.`,
+      ex: `RBC routes imported containers through designated ${title} facilities for efficient customs inspection, container de-stuffing, and final door delivery.`,
+      tip: `Verify free storage days and terminal handling rates at ${title} before routing cargo to prevent unexpected storage bills.`,
+      mistake: `Delaying customs clearance documents while cargo sits at ${title}, accumulating expensive port demurrage.`
+    },
+    'mod-8': {
+      def: `${title} is a critical trade document required for legal compliance, customs clearance, foreign exchange settlement, and title of ownership in international trade.`,
+      imp: `Without an accurate ${title}, customs authorities cannot assess duty or clear shipments, leading to container holds, port fines, and payment delays.`,
+      ex: `RBC verifies every detail on the ${title} (buyer name, invoice number, HSN codes, weights) before submitting it to customs brokers and banking channels.`,
+      tip: `Ensure descriptions, values, HSN codes, and party names match identically across all trade documents (${title}, Invoice, Packing List).`,
+      mistake: `Discrepancies in values, dates, or product descriptions between ${title} and other shipping documents.`
+    },
+    'mod-9': {
+      def: `${title} is a statutory customs regulation, tariff classification, or compliance requirement governing import duties, taxes, and entry clearance.`,
+      imp: `Strict compliance with ${title} ensures smooth customs release, prevents heavy penalty duties, avoids cargo confiscation, and ensures legal import entry.`,
+      ex: `RBC consults licensed CHA brokers to verify ${title} duty rates, applicable cesses (BCD, SWS, IGST), and mandatory regulatory approvals before importing.`,
+      tip: `Verify HSN code classification and duty structure under current customs tariff schedules before placing import orders.`,
+      mistake: `Misclassifying HSN codes or under-declaring invoice values to evade ${title}, resulting in customs prosecution.`
+    },
+    'mod-10': {
+      def: `${title} is a standard international financial payment mechanism governing trade settlement, credit risk management, and banking transfers.`,
+      imp: `Using appropriate ${title} protects buyer and seller against payment default, currency fluctuations, and non-delivery of goods.`,
+      ex: `RBC executes financial transactions using ${title} protocols, ensuring secure fund transfers through SWIFT banking channels upon document verification.`,
+      tip: `Always use audited corporate bank accounts and verified bank SWIFT codes for ${title} transfers.`,
+      mistake: `Making payments to unverified personal bank accounts or failing to verify SWIFT confirmation details.`
+    },
+    'mod-11': {
+      def: `${title} refers to specific freight, terminal, or port handling fee charged by shipping lines, port authorities, and forwarders during cargo movement.`,
+      imp: `Tracking ${title} prevents unexpected landed cost inflation and helps importers negotiate competitive all-inclusive freight quotes.`,
+      ex: `RBC audits all freight invoices against agreed rate cards to verify ${title} items before approving payment to logistics providers.`,
+      tip: `Request an itemized break-up of all origin and destination ${title} fees before approving freight quotes.`,
+      mistake: `Accepting low ocean freight quotes without checking hidden destination ${title} surcharges.`
+    },
+    'mod-12': {
+      def: `${title} is a formal quality control procedure, defect inspection method, or compliance standard ensuring manufactured goods meet required specifications.`,
+      imp: `Implementing ${title} prevents receiving defective or non-compliant goods, protecting brand reputation and avoiding costly product recalls.`,
+      ex: `RBC hires certified third-party inspection agencies to perform ${title} at the supplier factory before approving final balance payment.`,
+      tip: `Define acceptable quality limits (AQL) and defect criteria in writing within your Purchase Order before production starts.`,
+      mistake: `Releasing full payment to supplier before receiving official ${title} reports.`
+    },
+    'mod-13': {
+      def: `${title} is a core operational process in international business workflows, governing order processing, quotation, production tracking, and order fulfillment.`,
+      imp: `Streamlining ${title} ensures timely production execution, clear supplier communication, and reliable product delivery schedules.`,
+      ex: `RBC tracks ${title} milestones in its ERP software to maintain real-time visibility over supplier order status and customer delivery commitments.`,
+      tip: `Confirm all terms (pricing, lead time, specs, terms) in writing during ${title} processing before issuing deposits.`,
+      mistake: `Relying on verbal agreements without formal signed documentation during ${title} stage.`
+    },
+    'mod-14': {
+      def: `${title} is a key risk management protocol, insurance provision, or legal remedy designed to mitigate trade losses, transit damage, and contract breaches.`,
+      imp: `Effective ${title} management protects business capital against unexpected maritime losses, shipment delays, and supplier default.`,
+      ex: `RBC manages trade risks by implementing ${title} measures, purchasing comprehensive cargo insurance, and enforcing clear contract terms.`,
+      tip: `Document cargo damage or shortages immediately with photos and written notices to carriers upon container opening.`,
+      mistake: `Failing to notify carriers of damage within statutory time limits, invalidating insurance claims.`
+    },
+    'mod-15': {
+      def: `${title} is a specialized internal operational workflow at RBC designed to ensure quality control, supplier verification, and seamless import execution.`,
+      imp: `Following the ${title} procedure guarantees operational consistency, risk mitigation, and high customer satisfaction across all trade transactions.`,
+      ex: `RBC team members execute ${title} according to standard operating procedures, ensuring every step from supplier check to delivery is audited.`,
+      tip: `Complete all required checklist items in ${title} before escalating orders to the next operational phase.`,
+      mistake: `Bypassing standard verification checks during ${title} execution.`
+    }
+  };
+
+  return map[moduleId] || {
+    def: `${title} is a fundamental operational term in global import-export trade, defining rules, documentation, and compliance standards.`,
+    imp: `Understanding ${title} helps international trade teams optimize logistics costs, ensure legal compliance, and avoid customs delays.`,
+    ex: `RBC applies ${title} guidelines across its international trade operations, coordinating with logistics partners to ensure compliant execution.`,
+    tip: `Always verify documentation details and compliance rules for ${title} with your logistics agent before shipping.`,
+    mistake: `Ignoring standard regulations for ${title}, leading to port delays or unexpected costs.`
+  };
+};
+
 export const initialLessons: Lesson[] = (() => {
   const generated: Lesson[] = [];
 
@@ -1140,18 +1762,19 @@ export const initialLessons: Lesson[] = (() => {
           content: override
         });
       } else {
-        // Fallback programmatic generation containing all 13 required sections
+        // Dynamic domain-aware fallback generation
+        const info = getModuleDomainInfo(title, moduleId);
         generated.push({
           id: lessonId,
           moduleId,
           title,
-          description: `Learn the essential meaning, industry practices, and risk factors associated with ${title}.`,
-          duration: 10,
+          description: `Master the essential meaning, industry practices, and risk factors associated with ${title}.`,
+          duration: 12,
           order,
           content: {
-            definition: `${title} is a standard commercial and operational term in global import-export trade. It dictates the procedures, requirements, and compliance standards for handling international shipments.`,
-            whyImportant: `Understanding ${title} is vital for importers and exporters to optimize freight costs, ensure smooth customs clearance, avoid port detention fees, and maintain supply chain reliability.`,
-            businessExample: `An international trading firm sourcing goods under ${title} guidelines coordinates with freight forwarders, customs brokers, and port authorities to verify documentation and ensure compliance.`,
+            definition: info.def,
+            whyImportant: info.imp,
+            businessExample: info.ex,
             images: [
               {
                 url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
@@ -1183,18 +1806,12 @@ export const initialLessons: Lesson[] = (() => {
             faqs: [
               { question: `What is the role of ${title} in global transit?`, answer: `It clarifies handling protocols, standard documentation clearances, and freight quotes for cargo logistics.` }
             ],
-            commonMistakes: [
-              `Misdeclaring standard parameters, causing port detention fees.`,
-              `Assuming local terms translate globally without checking international customs agreements.`
-            ],
-            practicalTips: [
-              `Always cross-check values with packaging lists and forwarders before billing.`,
-              `Request your logistics agent to verify the local terminal handling charges early.`
-            ],
+            commonMistakes: [info.mistake, 'Failing to verify documentation details before vessel dispatch.'],
+            practicalTips: [info.tip, 'Consult your customs broker (CHA) before finalizing purchase contracts.'],
             summary: `This lesson covered the foundational definition, business examples, FAQs, and risk assessments related to ${title}.`,
             quiz: generateProgrammaticQuiz(title, lessonId, idx),
             objectives: [`Understand the operational definition of ${title}.`, `Analyze the trade importance of ${title}.`],
-            writtenExplanation: `${title} is an essential operational component in international trade. Proper management and documentation of ${title} ensures full regulatory compliance, cost efficiency, and timely delivery of cargo.`,
+            writtenExplanation: info.def,
             importantNotes: [`Always check local compliance guides for ${title}.`],
             keyPoints: [`Accurate execution of ${title} reduces demurrage risk.`, `Consolidate variables with forwarders beforehand.`]
           }
