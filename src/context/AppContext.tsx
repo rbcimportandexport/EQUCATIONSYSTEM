@@ -127,7 +127,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     const savedCourses = localStorage.getItem('lms_courses_ie');
     const savedModules = localStorage.getItem('lms_modules_v3_ie');
-    const savedLessons = localStorage.getItem('lms_lessons_v3_ie');
+    const savedLessons = localStorage.getItem('lms_lessons_v4_ie');
     const savedUsers = localStorage.getItem('lms_users_v2_ie');
     const savedCerts = localStorage.getItem('lms_certs_ie');
     const savedProgress = localStorage.getItem('lms_progress_ie');
@@ -149,26 +149,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       localStorage.setItem('lms_modules_v3_ie', JSON.stringify(initialModules));
     }
 
-    if (savedLessons) {
-      try {
-        const parsed = JSON.parse(savedLessons);
-        const hasOutdatedQuiz = parsed.some((l: any) => 
-          l.content?.quiz?.some((q: any) => q.question && q.question.includes('Correctly understanding'))
-        );
-        if (hasOutdatedQuiz) {
-          setLessons(initialLessons);
-          localStorage.setItem('lms_lessons_v3_ie', JSON.stringify(initialLessons));
-        } else {
-          setLessons(parsed);
-        }
-      } catch (e) {
-        setLessons(initialLessons);
-        localStorage.setItem('lms_lessons_v3_ie', JSON.stringify(initialLessons));
-      }
-    } else {
-      setLessons(initialLessons);
-      localStorage.setItem('lms_lessons_v3_ie', JSON.stringify(initialLessons));
-    }
+    setLessons(initialLessons);
+    localStorage.setItem('lms_lessons_v5_ie', JSON.stringify(initialLessons));
 
     if (savedUsers) setUsers(JSON.parse(savedUsers));
     else {
