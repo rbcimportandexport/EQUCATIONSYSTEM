@@ -154,8 +154,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       localStorage.setItem('lms_modules_v3_ie', JSON.stringify(initialModules));
     }
 
-    setLessons(initialLessons);
-    localStorage.setItem('lms_lessons_v22_ie', JSON.stringify(initialLessons));
+    if (savedLessons) {
+      try {
+        setLessons(JSON.parse(savedLessons));
+      } catch (e) {
+        setLessons(initialLessons);
+        localStorage.setItem('lms_lessons_v22_ie', JSON.stringify(initialLessons));
+      }
+    } else {
+      setLessons(initialLessons);
+      localStorage.setItem('lms_lessons_v22_ie', JSON.stringify(initialLessons));
+    }
 
     if (savedUsers) setUsers(JSON.parse(savedUsers));
     else {
