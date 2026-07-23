@@ -683,8 +683,8 @@ export const ModuleScreen: React.FC = () => {
                                   if (lessonLang.content?.practicalTips?.length) parts.push(tLang.practicalTip + '. ' + lessonLang.content.practicalTips.join('. '));
                                   if (lessonLang.content?.summary) parts.push(tLang.topicSummary + '. ' + lessonLang.content.summary);
 
-                                  // Join ALL text into one string — no chaining, no onend bugs
-                                  const fullText = parts.map(p => sanitize(p)).join(' । ');
+                                  // Join ALL text into one clean string
+                                  const fullText = parts.map(p => sanitize(p)).filter(p => p.trim()).join('. ');
 
                                   const langMap: Record<string, string> = { gu: 'gu-IN', hi: 'hi-IN', mr: 'mr-IN', en: 'en-IN' };
                                   const ttsLang = langMap[activeLangCode] || 'en-IN';
@@ -693,24 +693,21 @@ export const ModuleScreen: React.FC = () => {
                                   ttsSessionRef.current = newSid;
                                   setPlayingLessonId(lesson.id);
 
-                                  const doSpeak = () => {
+                                  const doSpeak = (voices: SpeechSynthesisVoice[]) => {
                                     if (ttsSessionRef.current !== newSid || !ttsActiveRef.current) return;
-
-                                    window.speechSynthesis.cancel();
 
                                     const utter = new SpeechSynthesisUtterance(fullText);
                                     utter.lang = ttsLang;
-                                    utter.rate = 1.1;
+                                    utter.rate = 1.0;
                                     utter.pitch = 1.0;
                                     utter.volume = 1.0;
 
-                                    const allVoices = window.speechSynthesis.getVoices();
-                                    let picked = allVoices.find(v => v.lang.toLowerCase().startsWith(activeLangCode));
+                                    let picked = voices.find(v => v.lang.toLowerCase().startsWith(activeLangCode));
                                     if (!picked && (activeLangCode === 'gu' || activeLangCode === 'mr')) {
-                                      picked = allVoices.find(v => v.lang.toLowerCase().includes('-in') || v.lang.toLowerCase().startsWith('hi'));
+                                      picked = voices.find(v => v.lang.toLowerCase().includes('-in') || v.lang.toLowerCase().startsWith('hi'));
                                     }
-                                    if (!picked) picked = allVoices.find(v => v.lang.toLowerCase().startsWith('en'));
-                                    if (!picked && allVoices.length > 0) picked = allVoices[0];
+                                    if (!picked) picked = voices.find(v => v.lang.toLowerCase().startsWith('en'));
+                                    if (!picked && voices.length > 0) picked = voices[0];
                                     if (picked) { utter.voice = picked; utter.lang = picked.lang; }
 
                                     utter.onend = () => {
@@ -731,27 +728,29 @@ export const ModuleScreen: React.FC = () => {
 
                                     window.speechSynthesis.speak(utter);
 
-                                    // Chrome Bug Fix: pause/resume every 5s to prevent Chrome's 15s auto-stop
+                                    // Chrome keep-alive: just resume if paused (no pause/resume interrupt)
                                     clearInterval(ttsKeepAliveRef.current);
                                     ttsKeepAliveRef.current = setInterval(() => {
                                       if (!ttsActiveRef.current || ttsSessionRef.current !== newSid) {
                                         clearInterval(ttsKeepAliveRef.current);
                                         return;
                                       }
-                                      window.speechSynthesis.pause();
-                                      window.speechSynthesis.resume();
+                                      if (window.speechSynthesis.paused) {
+                                        window.speechSynthesis.resume();
+                                      }
                                     }, 5000);
                                   };
 
-                                  // Wait for voices, then speak
-                                  if (window.speechSynthesis.getVoices().length > 0) {
-                                    setTimeout(doSpeak, 200);
+                                  // Get voices — wait if not loaded yet
+                                  const loadedVoices = window.speechSynthesis.getVoices();
+                                  if (loadedVoices.length > 0) {
+                                    doSpeak(loadedVoices);
                                   } else {
                                     window.speechSynthesis.onvoiceschanged = () => {
                                       window.speechSynthesis.onvoiceschanged = null;
-                                      setTimeout(doSpeak, 200);
+                                      doSpeak(window.speechSynthesis.getVoices());
                                     };
-                                    setTimeout(doSpeak, 800);
+                                    setTimeout(() => doSpeak(window.speechSynthesis.getVoices()), 1000);
                                   }
                                 }}
                                 title={playingLessonId === lesson.id ? "Stop reading" : "Listen to this lesson"}

@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head><title>TTS Test</title></head>
+<body>
+<h2>Voice Test</h2>
+<button onclick="testEnglish()" style="padding:10px;margin:5px;font-size:16px">Test English</button>
+<button onclick="testGujarati()" style="padding:10px;margin:5px;font-size:16px">Test Gujarati</button>
+<button onclick="testHindi()" style="padding:10px;margin:5px;font-size:16px">Test Hindi</button>
+<button onclick="stopAll()" style="padding:10px;margin:5px;font-size:16px;background:red;color:white">Stop</button>
+<div id="log" style="margin-top:20px;font-family:monospace;white-space:pre-wrap;border:1px solid #ccc;padding:10px;height:300px;overflow:auto"></div>
+<script>
+function log(msg){var d=document.getElementById('log');d.textContent+=new Date().toLocaleTimeString()+': '+msg+'\n';d.scrollTop=d.scrollHeight;}
+function stopAll(){window.speechSynthesis.cancel();log('Stopped.');}
+async function speak(text,lang){
+  window.speechSynthesis.cancel();
+  await new Promise(r=>setTimeout(r,150));
+  var voices=window.speechSynthesis.getVoices();
+  log('Voices: '+voices.length);
+  var utter=new SpeechSynthesisUtterance(text);
+  utter.lang=lang;utter.rate=1.0;utter.volume=1.0;
+  var v=voices.find(x=>x.lang.toLowerCase().startsWith(lang.substring(0,2)));
+  if(!v)v=voices.find(x=>x.lang.toLowerCase().includes('-in'));
+  if(!v&&voices.length>0)v=voices[0];
+  if(v){utter.voice=v;utter.lang=v.lang;log('Voice: '+v.name+' '+v.lang);}
+  utter.onstart=()=>log('STARTED');
+  utter.onend=()=>log('ENDED');
+  utter.onerror=(e)=>log('ERROR: '+e.error);
+  window.speechSynthesis.speak(utter);
+  log('speaking='+window.speechSynthesis.speaking);
+}
+function testEnglish(){speak('Hello this is an English voice test. Welcome.',en-US);}
+function testGujarati(){speak('નમસ્તે આ ગુજરાતી ભાષામાં ટેસ્ટ છે','gu-IN');}
+function testHindi(){speak('नमस्ते यह हिंदी में परीक्षण है','hi-IN');}
+log('speechSynthesis: '+(typeof window.speechSynthesis));
+</script>
+</body>
+</html>
