@@ -120,20 +120,6 @@ export const ModuleScreen: React.FC = () => {
     }
   }, []);
 
-  const pauseActiveTTS = (lessonId: string) => {
-    isTTSPausedRef.current = true;
-    pausedAudioLessonIdRef.current = lessonId;
-
-    const audio = (window as any)._ttsCurrentAudio as HTMLAudioElement | null;
-    if (audio) {
-      try { audio.pause(); } catch (e) {}
-    }
-    try { const rv = (window as any).responsiveVoice; if (rv && rv.pause) rv.pause(); } catch (e) {}
-    if (typeof window !== 'undefined' && window.speechSynthesis && window.speechSynthesis.speaking) {
-      try { window.speechSynthesis.pause(); } catch (e) {}
-    }
-  };
-
   const stopActiveTTS = () => {
     ttsActiveRef.current = false;
     isTTSPausedRef.current = false;
