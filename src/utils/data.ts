@@ -2394,6 +2394,160 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
     };
   }
 
+  if (title === 'Quality Control') {
+    return {
+      definition: "Quality Control (QC) refers to the operational inspection checks performed on raw materials, components, and assembly lines during production to identify and fix defects.",
+      whyImportant: "Catching defects early on the factory floor prevents wasted manufacturing time, costly rework, and shipping defective goods to customers.",
+      businessExample: "RBC inspectors test electrical circuit boards on the factory assembly line every 2 hours to ensure zero wiring defects.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Quality control illustration for Quality Control.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Quality Control Standards Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Quality checklist.'] },
+      downloadOption: { title: 'Quality Control Audit Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Pre-Shipment Inspection', 'Compliance', 'Product Testing'],
+      faqs: [{ question: 'What is the role of Quality Control?', answer: "Quality Control (QC) refers to the operational inspection checks performed on raw materials, components, and assembly lines during production to identify and fix defects." }],
+      commonMistakes: ["Skipping line inspections and relying only on final packaging checks."],
+      practicalTips: ["Define inline inspection checkpoints at 20%, 50%, and 80% production stages."],
+      summary: "Quality Control is operational inspection during production to detect and correct manufacturing defects.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Quality Control do?', options: ["Quality Control (QC) refers to the operational inspection checks performed on raw materials, components, and assembly lines during production to identify and fix defects.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Quality Control (QC) refers to the operational inspection checks performed on raw materials, components, and assembly lines during production to identify and fix defects." }],
+      objectives: ['Understand operational meaning of Quality Control.'],
+      writtenExplanation: "Quality Control (QC) refers to the operational inspection checks performed on raw materials, components, and assembly lines during production to identify and fix defects.",
+      importantNotes: ["Define inline inspection checkpoints at 20%, 50%, and 80% production stages."],
+      keyPoints: ["Quality Control is operational inspection during production to detect and correct manufacturing defects."]
+    };
+  }
+
+  if (title === 'Quality Assurance') {
+    return {
+      definition: "Quality Assurance (QA) is the systematic organizational framework of quality management protocols, ISO standards, and factory operating procedures that prevents product defects from occurring in the first place.",
+      whyImportant: "QA focuses on process prevention rather than end-product inspection, ensuring consistent high quality across thousands of manufactured units.",
+      businessExample: "The factory implements ISO 9001 QA protocols, auditing raw material suppliers and calibrating machinery weekly before mass production begins.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Quality control illustration for Quality Assurance.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Quality Assurance Standards Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Quality checklist.'] },
+      downloadOption: { title: 'Quality Assurance Audit Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Pre-Shipment Inspection', 'Compliance', 'Product Testing'],
+      faqs: [{ question: 'What is the role of Quality Assurance?', answer: "Quality Assurance (QA) is the systematic organizational framework of quality management protocols, ISO standards, and factory operating procedures that prevents product defects from occurring in the first place." }],
+      commonMistakes: ["Confusing QA with QC — QA is process prevention, whereas QC is product inspection."],
+      practicalTips: ["Audit factory ISO certifications and standard operating procedures (SOPs) before placing orders."],
+      summary: "Quality Assurance is systematic process management preventing defects prior to manufacturing.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Quality Assurance do?', options: ["Quality Assurance (QA) is the systematic organizational framework of quality management protocols, ISO standards, and factory operating procedures that prevents product defects from occurring in the first place.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Quality Assurance (QA) is the systematic organizational framework of quality management protocols, ISO standards, and factory operating procedures that prevents product defects from occurring in the first place." }],
+      objectives: ['Understand operational meaning of Quality Assurance.'],
+      writtenExplanation: "Quality Assurance (QA) is the systematic organizational framework of quality management protocols, ISO standards, and factory operating procedures that prevents product defects from occurring in the first place.",
+      importantNotes: ["Audit factory ISO certifications and standard operating procedures (SOPs) before placing orders."],
+      keyPoints: ["Quality Assurance is systematic process management preventing defects prior to manufacturing."]
+    };
+  }
+
+  if (title === 'Pre-Shipment Inspection') {
+    return {
+      definition: "Pre-Shipment Inspection (PSI) is a comprehensive physical audit performed by an independent third-party agency (like SGS or Intertek) when production is 100% completed and at least 80% packed into master cartons.",
+      whyImportant: "PSI is the importer's final defense line before releasing the 70% balance payment. It verifies box count, carton packaging, labeling, dimensions, and functional performance.",
+      businessExample: "RBC hires SGS to conduct PSI on 2,000 smartwatches packed in Shenzhen. SGS opens 80 random cartons, runs battery tests, and issues a PSI Pass Certificate before RBC wires balance payment.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Quality control illustration for Pre-Shipment Inspection.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Pre-Shipment Inspection Standards Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Quality checklist.'] },
+      downloadOption: { title: 'Pre-Shipment Inspection Audit Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Pre-Shipment Inspection', 'Compliance', 'Product Testing'],
+      faqs: [{ question: 'What is the role of Pre-Shipment Inspection?', answer: "Pre-Shipment Inspection (PSI) is a comprehensive physical audit performed by an independent third-party agency (like SGS or Intertek) when production is 100% completed and at least 80% packed into master cartons." }],
+      commonMistakes: ["Releasing full payment to supplier before receiving official Pre-Shipment Inspection reports."],
+      practicalTips: ["Define AQL Level II inspection standards in writing inside your Purchase Order."],
+      summary: "Pre-Shipment Inspection is a final third-party factory audit verifying goods prior to balance payment and dispatch.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Pre-Shipment Inspection do?', options: ["Pre-Shipment Inspection (PSI) is a comprehensive physical audit performed by an independent third-party agency (like SGS or Intertek) when production is 100% completed and at least 80% packed into master cartons.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Pre-Shipment Inspection (PSI) is a comprehensive physical audit performed by an independent third-party agency (like SGS or Intertek) when production is 100% completed and at least 80% packed into master cartons." }],
+      objectives: ['Understand operational meaning of Pre-Shipment Inspection.'],
+      writtenExplanation: "Pre-Shipment Inspection (PSI) is a comprehensive physical audit performed by an independent third-party agency (like SGS or Intertek) when production is 100% completed and at least 80% packed into master cartons.",
+      importantNotes: ["Define AQL Level II inspection standards in writing inside your Purchase Order."],
+      keyPoints: ["Pre-Shipment Inspection is a final third-party factory audit verifying goods prior to balance payment and dispatch."]
+    };
+  }
+
+  if (title === 'Random Inspection') {
+    return {
+      definition: "Random Inspection is an auditing technique where an inspector randomly selects sample cartons from different pallets in the warehouse using statistical AQL (Acceptable Quality Limit) tables to evaluate overall batch quality.",
+      whyImportant: "Prevents suppliers from hiding defective units in middle or bottom boxes, giving a statistically reliable assessment without opening 100% of boxes.",
+      businessExample: "From a lot of 10,000 toys, the inspector randomly pulls 200 units from 20 different master cartons according to AQL Level II tables for drop-testing and seam checks.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Quality control illustration for Random Inspection.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Random Inspection Standards Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Quality checklist.'] },
+      downloadOption: { title: 'Random Inspection Audit Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Pre-Shipment Inspection', 'Compliance', 'Product Testing'],
+      faqs: [{ question: 'What is the role of Random Inspection?', answer: "Random Inspection is an auditing technique where an inspector randomly selects sample cartons from different pallets in the warehouse using statistical AQL (Acceptable Quality Limit) tables to evaluate overall batch quality." }],
+      commonMistakes: ["Allowing the factory manager to pick the sample cartons instead of the independent inspector."],
+      practicalTips: ["Ensure sampling covers boxes from front, middle, and back of the warehouse pallet stacks."],
+      summary: "Random Inspection evaluates batch quality by sampling random boxes using AQL statistical tables.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Random Inspection do?', options: ["Random Inspection is an auditing technique where an inspector randomly selects sample cartons from different pallets in the warehouse using statistical AQL (Acceptable Quality Limit) tables to evaluate overall batch quality.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Random Inspection is an auditing technique where an inspector randomly selects sample cartons from different pallets in the warehouse using statistical AQL (Acceptable Quality Limit) tables to evaluate overall batch quality." }],
+      objectives: ['Understand operational meaning of Random Inspection.'],
+      writtenExplanation: "Random Inspection is an auditing technique where an inspector randomly selects sample cartons from different pallets in the warehouse using statistical AQL (Acceptable Quality Limit) tables to evaluate overall batch quality.",
+      importantNotes: ["Ensure sampling covers boxes from front, middle, and back of the warehouse pallet stacks."],
+      keyPoints: ["Random Inspection evaluates batch quality by sampling random boxes using AQL statistical tables."]
+    };
+  }
+
+  if (title === 'Defect Rate') {
+    return {
+      definition: "Defect Rate is the percentage of failed or non-conforming items identified within an inspected sample lot during quality control testing.",
+      whyImportant: "A high defect rate signals poor factory workmanship. If defect rate exceeds AQL limit (e.g. 2.5%), the supplier must re-manufacture the batch at their own cost.",
+      businessExample: "During PSI of 500 LED panels, 15 panels had flickering issues, resulting in a 3.0% Defect Rate. Since 3.0% exceeded the 1.5% contract limit, the supplier replaced all 15 units.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Quality control illustration for Defect Rate.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Defect Rate Standards Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Quality checklist.'] },
+      downloadOption: { title: 'Defect Rate Audit Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Pre-Shipment Inspection', 'Compliance', 'Product Testing'],
+      faqs: [{ question: 'What is the role of Defect Rate?', answer: "Defect Rate is the percentage of failed or non-conforming items identified within an inspected sample lot during quality control testing." }],
+      commonMistakes: ["Accepting batches with defect rates above agreed contractual AQL limits."],
+      practicalTips: ["Include clear penalty clauses requiring factory re-inspection fees if defect rate fails AQL limits."],
+      summary: "Defect Rate measures the percentage of non-conforming units in a batch.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Defect Rate do?', options: ["Defect Rate is the percentage of failed or non-conforming items identified within an inspected sample lot during quality control testing.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Defect Rate is the percentage of failed or non-conforming items identified within an inspected sample lot during quality control testing." }],
+      objectives: ['Understand operational meaning of Defect Rate.'],
+      writtenExplanation: "Defect Rate is the percentage of failed or non-conforming items identified within an inspected sample lot during quality control testing.",
+      importantNotes: ["Include clear penalty clauses requiring factory re-inspection fees if defect rate fails AQL limits."],
+      keyPoints: ["Defect Rate measures the percentage of non-conforming units in a batch."]
+    };
+  }
+
+  if (title === 'Product Testing') {
+    return {
+      definition: "Product Testing involves sending product samples to accredited laboratories (such as UL, TÜV, or Intertek) to run rigorous electrical safety, chemical toxicity, waterproof, or drop tests.",
+      whyImportant: "Mandatory for obtaining mandatory import compliance marks like CE, RoHS, FCC, or BIS certificates required by destination port customs.",
+      businessExample: "RBC sends 3 sample power banks to a TÜV lab for battery thermal testing and short-circuit protection certification before importing.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Quality control illustration for Product Testing.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Product Testing Standards Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Quality checklist.'] },
+      downloadOption: { title: 'Product Testing Audit Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Pre-Shipment Inspection', 'Compliance', 'Product Testing'],
+      faqs: [{ question: 'What is the role of Product Testing?', answer: "Product Testing involves sending product samples to accredited laboratories (such as UL, TÜV, or Intertek) to run rigorous electrical safety, chemical toxicity, waterproof, or drop tests." }],
+      commonMistakes: ["Relying on expired or fake lab test certificates provided by unverified suppliers."],
+      practicalTips: ["Verify lab test certificate authenticity directly on testing agency verification portals."],
+      summary: "Product Testing certifies safety, toxicity, and electrical standards in accredited laboratories.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Product Testing do?', options: ["Product Testing involves sending product samples to accredited laboratories (such as UL, TÜV, or Intertek) to run rigorous electrical safety, chemical toxicity, waterproof, or drop tests.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Product Testing involves sending product samples to accredited laboratories (such as UL, TÜV, or Intertek) to run rigorous electrical safety, chemical toxicity, waterproof, or drop tests." }],
+      objectives: ['Understand operational meaning of Product Testing.'],
+      writtenExplanation: "Product Testing involves sending product samples to accredited laboratories (such as UL, TÜV, or Intertek) to run rigorous electrical safety, chemical toxicity, waterproof, or drop tests.",
+      importantNotes: ["Verify lab test certificate authenticity directly on testing agency verification portals."],
+      keyPoints: ["Product Testing certifies safety, toxicity, and electrical standards in accredited laboratories."]
+    };
+  }
+
+  if (title === 'Compliance') {
+    return {
+      definition: "Compliance is the strict adherence of imported goods to all mandatory health, safety, environmental, labeling, and legal standards established by the destination government.",
+      whyImportant: "Non-compliant goods are seized, destroyed, or re-exported by customs authorities at the importer's severe financial loss.",
+      businessExample: "RBC verifies that imported toy shipments have non-toxic paint test reports and mandatory BIS registration marks printed on packaging for Indian market entry.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Quality control illustration for Compliance.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Compliance Standards Guide.pdf', totalPages: 2, size: '480 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Quality checklist.'] },
+      downloadOption: { title: 'Compliance Audit Sheet', fileUrl: '#', size: '60 KB', type: 'pdf' },
+      relatedTopics: ['Pre-Shipment Inspection', 'Compliance', 'Product Testing'],
+      faqs: [{ question: 'What is the role of Compliance?', answer: "Compliance is the strict adherence of imported goods to all mandatory health, safety, environmental, labeling, and legal standards established by the destination government." }],
+      commonMistakes: ["Importing goods without mandatory regional compliance marks (e.g. BIS in India, CE in EU)."],
+      practicalTips: ["Check current customs tariff regulations and mandatory certification rules before placing purchase orders."],
+      summary: "Compliance is full legal, environmental, and safety adherence to destination country import laws.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Compliance do?', options: ["Compliance is the strict adherence of imported goods to all mandatory health, safety, environmental, labeling, and legal standards established by the destination government.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Compliance is the strict adherence of imported goods to all mandatory health, safety, environmental, labeling, and legal standards established by the destination government." }],
+      objectives: ['Understand operational meaning of Compliance.'],
+      writtenExplanation: "Compliance is the strict adherence of imported goods to all mandatory health, safety, environmental, labeling, and legal standards established by the destination government.",
+      importantNotes: ["Check current customs tariff regulations and mandatory certification rules before placing purchase orders."],
+      keyPoints: ["Compliance is full legal, environmental, and safety adherence to destination country import laws."]
+    };
+  }
+
   if (title === 'MOQ') {
     return {
       definition: 'MOQ stands for Minimum Order Quantity — the smallest number of units a supplier is willing to produce or sell in a single order. For example, if a factory sets an MOQ of 500 units, you cannot order 200 units; you must order at least 500.',
