@@ -150,7 +150,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
 
     setLessons(initialLessons);
-    localStorage.setItem('lms_lessons_v9_ie', JSON.stringify(initialLessons));
+    localStorage.setItem('lms_lessons_v10_ie', JSON.stringify(initialLessons));
 
     if (savedUsers) setUsers(JSON.parse(savedUsers));
     else {
