@@ -1152,7 +1152,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
     return {
       definition: "POL stands for Port of Loading — the designated seaport in the exporting country where container cargo is loaded onto the vessel.",
       whyImportant: "Declaring the correct POL on Bills of Lading and origin customs documents is mandatory for vessel tracking and tariff origin compliance.",
-      businessExample: "For RBC's import from China to India, Ningbo Port is POL (Port of Loading). Supplier delivers packed container to Ningbo POL terminal.",
+      businessExample: "For RBC\'s import from China to India, Ningbo Port is POL (Port of Loading). Supplier delivers packed container to Ningbo POL terminal.",
       images: [
         {
           url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
@@ -1195,7 +1195,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
     return {
       definition: "POD stands for Port of Discharge — the destination seaport in the importing country where the container is unloaded from the vessel.",
       whyImportant: "Customs clearance filing (Bill of Entry) and port demurrage free-days calculation start as soon as vessel docks at POD.",
-      businessExample: "For RBC's shipment from Ningbo to Mundra, Mundra Port is POD (Port of Discharge). RBC files customs Bill of Entry at Mundra POD.",
+      businessExample: "For RBC\'s shipment from Ningbo to Mundra, Mundra Port is POD (Port of Discharge). RBC files customs Bill of Entry at Mundra POD.",
       images: [
         {
           url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
@@ -1281,7 +1281,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
     return {
       definition: "CFS stands for Container Freight Station — a customs-bonded warehouse at port or ICD where LCL cargo is consolidated or de-consolidated.",
       whyImportant: "At destination CFS, shared LCL containers are opened, individual importer cartons are sorted, and customs inspection takes place.",
-      businessExample: "RBC's shared LCL container arrives at Mundra CFS. Workers de-stuff container and separate RBC's 10 master cartons for customs audit.",
+      businessExample: "RBC\'s shared LCL container arrives at Mundra CFS. Workers de-stuff container and separate RBC\'s 10 master cartons for customs audit.",
       images: [
         {
           url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
@@ -1367,7 +1367,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
     return {
       definition: "Commercial Invoice (CI) is the legal billing document issued by seller upon dispatch, serving as the official record of sale and primary basis for customs valuation.",
       whyImportant: "Customs authorities calculate import duty and GST taxes directly from the Assessable Value declared on the Commercial Invoice.",
-      businessExample: "RBC submits the seller's Commercial Invoice ($12,000 CIF Mundra) to Indian Customs. Customs assesses 7.5% BCD + 18% IGST based on this CI.",
+      businessExample: "RBC submits the seller\'s Commercial Invoice ($12,000 CIF Mundra) to Indian Customs. Customs assesses 7.5% BCD + 18% IGST based on this CI.",
       images: [
         {
           url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
@@ -1410,7 +1410,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
     return {
       definition: "Packing List (PL) is a detailed transport document created by the exporter specifying box count, dimensions, gross weight, net weight, and exact contents of every master carton.",
       whyImportant: "Customs officers and warehouse team use the Packing List to verify physical box count during inspection and match incoming inventory with purchase orders.",
-      businessExample: "RBC's Packing List states: 50 Master Cartons, Gross Weight 1,000 kg, Net Weight 850 kg, Total Volume 6 CBM. Cartons #1-30 contain Red Units, #31-50 contain Black Units.",
+      businessExample: "RBC\'s Packing List states: 50 Master Cartons, Gross Weight 1,000 kg, Net Weight 850 kg, Total Volume 6 CBM. Cartons #1-30 contain Red Units, #31-50 contain Black Units.",
       images: [
         {
           url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
@@ -1489,6 +1489,446 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       writtenExplanation: "Bill of Lading (B/L) is the official ocean transport document issued by shipping line serving as a cargo receipt, contract of carriage, and legal document of title (ownership).",
       importantNotes: ["Request Telex Release (Surrender B/L) from supplier to avoid mailing physical original paper documents via international courier."],
       keyPoints: ["Bill of Lading (B/L) is the primary document of title and ocean transport contract issued by shipping line."]
+    };
+  }
+
+  if (title === 'Courier Shipment') {
+    return {
+      definition: "Courier Shipment is rapid door-to-door express parcel delivery managed by global integrators like DHL, FedEx, and UPS.",
+      whyImportant: "Ideal for urgent product samples, small high-value parcels (under 50kg), and time-critical legal trade documents.",
+      businessExample: "RBC sends 3 sample smartwatches to a Dubai client via DHL Express Courier in 48 hours to secure a major purchase order.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for Courier Shipment.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'Courier Shipment Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Courier Shipment Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of Courier Shipment?', answer: "Courier Shipment is rapid door-to-door express parcel delivery managed by global integrators like DHL, FedEx, and UPS." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "Courier Shipment is rapid door-to-door express parcel delivery managed by global integrators like DHL, FedEx, and UPS.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Courier Shipment?', options: ["Courier Shipment is rapid door-to-door express parcel delivery managed by global integrators like DHL, FedEx, and UPS.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Courier Shipment is rapid door-to-door express parcel delivery managed by global integrators like DHL, FedEx, and UPS." }],
+      objectives: ['Understand operational meaning of Courier Shipment.'],
+      writtenExplanation: "Courier Shipment is rapid door-to-door express parcel delivery managed by global integrators like DHL, FedEx, and UPS.",
+      importantNotes: ['Always check compliance rules for Courier Shipment.'],
+      keyPoints: ["Courier Shipment is rapid door-to-door express parcel delivery managed by global integrators like DHL, FedEx, and UPS."]
+    };
+  }
+
+  if (title === 'Transit Time') {
+    return {
+      definition: "Transit Time is the total elapsed time in days required for cargo to travel from port of origin (POL) to port of destination (POD).",
+      whyImportant: "Accurate transit time planning prevents supply chain stock-outs and allows precise customer delivery commitments.",
+      businessExample: "Direct vessel from Shanghai to Mundra has 14 days transit time, whereas transshipment via Colombo takes 22 days.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for Transit Time.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'Transit Time Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Transit Time Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of Transit Time?', answer: "Transit Time is the total elapsed time in days required for cargo to travel from port of origin (POL) to port of destination (POD)." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "Transit Time is the total elapsed time in days required for cargo to travel from port of origin (POL) to port of destination (POD).",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Transit Time?', options: ["Transit Time is the total elapsed time in days required for cargo to travel from port of origin (POL) to port of destination (POD).", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Transit Time is the total elapsed time in days required for cargo to travel from port of origin (POL) to port of destination (POD)." }],
+      objectives: ['Understand operational meaning of Transit Time.'],
+      writtenExplanation: "Transit Time is the total elapsed time in days required for cargo to travel from port of origin (POL) to port of destination (POD).",
+      importantNotes: ['Always check compliance rules for Transit Time.'],
+      keyPoints: ["Transit Time is the total elapsed time in days required for cargo to travel from port of origin (POL) to port of destination (POD)."]
+    };
+  }
+
+  if (title === 'ETD') {
+    return {
+      definition: "ETD (Estimated Time of Departure) is the scheduled date and time when a shipping vessel or cargo plane departs from origin port.",
+      whyImportant: "Tracking ETD allows buyers to confirm production completion and notify destination agents for pre-arrival clearance.",
+      businessExample: "Supplier confirms ETD = August 10 from Ningbo Port. RBC tracks vessel departure to align inland logistics.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for ETD.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'ETD Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'ETD Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of ETD?', answer: "ETD (Estimated Time of Departure) is the scheduled date and time when a shipping vessel or cargo plane departs from origin port." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "ETD (Estimated Time of Departure) is the scheduled date and time when a shipping vessel or cargo plane departs from origin port.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes ETD?', options: ["ETD (Estimated Time of Departure) is the scheduled date and time when a shipping vessel or cargo plane departs from origin port.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "ETD (Estimated Time of Departure) is the scheduled date and time when a shipping vessel or cargo plane departs from origin port." }],
+      objectives: ['Understand operational meaning of ETD.'],
+      writtenExplanation: "ETD (Estimated Time of Departure) is the scheduled date and time when a shipping vessel or cargo plane departs from origin port.",
+      importantNotes: ['Always check compliance rules for ETD.'],
+      keyPoints: ["ETD (Estimated Time of Departure) is the scheduled date and time when a shipping vessel or cargo plane departs from origin port."]
+    };
+  }
+
+  if (title === 'ETA') {
+    return {
+      definition: "ETA (Estimated Time of Arrival) is the anticipated date and time when vessel or aircraft arrives at destination port.",
+      whyImportant: "Knowing ETA enables importers to file advance Bill of Entry, avoid port storage penalties, and arrange transport.",
+      businessExample: "ETA at Mundra Port is August 24. RBC files advance customs Bill of Entry 2 days before ETA for instant clearance upon arrival.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for ETA.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'ETA Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'ETA Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of ETA?', answer: "ETA (Estimated Time of Arrival) is the anticipated date and time when vessel or aircraft arrives at destination port." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "ETA (Estimated Time of Arrival) is the anticipated date and time when vessel or aircraft arrives at destination port.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes ETA?', options: ["ETA (Estimated Time of Arrival) is the anticipated date and time when vessel or aircraft arrives at destination port.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "ETA (Estimated Time of Arrival) is the anticipated date and time when vessel or aircraft arrives at destination port." }],
+      objectives: ['Understand operational meaning of ETA.'],
+      writtenExplanation: "ETA (Estimated Time of Arrival) is the anticipated date and time when vessel or aircraft arrives at destination port.",
+      importantNotes: ['Always check compliance rules for ETA.'],
+      keyPoints: ["ETA (Estimated Time of Arrival) is the anticipated date and time when vessel or aircraft arrives at destination port."]
+    };
+  }
+
+  if (title === 'Vessel') {
+    return {
+      definition: "Vessel is a commercial ocean-going cargo ship (container carrier, bulk vessel, tanker) used to transport goods internationally.",
+      whyImportant: "Vessel capacity and carrier service routes dictate ocean freight availability, transit frequency, and container space allocation.",
+      businessExample: "Mega container vessel \"MSC Irina\" carries up to 24,000 TEU containers across international trade lanes.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for Vessel.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'Vessel Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Vessel Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of Vessel?', answer: "Vessel is a commercial ocean-going cargo ship (container carrier, bulk vessel, tanker) used to transport goods internationally." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "Vessel is a commercial ocean-going cargo ship (container carrier, bulk vessel, tanker) used to transport goods internationally.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Vessel?', options: ["Vessel is a commercial ocean-going cargo ship (container carrier, bulk vessel, tanker) used to transport goods internationally.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Vessel is a commercial ocean-going cargo ship (container carrier, bulk vessel, tanker) used to transport goods internationally." }],
+      objectives: ['Understand operational meaning of Vessel.'],
+      writtenExplanation: "Vessel is a commercial ocean-going cargo ship (container carrier, bulk vessel, tanker) used to transport goods internationally.",
+      importantNotes: ['Always check compliance rules for Vessel.'],
+      keyPoints: ["Vessel is a commercial ocean-going cargo ship (container carrier, bulk vessel, tanker) used to transport goods internationally."]
+    };
+  }
+
+  if (title === 'Voyage') {
+    return {
+      definition: "Voyage is the unique alphanumeric identification code assigned to a specific ocean journey of a cargo vessel.",
+      whyImportant: "Pairing Vessel Name with Voyage Number on shipping documents is mandatory for container tracking and customs filing.",
+      businessExample: "Bill of Lading specifies Vessel: \"MAERSK HANOI\", Voyage: \"328W\" departing Ningbo for Mundra.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for Voyage.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'Voyage Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Voyage Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of Voyage?', answer: "Voyage is the unique alphanumeric identification code assigned to a specific ocean journey of a cargo vessel." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "Voyage is the unique alphanumeric identification code assigned to a specific ocean journey of a cargo vessel.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Voyage?', options: ["Voyage is the unique alphanumeric identification code assigned to a specific ocean journey of a cargo vessel.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Voyage is the unique alphanumeric identification code assigned to a specific ocean journey of a cargo vessel." }],
+      objectives: ['Understand operational meaning of Voyage.'],
+      writtenExplanation: "Voyage is the unique alphanumeric identification code assigned to a specific ocean journey of a cargo vessel.",
+      importantNotes: ['Always check compliance rules for Voyage.'],
+      keyPoints: ["Voyage is the unique alphanumeric identification code assigned to a specific ocean journey of a cargo vessel."]
+    };
+  }
+
+  if (title === 'Mother Vessel') {
+    return {
+      definition: "Mother Vessel is a large mainline ocean container ship operating on major intercontinental routes between global hub ports.",
+      whyImportant: "Mother Vessels carry thousands of containers deep sea across continents at maximum fuel efficiency and lower unit costs.",
+      businessExample: "Mother Vessel \"EVER GIVEN\" transports containers across deep ocean routes from Shanghai hub to Rotterdam hub.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for Mother Vessel.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'Mother Vessel Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Mother Vessel Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of Mother Vessel?', answer: "Mother Vessel is a large mainline ocean container ship operating on major intercontinental routes between global hub ports." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "Mother Vessel is a large mainline ocean container ship operating on major intercontinental routes between global hub ports.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Mother Vessel?', options: ["Mother Vessel is a large mainline ocean container ship operating on major intercontinental routes between global hub ports.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Mother Vessel is a large mainline ocean container ship operating on major intercontinental routes between global hub ports." }],
+      objectives: ['Understand operational meaning of Mother Vessel.'],
+      writtenExplanation: "Mother Vessel is a large mainline ocean container ship operating on major intercontinental routes between global hub ports.",
+      importantNotes: ['Always check compliance rules for Mother Vessel.'],
+      keyPoints: ["Mother Vessel is a large mainline ocean container ship operating on major intercontinental routes between global hub ports."]
+    };
+  }
+
+  if (title === 'Feeder Vessel') {
+    return {
+      definition: "Feeder Vessel is a smaller regional cargo ship carrying containers between regional ports and major ocean hub ports.",
+      whyImportant: "Feeder vessels connect regional ports (like Kolkata or Visakhapatnam) to deep-water mega hub ports (like Singapore or Colombo).",
+      businessExample: "A feeder vessel carries RBC\'s container from Chennai Port to Colombo hub to connect onto the Mother Vessel for Europe.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for Feeder Vessel.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'Feeder Vessel Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Feeder Vessel Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of Feeder Vessel?', answer: "Feeder Vessel is a smaller regional cargo ship carrying containers between regional ports and major ocean hub ports." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "Feeder Vessel is a smaller regional cargo ship carrying containers between regional ports and major ocean hub ports.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Feeder Vessel?', options: ["Feeder Vessel is a smaller regional cargo ship carrying containers between regional ports and major ocean hub ports.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Feeder Vessel is a smaller regional cargo ship carrying containers between regional ports and major ocean hub ports." }],
+      objectives: ['Understand operational meaning of Feeder Vessel.'],
+      writtenExplanation: "Feeder Vessel is a smaller regional cargo ship carrying containers between regional ports and major ocean hub ports.",
+      importantNotes: ['Always check compliance rules for Feeder Vessel.'],
+      keyPoints: ["Feeder Vessel is a smaller regional cargo ship carrying containers between regional ports and major ocean hub ports."]
+    };
+  }
+
+  if (title === 'EXW') {
+    return {
+      definition: "EXW (Ex Works) means seller makes goods available at factory floor. Buyer assumes 100% transport cost, risk, and customs clearance.",
+      whyImportant: "Gives buyer maximum control over freight routing, but places full responsibility for origin customs clearance on buyer.",
+      businessExample: "RBC buys EXW Yiwu factory at $5/pc. RBC arranges pickup truck in China, export customs, ocean freight, and import clearance.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for EXW.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'EXW Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'EXW Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of EXW?', answer: "EXW (Ex Works) means seller makes goods available at factory floor. Buyer assumes 100% transport cost, risk, and customs clearance." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "EXW (Ex Works) means seller makes goods available at factory floor. Buyer assumes 100% transport cost, risk, and customs clearance.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes EXW?', options: ["EXW (Ex Works) means seller makes goods available at factory floor. Buyer assumes 100% transport cost, risk, and customs clearance.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "EXW (Ex Works) means seller makes goods available at factory floor. Buyer assumes 100% transport cost, risk, and customs clearance." }],
+      objectives: ['Understand operational meaning of EXW.'],
+      writtenExplanation: "EXW (Ex Works) means seller makes goods available at factory floor. Buyer assumes 100% transport cost, risk, and customs clearance.",
+      importantNotes: ['Always check compliance rules for EXW.'],
+      keyPoints: ["EXW (Ex Works) means seller makes goods available at factory floor. Buyer assumes 100% transport cost, risk, and customs clearance."]
+    };
+  }
+
+  if (title === 'FCA') {
+    return {
+      definition: "FCA (Free Carrier) means seller delivers goods to buyer\'s named carrier warehouse at origin port or inland depot.",
+      whyImportant: "FCA is ideal for containerized air/sea freight where seller handles export clearance and delivers to forwarder hub.",
+      businessExample: "Supplier delivers goods to RBC\'s appointed forwarder warehouse in Guangzhou under FCA terms.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for FCA.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'FCA Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'FCA Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of FCA?', answer: "FCA (Free Carrier) means seller delivers goods to buyer\'s named carrier warehouse at origin port or inland depot." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "FCA (Free Carrier) means seller delivers goods to buyer\'s named carrier warehouse at origin port or inland depot.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes FCA?', options: ["FCA (Free Carrier) means seller delivers goods to buyer\'s named carrier warehouse at origin port or inland depot.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "FCA (Free Carrier) means seller delivers goods to buyer\'s named carrier warehouse at origin port or inland depot." }],
+      objectives: ['Understand operational meaning of FCA.'],
+      writtenExplanation: "FCA (Free Carrier) means seller delivers goods to buyer\'s named carrier warehouse at origin port or inland depot.",
+      importantNotes: ['Always check compliance rules for FCA.'],
+      keyPoints: ["FCA (Free Carrier) means seller delivers goods to buyer\'s named carrier warehouse at origin port or inland depot."]
+    };
+  }
+
+  if (title === 'CIF') {
+    return {
+      definition: "CIF (Cost, Insurance, Freight) means seller pays ocean freight and marine insurance to destination port. Buyer pays import customs duty & port unloading.",
+      whyImportant: "Reduces buyer logistics burden, but seller controls carrier choice and marine insurance coverage policy limits.",
+      businessExample: "Supplier quotes CIF Mundra Port $15/unit. Supplier pays sea freight and marine insurance until vessel reaches Mundra.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for CIF.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'CIF Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'CIF Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of CIF?', answer: "CIF (Cost, Insurance, Freight) means seller pays ocean freight and marine insurance to destination port. Buyer pays import customs duty & port unloading." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "CIF (Cost, Insurance, Freight) means seller pays ocean freight and marine insurance to destination port. Buyer pays import customs duty & port unloading.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes CIF?', options: ["CIF (Cost, Insurance, Freight) means seller pays ocean freight and marine insurance to destination port. Buyer pays import customs duty & port unloading.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "CIF (Cost, Insurance, Freight) means seller pays ocean freight and marine insurance to destination port. Buyer pays import customs duty & port unloading." }],
+      objectives: ['Understand operational meaning of CIF.'],
+      writtenExplanation: "CIF (Cost, Insurance, Freight) means seller pays ocean freight and marine insurance to destination port. Buyer pays import customs duty & port unloading.",
+      importantNotes: ['Always check compliance rules for CIF.'],
+      keyPoints: ["CIF (Cost, Insurance, Freight) means seller pays ocean freight and marine insurance to destination port. Buyer pays import customs duty & port unloading."]
+    };
+  }
+
+  if (title === 'CFR') {
+    return {
+      definition: "CFR (Cost and Freight) means seller pays ocean freight to destination port, but buyer purchases marine cargo insurance.",
+      whyImportant: "Allows buyer to purchase custom comprehensive cargo insurance while seller handles main ocean shipping rates.",
+      businessExample: "Supplier pays sea freight to Nhava Sheva (CFR terms). RBC buys separate marine insurance policy from HDFC ERGO.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for CFR.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'CFR Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'CFR Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of CFR?', answer: "CFR (Cost and Freight) means seller pays ocean freight to destination port, but buyer purchases marine cargo insurance." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "CFR (Cost and Freight) means seller pays ocean freight to destination port, but buyer purchases marine cargo insurance.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes CFR?', options: ["CFR (Cost and Freight) means seller pays ocean freight to destination port, but buyer purchases marine cargo insurance.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "CFR (Cost and Freight) means seller pays ocean freight to destination port, but buyer purchases marine cargo insurance." }],
+      objectives: ['Understand operational meaning of CFR.'],
+      writtenExplanation: "CFR (Cost and Freight) means seller pays ocean freight to destination port, but buyer purchases marine cargo insurance.",
+      importantNotes: ['Always check compliance rules for CFR.'],
+      keyPoints: ["CFR (Cost and Freight) means seller pays ocean freight to destination port, but buyer purchases marine cargo insurance."]
+    };
+  }
+
+  if (title === 'DDP') {
+    return {
+      definition: "DDP (Delivered Duty Paid) means seller handles entire logistics including ocean freight, customs duty, taxes, and final door delivery. Maximum seller risk.",
+      whyImportant: "Hassle-free for buyers who receive goods at factory door like a domestic sale, but seller assumes all customs delays and duty risks.",
+      businessExample: "Supplier delivers goods directly to RBC warehouse in Ahmedabad under DDP terms with all customs duties paid.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for DDP.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'DDP Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'DDP Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of DDP?', answer: "DDP (Delivered Duty Paid) means seller handles entire logistics including ocean freight, customs duty, taxes, and final door delivery. Maximum seller risk." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "DDP (Delivered Duty Paid) means seller handles entire logistics including ocean freight, customs duty, taxes, and final door delivery. Maximum seller risk.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes DDP?', options: ["DDP (Delivered Duty Paid) means seller handles entire logistics including ocean freight, customs duty, taxes, and final door delivery. Maximum seller risk.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "DDP (Delivered Duty Paid) means seller handles entire logistics including ocean freight, customs duty, taxes, and final door delivery. Maximum seller risk." }],
+      objectives: ['Understand operational meaning of DDP.'],
+      writtenExplanation: "DDP (Delivered Duty Paid) means seller handles entire logistics including ocean freight, customs duty, taxes, and final door delivery. Maximum seller risk.",
+      importantNotes: ['Always check compliance rules for DDP.'],
+      keyPoints: ["DDP (Delivered Duty Paid) means seller handles entire logistics including ocean freight, customs duty, taxes, and final door delivery. Maximum seller risk."]
+    };
+  }
+
+  if (title === 'DAP') {
+    return {
+      definition: "DAP (Delivered At Place) means seller delivers cargo to buyer door, but buyer pays import customs duties and taxes.",
+      whyImportant: "Ensures seller manages door logistics while buyer handles domestic tax compliance and customs duty payment.",
+      businessExample: "Supplier delivers container to RBC warehouse door under DAP terms, and RBC pays Indian customs duty directly.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for DAP.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'DAP Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'DAP Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of DAP?', answer: "DAP (Delivered At Place) means seller delivers cargo to buyer door, but buyer pays import customs duties and taxes." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "DAP (Delivered At Place) means seller delivers cargo to buyer door, but buyer pays import customs duties and taxes.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes DAP?', options: ["DAP (Delivered At Place) means seller delivers cargo to buyer door, but buyer pays import customs duties and taxes.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "DAP (Delivered At Place) means seller delivers cargo to buyer door, but buyer pays import customs duties and taxes." }],
+      objectives: ['Understand operational meaning of DAP.'],
+      writtenExplanation: "DAP (Delivered At Place) means seller delivers cargo to buyer door, but buyer pays import customs duties and taxes.",
+      importantNotes: ['Always check compliance rules for DAP.'],
+      keyPoints: ["DAP (Delivered At Place) means seller delivers cargo to buyer door, but buyer pays import customs duties and taxes."]
+    };
+  }
+
+  if (title === 'CIP') {
+    return {
+      definition: "CIP (Carriage and Insurance Paid to) is multimodal Incoterm where seller pays carriage + all-risk insurance to destination place.",
+      whyImportant: "Mandates seller to purchase high-level Institute Cargo Clauses (A) all-risk insurance coverage for buyer benefit.",
+      businessExample: "Air freight shipment under CIP Mumbai Airport terms. Seller pays air freight and all-risk insurance.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for CIP.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'CIP Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'CIP Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of CIP?', answer: "CIP (Carriage and Insurance Paid to) is multimodal Incoterm where seller pays carriage + all-risk insurance to destination place." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "CIP (Carriage and Insurance Paid to) is multimodal Incoterm where seller pays carriage + all-risk insurance to destination place.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes CIP?', options: ["CIP (Carriage and Insurance Paid to) is multimodal Incoterm where seller pays carriage + all-risk insurance to destination place.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "CIP (Carriage and Insurance Paid to) is multimodal Incoterm where seller pays carriage + all-risk insurance to destination place." }],
+      objectives: ['Understand operational meaning of CIP.'],
+      writtenExplanation: "CIP (Carriage and Insurance Paid to) is multimodal Incoterm where seller pays carriage + all-risk insurance to destination place.",
+      importantNotes: ['Always check compliance rules for CIP.'],
+      keyPoints: ["CIP (Carriage and Insurance Paid to) is multimodal Incoterm where seller pays carriage + all-risk insurance to destination place."]
+    };
+  }
+
+  if (title === 'CPT') {
+    return {
+      definition: "CPT (Carriage Paid To) is multimodal Incoterm where seller pays main freight carriage to named destination place.",
+      whyImportant: "Used for rail, road, or air transport where seller pays freight up to inland terminal and buyer arranges insurance.",
+      businessExample: "Truck transport under CPT ICD Ahmedabad terms. Seller pays freight up to ICD depot.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for CPT.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'CPT Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'CPT Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of CPT?', answer: "CPT (Carriage Paid To) is multimodal Incoterm where seller pays main freight carriage to named destination place." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "CPT (Carriage Paid To) is multimodal Incoterm where seller pays main freight carriage to named destination place.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes CPT?', options: ["CPT (Carriage Paid To) is multimodal Incoterm where seller pays main freight carriage to named destination place.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "CPT (Carriage Paid To) is multimodal Incoterm where seller pays main freight carriage to named destination place." }],
+      objectives: ['Understand operational meaning of CPT.'],
+      writtenExplanation: "CPT (Carriage Paid To) is multimodal Incoterm where seller pays main freight carriage to named destination place.",
+      importantNotes: ['Always check compliance rules for CPT.'],
+      keyPoints: ["CPT (Carriage Paid To) is multimodal Incoterm where seller pays main freight carriage to named destination place."]
+    };
+  }
+
+  if (title === 'Warehouse') {
+    return {
+      definition: "Warehouse is a commercial facility designed for storage of raw materials, inventory management, order picking, and distribution.",
+      whyImportant: "Efficient warehousing prevents inventory damage, maintains stock security, and speeds up customer order fulfillment.",
+      businessExample: "RBC stores cleared import stocks in their 10,000 sq ft central warehouse in Ahmedabad for pan-India distribution.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for Warehouse.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'Warehouse Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Warehouse Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of Warehouse?', answer: "Warehouse is a commercial facility designed for storage of raw materials, inventory management, order picking, and distribution." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "Warehouse is a commercial facility designed for storage of raw materials, inventory management, order picking, and distribution.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Warehouse?', options: ["Warehouse is a commercial facility designed for storage of raw materials, inventory management, order picking, and distribution.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Warehouse is a commercial facility designed for storage of raw materials, inventory management, order picking, and distribution." }],
+      objectives: ['Understand operational meaning of Warehouse.'],
+      writtenExplanation: "Warehouse is a commercial facility designed for storage of raw materials, inventory management, order picking, and distribution.",
+      importantNotes: ['Always check compliance rules for Warehouse.'],
+      keyPoints: ["Warehouse is a commercial facility designed for storage of raw materials, inventory management, order picking, and distribution."]
+    };
+  }
+
+  if (title === 'Bonded Warehouse') {
+    return {
+      definition: "Bonded Warehouse is a customs-controlled storage building where imported goods can be stored duty-free until cleared for domestic sale.",
+      whyImportant: "Helps importers defer customs duty payment until goods are sold, improving cash flow management.",
+      businessExample: "RBC stores 5 containers of high-value machinery in Mundra Bonded Warehouse, paying duty on 1 container at a time as sold.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for Bonded Warehouse.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'Bonded Warehouse Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Bonded Warehouse Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of Bonded Warehouse?', answer: "Bonded Warehouse is a customs-controlled storage building where imported goods can be stored duty-free until cleared for domestic sale." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "Bonded Warehouse is a customs-controlled storage building where imported goods can be stored duty-free until cleared for domestic sale.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Bonded Warehouse?', options: ["Bonded Warehouse is a customs-controlled storage building where imported goods can be stored duty-free until cleared for domestic sale.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Bonded Warehouse is a customs-controlled storage building where imported goods can be stored duty-free until cleared for domestic sale." }],
+      objectives: ['Understand operational meaning of Bonded Warehouse.'],
+      writtenExplanation: "Bonded Warehouse is a customs-controlled storage building where imported goods can be stored duty-free until cleared for domestic sale.",
+      importantNotes: ['Always check compliance rules for Bonded Warehouse.'],
+      keyPoints: ["Bonded Warehouse is a customs-controlled storage building where imported goods can be stored duty-free until cleared for domestic sale."]
+    };
+  }
+
+  if (title === 'Last Mile Delivery') {
+    return {
+      definition: "Last Mile Delivery is the final transportation leg moving cleared cargo from regional warehouse to final customer door.",
+      whyImportant: "Critical for customer satisfaction and logistics speed, accounting for over 50% of total shipping experience.",
+      businessExample: "RBC uses local express trucks for last mile delivery of imported solar panels from ICD depot to client factory door.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for Last Mile Delivery.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'Last Mile Delivery Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Last Mile Delivery Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of Last Mile Delivery?', answer: "Last Mile Delivery is the final transportation leg moving cleared cargo from regional warehouse to final customer door." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "Last Mile Delivery is the final transportation leg moving cleared cargo from regional warehouse to final customer door.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Last Mile Delivery?', options: ["Last Mile Delivery is the final transportation leg moving cleared cargo from regional warehouse to final customer door.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Last Mile Delivery is the final transportation leg moving cleared cargo from regional warehouse to final customer door." }],
+      objectives: ['Understand operational meaning of Last Mile Delivery.'],
+      writtenExplanation: "Last Mile Delivery is the final transportation leg moving cleared cargo from regional warehouse to final customer door.",
+      importantNotes: ['Always check compliance rules for Last Mile Delivery.'],
+      keyPoints: ["Last Mile Delivery is the final transportation leg moving cleared cargo from regional warehouse to final customer door."]
+    };
+  }
+
+  if (title === 'Door Delivery') {
+    return {
+      definition: "Door Delivery is an end-to-end shipping service where logistics provider handles pickup at factory door and delivery to importer door.",
+      whyImportant: "Eliminates multiple freight intermediaries, offering single-window accountability for entire shipment journey.",
+      businessExample: "RBC hires DHL Global Forwarding for door delivery of electronic components from Shenzhen factory to RBC Bangalore facility.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Operational logistics illustration for Door Delivery.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 400 },
+      pdf: { pdfUrl: '#', title: 'Door Delivery Practical Guide.pdf', totalPages: 2, size: '400 KB', mockPagesText: ['Page 1: Technical specs.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Door Delivery Sheet', fileUrl: '#', size: '50 KB', type: 'pdf' },
+      relatedTopics: ['FOB', 'CBM', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of Door Delivery?', answer: "Door Delivery is an end-to-end shipping service where logistics provider handles pickup at factory door and delivery to importer door." }],
+      commonMistakes: ['Failing to verify documentation details before shipping.'],
+      practicalTips: ['Consult your logistics agent before finalizing PO terms.'],
+      summary: "Door Delivery is an end-to-end shipping service where logistics provider handles pickup at factory door and delivery to importer door.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Door Delivery?', options: ["Door Delivery is an end-to-end shipping service where logistics provider handles pickup at factory door and delivery to importer door.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Door Delivery is an end-to-end shipping service where logistics provider handles pickup at factory door and delivery to importer door." }],
+      objectives: ['Understand operational meaning of Door Delivery.'],
+      writtenExplanation: "Door Delivery is an end-to-end shipping service where logistics provider handles pickup at factory door and delivery to importer door.",
+      importantNotes: ['Always check compliance rules for Door Delivery.'],
+      keyPoints: ["Door Delivery is an end-to-end shipping service where logistics provider handles pickup at factory door and delivery to importer door."]
     };
   }
 
@@ -2110,6 +2550,91 @@ const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: 
 
 // Helper to generate rich domain-specific content per module for all fallback topics
 const getModuleDomainInfo = (title: string, moduleId: string) => {
+  // Direct topic-specific lookup for unique definitions across all modules
+  const topicMap: { [key: string]: { def: string; imp: string; ex: string; tip: string; mistake: string } } = {
+    'Freight': {
+      def: 'Freight is the transportation charge paid to a shipping line, airline, or logistics carrier for moving cargo from origin to destination.',
+      imp: 'Freight is a major component of Landed Cost calculation. Negotiating competitive freight rates directly increases business profit margins.',
+      ex: 'RBC pays $1,800 ocean freight to Maersk line for transporting a 20FT container from Shanghai to Mundra port.',
+      tip: 'Request an itemized freight quote showing ocean freight, BAF (bunker fuel), and CAF (currency adjustment).',
+      mistake: 'Focusing only on cheap ocean freight while ignoring expensive local terminal handling surcharges.'
+    },
+    'Sea Freight': {
+      def: 'Sea Freight is the transportation of goods in shipping containers or bulk vessels across ocean routes between international seaports.',
+      imp: 'Sea Freight is the most economical shipping method for large bulk cargo, accounting for 90% of global trade volume.',
+      ex: 'RBC imports 10 tons of industrial machinery via Sea Freight from Ningbo to Nhava Sheva port, taking 18 days transit time at low cost.',
+      tip: 'Book sea freight space 2-3 weeks in advance during peak import seasons.',
+      mistake: 'Shipping urgent time-sensitive samples via sea freight instead of air freight.'
+    },
+    'Air Freight': {
+      def: 'Air Freight is the rapid transport of cargo via dedicated freighter aircraft or passenger plane belly holds.',
+      imp: 'Air Freight is essential for high-value, perishable, fragile, or time-critical shipments requiring arrival within 3-5 days.',
+      ex: 'RBC ships urgent electronic prototypes from Shenzhen to Mumbai Airport via Air Freight in 3 days.',
+      tip: 'Calculate Chargeable Weight (Max of scale weight vs volume weight ÷ 6000) before booking air freight.',
+      mistake: 'Shipping low-value heavy bulk cargo via air freight, exceeding product value.'
+    },
+    'POL': {
+      def: 'POL stands for Port of Loading — the designated seaport in the exporting country where container cargo is loaded onto the vessel.',
+      imp: 'Declaring the correct POL on Bills of Lading and origin customs documents is mandatory for vessel tracking and tariff origin compliance.',
+      ex: 'For RBC\'s import from China to India, Ningbo Port is POL (Port of Loading). Supplier delivers packed container to Ningbo POL terminal.',
+      tip: 'Verify origin POL terminal cutoff dates (CY Cutoff) to ensure container is gated in before ship departs.',
+      mistake: 'Confusing Port of Loading (POL) with Port of Discharge (POD) on transport documentation.'
+    },
+    'POD': {
+      def: 'POD stands for Port of Discharge — the destination seaport in the importing country where the container is unloaded from the vessel.',
+      imp: 'Customs clearance filing (Bill of Entry) and port demurrage free-days calculation start as soon as vessel docks at POD.',
+      ex: 'For RBC\'s shipment from Ningbo to Mundra, Mundra Port is POD (Port of Discharge). RBC files customs Bill of Entry at Mundra POD.',
+      tip: 'File advance Bill of Entry 2 days before vessel ETA at POD to clear customs immediately upon discharge.',
+      mistake: 'Failing to track vessel ETA at POD, causing container to sit at port and incur expensive demurrage charges.'
+    },
+    'ICD': {
+      def: 'ICD stands for Inland Container Depot (Dry Port) — an inland customs-bonded container handling facility located away from ocean ports.',
+      imp: 'ICDs allow importers in inland cities (like Delhi, Ahmedabad, Jaipur) to complete customs clearance locally near their business without traveling to seaports.',
+      ex: 'RBC ships container by rail from Mundra seaport directly to ICD Ahmedabad (Dry Port) to clear customs 15 minutes away from their warehouse.',
+      tip: 'Specify your local ICD code as final destination on Bill of Lading (e.g., Destination: ICD Ahmedabad - SBIAD).',
+      mistake: 'Clearing customs at seaport when an inland ICD is available near your city, increasing double handling truck costs.'
+    },
+    'CFS': {
+      def: 'CFS stands for Container Freight Station — a customs-bonded warehouse at port or ICD where LCL cargo is consolidated or de-consolidated.',
+      imp: 'At destination CFS, shared LCL containers are opened, individual importer cartons are sorted, and customs inspection takes place.',
+      ex: 'RBC\'s shared LCL container arrives at Mundra CFS. Workers de-stuff container and separate RBC\'s 10 master cartons for customs audit.',
+      tip: 'Verify CFS handling charges and free storage days (usually 5 days) before container arrival at CFS.',
+      mistake: 'Leaving LCL goods at CFS beyond free storage period, incurring heavy daily storage rent.'
+    },
+    'Proforma Invoice': {
+      def: 'Proforma Invoice (PI) is a preliminary billing document sent by the seller before order confirmation, detailing product specs, prices, terms, and bank details.',
+      imp: 'PI serves as the official purchase agreement used by buyers to transfer advance payment deposits and open Letters of Credit (LC) with banks.',
+      ex: 'RBC receives a Proforma Invoice from Ningbo supplier for 1,000 LED lights at $8/pc (Total $8,000). RBC signs PI and wires 30% deposit ($2,400) to start production.',
+      tip: 'Check that PI explicitly lists Incoterms (FOB/CIF), HSN codes, payment terms, and factory bank SWIFT details before paying.',
+      mistake: 'Paying advance deposit based on an informal WeChat or email quote instead of a signed formal Proforma Invoice.'
+    },
+    'Commercial Invoice': {
+      def: 'Commercial Invoice (CI) is the legal billing document issued by seller upon dispatch, serving as the official record of sale and primary basis for customs valuation.',
+      imp: 'Customs authorities calculate import duty and GST taxes directly from the Assessable Value declared on the Commercial Invoice.',
+      ex: 'RBC submits the seller\'s Commercial Invoice ($12,000 CIF Mundra) to Indian Customs. Customs assesses 7.5% BCD + 18% IGST based on this CI.',
+      tip: 'Ensure Invoice Number, Date, Buyer/Seller Tax IDs, Incoterms, HSN Codes, and Currency are accurately stated.',
+      mistake: 'Under-declaring Commercial Invoice value to evade customs duty, which is a criminal offense leading to heavy penalties and cargo seizure.'
+    },
+    'Packing List': {
+      def: 'Packing List (PL) is a detailed transport document created by the exporter specifying box count, dimensions, gross weight, net weight, and exact contents of every master carton.',
+      imp: 'Customs officers and warehouse team use the Packing List to verify physical box count during inspection and match incoming inventory with purchase orders.',
+      ex: 'RBC\'s Packing List states: 50 Master Cartons, Gross Weight 1,000 kg, Net Weight 850 kg, Total Volume 6 CBM.',
+      tip: 'Attach a copy of the Packing List inside Container Box #1 and paste pouch copies on outer carton walls.',
+      mistake: 'Mismatched box counts or weight discrepancies between Packing List and Bill of Lading, causing customs clearance holds.'
+    },
+    'Bill of Lading': {
+      def: 'Bill of Lading (B/L) is the official ocean transport document issued by shipping line serving as a cargo receipt, contract of carriage, and legal document of title (ownership).',
+      imp: 'Original B/L is a negotiable instrument representing legal ownership of cargo. Carrier will NOT release container at destination port without B/L surrender.',
+      ex: 'Maersk issues 3 Original Bills of Lading to China supplier. Once RBC pays balance 70% payment, supplier surrenders B/L (Telex Release) so RBC can claim container in India.',
+      tip: 'Request Telex Release (Surrender B/L) from supplier to avoid mailing physical original paper documents via international courier.',
+      mistake: 'Losing original physical Bill of Lading paper documents, which requires bank guarantees and months of delay to get container released.'
+    }
+  };
+
+  if (topicMap[title]) {
+    return topicMap[title];
+  }
+
   const map: { [key: string]: { def: string; imp: string; ex: string; tip: string; mistake: string } } = {
     'mod-3': {
       def: `${title} is a critical weight and measurement standard in cargo logistics. It dictates cargo density, space allocation, container loading capacity, and freight cost billing for sea and air transport.`,
