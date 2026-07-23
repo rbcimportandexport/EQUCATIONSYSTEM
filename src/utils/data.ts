@@ -2196,6 +2196,204 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
     };
   }
 
+  if (title === 'Ocean Freight') {
+    return {
+      definition: "Ocean Freight is the main ocean transport fee charged by shipping lines to transport containerized or bulk cargo across international sea routes.",
+      whyImportant: "Forms the largest portion of total shipping costs. Rates fluctuate based on global vessel capacity, fuel prices, and container availability.",
+      businessExample: "RBC pays $1,900 base Ocean Freight to COSCO shipping line for carrying a 20FT container from Shanghai to Mundra Port.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Logistics visualization for Ocean Freight.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Ocean Freight Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Ocean Freight Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Ocean Freight', 'Local Charges', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of Ocean Freight?', answer: "Ocean Freight is the main ocean transport fee charged by shipping lines to transport containerized or bulk cargo across international sea routes." }],
+      commonMistakes: ['Failing to audit charges before approving payments.'],
+      practicalTips: ['Request itemized rate cards from forwarders.'],
+      summary: "Ocean Freight is the main ocean transport fee charged by shipping lines to transport containerized or bulk cargo across international sea routes.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Ocean Freight?', options: ["Ocean Freight is the main ocean transport fee charged by shipping lines to transport containerized or bulk cargo across international sea routes.", 'A tax exemption.', 'An illegal fee.', 'A vessel penalty.'], correctAnswers: ['0'], explanation: "Ocean Freight is the main ocean transport fee charged by shipping lines to transport containerized or bulk cargo across international sea routes." }],
+      objectives: ['Understand operational meaning of Ocean Freight.'],
+      writtenExplanation: "Ocean Freight is the main ocean transport fee charged by shipping lines to transport containerized or bulk cargo across international sea routes.",
+      importantNotes: ['Audit all charges for Ocean Freight.'],
+      keyPoints: ["Ocean Freight is the main ocean transport fee charged by shipping lines to transport containerized or bulk cargo across international sea routes."]
+    };
+  }
+
+  if (title === 'Local Charges') {
+    return {
+      definition: "Local Charges are origin and destination port handling fees charged by forwarders and port terminals (such as THC, documentation, and gate fees) outside of main ocean freight.",
+      whyImportant: "Importers must audit local charges to prevent unexpected destination invoice surcharges and landed cost inflation.",
+      businessExample: "At Mundra Port, RBC pays $280 in Local Charges (THC + DO fee + port gate fee) to clear the incoming 20FT container.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Logistics visualization for Local Charges.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Local Charges Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Local Charges Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Ocean Freight', 'Local Charges', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of Local Charges?', answer: "Local Charges are origin and destination port handling fees charged by forwarders and port terminals (such as THC, documentation, and gate fees) outside of main ocean freight." }],
+      commonMistakes: ['Failing to audit charges before approving payments.'],
+      practicalTips: ['Request itemized rate cards from forwarders.'],
+      summary: "Local Charges are origin and destination port handling fees charged by forwarders and port terminals (such as THC, documentation, and gate fees) outside of main ocean freight.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Local Charges?', options: ["Local Charges are origin and destination port handling fees charged by forwarders and port terminals (such as THC, documentation, and gate fees) outside of main ocean freight.", 'A tax exemption.', 'An illegal fee.', 'A vessel penalty.'], correctAnswers: ['0'], explanation: "Local Charges are origin and destination port handling fees charged by forwarders and port terminals (such as THC, documentation, and gate fees) outside of main ocean freight." }],
+      objectives: ['Understand operational meaning of Local Charges.'],
+      writtenExplanation: "Local Charges are origin and destination port handling fees charged by forwarders and port terminals (such as THC, documentation, and gate fees) outside of main ocean freight.",
+      importantNotes: ['Audit all charges for Local Charges.'],
+      keyPoints: ["Local Charges are origin and destination port handling fees charged by forwarders and port terminals (such as THC, documentation, and gate fees) outside of main ocean freight."]
+    };
+  }
+
+  if (title === 'THC') {
+    return {
+      definition: "Terminal Handling Charge (THC) is the port fee charged by terminal operators for using port cranes and equipment to load or unload containers between vessel and port yard.",
+      whyImportant: "Payable at both origin port (Origin THC) and destination port (Destination THC). Rates vary by port authority and container size.",
+      businessExample: "Adani Mundra Port charges ₹9,500 Destination THC to offload RBC's 20FT container from ship deck onto port container yard.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Logistics visualization for THC.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'THC Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'THC Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Ocean Freight', 'Local Charges', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of THC?', answer: "Terminal Handling Charge (THC) is the port fee charged by terminal operators for using port cranes and equipment to load or unload containers between vessel and port yard." }],
+      commonMistakes: ['Failing to audit charges before approving payments.'],
+      practicalTips: ['Request itemized rate cards from forwarders.'],
+      summary: "Terminal Handling Charge (THC) is the port fee charged by terminal operators for using port cranes and equipment to load or unload containers between vessel and port yard.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is THC?', options: ["Terminal Handling Charge (THC) is the port fee charged by terminal operators for using port cranes and equipment to load or unload containers between vessel and port yard.", 'A tax exemption.', 'An illegal fee.', 'A vessel penalty.'], correctAnswers: ['0'], explanation: "Terminal Handling Charge (THC) is the port fee charged by terminal operators for using port cranes and equipment to load or unload containers between vessel and port yard." }],
+      objectives: ['Understand operational meaning of THC.'],
+      writtenExplanation: "Terminal Handling Charge (THC) is the port fee charged by terminal operators for using port cranes and equipment to load or unload containers between vessel and port yard.",
+      importantNotes: ['Audit all charges for THC.'],
+      keyPoints: ["Terminal Handling Charge (THC) is the port fee charged by terminal operators for using port cranes and equipment to load or unload containers between vessel and port yard."]
+    };
+  }
+
+  if (title === 'CFS Charges') {
+    return {
+      definition: "CFS Charges are handling, de-stuffing, sorting, and ground storage fees billed by Container Freight Stations for processing LCL cargo shipments.",
+      whyImportant: "Essential for LCL importers to calculate before shipping, as CFS charges include fixed handling minimums regardless of package volume.",
+      businessExample: "Mundra CFS bills RBC ₹4,200 in CFS Charges for de-stuffing their 4 CBM shared LCL pallet and storing it for 3 days.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Logistics visualization for CFS Charges.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'CFS Charges Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'CFS Charges Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Ocean Freight', 'Local Charges', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of CFS Charges?', answer: "CFS Charges are handling, de-stuffing, sorting, and ground storage fees billed by Container Freight Stations for processing LCL cargo shipments." }],
+      commonMistakes: ['Failing to audit charges before approving payments.'],
+      practicalTips: ['Request itemized rate cards from forwarders.'],
+      summary: "CFS Charges are handling, de-stuffing, sorting, and ground storage fees billed by Container Freight Stations for processing LCL cargo shipments.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is CFS Charges?', options: ["CFS Charges are handling, de-stuffing, sorting, and ground storage fees billed by Container Freight Stations for processing LCL cargo shipments.", 'A tax exemption.', 'An illegal fee.', 'A vessel penalty.'], correctAnswers: ['0'], explanation: "CFS Charges are handling, de-stuffing, sorting, and ground storage fees billed by Container Freight Stations for processing LCL cargo shipments." }],
+      objectives: ['Understand operational meaning of CFS Charges.'],
+      writtenExplanation: "CFS Charges are handling, de-stuffing, sorting, and ground storage fees billed by Container Freight Stations for processing LCL cargo shipments.",
+      importantNotes: ['Audit all charges for CFS Charges.'],
+      keyPoints: ["CFS Charges are handling, de-stuffing, sorting, and ground storage fees billed by Container Freight Stations for processing LCL cargo shipments."]
+    };
+  }
+
+  if (title === 'DO Charges') {
+    return {
+      definition: "DO Charges are administrative fees billed by shipping lines or forwarders for issuing the electronic Delivery Order (DO) authorizing cargo release.",
+      whyImportant: "Paid by the importer at destination before port authorities release the container for truck dispatch.",
+      businessExample: "Maersk charges ₹3,500 DO Fee to issue the digital release order for RBC's imported machinery container.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Logistics visualization for DO Charges.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'DO Charges Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'DO Charges Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Ocean Freight', 'Local Charges', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of DO Charges?', answer: "DO Charges are administrative fees billed by shipping lines or forwarders for issuing the electronic Delivery Order (DO) authorizing cargo release." }],
+      commonMistakes: ['Failing to audit charges before approving payments.'],
+      practicalTips: ['Request itemized rate cards from forwarders.'],
+      summary: "DO Charges are administrative fees billed by shipping lines or forwarders for issuing the electronic Delivery Order (DO) authorizing cargo release.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is DO Charges?', options: ["DO Charges are administrative fees billed by shipping lines or forwarders for issuing the electronic Delivery Order (DO) authorizing cargo release.", 'A tax exemption.', 'An illegal fee.', 'A vessel penalty.'], correctAnswers: ['0'], explanation: "DO Charges are administrative fees billed by shipping lines or forwarders for issuing the electronic Delivery Order (DO) authorizing cargo release." }],
+      objectives: ['Understand operational meaning of DO Charges.'],
+      writtenExplanation: "DO Charges are administrative fees billed by shipping lines or forwarders for issuing the electronic Delivery Order (DO) authorizing cargo release.",
+      importantNotes: ['Audit all charges for DO Charges.'],
+      keyPoints: ["DO Charges are administrative fees billed by shipping lines or forwarders for issuing the electronic Delivery Order (DO) authorizing cargo release."]
+    };
+  }
+
+  if (title === 'Detention') {
+    return {
+      definition: "Detention is a penalty fee charged by shipping lines when an importer holds an empty container outside the port beyond agreed free days (usually 7-14 days).",
+      whyImportant: "Avoidable by returning empty containers back to the carrier container yard promptly after factory unloading.",
+      businessExample: "RBC unloads a container at their warehouse in 2 days and returns the empty box to Mundra yard within 5 days, incurring zero detention fees.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Logistics visualization for Detention.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Detention Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Detention Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Ocean Freight', 'Local Charges', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of Detention?', answer: "Detention is a penalty fee charged by shipping lines when an importer holds an empty container outside the port beyond agreed free days (usually 7-14 days)." }],
+      commonMistakes: ['Failing to audit charges before approving payments.'],
+      practicalTips: ['Request itemized rate cards from forwarders.'],
+      summary: "Detention is a penalty fee charged by shipping lines when an importer holds an empty container outside the port beyond agreed free days (usually 7-14 days).",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Detention?', options: ["Detention is a penalty fee charged by shipping lines when an importer holds an empty container outside the port beyond agreed free days (usually 7-14 days).", 'A tax exemption.', 'An illegal fee.', 'A vessel penalty.'], correctAnswers: ['0'], explanation: "Detention is a penalty fee charged by shipping lines when an importer holds an empty container outside the port beyond agreed free days (usually 7-14 days)." }],
+      objectives: ['Understand operational meaning of Detention.'],
+      writtenExplanation: "Detention is a penalty fee charged by shipping lines when an importer holds an empty container outside the port beyond agreed free days (usually 7-14 days).",
+      importantNotes: ['Audit all charges for Detention.'],
+      keyPoints: ["Detention is a penalty fee charged by shipping lines when an importer holds an empty container outside the port beyond agreed free days (usually 7-14 days)."]
+    };
+  }
+
+  if (title === 'Demurrage') {
+    return {
+      definition: "Demurrage is a daily penalty fee charged by ports or shipping lines when a loaded container stays inside the port terminal beyond free storage days (usually 3-5 days).",
+      whyImportant: "Demurrage accumulates rapidly ($100-$250/day). Immediate customs clearance prevents expensive demurrage accumulation.",
+      businessExample: "RBC files advance BOE 2 days prior to vessel arrival, clearing customs in 24 hours and gating out the container on Day 2, avoiding $200/day demurrage.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Logistics visualization for Demurrage.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Demurrage Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Demurrage Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Ocean Freight', 'Local Charges', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of Demurrage?', answer: "Demurrage is a daily penalty fee charged by ports or shipping lines when a loaded container stays inside the port terminal beyond free storage days (usually 3-5 days)." }],
+      commonMistakes: ['Failing to audit charges before approving payments.'],
+      practicalTips: ['Request itemized rate cards from forwarders.'],
+      summary: "Demurrage is a daily penalty fee charged by ports or shipping lines when a loaded container stays inside the port terminal beyond free storage days (usually 3-5 days).",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Demurrage?', options: ["Demurrage is a daily penalty fee charged by ports or shipping lines when a loaded container stays inside the port terminal beyond free storage days (usually 3-5 days).", 'A tax exemption.', 'An illegal fee.', 'A vessel penalty.'], correctAnswers: ['0'], explanation: "Demurrage is a daily penalty fee charged by ports or shipping lines when a loaded container stays inside the port terminal beyond free storage days (usually 3-5 days)." }],
+      objectives: ['Understand operational meaning of Demurrage.'],
+      writtenExplanation: "Demurrage is a daily penalty fee charged by ports or shipping lines when a loaded container stays inside the port terminal beyond free storage days (usually 3-5 days).",
+      importantNotes: ['Audit all charges for Demurrage.'],
+      keyPoints: ["Demurrage is a daily penalty fee charged by ports or shipping lines when a loaded container stays inside the port terminal beyond free storage days (usually 3-5 days)."]
+    };
+  }
+
+  if (title === 'Port Charges') {
+    return {
+      definition: "Port Charges are statutory pilotage, berth hire, anchorage, and port entry fees levied by port trusts on vessels and cargo handling.",
+      whyImportant: "Factored into overall terminal handling tariffs paid by vessel operators and logistics forwarders.",
+      businessExample: "Jawaharlal Nehru Port Trust (JNPT) collects port infrastructure charges from shipping lines for vessel docking and container crane operations.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Logistics visualization for Port Charges.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Port Charges Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Port Charges Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Ocean Freight', 'Local Charges', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of Port Charges?', answer: "Port Charges are statutory pilotage, berth hire, anchorage, and port entry fees levied by port trusts on vessels and cargo handling." }],
+      commonMistakes: ['Failing to audit charges before approving payments.'],
+      practicalTips: ['Request itemized rate cards from forwarders.'],
+      summary: "Port Charges are statutory pilotage, berth hire, anchorage, and port entry fees levied by port trusts on vessels and cargo handling.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Port Charges?', options: ["Port Charges are statutory pilotage, berth hire, anchorage, and port entry fees levied by port trusts on vessels and cargo handling.", 'A tax exemption.', 'An illegal fee.', 'A vessel penalty.'], correctAnswers: ['0'], explanation: "Port Charges are statutory pilotage, berth hire, anchorage, and port entry fees levied by port trusts on vessels and cargo handling." }],
+      objectives: ['Understand operational meaning of Port Charges.'],
+      writtenExplanation: "Port Charges are statutory pilotage, berth hire, anchorage, and port entry fees levied by port trusts on vessels and cargo handling.",
+      importantNotes: ['Audit all charges for Port Charges.'],
+      keyPoints: ["Port Charges are statutory pilotage, berth hire, anchorage, and port entry fees levied by port trusts on vessels and cargo handling."]
+    };
+  }
+
+  if (title === 'Documentation Charges') {
+    return {
+      definition: "Documentation Charges are administrative processing fees billed by freight forwarders or shipping lines for creating B/L, HBL, manifest filings, and EDI entries.",
+      whyImportant: "Importers should verify documentation charges on freight quotes to ensure transparency and avoid duplicate invoicing.",
+      businessExample: "Forwarder bills ₹2,500 Documentation Charge for issuing House Bill of Lading (HBL) and filing import manifest with Indian Customs.",
+      images: [{ url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', caption: 'Logistics visualization for Documentation Charges.', highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80' }],
+      video: { videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', thumbnail: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', duration: 420 },
+      pdf: { pdfUrl: '#', title: 'Documentation Charges Guide.pdf', totalPages: 2, size: '450 KB', mockPagesText: ['Page 1: Overview.', 'Page 2: Checklist.'] },
+      downloadOption: { title: 'Documentation Charges Sheet', fileUrl: '#', size: '55 KB', type: 'pdf' },
+      relatedTopics: ['Ocean Freight', 'Local Charges', 'Customs Clearance'],
+      faqs: [{ question: 'What is the role of Documentation Charges?', answer: "Documentation Charges are administrative processing fees billed by freight forwarders or shipping lines for creating B/L, HBL, manifest filings, and EDI entries." }],
+      commonMistakes: ['Failing to audit charges before approving payments.'],
+      practicalTips: ['Request itemized rate cards from forwarders.'],
+      summary: "Documentation Charges are administrative processing fees billed by freight forwarders or shipping lines for creating B/L, HBL, manifest filings, and EDI entries.",
+      quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Documentation Charges?', options: ["Documentation Charges are administrative processing fees billed by freight forwarders or shipping lines for creating B/L, HBL, manifest filings, and EDI entries.", 'A tax exemption.', 'An illegal fee.', 'A vessel penalty.'], correctAnswers: ['0'], explanation: "Documentation Charges are administrative processing fees billed by freight forwarders or shipping lines for creating B/L, HBL, manifest filings, and EDI entries." }],
+      objectives: ['Understand operational meaning of Documentation Charges.'],
+      writtenExplanation: "Documentation Charges are administrative processing fees billed by freight forwarders or shipping lines for creating B/L, HBL, manifest filings, and EDI entries.",
+      importantNotes: ['Audit all charges for Documentation Charges.'],
+      keyPoints: ["Documentation Charges are administrative processing fees billed by freight forwarders or shipping lines for creating B/L, HBL, manifest filings, and EDI entries."]
+    };
+  }
+
   if (title === 'MOQ') {
     return {
       definition: 'MOQ stands for Minimum Order Quantity — the smallest number of units a supplier is willing to produce or sell in a single order. For example, if a factory sets an MOQ of 500 units, you cannot order 200 units; you must order at least 500.',
