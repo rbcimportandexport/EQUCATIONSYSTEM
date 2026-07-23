@@ -645,14 +645,12 @@ export const ModuleScreen: React.FC = () => {
                             <div onClick={e => e.stopPropagation()}>
                               <button
                                 onClick={() => {
-                                  // Toggle stop if already playing this lesson
+                                  // Toggle stop
                                   if (playingLessonId === lesson.id) {
                                     stopActiveTTS();
                                     setPlayingLessonId(null);
                                     return;
                                   }
-
-                                  // Stop any previous speech
                                   stopActiveTTS();
 
                                   // Build lesson text
@@ -660,6 +658,102 @@ export const ModuleScreen: React.FC = () => {
                                   const lessonLang = getTranslatedLesson(rawLesson, language);
                                   const tLang = uiTranslations[language];
                                   const activeLangCode = language === 'hi' ? 'hi' : language === 'gu' ? 'gu' : language === 'mr' ? 'mr' : 'en';
+
+                                  const sanitize = (txt: string): string => {
+                                    let s = txt.replace(/[:\-–—=+]/g, ' ').replace(/[()[\]{}*#•]/g, ' ').replace(/\s+/g, ' ').trim();
+                                    return s;
+                                  };
+
+                                  const parts: string[] = [lessonLang.title];
+                                  if (lessonLang.content?.definition) parts.push(lessonLang.content.definition);
+                                  if (lessonLang.content?.writtenExplanation) parts.push(lessonLang.content.writtenExplanation);
+                                  if (lessonLang.content?.businessExample) parts.push(lessonLang.content.businessExample);
+                                  if (lessonLang.content?.whyImportant) parts.push(lessonLang.content.whyImportant);
+                                  if (lessonLang.content?.importantNotes?.length) parts.push(lessonLang.content.importantNotes.join('. '));
+                                  if (lessonLang.content?.commonMistakes?.length) parts.push(lessonLang.content.commonMistakes.join('. '));
+                                  if (lessonLang.content?.practicalTips?.length) parts.push(lessonLang.content.practicalTips.join('. '));
+                                  if (lessonLang.content?.summary) parts.push(lessonLang.content.summary);
+
+                                  const fullText = parts.map(p => sanitize(p)).filter(p => p.trim().length > 0).join('. ');
+
+                                  // ResponsiveVoice voice names for each language
+                                  const rvVoiceMap: Record<string, string> = {
+                                    gu: 'Gujarati Female',
+                                    hi: 'Hindi Female',
+                                    mr: 'Marathi Female',
+                                    en: 'UK English Female',
+                                  };
+                                  const rvVoice = rvVoiceMap[activeLangCode] || 'UK English Female';
+
+                                  const newSid = Date.now();
+                                  ttsActiveRef.current = true;
+                                  ttsSessionRef.current = newSid;
+                                  setPlayingLessonId(lesson.id);
+
+                                  const rv = (window as any).responsiveVoice;
+
+                                  if (rv && rv.voiceSupport()) {
+                                    // ✅ PRIMARY: ResponsiveVoice — supports Gujarati Female natively
+                                    rv.speak(fullText, rvVoice, {
+                                      rate: 1,
+                                      pitch: 1,
+                                      volume: 1,
+                                      onstart: () => { /* speaking started */ },
+                                      onend: () => {
+                                        if (ttsSessionRef.current === newSid) {
+                                          setPlayingLessonId(null);
+                                          ttsActiveRef.current = false;
+                                        }
+                                      },
+                                      onerror: () => {
+                                        if (ttsSessionRef.current === newSid) {
+                                          setPlayingLessonId(null);
+                                          ttsActiveRef.current = false;
+                                        }
+                                      },
+                                    });
+                                  } else {
+                                    // ✅ FALLBACK: WebSpeech API
+                                    const langMap: Record<string, string> = { gu: 'gu-IN', hi: 'hi-IN', mr: 'mr-IN', en: 'en-IN' };
+                                    const ttsLang = langMap[activeLangCode] || 'en-IN';
+
+                                    const startSpeak = (voices: SpeechSynthesisVoice[]) => {
+                                      if (ttsSessionRef.current !== newSid || !ttsActiveRef.current) return;
+                                      const utter = new SpeechSynthesisUtterance(fullText);
+                                      utter.lang = ttsLang;
+                                      utter.rate = 1.0;
+                                      utter.volume = 1.0;
+
+                                      let picked = voices.find(v => v.lang.toLowerCase().startsWith(activeLangCode));
+                                      if (!picked) picked = voices.find(v => v.lang.toLowerCase().includes('-in'));
+                                      if (!picked) picked = voices.find(v => v.lang.toLowerCase().startsWith('en'));
+                                      if (!picked && voices.length > 0) picked = voices[0];
+                                      if (picked) { utter.voice = picked; utter.lang = picked.lang; }
+
+                                      utter.onend = () => {
+                                        if (ttsSessionRef.current === newSid) { setPlayingLessonId(null); ttsActiveRef.current = false; clearInterval(ttsKeepAliveRef.current); }
+                                      };
+                                      utter.onerror = (ev: SpeechSynthesisErrorEvent) => {
+                                        if (ev?.error === 'interrupted' || ev?.error === 'canceled') return;
+                                        if (ttsSessionRef.current === newSid) { setPlayingLessonId(null); ttsActiveRef.current = false; clearInterval(ttsKeepAliveRef.current); }
+                                      };
+                                      window.speechSynthesis.speak(utter);
+
+                                      clearInterval(ttsKeepAliveRef.current);
+                                      ttsKeepAliveRef.current = setInterval(() => {
+                                        if (!ttsActiveRef.current || ttsSessionRef.current !== newSid) { clearInterval(ttsKeepAliveRef.current); return; }
+                                        if (window.speechSynthesis.paused) window.speechSynthesis.resume();
+                                      }, 5000);
+                                    };
+
+                                    const v = window.speechSynthesis.getVoices();
+                                    if (v.length > 0) { startSpeak(v); }
+                                    else {
+                                      window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.onvoiceschanged = null; startSpeak(window.speechSynthesis.getVoices()); };
+                                      setTimeout(() => startSpeak(window.speechSynthesis.getVoices()), 1000);
+                                    }
+                                  }
+                                }}
 
                                   const sanitize = (txt: string): string => {
                                     let s = txt.replace(/[:\-–—=+]/g, '. ').replace(/[()[\]{}*#•]/g, ' ').replace(/\s+/g, ' ').trim();
