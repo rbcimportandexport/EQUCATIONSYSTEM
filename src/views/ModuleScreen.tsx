@@ -667,38 +667,18 @@ export const ModuleScreen: React.FC = () => {
                             {isDone && <span className="completed-badge">{t.completed}</span>}
 
                             {/* Listen / Read Aloud button */}
+                            {/* Listen / Read Aloud button */}
                             <div onClick={e => e.stopPropagation()}>
                               <button
                                 onClick={() => {
-                                  // 1. If currently playing THIS lesson -> PAUSE IT NATIVELY
+                                  // 1. If currently playing THIS lesson -> PAUSE/STOP IT
                                   if (playingLessonId === lesson.id) {
-                                    pauseActiveTTS(lesson.id);
+                                    stopActiveTTS();
                                     setPlayingLessonId(null);
                                     return;
                                   }
 
-                                  // 2. If PAUSED on THIS lesson -> RESUME IT NATIVELY
-                                  if (isTTSPausedRef.current && pausedAudioLessonIdRef.current === lesson.id) {
-                                    isTTSPausedRef.current = false;
-                                    setPlayingLessonId(lesson.id);
-
-                                    const audio = (window as any)._ttsCurrentAudio as HTMLAudioElement | null;
-                                    if (audio && audio.src) {
-                                      audio.play().catch(() => {});
-                                      return;
-                                    }
-                                    if (typeof window !== 'undefined' && window.speechSynthesis && window.speechSynthesis.paused) {
-                                      window.speechSynthesis.resume();
-                                      return;
-                                    }
-                                    const rv = (window as any).responsiveVoice;
-                                    if (rv && rv.resume) {
-                                      rv.resume();
-                                      return;
-                                    }
-                                  }
-
-                                  // 3. Otherwise -> START FRESH
+                                  // 2. Stop any active audio from other lessons
                                   stopActiveTTS();
 
                                   // Build lesson text
@@ -716,27 +696,40 @@ export const ModuleScreen: React.FC = () => {
                                   if (lessonLang.content?.writtenExplanation) parts.push(lessonLang.content.writtenExplanation);
                                   if (lessonLang.content?.businessExample) parts.push(lessonLang.content.businessExample);
                                   if (lessonLang.content?.whyImportant) parts.push(lessonLang.content.whyImportant);
-                                  if (lessonLang.content?.importantNotes?.length) parts.push(lessonLang.content.importantNotes.join('. '));
-                                  if (lessonLang.content?.commonMistakes?.length) parts.push(lessonLang.content.commonMistakes.join('. '));
-                                  if (lessonLang.content?.practicalTips?.length) parts.push(lessonLang.content.practicalTips.join('. '));
+                                  if (lessonLang.content?.importantNotes?.length) parts.push(...lessonLang.content.importantNotes);
+                                  if (lessonLang.content?.commonMistakes?.length) parts.push(...lessonLang.content.commonMistakes);
+                                  if (lessonLang.content?.practicalTips?.length) parts.push(...lessonLang.content.practicalTips);
                                   if (lessonLang.content?.summary) parts.push(lessonLang.content.summary);
 
-                                  const fullText = parts.map(clean).filter(p => p.length > 0).join('. ');
-
-                                  // Split into chunks ≤ 150 chars at word/sentence boundaries for Google TTS
+                                  // Split into sentence-by-sentence chunks for precise sentence resume
                                   const chunks: string[] = [];
-                                  const sentences = fullText.split(/(?<=[.।?!])\s+/);
-                                  let cur = '';
-                                  for (const s of sentences) {
-                                    if ((cur + ' ' + s).trim().length > 150) {
-                                      if (cur.trim()) chunks.push(cur.trim());
-                                      cur = s;
-                                    } else {
-                                      cur = cur ? cur + ' ' + s : s;
-                                    }
-                                  }
-                                  if (cur.trim()) chunks.push(cur.trim());
-                                  if (chunks.length === 0) chunks.push(fullText.substring(0, 150));
+                                  parts.forEach(p => {
+                                    const cleanedPart = clean(p);
+                                    if (!cleanedPart) return;
+                                    const sentenceArr = cleanedPart.split(/(?<=[.।?!])\s+/);
+                                    sentenceArr.forEach(s => {
+                                      const trimmed = s.trim();
+                                      if (trimmed.length > 0) {
+                                        if (trimmed.length <= 150) {
+                                          chunks.push(trimmed);
+                                        } else {
+                                          // Sub-split longer sentences to stay under 150 chars for Google TTS
+                                          let sub = '';
+                                          trimmed.split(/\s+/).forEach(word => {
+                                            if ((sub + ' ' + word).trim().length > 150) {
+                                              if (sub.trim()) chunks.push(sub.trim());
+                                              sub = word;
+                                            } else {
+                                              sub = sub ? sub + ' ' + word : word;
+                                            }
+                                          });
+                                          if (sub.trim()) chunks.push(sub.trim());
+                                        }
+                                      }
+                                    });
+                                  });
+
+                                  if (chunks.length === 0) chunks.push(clean(lessonLang.title || 'Lesson'));
 
                                   const newSid = Date.now();
                                   ttsActiveRef.current = true;
@@ -744,23 +737,24 @@ export const ModuleScreen: React.FC = () => {
                                   setPlayingLessonId(lesson.id);
 
                                   // ─── PRIMARY: Google Translate TTS via Audio element ───
-                                  // No backend needed, no CORS issues, free Gujarati audio
                                   const gttsLang = activeLangCode === 'mr' ? 'mr' : activeLangCode;
 
-                                  const startIdx = ttsChunkIndexMapRef.current[lesson.id] || 0;
+                                  // RESUME FROM SAVED SENTENCE INDEX!
+                                  const savedIdx = ttsChunkIndexMapRef.current[lesson.id] || 0;
+                                  const startIdx = savedIdx < chunks.length ? savedIdx : 0;
 
                                   const playChunk = (idx: number) => {
                                     if (ttsSessionRef.current !== newSid || !ttsActiveRef.current) return;
                                     if (idx >= chunks.length) {
+                                      // Finished all sentences! Reset to sentence 0 for next time!
                                       ttsChunkIndexMapRef.current[lesson.id] = 0;
-                                      isTTSPausedRef.current = false;
-                                      pausedAudioLessonIdRef.current = null;
                                       (window as any)._ttsCurrentAudio = null;
                                       setPlayingLessonId(null);
                                       ttsActiveRef.current = false;
                                       return;
                                     }
 
+                                    // Save current sentence index as active position
                                     ttsChunkIndexMapRef.current[lesson.id] = idx;
                                     const text = chunks[idx];
                                     const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${gttsLang}&client=tw-ob&ttsspeed=0.9`;
@@ -781,8 +775,8 @@ export const ModuleScreen: React.FC = () => {
                                       if (rv) {
                                         rv.speak(remaining, rvMap[activeLangCode] || 'UK English Female', {
                                           rate: 1, pitch: 1, volume: 1,
-                                          onend: () => { if (ttsSessionRef.current === newSid) { ttsChunkIndexMapRef.current[lesson.id] = 0; isTTSPausedRef.current = false; pausedAudioLessonIdRef.current = null; setPlayingLessonId(null); ttsActiveRef.current = false; } },
-                                          onerror: () => { if (ttsSessionRef.current === newSid) { ttsChunkIndexMapRef.current[lesson.id] = 0; isTTSPausedRef.current = false; pausedAudioLessonIdRef.current = null; setPlayingLessonId(null); ttsActiveRef.current = false; } },
+                                          onend: () => { if (ttsSessionRef.current === newSid) { ttsChunkIndexMapRef.current[lesson.id] = 0; setPlayingLessonId(null); ttsActiveRef.current = false; } },
+                                          onerror: () => { if (ttsSessionRef.current === newSid) { ttsChunkIndexMapRef.current[lesson.id] = 0; setPlayingLessonId(null); ttsActiveRef.current = false; } },
                                         });
                                       } else {
                                         // Final fallback: WebSpeech
@@ -790,7 +784,7 @@ export const ModuleScreen: React.FC = () => {
                                         const lm: Record<string, string> = { gu: 'gu-IN', hi: 'hi-IN', mr: 'mr-IN', en: 'en-IN' };
                                         utter.lang = lm[activeLangCode] || 'en-IN';
                                         utter.rate = 1.0;
-                                        utter.onend = () => { if (ttsSessionRef.current === newSid) { ttsChunkIndexMapRef.current[lesson.id] = 0; isTTSPausedRef.current = false; pausedAudioLessonIdRef.current = null; setPlayingLessonId(null); ttsActiveRef.current = false; } };
+                                        utter.onend = () => { if (ttsSessionRef.current === newSid) { ttsChunkIndexMapRef.current[lesson.id] = 0; setPlayingLessonId(null); ttsActiveRef.current = false; } };
                                         window.speechSynthesis.speak(utter);
                                       }
                                     };
@@ -819,7 +813,7 @@ export const ModuleScreen: React.FC = () => {
                                   {playingLessonId === lesson.id
                                     ? (language === 'hi' ? 'रोकें' : language === 'gu' ? 'અટકાવો' : language === 'mr' ? 'थांबवा' : 'Pause')
                                     : (ttsChunkIndexMapRef.current[lesson.id] > 0
-                                        ? (language === 'hi' ? 'आगे सुनें' : language === 'gu' ? 'આગળ સાંભળો' : language === 'mr' ? 'पुढे ऐका' : 'Resume')
+                                        ? (language === 'hi' ? 'आगे सुनें' : language === 'gu' ? 'આગળ સાંભળો' : language === 'mr' ? 'पुढे ऐકા' : 'Resume')
                                         : (language === 'hi' ? 'सुनें' : language === 'gu' ? 'સાંભળો' : language === 'mr' ? 'ऐका' : 'Listen'))}
                                 </span>
                               </button>
