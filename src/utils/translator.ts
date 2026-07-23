@@ -497,7 +497,7 @@ export const lessonTextTranslations: {
     },
     'les-mod-3-4': {
       title: "Volume Weight (वॉल्यूम वेट - आयतन वजन)",
-      definition: "Volume Weight (Dimensional Weight / Volumetric Weight) एयरलाइंस और कूरियर कंपनियों (DHL, FedEx) द्वारा भारी लेकिन कम वजन वाले कार्गो के लिए भाड़ा वसूलने का फॉर्मूला है। फॉर्मूला: Volume Weight (kg) = (लंबाई × चौड़ाई × ऊंचाई सेमी में) ÷ 6,000 (या कूरियर के लिए ÷ 5,000)।",
+      definition: "Volume Weight \(Dimensional Weight \/ Volumetric Weight\) एयरलाइंस और कूरियर कंपनियों (DHL, FedEx) द्वारा भारी लेकिन कम वजन वाले कार्गो के लिए भाड़ा वसूलने का फॉर्मूला है। फॉर्मूला: Volume Weight (kg) = (लंबाई × चौड़ाई × ऊंचाई सेमी में) ÷ 6,000 (या कूरियर के लिए ÷ 5,000)।",
       whyImportant: "फ्रेट कैरियर Chargeable Weight = Max(Actual Gross Weight, Volume Weight) के आधार पर शुल्क लेते हैं। यदि आप हल्के लेकिन बड़े उत्पाद (जैसे तकिये या खिलौने) भेजते हैं, तो आप Volume Weight के आधार पर भुगतान करते हैं।",
       businessExample: "RBC एयर कार्गो द्वारा टेडी बियर के 10 बॉक्स भेजता है। वास्तविक वजन = 50 किग्रा। बॉक्स आयाम: 60cm × 50cm × 40cm × 10 बॉक्स = 1,200,000 सेमी³। Volume Weight = 1,200,000 ÷ 6,000 = 200 किग्रा। एयरलाइन RBC से 50 किग्रा के बजाय 200 किग्रा का भाड़ा लेती है।",
       writtenExplanation: "Volume Weight कार्गो द्वारा घेरी गई जगह का आयतन मापता है। एयर कैरियर इसका उपयोग यह सुनिश्चित करने के लिए करते हैं कि हल्का लेकिन बड़ा माल उचित भाड़ा दे।",
@@ -982,130 +982,129 @@ export const translateDynamicContent = (
 
   let translated = text;
 
-  // 1. Exact sentence/paragraph replacements for Hindi
+  // 1. Exact replacements for Hindi
   if (lang === 'hi') {
     translated = translated
-      // Specific Gross Weight / Net Weight / Volume Weight definitions
-      .replace(/Gross Weight is the total weight of a shipment including the actual product, inner packaging, protective foam, export master cartons, and pallets. Formula: Gross Weight = Net Weight + Packaging Weight + Pallet Weight./g,
+      .replaceAll('Gross Weight is the total weight of a shipment including the actual product, inner packaging, protective foam, export master cartons, and pallets. Formula: Gross Weight = Net Weight + Packaging Weight + Pallet Weight.',
         'ग्रॉस वेट (Gross Weight) शिपमेंट का कुल वजन है जिसमें वास्तविक उत्पाद, आंतरिक पैकेजिंग, सुरक्षात्मक फोम, निर्यात मास्टर कार्टन और पैलेट शामिल हैं। फॉर्मूला: Gross Weight = Net Weight + Packaging Weight + Pallet Weight।')
-      .replace(/Gross Weight determines ocean freight charges, air cargo billing, container payload safety limits, and road weight laws. Falsifying Gross Weight leads to port detention, vessel instability risks, and heavy customs fines./g,
+      .replaceAll('Gross Weight determines ocean freight charges, air cargo billing, container payload safety limits, and road weight laws. Falsifying Gross Weight leads to port detention, vessel instability risks, and heavy customs fines.',
         'Gross Weight समुद्री भाड़ा शुल्क, हवाई कार्गो बिलिंग, कंटेनर पेलोड सुरक्षा सीमाओं और सड़क वजन कानूनों को निर्धारित करता है। गलत Gross Weight घोषित करने से बंदरगाह पर जब्ती और भारी जुर्माना लगता है।')
-      .replace(/Gross Weight is the complete weight of cargo including all protective packaging materials and pallets. It is used by shipping lines for weight verification (VGM - Verified Gross Mass) under SOLAS regulations./g,
+      .replaceAll('Gross Weight is the complete weight of cargo including all protective packaging materials and pallets. It is used by shipping lines for weight verification (VGM - Verified Gross Mass) under SOLAS regulations.',
         'Gross Weight सभी सुरक्षात्मक पैकेजिंग सामग्री और पैलेट सहित कार्गो का पूर्ण वजन है। SOLAS नियमों के तहत वजन सत्यापन (VGM - Verified Gross Mass) के लिए शिपिंग लाइनों द्वारा इसका उपयोग किया जाता है।')
       
-      .replace(/Net Weight is the actual weight of the product/goods alone, excluding all inner boxes, protective bubble wrap, master cartons, and pallets. Formula: Net Weight = Gross Weight - Packaging Weight./g,
+      .replaceAll('Net Weight is the actual weight of the product/goods alone, excluding all inner boxes, protective bubble wrap, master cartons, and pallets. Formula: Net Weight = Gross Weight - Packaging Weight.',
         'नेट वेट (Net Weight) सभी आंतरिक बक्सों, सुरक्षात्मक बबल रैप, मास्टर कार्टन और पैलेट को छोड़कर केवल उत्पाद/माल का वास्तविक शुद्ध वजन है। फॉर्मूला: Net Weight = Gross Weight - Packaging Weight।')
-      .replace(/Net Weight is used by customs authorities to calculate weight-based import duties for commodities (e.g., metals, food, chemicals) and by buyers to verify exact product yield received./g,
+      .replaceAll('Net Weight is used by customs authorities to calculate weight-based import duties for commodities (e.g., metals, food, chemicals) and by buyers to verify exact product yield received.',
         'Net Weight का उपयोग सीमा शुल्क अधिकारियों द्वारा वस्तुओं (जैसे धातु, भोजन, रसायन) के लिए वजन आधारित आयात शुल्क की गणना करने के लिए और खरीदारों द्वारा प्राप्त उत्पाद की सटीक मात्रा की पुष्टि करने के लिए किया जाता है।')
-      .replace(/Net Weight is the net mass of the product without any packaging. It represents the actual product quantity purchased and is declared on Commercial Invoices and Bills of Entry./g,
+      .replaceAll('Net Weight is the net mass of the product without any packaging. It represents the actual product quantity purchased and is declared on Commercial Invoices and Bills of Entry.',
         'Net Weight बिना किसी पैकेजिंग के उत्पाद का शुद्ध द्रव्यमान है। यह खरीदी गई वास्तविक उत्पाद मात्रा का प्रतिनिधित्व करता है और व्यावसायिक चालान (Commercial Invoices) और बिल ऑफ एंट्री (Bills of Entry) पर घोषित किया जाता है।')
 
-      .replace(/Volume Weight (Dimensional Weight / Volumetric Weight) is a pricing formula used by airlines and courier companies (DHL, FedEx) to charge freight for bulky but lightweight cargo. Formula: Volume Weight (kg) = (Length × Width × Height in cm) ÷ 6,000 (or ÷ 5,000 for express courier)./g,
+      .replaceAll('Volume Weight (Dimensional Weight / Volumetric Weight) is a pricing formula used by airlines and courier companies (DHL, FedEx) to charge freight for bulky but lightweight cargo. Formula: Volume Weight (kg) = (Length × Width × Height in cm) ÷ 6,000 (or ÷ 5,000 for express courier).',
         'वॉल्यूम वेट (Volume Weight / Volumetric Weight) एयरलाइंस और कूरियर कंपनियों (DHL, FedEx) द्वारा भारी लेकिन कम वजन वाले कार्गो के लिए भाड़ा वसूलने का फॉर्मूला है। फॉर्मूला: Volume Weight (kg) = (लंबाई × चौड़ाई × ऊंचाई सेमी में) ÷ 6,000 (या कूरियर के लिए ÷ 5,000)।')
-      .replace(/Freight carriers charge based on Chargeable Weight = Max(Actual Gross Weight, Volume Weight). If you ship lightweight large items (like pillows or plastic toys), you pay based on Volume Weight./g,
+      .replaceAll('Freight carriers charge based on Chargeable Weight = Max(Actual Gross Weight, Volume Weight). If you ship lightweight large items (like pillows or plastic toys), you pay based on Volume Weight.',
         'फ्रेट कैरियर Chargeable Weight = Max(Actual Gross Weight, Volume Weight) के आधार पर शुल्क लेते हैं। यदि आप हल्के लेकिन बड़े उत्पाद (जैसे तकिये या खिलौने) भेजते हैं, तो आप Volume Weight के आधार पर भुगतान करते हैं।')
 
       // Dynamic Module fallbacks
-      .replace(new RegExp(`${title} is a standard commercial and operational term in global import-export trade. It dictates the procedures, requirements, and compliance standards for handling international shipments.`, 'g'),
+      .replaceAll(`${title} is a standard commercial and operational term in global import-export trade. It dictates the procedures, requirements, and compliance standards for handling international shipments.`,
         `${title} अंतरराष्ट्रीय आयात-निर्यात व्यापार में एक मानक वाणिज्यिक और परिचालन शब्द है। यह अंतरराष्ट्रीय शिपमेंट को संभालने की प्रक्रियाओं, आवश्यकताओं और अनुपालन मानकों को निर्धारित करता है।`)
-      .replace(new RegExp(`Understanding ${title} is vital for importers and exporters to optimize freight costs, ensure smooth customs clearance, avoid port detention fees, and maintain supply chain reliability.`, 'g'),
+      .replaceAll(`Understanding ${title} is vital for importers and exporters to optimize freight costs, ensure smooth customs clearance, avoid port detention fees, and maintain supply chain reliability.`,
         `${title} को समझना आयातकों और निर्यातकों के लिए भाड़ा लागत को कम करने, सुचारू सीमा शुल्क निकासी सुनिश्चित करने, बंदरगाह दंड शुल्क से बचने और आपूर्ति श्रृंखला की विश्वसनीयता बनाए रखने के लिए अत्यंत आवश्यक है।`)
-      .replace(new RegExp(`An international trading firm sourcing goods under ${title} guidelines coordinates with freight forwarders, customs brokers, and port authorities to verify documentation and ensure compliance.`, 'g'),
+      .replaceAll(`An international trading firm sourcing goods under ${title} guidelines coordinates with freight forwarders, customs brokers, and port authorities to verify documentation and ensure compliance.`,
         `${title} के दिशा-निर्देशों के तहत माल मंगाने वाली अंतरराष्ट्रीय व्यापार फर्म दस्तावेज सत्यापन और अनुपालन के लिए फ्रेट फारवर्डर, कस्टम ब्रोकर और पोर्ट अधिकारियों के साथ समन्वय करती है।`)
-      .replace(new RegExp(`${title} is an essential operational component in international trade. Proper management and documentation of ${title} ensures full regulatory compliance, cost efficiency, and timely delivery of cargo.`, 'g'),
+      .replaceAll(`${title} is an essential operational component in international trade. Proper management and documentation of ${title} ensures full regulatory compliance, cost efficiency, and timely delivery of cargo.`,
         `${title} अंतरराष्ट्रीय व्यापार में एक आवश्यक परिचालन घटक है। ${title} का उचित प्रबंधन और दस्तावेजीकरण पूर्ण नियामक अनुपालन, लागत दक्षता और माल की समय पर डिलीवरी सुनिश्चित करता है।`)
-      .replace(new RegExp(`${title} is a critical weight and measurement standard in cargo logistics. It dictates cargo density, space allocation, container loading capacity, and freight cost billing for sea and air transport.`, 'g'),
+      .replaceAll(`${title} is a critical weight and measurement standard in cargo logistics. It dictates cargo density, space allocation, container loading capacity, and freight cost billing for sea and air transport.`,
         `${title} कार्गो लॉजिस्टिक्स में एक महत्वपूर्ण वजन और माप मानक है। यह समुद्री और हवाई परिवहन के लिए कार्गो घनत्व, स्थान आवंटन, कंटेनर लोडिंग क्षमता और माल ढुलाई लागत तय करता है।`)
-      .replace(new RegExp(`Accurately computing ${title} prevents freight overcharges, container overloading penalties, vessel stability risks, and customs clearance delays at origin and destination ports.`, 'g'),
+      .replaceAll(`Accurately computing ${title} prevents freight overcharges, container overloading penalties, vessel stability risks, and customs clearance delays at origin and destination ports.`,
         `${title} की सटीक गणना माल ढुलाई के अधिक शुल्क, कंटेनर ओवरलोडिंग जुर्माने, जहाज की स्थिरता के जोखिमों और बंदरगाहों पर सीमा शुल्क निकासी में देरी को रोकती है।`)
-      .replace(new RegExp(`RBC imports cargo under precise ${title} parameters, coordinating with freight forwarders to verify gross mass certificates \(VGM\) and optimize container space utilization.`, 'g'),
+      .replaceAll(`RBC imports cargo under precise ${title} parameters, coordinating with freight forwarders to verify gross mass certificates (VGM) and optimize container space utilization.`,
         `RBC सटीक ${title} मापदंडों के तहत माल आयात करता है, सकल द्रव्यमान प्रमाणपत्र (VGM) सत्यापित करने और कंटेनर स्थान उपयोग को अनुकूलित करने के लिए फ्रेट फारवर्डर के साथ समन्वय करता है।`)
       
       // Common phrase fallbacks
-      .replace(/Always double-check outer carton dimensions and total scale weight before signing the final Packing List and VGM declaration./g,
+      .replaceAll('Always double-check outer carton dimensions and total scale weight before signing the final Packing List and VGM declaration.',
         'अंतिम पैकिंग सूची (Packing List) और VGM घोषणा पर हस्ताक्षर करने से पहले हमेशा बाहरी कार्टन आयामों और कुल वजन की दोबारा जांच करें।')
-      .replace(/Relying on estimated packaging weights or inner box dimensions rather than actual outer master carton measurements./g,
+      .replaceAll('Relying on estimated packaging weights or inner box dimensions rather than actual outer master carton measurements.',
         'वास्तविक बाहरी मास्टर कार्टन मापों के बजाय अनुमानित पैकेजिंग वजन या आंतरिक बॉक्स आयामों पर भरोसा करना।')
-      .replace(/Declaring only product weight on shipping documents instead of total Gross Weight./g,
+      .replaceAll('Declaring only product weight on shipping documents instead of total Gross Weight.',
         'शिपिंग दस्तावेजों पर कुल Gross Weight के बजाय केवल उत्पाद का वजन घोषित करना।')
-      .replace(/Forgetting to include pallet weights (each wooden pallet weighs 15-25 kg)./g,
+      .replaceAll('Forgetting to include pallet weights (each wooden pallet weighs 15-25 kg).',
         'पैलेट के वजन को शामिल करना भूल जाना (प्रत्येक लकड़ी के पैलेट का वजन 15-25 किलोग्राम होता है)।')
-      .replace(/Weigh packed master cartons on a certified digital scale at the factory before loading./g,
+      .replaceAll('Weigh packed master cartons on a certified digital scale at the factory before loading.',
         'लोडिंग से पहले फैक्ट्री में एक प्रमाणित डिजिटल स्केल पर पैक किए गए मास्टर कार्टन का वजन करें।')
-      .replace(/Ensure Gross Weight on Packing List matches Commercial Invoice and VGM certificate exactly./g,
+      .replaceAll('Ensure Gross Weight on Packing List matches Commercial Invoice and VGM certificate exactly.',
         'सुनिश्चित करें कि पैकिंग सूची पर Gross Weight वाणिज्यिक चालान और VGM प्रमाण पत्र से सटीक रूप से मेल खाता है।')
-      .replace(/Confusing Net Weight with Gross Weight on customs declarations./g,
+      .replaceAll('Confusing Net Weight with Gross Weight on customs declarations.',
         'सीमा शुल्क घोषणाओं पर Net Weight को Gross Weight के साथ भ्रमित करना।')
-      .replace(/Including inner retail packaging weight in Net Weight calculation./g,
+      .replaceAll('Including inner retail packaging weight in Net Weight calculation.',
         'Net Weight गणना में आंतरिक खुदरा पैकेजिंग वजन को शामिल करना।')
-      .replace(/List both Net Weight and Gross Weight clearly on every line item of your Packing List./g,
+      .replaceAll('List both Net Weight and Gross Weight clearly on every line item of your Packing List.',
         'अपनी पैकिंग सूची के प्रत्येक आइटम पर Net Weight और Gross Weight दोनों को स्पष्ट रूप से सूचीबद्ध करें।')
-      .replace(/Verify Net Weight for bulk commodity imports to ensure supplier did not short-ship goods./g,
+      .replaceAll('Verify Net Weight for bulk commodity imports to ensure supplier did not short-ship goods.',
         'यह सुनिश्चित करने के लिए थोक जिंस आयात के लिए Net Weight की जांच करें कि सप्लायर ने कम माल तो नहीं भेजा है।')
-      .replace(/Gross Weight is the total combined weight of goods + packaging + pallets. It is critical for container safety, freight calculation, and SOLAS VGM compliance./g,
+      .replaceAll('Gross Weight is the total combined weight of goods + packaging + pallets. It is critical for container safety, freight calculation, and SOLAS VGM compliance.',
         'Gross Weight माल + पैकेजिंग + पैलेट का कुल संयुक्त वजन है। यह कंटेनर सुरक्षा, भाड़ा गणना और SOLAS VGM अनुपालन के लिए महत्वपूर्ण है।')
-      .replace(/Net Weight is the pure weight of goods excluding packaging. It is essential for commodity pricing, yield verification, and customs valuation./g,
+      .replaceAll('Net Weight is the pure weight of goods excluding packaging. It is essential for commodity pricing, yield verification, and customs valuation.',
         'Net Weight पैकेजिंग को छोड़कर माल का शुद्ध वजन है। यह जिंस मूल्य निर्धारण, उपज सत्यापन और सीमा शुल्क मूल्यांकन के लिए आवश्यक है।');
   }
 
-  // 2. Exact sentence/paragraph replacements for Gujarati
+  // 2. Exact replacements for Gujarati
   else if (lang === 'gu') {
     translated = translated
-      .replace(/Gross Weight is the total weight of a shipment including the actual product, inner packaging, protective foam, export master cartons, and pallets. Formula: Gross Weight = Net Weight + Packaging Weight + Pallet Weight./g,
+      .replaceAll('Gross Weight is the total weight of a shipment including the actual product, inner packaging, protective foam, export master cartons, and pallets. Formula: Gross Weight = Net Weight + Packaging Weight + Pallet Weight.',
         'ગ્રોસ વેટ (Gross Weight) એ શિપમેન્ટનું કુલ વજન છે જેમાં પ્રોડક્ટ, અંદરનું પેકિંગ, ફોમ, બહારના બોક્સ અને પેલેટનું વજન સામેલ છે. સૂત્ર: Gross Weight = Net Weight + Packaging Weight + Pallet Weight.')
-      .replace(/Gross Weight determines ocean freight charges, air cargo billing, container payload safety limits, and road weight laws. Falsifying Gross Weight leads to port detention, vessel instability risks, and heavy customs fines./g,
+      .replaceAll('Gross Weight determines ocean freight charges, air cargo billing, container payload safety limits, and road weight laws. Falsifying Gross Weight leads to port detention, vessel instability risks, and heavy customs fines.',
         'Gross Weight શિપિંગ ભાડું અને કન્ટેનર વજન મર્યાદા નક્કી કરે છે. ખોટું વજન દર્શાવવાથી કસ્ટમ્સ દંડ થાય છે.')
       
-      .replace(/Net Weight is the actual weight of the product/goods alone, excluding all inner boxes, protective bubble wrap, master cartons, and pallets. Formula: Net Weight = Gross Weight - Packaging Weight./g,
+      .replaceAll('Net Weight is the actual weight of the product/goods alone, excluding all inner boxes, protective bubble wrap, master cartons, and pallets. Formula: Net Weight = Gross Weight - Packaging Weight.',
         'નેટ વેટ (Net Weight) એ પેકિંગ, બોક્સ અને પેલેટ વગરનું માત્ર પ્રોડક્ટનું શુદ્ધ વજન છે. સૂત્ર: Net Weight = Gross Weight - Packaging Weight.')
-      .replace(/Net Weight is used by customs authorities to calculate weight-based import duties for commodities (e.g., metals, food, chemicals) and by buyers to verify exact product yield received./g,
+      .replaceAll('Net Weight is used by customs authorities to calculate weight-based import duties for commodities (e.g., metals, food, chemicals) and by buyers to verify exact product yield received.',
         'Net Weight નો ઉપયોગ કસ્ટમ્સ ડ્યુટીની ગણતરી કરવા અને મળેલ માલની ચોક્કસ માત્રા ચકાસવા થાય છે.')
-      .replace(/Net Weight is the net mass of the product without any packaging. It represents the actual product quantity purchased and is declared on Commercial Invoices and Bills of Entry./g,
+      .replaceAll('Net Weight is the net mass of the product without any packaging. It represents the actual product quantity purchased and is declared on Commercial Invoices and Bills of Entry.',
         'Net Weight એ કોઈ પણ પેકિંગ વગરનું ઉત્પાદનનું શુદ્ધ વજન છે, જે ઇનવોઇસ અને બિલ ઓફ એન્ટ્રી પર દર્શાવવામાં આવે છે.')
 
-      .replace(/Volume Weight (Dimensional Weight / Volumetric Weight) is a pricing formula used by airlines and courier companies (DHL, FedEx) to charge freight for bulky but lightweight cargo. Formula: Volume Weight (kg) = (Length × Width × Height in cm) ÷ 6,000 (or ÷ 5,000 for express courier)./g,
+      .replaceAll('Volume Weight (Dimensional Weight / Volumetric Weight) is a pricing formula used by airlines and courier companies (DHL, FedEx) to charge freight for bulky but lightweight cargo. Formula: Volume Weight (kg) = (Length × Width × Height in cm) ÷ 6,000 (or ÷ 5,000 for express courier).',
         'વોલ્યુમ વેટ (Volume Weight) એ એરલાઇન્સ અને કુરિયર કંપનીઓ દ્વારા હળવા પણ મોટા માલ માટે શિપિંગ ભાડું ગણવાનું સૂત્ર છે. સૂત્ર: Volume Weight (kg) = (L × W × H cm માં) ÷ 6,000.')
-      .replace(/Freight carriers charge based on Chargeable Weight = Max(Actual Gross Weight, Volume Weight). If you ship lightweight large items (like pillows or plastic toys), you pay based on Volume Weight./g,
+      .replaceAll('Freight carriers charge based on Chargeable Weight = Max(Actual Gross Weight, Volume Weight). If you ship lightweight large items (like pillows or plastic toys), you pay based on Volume Weight.',
         'શિપિંગ કંપનીઓ Chargeable Weight (વધુ વજન) ના આધારે ભાડું લે છે. જો તમે હળવો પણ મોટો માલ મોકલો છો, તો Volume Weight મુજબ ભાડું ચુકવવું પડે છે.')
 
-      .replace(new RegExp(`${title} is a standard commercial and operational term in global import-export trade. It dictates the procedures, requirements, and compliance standards for handling international shipments.`, 'g'),
+      .replaceAll(`${title} is a standard commercial and operational term in global import-export trade. It dictates the procedures, requirements, and compliance standards for handling international shipments.`,
         `${title} એ આંતરરાષ્ટ્રીય આયાત-નિકાસ વેપારમાં પ્રમાણભૂત વ્યાપારી અને ઓપરેશનલ શબ્દ છે. તે શિપમેન્ટ હેન્ડલિંગના નિયમો દર્શાવે છે.`)
-      .replace(new RegExp(`Understanding ${title} is vital for importers and exporters to optimize freight costs, ensure smooth customs clearance, avoid port detention fees, and maintain supply chain reliability.`, 'g'),
+      .replaceAll(`Understanding ${title} is vital for importers and exporters to optimize freight costs, ensure smooth customs clearance, avoid port detention fees, and maintain supply chain reliability.`,
         `${title} ને સમજવાથી આયાતકારો અને નિકાસકારોને ભાડા ખર્ચ ઘટાડવામાં અને કસ્ટમ્સ વિલંબ અટકાવવામાં મદદ મળે છે.`)
-      .replace(new RegExp(`An international trading firm sourcing cargo from Munich uses ${title} rules to determine custom declarations, container stuffing bounds, and freight insurance coverage.`, 'g'),
+      .replaceAll(`An international trading firm sourcing cargo from Munich uses ${title} rules to determine custom declarations, container stuffing bounds, and freight insurance coverage.`,
         `${title} મુજબ માલ મંગાવતી વેપારી પેઢી કસ્ટમ્સ ક્લિયરન્સ અને ડોક્યુમેન્ટ ચકાસણી માટે ફ્રેટ ફોરવર્ડર અને કસ્ટમ્સ એજન્ટ સાથે કામ કરે છે.`)
-      .replace(new RegExp(`${title} is an essential operational component in international trade. Proper management and documentation of ${title} ensures full regulatory compliance, cost efficiency, and timely delivery of cargo.`, 'g'),
+      .replaceAll(`${title} is an essential operational component in international trade. Proper management and documentation of ${title} ensures full regulatory compliance, cost efficiency, and timely delivery of cargo.`,
         `${title} એ આંતરરાષ્ટ્રીય વેપારમાં એક મહત્વપૂર્ણ ભાગ છે. ${title} નું સાચું સંચાલન અને દસ્તાવેજીકરણ સમયસર ડિલિવરી અને કસ્ટમ્સ પાલન સુનિશ્ચિત કરે છે.`)
 
-      .replace(/Confusing Net Weight with Gross Weight on customs declarations./g,
+      .replaceAll('Confusing Net Weight with Gross Weight on customs declarations.',
         'કસ્ટમ્સ ડિક્લેરેશન પર Net Weight અને Gross Weight વચ્ચે ગૂંચવણ ઊભી કરવી.')
-      .replace(/Including inner retail packaging weight in Net Weight calculation./g,
+      .replaceAll('Including inner retail packaging weight in Net Weight calculation.',
         'Net Weight ની ગણતરીમાં અંદરના રીટેલ પેકિંગનું વજન ઉમેરી દેવું.')
-      .replace(/List both Net Weight and Gross Weight clearly on every line item of your Packing List./g,
+      .replaceAll('List both Net Weight and Gross Weight clearly on every line item of your Packing List.',
         'તમારી પેકિંગ લિસ્ટની દરેક આઇટમ પર Net Weight અને Gross Weight બંને સ્પષ્ટ દર્શાવો.')
-      .replace(/Verify Net Weight for bulk commodity imports to ensure supplier did not short-ship goods./g,
+      .replaceAll('Verify Net Weight for bulk commodity imports to ensure supplier did not short-ship goods.',
         'સપ્લાયરે ઓછો માલ નથી મોકલ્યો તે ચકાસવા માટે Net Weight ની ખાતરી કરો.')
-      .replace(/Gross Weight is the total combined weight of goods + packaging + pallets. It is critical for container safety, freight calculation, and SOLAS VGM compliance./g,
+      .replaceAll('Gross Weight is the total combined weight of goods + packaging + pallets. It is critical for container safety, freight calculation, and SOLAS VGM compliance.',
         'Gross Weight એ માલ + પેકિંગ + પેલેટનું કુલ વજન છે, જે કન્ટેનર સુરક્ષા અને ભાડા ગણતરી માટે જરૂરી છે.')
-      .replace(/Net Weight is the pure weight of goods excluding packaging. It is essential for commodity pricing, yield verification, and customs valuation./g,
+      .replaceAll('Net Weight is the pure weight of goods excluding packaging. It is essential for commodity pricing, yield verification, and customs valuation.',
         'Net Weight એ પેકિંગ વગરનું પ્રોડક્ટનું શુદ્ધ વજન છે, જે કસ્ટમ્સ અને માલની સાચી માત્રા ચકાસવા જરૂરી છે.');
   }
 
-  // 3. Exact sentence/paragraph replacements for Marathi
+  // 3. Exact replacements for Marathi
   else if (lang === 'mr') {
     translated = translated
-      .replace(/Gross Weight is the total weight of a shipment including the actual product, inner packaging, protective foam, export master cartons, and pallets. Formula: Gross Weight = Net Weight + Packaging Weight + Pallet Weight./g,
-        'ग्रॉस वेट (Gross Weight) हे संपूर्ण शिपमेंटचे एकूण वजन आहे ज्यामध्ये प्रॉडक्ट, आतील पॅकिंग, बॉक्स आणि पॅलेट समाविष्ट आहेत. सूत्र: Gross Weight = Net Weight + Packaging Weight + Pallet Weight.')
-      .replace(/Net Weight is the actual weight of the product/goods alone, excluding all inner boxes, protective bubble wrap, master cartons, and pallets. Formula: Net Weight = Gross Weight - Packaging Weight./g,
-        'नेट वेट (Net Weight) हे पॅकिंग आणि बॉक्सशिवाय फक्त मालाचे निव्वळ वजन आहे. सूत्र: Net Weight = Gross Weight - Packaging Weight.')
-      .replace(new RegExp(`${title} is a standard commercial and operational term in global import-export trade. It dictates the procedures, requirements, and compliance standards for handling international shipments.`, 'g'),
-        `${title} ही आंतरराष्ट्रीय आयात-निर्यात व्यापारातील एक मानक संकल्पना आहे.`)
-      .replace(new RegExp(`Understanding ${title} is vital for importers and exporters to optimize freight costs, ensure smooth customs clearance, avoid port detention fees, and maintain supply chain reliability.`, 'g'),
-        `${title} समजून घेतल्याने आयातदार व निर्यातदारांना मालवाहतूक खर्च नियंत्रित ठेवण्यास आणि कस्टम्स विलंब टाळण्यास मदत होते.`)
-      .replace(new RegExp(`An international trading firm sourcing cargo from Munich uses ${title} rules to determine custom declarations, container stuffing bounds, and freight insurance coverage.`, 'g'),
-        `${title} अटींनुसार माल मागवणारी संस्था कस्टम्स क्लिअरन्स आणि कागदपत्रे पडताळणीसाठी फ्रेट फॉरवर्डर्सशी समन्वय साधते.`)
-      .replace(new RegExp(`${title} is an essential operational component in international trade. Proper management and documentation of ${title} ensures full regulatory compliance, cost efficiency, and timely delivery of cargo.`, 'g'),
-        `${title} हा आंतरराष्ट्रीय व्यापारातील एक महत्त्वाचा घटक आहे. ${title} चे योग्य व्यवस्थापन वेळेवर डिलिव्हરી सुनिश्चित करते.`);
+      .replaceAll('Gross Weight is the total weight of a shipment including the actual product, inner packaging, protective foam, export master cartons, and pallets. Formula: Gross Weight = Net Weight + Packaging Weight + Pallet Weight.',
+        'ગ્રાસ વેટ (Gross Weight) હે સંપૂર્ણ શિપમેન્ટચે एकूण વજન આહે ત્યામધ્યે પ્રોડક્ટ, આતીલ પૅકિંગ, બોક્સ આણિ પૅલેટ સમાવિક આહેત. સૂત્ર: Gross Weight = Net Weight + Packaging Weight + Pallet Weight.')
+      .replaceAll('Net Weight is the actual weight of the product/goods alone, excluding all inner boxes, protective bubble wrap, master cartons, and pallets. Formula: Net Weight = Gross Weight - Packaging Weight.',
+        'નેટ વેટ (Net Weight) હે પૅકિંગ આણિ બોક્સશિવાય ફક્ત માલાચે નિ્વ્હળ વજન આહે. સૂત્ર: Net Weight = Gross Weight - Packaging Weight.')
+      .replaceAll(`${title} is a standard commercial and operational term in global import-export trade. It dictates the procedures, requirements, and compliance standards for handling international shipments.`,
+        `${title} હી આંતરરાષ્ટ્રીય આયાત-નિર્યાત વ્યાપારાતીલ એક માનક સંકલ્પના આહે.`)
+      .replaceAll(`Understanding ${title} is vital for importers and exporters to optimize freight costs, ensure smooth customs clearance, avoid port detention fees, and maintain supply chain reliability.`,
+        `${title} સમજૂન ઘેતલ્યાને આયાતદાર વ નિર્યાતદારાન્ના માલવાહતૂક ખર્ચ નિયંત્રિત ઠેવણ્યાસ આણિ કસ્ટમ્સ વિલંબ ટાળણ્યાસ મદદ હોતે.`)
+      .replaceAll(`An international trading firm sourcing cargo from Munich uses ${title} rules to determine custom declarations, container stuffing bounds, and freight insurance coverage.`,
+        `${title} અટીંનુસાર માલ માગવણારી સંસ્થા કસ્ટમ્સ ક્લિઅરન્સ આણિ કાગદપત્રે પડતાળણીસાઠી ફ્રેટ ફોરવર્ડર્સશી સમન્વય સાધતે.`)
+      .replaceAll(`${title} is an essential operational component in international trade. Proper management and documentation of ${title} ensures full regulatory compliance, cost efficiency, and timely delivery of cargo.`,
+        `${title} હા આંતરરાષ્ટ્રીય વ્યાપારાતીલ એક મહત્વચા ઘટક આહે. ${title} ચે યોગ્ય વ્યવસ્થાપન વેળેવર ડિલિવરી સુનિશ્ચિત કરતે.`);
   }
 
   return translated;
