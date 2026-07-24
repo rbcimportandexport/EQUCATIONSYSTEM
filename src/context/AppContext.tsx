@@ -480,7 +480,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const fetchAllUsers = async () => {
     try {
       const res = await usersApi.getAll();
-      if (res.success && res.users && res.users.length > 0) {
+      if (res.success && res.users) {
         const mongoUsers: User[] = res.users.map((u: any) => ({
           id: u.id || u._id,
           name: u.name,
@@ -490,8 +490,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           phone: u.phone,
           country: u.country
         }));
-        setUsers(mongoUsers);
-        saveToLocal('lms_users_v2_ie', mongoUsers);
+
+        setUsers(prev => {
+          const merged = [...mongoUsers];
+          prev.forEach(pu => {
+            if (pu.email && !merged.some(mu => mu.email?.toLowerCase() === pu.email.toLowerCase())) {
+              merged.push(pu);
+            }
+          });
+          saveToLocal('lms_users_v2_ie', merged);
+          return merged;
+        });
       }
     } catch (e) {
       console.warn('Backend user load:', e);
