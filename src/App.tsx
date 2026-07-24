@@ -157,37 +157,12 @@ const AppShell: React.FC = () => {
       }
     }, 1000);
 
-    // 5. Continuous debugger trap — freezes DevTools when open
-    const debuggerTrap = setInterval(() => {
-      // eslint-disable-next-line no-debugger
-      (function() { /* */ })['constructor']('debugger')();
-    }, 3000);
-
     // ── Mobile Phone Protection ─────────────────────────────────────────────
-
-    // 6. Block long-press on touch (prevents "Save video / Copy image" popup on phones)
-    const blockTouchHold = (e: TouchEvent) => {
-      if (e.touches.length >= 1) {
-        e.preventDefault();
-      }
-    };
-
-    // 7. Block touch-based drag / swipe to save on video elements
-    const blockTouchMove = (e: TouchEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.tagName === 'VIDEO' || target.closest('.custom-video-player')) {
-        e.preventDefault();
-      }
-    };
-
-    // 8. Page Visibility — pause & blur video when tab/app goes to background
-    //    Many Android screen recorders open via notification shade or swipe,
-    //    which briefly hides the page → we can detect and pause.
+    // Page Visibility — pause video when tab/app goes to background
     const handleVisibilityChange = () => {
       const videos = document.querySelectorAll('video');
       if (document.hidden) {
         videos.forEach(v => { v.pause(); });
-        // Overlay a black screen so recorder only gets black
         const overlay = document.createElement('div');
         overlay.id = 'rbc-vis-shield';
         overlay.style.cssText = `
@@ -205,34 +180,21 @@ const AppShell: React.FC = () => {
           </p>`;
         document.body.appendChild(overlay);
       } else {
-        // Remove overlay when user comes back
         document.getElementById('rbc-vis-shield')?.remove();
       }
-    };
-
-    // 9. Disable pinch-to-zoom (used on some phones to crop-screenshot)
-    const blockPinch = (e: TouchEvent) => {
-      if (e.touches.length > 1) e.preventDefault();
     };
 
     document.addEventListener('keydown', blockKeys, true);
     document.addEventListener('contextmenu', blockContextMenu, true);
     document.addEventListener('selectstart', blockSelectStart, true);
-    document.addEventListener('touchstart', blockTouchHold, { passive: false, capture: true });
-    document.addEventListener('touchmove', blockTouchMove, { passive: false });
     document.addEventListener('visibilitychange', handleVisibilityChange);
-    document.addEventListener('touchstart', blockPinch, { passive: false });
 
     return () => {
       document.removeEventListener('keydown', blockKeys, true);
       document.removeEventListener('contextmenu', blockContextMenu, true);
       document.removeEventListener('selectstart', blockSelectStart, true);
-      document.removeEventListener('touchstart', blockTouchHold, true);
-      document.removeEventListener('touchmove', blockTouchMove);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-      document.removeEventListener('touchstart', blockPinch);
       clearInterval(devToolsCheck);
-      clearInterval(debuggerTrap);
     };
   }, []);
 

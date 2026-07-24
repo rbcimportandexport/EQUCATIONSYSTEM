@@ -243,6 +243,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ lessonId, videoUrl, th
         ref={videoRef}
         src={videoUrl}
         poster={thumbnail}
+        preload="auto"
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
         onClick={handlePlayPause}
