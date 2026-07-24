@@ -104,6 +104,79 @@ const db = {
       role: user.role,
       isActive: user.isActive !== undefined ? user.isActive : true
     };
+  },
+
+  // ─── Custom Video Operations ───────────────────────────────────────────────
+  saveCustomVideo: async (videoData) => {
+    if (useJsonDb()) {
+      const jsonVideosPath = path.join(__dirname, '../videos.json');
+      if (!fs.existsSync(jsonVideosPath)) {
+        fs.writeFileSync(jsonVideosPath, JSON.stringify([]));
+      }
+      let videos = [];
+      try {
+        videos = JSON.parse(fs.readFileSync(jsonVideosPath, 'utf8'));
+      } catch {
+        videos = [];
+      }
+      
+      const idx = videos.findIndex(v => v.lessonId === videoData.lessonId);
+      const newVideo = {
+        id: Date.now().toString(),
+        lessonId: videoData.lessonId,
+        moduleId: videoData.moduleId,
+        title: videoData.title,
+        videoData: videoData.videoData,
+        thumbnailData: videoData.thumbnailData,
+        duration: videoData.duration || 120,
+        uploadedAt: new Date().toISOString()
+      };
+
+      if (idx !== -1) {
+        videos[idx] = newVideo;
+      } else {
+        videos.push(newVideo);
+      }
+      fs.writeFileSync(jsonVideosPath, JSON.stringify(videos, null, 2));
+      return newVideo;
+    }
+
+    const Video = require('../models/Video');
+    // Upsert the custom video document based on lessonId
+    return await Video.findOneAndUpdate(
+      { lessonId: videoData.lessonId },
+      videoData,
+      { new: true, upsert: true }
+    );
+  },
+
+  getCustomVideos: async () => {
+    if (useJsonDb()) {
+      const jsonVideosPath = path.join(__dirname, '../videos.json');
+      if (!fs.existsSync(jsonVideosPath)) return [];
+      try {
+        return JSON.parse(fs.readFileSync(jsonVideosPath, 'utf8'));
+      } catch {
+        return [];
+      }
+    }
+    const Video = require('../models/Video');
+    return await Video.find({});
+  },
+
+  getCustomVideoByLesson: async (lessonId) => {
+    if (useJsonDb()) {
+      const jsonVideosPath = path.join(__dirname, '../videos.json');
+      if (!fs.existsSync(jsonVideosPath)) return null;
+      try {
+        const videos = JSON.parse(fs.readFileSync(jsonVideosPath, 'utf8'));
+        return videos.find(v => v.lessonId === lessonId) || null;
+      } catch {
+        return null;
+      }
+    }
+    const Video = require('../models/Video');
+    return await Video.findOne({ lessonId });
   }
 };
 

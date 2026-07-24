@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { videosApi } from '../utils/api';
 import type { 
   Course, Module, Lesson, UserProgress, Bookmark, Download, User, Certificate
 } from '../utils/data';
@@ -94,6 +95,7 @@ interface AppContextType {
   currentUser: User | null;
   setCurrentUser: (user: User | null) => void;
   loginUser: (name: string, email: string, role: RoleType) => void;
+  syncCustomVideo: (lessonId: string) => Promise<void>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -128,11 +130,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const savedCourses = localStorage.getItem('lms_courses_ie');
     const savedModules = localStorage.getItem('lms_modules_v3_ie');
     // Clear legacy lesson cache keys to prevent stale English content from sticking in localStorage
-    ['lms_lessons_ie', 'lms_lessons_v2_ie', 'lms_lessons_v3_ie', 'lms_lessons_v4_ie', 'lms_lessons_v5_ie', 'lms_lessons_v6_ie', 'lms_lessons_v7_ie', 'lms_lessons_v8_ie', 'lms_lessons_v9_ie', 'lms_lessons_v10_ie', 'lms_lessons_v11_ie', 'lms_lessons_v12_ie', 'lms_lessons_v13_ie', 'lms_lessons_v14_ie', 'lms_lessons_v15_ie', 'lms_lessons_v16_ie', 'lms_lessons_v17_ie', 'lms_lessons_v18_ie', 'lms_lessons_v19_ie', 'lms_lessons_v20_ie', 'lms_lessons_v21_ie'].forEach(k => {
+    ['lms_lessons_ie', 'lms_lessons_v2_ie', 'lms_lessons_v3_ie', 'lms_lessons_v4_ie', 'lms_lessons_v5_ie', 'lms_lessons_v6_ie', 'lms_lessons_v7_ie', 'lms_lessons_v8_ie', 'lms_lessons_v9_ie', 'lms_lessons_v10_ie', 'lms_lessons_v11_ie', 'lms_lessons_v12_ie', 'lms_lessons_v13_ie', 'lms_lessons_v14_ie', 'lms_lessons_v15_ie', 'lms_lessons_v16_ie', 'lms_lessons_v17_ie', 'lms_lessons_v18_ie', 'lms_lessons_v19_ie', 'lms_lessons_v20_ie', 'lms_lessons_v21_ie', 'lms_lessons_v22_ie'].forEach(k => {
       try { localStorage.removeItem(k); } catch (e) {}
     });
 
-    const savedLessons = localStorage.getItem('lms_lessons_v22_ie');
+    const savedLessons = localStorage.getItem('lms_lessons_v23_ie');
     const savedUsers = localStorage.getItem('lms_users_v2_ie');
     const savedCerts = localStorage.getItem('lms_certs_ie');
     const savedProgress = localStorage.getItem('lms_progress_ie');
@@ -159,11 +161,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setLessons(JSON.parse(savedLessons));
       } catch (e) {
         setLessons(initialLessons);
-        localStorage.setItem('lms_lessons_v22_ie', JSON.stringify(initialLessons));
+        localStorage.setItem('lms_lessons_v23_ie', JSON.stringify(initialLessons));
       }
     } else {
       setLessons(initialLessons);
-      localStorage.setItem('lms_lessons_v22_ie', JSON.stringify(initialLessons));
+      localStorage.setItem('lms_lessons_v23_ie', JSON.stringify(initialLessons));
     }
 
     if (savedUsers) setUsers(JSON.parse(savedUsers));
@@ -196,6 +198,41 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (firstCourse) {
       setSelectedCourseId(firstCourse.id);
     }
+  }, []);
+
+  // Load all custom video thumbnails on app mount
+  useEffect(() => {
+    const fetchAllCustomVideos = async () => {
+      try {
+        const res = await videosApi.getAll();
+        if (res.success && res.data) {
+          const customList = res.data;
+          setLessons(prevLessons => {
+            return prevLessons.map(lesson => {
+              const match = customList.find(c => c.lessonId === lesson.id);
+              if (match) {
+                return {
+                  ...lesson,
+                  content: {
+                    ...lesson.content,
+                    video: {
+                      ...lesson.content.video,
+                      thumbnail: match.thumbnailData || lesson.content.video?.thumbnail,
+                      duration: match.duration || lesson.content.video?.duration || 120
+                    }
+                  }
+                };
+              }
+              return lesson;
+            });
+          });
+        }
+      } catch (e) {
+        console.warn('fetchAllCustomVideos error:', e);
+      }
+    };
+
+    fetchAllCustomVideos();
   }, []);
 
   // Keep currentUser progress percentage in sync with completed lessons
@@ -231,6 +268,42 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, [progress, currentUser?.id, lessons.length]);
 
+  // Load custom video payload when selectedLessonId changes
+  useEffect(() => {
+    if (!selectedLessonId) return;
+
+    const fetchCustomVideo = async () => {
+      try {
+        const res = await videosApi.getByLesson(selectedLessonId);
+        if (res.success && res.data) {
+          const custom = res.data;
+          setLessons(prevLessons => {
+            return prevLessons.map(lesson => {
+              if (lesson.id === selectedLessonId) {
+                return {
+                  ...lesson,
+                  content: {
+                    ...lesson.content,
+                    video: {
+                      videoUrl: custom.videoData,
+                      thumbnail: custom.thumbnailData,
+                      duration: custom.duration || 120
+                    }
+                  }
+                };
+              }
+              return lesson;
+            });
+          });
+        }
+      } catch (e) {
+        // Quietly fail if no server connection or custom video exists
+      }
+    };
+
+    fetchCustomVideo();
+  }, [selectedLessonId]);
+
   // Sync state helpers
   const saveToLocal = (key: string, data: any) => {
     localStorage.setItem(key, JSON.stringify(data));
@@ -240,7 +313,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const resetDatabase = () => {
     localStorage.removeItem('lms_courses_ie');
     localStorage.removeItem('lms_modules_v3_ie');
-    localStorage.removeItem('lms_lessons_v3_ie');
+    localStorage.removeItem('lms_lessons_v23_ie');
     localStorage.removeItem('lms_users_v2_ie');
     localStorage.removeItem('lms_certs_ie');
     localStorage.removeItem('lms_progress_ie');
@@ -331,7 +404,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         updated = [...prev, lesson];
       }
       updated.sort((a, b) => a.order - b.order);
-      saveToLocal('lms_lessons_v3_ie', updated);
+      saveToLocal('lms_lessons_v23_ie', updated);
       return updated;
     });
   };
@@ -339,7 +412,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const deleteLesson = (id: string) => {
     setLessons(prev => {
       const updated = prev.filter(l => l.id !== id);
-      saveToLocal('lms_lessons_v3_ie', updated);
+      saveToLocal('lms_lessons_v23_ie', updated);
       return updated;
     });
     setBookmarks(prev => {
@@ -364,7 +437,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         return l;
       });
       updated.sort((a, b) => a.order - b.order);
-      saveToLocal('lms_lessons_v3_ie', updated);
+      saveToLocal('lms_lessons_v23_ie', updated);
       return updated;
     });
   };
@@ -645,6 +718,35 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(newUser));
   };
 
+  const syncCustomVideo = async (lessonId: string) => {
+    try {
+      const res = await videosApi.getByLesson(lessonId);
+      if (res.success && res.data) {
+        const custom = res.data;
+        setLessons(prevLessons => {
+          return prevLessons.map(lesson => {
+            if (lesson.id === lessonId) {
+              return {
+                ...lesson,
+                content: {
+                  ...lesson.content,
+                  video: {
+                    videoUrl: custom.videoData,
+                    thumbnail: custom.thumbnailData,
+                    duration: custom.duration || 120
+                  }
+                }
+              };
+            }
+            return lesson;
+          });
+        });
+      }
+    } catch (e) {
+      console.warn('syncCustomVideo error:', e);
+    }
+  };
+
   return (
     <AppContext.Provider value={{
       activeView,
@@ -653,6 +755,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setUserRole: handleSetUserRole,
       language,
       setLanguage: handleSetLanguage,
+      syncCustomVideo,
       
       selectedCourseId,
       setSelectedCourseId,

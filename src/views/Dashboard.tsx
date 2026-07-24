@@ -321,21 +321,51 @@ export const Dashboard: React.FC = () => {
               ? 'इम्पोर्ट - एक्सपोर्ट और ग्लोबल ट्रेड एजुकेशन'
               : language === 'gu'
                 ? 'ઈમ્પોર્ટ - એક્સપોર્ટ અને ગ્લોબલ ટ્રેડ શિક્ષણ'
-                : 'import & export market education'}
+                : language === 'mr'
+                  ? 'आयात - निर्यात आणि ग्लोबल ट्रेड शिक्षण'
+                  : 'Import - Export & Global Trade Education'}
           </h2>
           <p className="varsity-description">
-            RBC Academy is an extensive and in-depth collection of international trade, import-export compliance, customs documentation, and global logistics lessons created by trade experts at RBC. It is free and openly accessible to everyone and is one of the largest financial and trade education resources on the web. No signup required, no pay-wall, no ads.
+            {language === 'hi'
+              ? 'आरबीसी एकेडमी आरबीसी के व्यापार विशेषज्ञों द्वारा तैयार किए गए अंतर्राष्ट्रीय व्यापार, आयात-निर्यात नियमों, सीमा शुल्क दस्तावेजों और वैश्विक रसद (logistics) पाठों का एक विस्तृत संग्रह है। यह सभी के लिए पूरी तरह से मुफ्त और खुला है।'
+              : language === 'gu'
+                ? 'આરબીસી એકેડેમી એ આરબીસીના વ્યાપાર નિષ્ણાતો દ્વારા તૈયાર કરવામાં આવેલા આંતરરાષ્ટ્રીય વેપાર, આયાત-નિકાસના નિયમો, કસ્ટમ્સ દસ્તાવેજો અને વૈશ્વિક લોજિસ્ટિક્સ પાઠોનો એક સવિસ્તર સંગ્રહ છે. આ બધા માટે તદ્દન મફત અને ખુલ્લું છે.'
+                : language === 'mr'
+                  ? 'आरबीसी अकादमी हा आरबीसीच्या व्यापार तज्ञांनी तयार केलेल्या आंतरराष्ट्रीय व्यापार, आयात-निर्यात नियम, सीमाशुल्क दस्तऐवजीकरण आणि जागतिक लॉजिस्टिक्स पाठांचा एक सविस्तर संग्रह आहे. हे सर्वांसाठी पूर्णपणे मोफत आणि खुले आहे.'
+                  : 'RBC Academy is an extensive and in-depth collection of international trade, import-export compliance, customs documentation, and global logistics lessons created by trade experts at RBC. It is free and openly accessible to everyone and is one of the largest financial and trade education resources on the web. No signup required, no pay-wall, no ads.'}
           </p>
 
           <div className="varsity-dashed-divider" />
 
-          <div className="varsity-invest-tag">Invest in knowledge,</div>
+          <div className="varsity-invest-tag">
+            {language === 'hi'
+              ? 'ज्ञान में निवेश करें,'
+              : language === 'gu'
+                ? 'જ્ઞાનમાં રોકાણ કરો,'
+                : language === 'mr'
+                  ? 'ज्ञानामध्ये गुंतवणूक करा,'
+                  : 'Invest in knowledge,'}
+          </div>
           <div className="varsity-invest-sub">
-            Learn everything from basics of container shipping and IEC registration to letter of credit & customs clearance with RBC Academy.
+            {language === 'hi'
+              ? 'कंटेनर शिपिंग और आईईसी रजिस्ट्रेशन से लेकर लेटर ऑफ क्रेडिट और कस्टम्स क्लीयरेंस तक सब कुछ सीखें आरबीसी एकेडमी के साथ।'
+              : language === 'gu'
+                ? 'કન્ટેનર શિપિંગ અને IEC રજિસ્ટ્રેશનથી લઈને લેટર ઓફ ક્રેડિટ અને કસ્ટમ્સ ક્લિયરન્સ સુધી બધું જ શીખો આરબીસી એકેડેમી સાથે.'
+                : language === 'mr'
+                  ? 'कंटेनर शिपिंग आणि आयईसी नोंदणीपासून ते लेटर ऑफ क्रेडिट आणि कस्टम्स क्लिअरन्सपर्यंत सर्व काही शिका आरबीसी अकादमीसोबत.'
+                  : 'Learn everything from basics of container shipping and IEC registration to letter of credit & customs clearance with RBC Academy.'}
           </div>
 
           <button className="varsity-open-btn" onClick={() => setActiveView('Courses')}>
-            <span>Explore Modules</span>
+            <span>
+              {language === 'hi'
+                ? 'मॉड्यूल खोजें'
+                : language === 'gu'
+                  ? 'મોડ્યુલ્સ જુઓ'
+                  : language === 'mr'
+                    ? 'मॉड्यूल्स पहा'
+                    : 'Explore Modules'}
+            </span>
             <ArrowRight size={16} />
           </button>
         </div>
@@ -351,7 +381,15 @@ export const Dashboard: React.FC = () => {
 
       {/* Explore Varsity Section (5 Color Cards Grid) */}
       <div className="varsity-explore-section">
-        <h2 className="varsity-section-heading">Explore RBC Academy</h2>
+        <h2 className="varsity-section-heading">
+          {language === 'hi'
+            ? 'आरबीसी एकेडमी एक्सप्लोर करें'
+            : language === 'gu'
+              ? 'આરબીસી એકેડેમી જુઓ'
+              : language === 'mr'
+                ? 'आरबीसी अकादमी एक्सप्लोर करा'
+                : 'Explore RBC Academy'}
+        </h2>
 
         <div className="varsity-cards-grid">
           {/* Card 1: Modules (Blue) */}
@@ -362,8 +400,24 @@ export const Dashboard: React.FC = () => {
               </div>
             </div>
             <div className="varsity-card-body">
-              <h3 className="varsity-card-title">Modules</h3>
-              <p className="varsity-card-desc">Structured text & chapters on Import/Export trade</p>
+              <h3 className="varsity-card-title">
+                {language === 'hi'
+                  ? 'मॉड्यूल'
+                  : language === 'gu'
+                    ? 'મોડ્યુલ્સ'
+                    : language === 'mr'
+                      ? 'मॉड्यूल्स'
+                      : 'Modules'}
+              </h3>
+              <p className="varsity-card-desc">
+                {language === 'hi'
+                  ? 'आयात/निर्यात व्यापार पर संरचित पाठ और अध्याय'
+                  : language === 'gu'
+                    ? 'આયાત/નિકાસ વેપાર પર વ્યવસ્થિત પ્રકરણો અને લખાણ'
+                    : language === 'mr'
+                      ? 'आयात/निर्यात व्यापारावर संरचित प्रकरणे आणि मजकूर'
+                      : 'Structured text & chapters on Import/Export trade'}
+              </p>
             </div>
           </div>
 
@@ -375,21 +429,53 @@ export const Dashboard: React.FC = () => {
               </div>
             </div>
             <div className="varsity-card-body">
-              <h3 className="varsity-card-title">Images</h3>
-              <p className="varsity-card-desc">Visual diagrams & chapter flowcharts</p>
+              <h3 className="varsity-card-title">
+                {language === 'hi'
+                  ? 'चित्र'
+                  : language === 'gu'
+                    ? 'ચિત્રો'
+                    : language === 'mr'
+                      ? 'चित्रे'
+                      : 'Images'}
+              </h3>
+              <p className="varsity-card-desc">
+                {language === 'hi'
+                  ? 'दृश्य आरेख और अध्याय फ़्लोचार्ट'
+                  : language === 'gu'
+                    ? 'દ્રશ્ય આકૃતિઓ અને પ્રકરણ ફ્લોચાર્ટ'
+                    : language === 'mr'
+                      ? 'दृश्य आकृत्या आणि प्रकरणांचे फ्लोचार्ट'
+                      : 'Visual diagrams & chapter flowcharts'}
+              </p>
             </div>
           </div>
 
           {/* Card 3: Videos (Yellow / Amber) */}
-          <div className="varsity-card" onClick={() => { setSelectedModuleTab('video'); setActiveView('Chapters'); }}>
+          <div className="varsity-card" onClick={() => setActiveView('Videos')}>
             <div className="varsity-card-header" style={{ background: '#fbbf24' }}>
               <div className="varsity-card-icon-box">
                 <Video size={26} color="#d97706" />
               </div>
             </div>
             <div className="varsity-card-body">
-              <h3 className="varsity-card-title">Videos</h3>
-              <p className="varsity-card-desc">Video tutorials & port logistics guides</p>
+              <h3 className="varsity-card-title">
+                {language === 'hi'
+                  ? 'वीडियो'
+                  : language === 'gu'
+                    ? 'વિડિઓઝ'
+                    : language === 'mr'
+                      ? 'व्हिडिओ'
+                      : 'Videos'}
+              </h3>
+              <p className="varsity-card-desc">
+                {language === 'hi'
+                  ? 'वीडियो ट्यूटोरियल और पोर्ट रसद (logistics) गाइड'
+                  : language === 'gu'
+                    ? 'વિડિઓ ટ્યુટોરિયલ્સ અને પોર્ટ લોજિસ્ટિક્સ માર્ગદર્શિકા'
+                    : language === 'mr'
+                      ? 'व्हिडिओ ट्युटोरियल्स आणि पोर्ट लॉजिस्टिक्स मार्गदर्शक'
+                      : 'Video tutorials & port logistics guides'}
+              </p>
             </div>
           </div>
 
@@ -401,8 +487,24 @@ export const Dashboard: React.FC = () => {
               </div>
             </div>
             <div className="varsity-card-body">
-              <h3 className="varsity-card-title">Certified</h3>
-              <p className="varsity-card-desc">Earn official RBC Academy trade certificates</p>
+              <h3 className="varsity-card-title">
+                {language === 'hi'
+                  ? 'प्रमाणित'
+                  : language === 'gu'
+                    ? 'પ્રમાણિત'
+                    : language === 'mr'
+                      ? 'प्रमाणित'
+                      : 'Certified'}
+              </h3>
+              <p className="varsity-card-desc">
+                {language === 'hi'
+                  ? 'आधिकारिक आरबीसी एकेडमी व्यापार प्रमाणपत्र अर्जित करें'
+                  : language === 'gu'
+                    ? 'સત્તાવાર આરબીસી એકેડેમી વ્યાપાર પ્રમાણપત્ર મેળવો'
+                    : language === 'mr'
+                      ? 'अधिकृत आरबीसी अकादमी व्यापार प्रमाणपत्र मिळवा'
+                      : 'Earn official RBC Academy trade certificates'}
+              </p>
             </div>
           </div>
         </div>

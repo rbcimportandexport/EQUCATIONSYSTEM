@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
+import { VideoPlayer } from '../components/VideoPlayer';
+import { videosApi } from '../utils/api';
 import {
   BookOpen, Image, Video, FileText, Download, Bookmark,
   ChevronRight, ChevronDown, Award, Pause,
-  ArrowLeft, ArrowRight, CheckCircle2, Volume2, PlayCircle
+  ArrowLeft, ArrowRight, CheckCircle2, Volume2, PlayCircle, Upload, Settings
 } from 'lucide-react';
 import { uiTranslations, translateModuleTitle, translateModuleDescription, getTranslatedLesson } from '../utils/translator';
 
@@ -23,7 +25,8 @@ export const ModuleScreen: React.FC = () => {
     language,
     setLanguage,
     selectedModuleTab,
-    setSelectedModuleTab
+    setSelectedModuleTab,
+    syncCustomVideo
   } = useApp();
 
   const handleCycleLanguage = () => {
@@ -39,6 +42,7 @@ export const ModuleScreen: React.FC = () => {
   const [isDownloadOpen, setIsDownloadOpen] = useState(false);
   const [activeTopicId, setActiveTopicId] = useState<string>('');
   const [playingLessonId, setPlayingLessonId] = useState<string | null>(null);
+  const [activeVideoLessonId, setActiveVideoLessonId] = useState<string>('');
 
   // Accordion state: map of lessonId -> boolean (whether expanded)
   const [expandedTopics, setExpandedTopics] = useState<{ [topicId: string]: boolean }>({});
@@ -81,6 +85,20 @@ export const ModuleScreen: React.FC = () => {
 
   // Translate all lessons dynamically on load for the active language
   const translatedLessons = moduleLessons.map(l => getTranslatedLesson(l, language));
+
+  // Auto-select first lesson when module changes or lessons populate
+  useEffect(() => {
+    if (translatedLessons.length > 0 && !activeVideoLessonId) {
+      setActiveVideoLessonId(translatedLessons[0].id);
+    }
+  }, [selectedModuleId, translatedLessons.length, activeVideoLessonId]);
+
+  // Sync custom video for active lesson from MongoDB on load or select
+  useEffect(() => {
+    if (activeVideoLessonId) {
+      syncCustomVideo(activeVideoLessonId).catch(() => {});
+    }
+  }, [activeVideoLessonId]);
 
   // Get active translation keys
   const t = uiTranslations[language];
@@ -951,66 +969,111 @@ export const ModuleScreen: React.FC = () => {
           {/* ==========================================
              3. VIDEO PLAYER MODE
              ========================================== */}
-          {selectedTab === 'video' && (
-            <div className="textbook-video-mode">
-              <div className="card video-workspace-card" style={{ padding: '0', overflow: 'hidden', borderRadius: '12px', border: '1px solid #e2e8f0', backgroundColor: '#000000' }}>
-                <video
-                  controls
-                  autoPlay={false}
-                  poster={translatedLessons[0]?.content?.images?.[0]?.url || "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=1200&q=80"}
-                  style={{ width: '100%', height: 'auto', display: 'block', outline: 'none', borderRadius: '12px 12px 0 0' }}
-                >
-                  <source
-                    src={(activeModule as any).videoUrl || "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"}
-                    type="video/mp4"
-                  />
-                  Your browser does not support HTML5 video playback.
-                </video>
+          {selectedTab === 'video' && (() => {
+            const selectedVideoLesson = translatedLessons.find(l => l.id === activeVideoLessonId) || translatedLessons[0];
+            const hasVideo = selectedVideoLesson?.content?.video;
 
-                <div className="video-meta-body" style={{ padding: '24px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                    <h3 className="video-title" style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a', margin: 0 }}>
-                      {translatedModuleTitle} - Video Lecture Masterclass
-                    </h3>
-                    <span className="duration-tag" style={{ background: '#e0f2fe', color: '#0284c7', fontSize: '12px', fontWeight: 700, padding: '4px 10px', borderRadius: '6px' }}>
-                      HD Video • {translatedLessons.length} Topics
-                    </span>
-                  </div>
-                  <p className="video-description" style={{ color: '#475569', fontSize: '14.5px', lineHeight: 1.6, margin: 0 }}>
-                    {translatedModuleDesc}
-                  </p>
-                </div>
-              </div>
-
-              {/* Video Playlist Section */}
-              <div className="card video-chapters-card" style={{ marginTop: '24px', padding: '24px' }}>
-                <h4 className="chapters-card-title" style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', marginBottom: '16px' }}>
-                  Video Topics & Playlist ({translatedLessons.length})
-                </h4>
-                <div className="video-chapters-timeline" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {translatedLessons.map((lesson, idx) => (
-                    <button
-                      key={lesson.id}
-                      type="button"
-                      className="video-chapter-row"
-                      onClick={() => handleScrollToTopic(lesson.id)}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <PlayCircle size={20} color="#0284c7" />
-                        <span style={{ fontSize: '14px', fontWeight: 600, color: '#0f172a' }}>
-                          Topic {idx + 1}: {lesson.title}
-                        </span>
+            return (
+              <div className="textbook-video-mode">
+                <div className="card video-workspace-card" style={{ padding: '0', overflow: 'hidden', borderRadius: '12px', border: '1px solid #e2e8f0', backgroundColor: '#f8fafc' }}>
+                  {hasVideo ? (
+                    <VideoPlayer
+                      lessonId={selectedVideoLesson.id}
+                      videoUrl={selectedVideoLesson.content.video.videoUrl}
+                      thumbnail={selectedVideoLesson.content.video.thumbnail}
+                      duration={selectedVideoLesson.content.video.duration}
+                    />
+                  ) : (
+                    <div style={{
+                      height: '240px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexDirection: 'column',
+                      gap: '12px',
+                      background: '#0f172a',
+                      color: '#ffffff',
+                      borderRadius: '12px 12px 0 0',
+                      padding: '24px',
+                      textAlign: 'center'
+                    }}>
+                      <PlayCircle size={48} color="#64748b" />
+                      <div style={{ fontWeight: 700, fontSize: '16px' }}>No video uploaded yet for this topic</div>
+                      <div style={{ fontSize: '13px', color: '#94a3b8', maxWidth: '380px' }}>
+                        Use the admin settings panel below to upload a high-quality video and thumbnail.
                       </div>
-                      <span style={{ fontSize: '12px', color: '#64748b', fontWeight: 500 }}>
-                        Watch Segment
+                    </div>
+                  )}
+
+                  <div className="video-meta-body" style={{ padding: '24px', background: '#ffffff' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                      <h3 className="video-title" style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a', margin: 0 }}>
+                        {selectedVideoLesson?.title || translatedModuleTitle}
+                      </h3>
+                      <span className="duration-tag" style={{ background: '#e0f2fe', color: '#0284c7', fontSize: '12px', fontWeight: 700, padding: '4px 10px', borderRadius: '6px' }}>
+                        {hasVideo ? `Duration: ${Math.round(selectedVideoLesson.content.video.duration / 60)} min` : 'No Video'}
                       </span>
-                    </button>
-                  ))}
+                    </div>
+                    <p className="video-description" style={{ color: '#475569', fontSize: '14.5px', lineHeight: 1.6, margin: 0 }}>
+                      {selectedVideoLesson?.description || translatedModuleDesc}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Admin Custom Video Upload Options for selected topic */}
+                {selectedVideoLesson && (
+                  <AdminVideoUpload 
+                    lessonId={selectedVideoLesson.id}
+                    moduleId={selectedVideoLesson.moduleId}
+                    title={selectedVideoLesson.title}
+                  />
+                )}
+
+                {/* Video Playlist Section */}
+                <div className="card video-chapters-card" style={{ marginTop: '24px', padding: '24px' }}>
+                  <h4 className="chapters-card-title" style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', marginBottom: '16px' }}>
+                    Select Topic to Watch ({translatedLessons.length})
+                  </h4>
+                  <div className="video-chapters-timeline" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {translatedLessons.map((lesson, idx) => {
+                      const isCurrent = lesson.id === activeVideoLessonId;
+                      return (
+                        <button
+                          key={lesson.id}
+                          type="button"
+                          className="video-chapter-row"
+                          onClick={() => setActiveVideoLessonId(lesson.id)}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            width: '100%',
+                            padding: '12px 16px',
+                            border: '1px solid #e2e8f0',
+                            borderRadius: '8px',
+                            background: isCurrent ? '#f0f9ff' : '#ffffff',
+                            borderColor: isCurrent ? '#0284c7' : '#e2e8f0',
+                            cursor: 'pointer',
+                            textAlign: 'left'
+                          }}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <PlayCircle size={20} color={isCurrent ? "#0284c7" : "#64748b"} />
+                            <span style={{ fontSize: '14px', fontWeight: 600, color: '#0f172a' }}>
+                              Topic {idx + 1}: {lesson.title}
+                            </span>
+                          </div>
+                          <span style={{ fontSize: '12px', color: isCurrent ? '#0284c7' : '#64748b', fontWeight: 700 }}>
+                            {isCurrent ? 'Now Playing' : 'Watch Segment'}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-
+            );
+          })()}
           {/* ==========================================
              4. PDF VIEWER MODE
              ========================================== */}
@@ -1170,6 +1233,231 @@ export const ModuleScreen: React.FC = () => {
           </div>
         </div>
       </aside>
+    </div>
+  );
+};
+
+
+const AdminVideoUpload: React.FC<{
+  lessonId: string;
+  moduleId: string;
+  title: string;
+}> = ({ lessonId, moduleId, title }) => {
+  const { syncCustomVideo, language } = useApp();
+  const [isOpen, setIsOpen] = useState(false);
+  const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [duration, setDuration] = useState<number>(120);
+  const [isUploading, setIsUploading] = useState(false);
+  const [progressText, setProgressText] = useState('');
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const convertToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  const handleUpload = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!videoFile || !imageFile) {
+      setMessage({ type: 'error', text: 'Please select both a video file and a thumbnail image.' });
+      return;
+    }
+
+    setIsUploading(true);
+    setMessage(null);
+    setProgressText('Processing video and thumbnail files...');
+
+    try {
+      setProgressText('Converting video to Base64 data (high quality)...');
+      const videoBase64 = await convertToBase64(videoFile);
+
+      setProgressText('Converting thumbnail to Base64...');
+      const imageBase64 = await convertToBase64(imageFile);
+
+      setProgressText('Uploading payload to MongoDB database...');
+      const res = await videosApi.upload({
+        lessonId,
+        moduleId,
+        title,
+        videoData: videoBase64,
+        thumbnailData: imageBase64,
+        duration
+      });
+
+      if (res.success) {
+        setMessage({ type: 'success', text: 'Custom Video & Thumbnail uploaded to MongoDB successfully!' });
+        setProgressText('Syncing new video player content...');
+        await syncCustomVideo(lessonId);
+        setVideoFile(null);
+        setImageFile(null);
+      } else {
+        setMessage({ type: 'error', text: res.message || 'Upload failed.' });
+      }
+    } catch (err: any) {
+      console.error(err);
+      setMessage({ type: 'error', text: err.message || 'An error occurred during file conversion or upload.' });
+    } finally {
+      setIsUploading(false);
+      setProgressText('');
+    }
+  };
+
+  return (
+    <div className="admin-video-upload-wrapper" style={{
+      marginTop: '16px',
+      border: '1px solid #cbd5e1',
+      borderRadius: '12px',
+      background: '#f8fafc',
+      padding: '16px',
+      fontFamily: 'system-ui, sans-serif'
+    }}>
+      <button 
+        type="button" 
+        onClick={() => setIsOpen(!isOpen)}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          background: 'none',
+          border: 'none',
+          color: '#0f172a',
+          fontWeight: 700,
+          cursor: 'pointer',
+          width: '100%',
+          justifyContent: 'space-between',
+          fontSize: '15px'
+        }}
+      >
+        <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Settings size={18} color="#0284c7" />
+          {language === 'hi' ? 'एडमिन: कस्टम वीडियो और थंबनेल बदलें' : language === 'gu' ? 'એડમિન: વિડિઓ અને થંબનેલ અપલોડ કરો' : language === 'mr' ? 'अ‍ॅडमीन: व्हिडिओ आणि थंबनेल बदला' : 'Admin: Upload Custom Video & Thumbnail'}
+        </span>
+        <span style={{ fontSize: '12px', color: '#64748b' }}>{isOpen ? '▲ Collapse' : '▼ Expand'}</span>
+      </button>
+
+      {isOpen && (
+        <form onSubmit={handleUpload} style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <label style={{ fontSize: '13px', fontWeight: 600, color: '#475569' }}>
+              Select High-Quality Video File:
+            </label>
+            <input 
+              type="file" 
+              accept="video/*" 
+              onChange={(e) => setVideoFile(e.target.files?.[0] || null)}
+              required
+              disabled={isUploading}
+              style={{
+                fontSize: '13px',
+                border: '1px solid #cbd5e1',
+                borderRadius: '6px',
+                padding: '8px',
+                background: '#ffffff'
+              }}
+            />
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <label style={{ fontSize: '13px', fontWeight: 600, color: '#475569' }}>
+              Select Thumbnail Image:
+            </label>
+            <input 
+              type="file" 
+              accept="image/*" 
+              onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+              required
+              disabled={isUploading}
+              style={{
+                fontSize: '13px',
+                border: '1px solid #cbd5e1',
+                borderRadius: '6px',
+                padding: '8px',
+                background: '#ffffff'
+              }}
+            />
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <label style={{ fontSize: '13px', fontWeight: 600, color: '#475569' }}>
+              Video Duration (in seconds):
+            </label>
+            <input 
+              type="number" 
+              value={duration} 
+              onChange={(e) => setDuration(parseInt(e.target.value) || 120)}
+              required
+              disabled={isUploading}
+              style={{
+                fontSize: '13px',
+                border: '1px solid #cbd5e1',
+                borderRadius: '6px',
+                padding: '8px',
+                background: '#ffffff',
+                maxWidth: '120px'
+              }}
+            />
+          </div>
+
+          {progressText && (
+            <div style={{ fontSize: '13px', color: '#0284c7', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span className="spinner" style={{
+                width: '14px',
+                height: '14px',
+                border: '2px solid #0284c7',
+                borderTopColor: 'transparent',
+                borderRadius: '50%',
+                display: 'inline-block',
+                animation: 'spin 1s linear infinite'
+              }}></span>
+              <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+              {progressText}
+            </div>
+          )}
+
+          {message && (
+            <div style={{
+              fontSize: '13px',
+              fontWeight: 600,
+              padding: '10px',
+              borderRadius: '6px',
+              background: message.type === 'success' ? '#f0fdf4' : '#fef2f2',
+              color: message.type === 'success' ? '#16a34a' : '#dc2626',
+              border: `1px solid ${message.type === 'success' ? '#dcfce7' : '#fee2e2'}`
+            }}>
+              {message.text}
+            </div>
+          )}
+
+          <button 
+            type="submit" 
+            disabled={isUploading || !videoFile || !imageFile}
+            style={{
+              background: '#0284c7',
+              color: '#ffffff',
+              border: 'none',
+              borderRadius: '8px',
+              padding: '10px 16px',
+              fontSize: '14px',
+              fontWeight: 600,
+              cursor: (isUploading || !videoFile || !imageFile) ? 'not-allowed' : 'pointer',
+              opacity: (isUploading || !videoFile || !imageFile) ? 0.6 : 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              transition: 'all 0.2s'
+            }}
+          >
+            <Upload size={16} />
+            {isUploading ? 'Uploading to MongoDB...' : 'Save to MongoDB'}
+          </button>
+        </form>
+      )}
     </div>
   );
 };

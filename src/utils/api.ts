@@ -152,4 +152,40 @@ export const authApi = {
   }
 };
 
+export interface CustomVideoResponse {
+  id: string;
+  lessonId: string;
+  moduleId: string;
+  title: string;
+  duration: number;
+  uploadedAt: string;
+  hasVideoData: boolean;
+  videoData?: string;
+  thumbnailData?: string;
+}
+
+export const videosApi = {
+  // Get all custom videos
+  getAll: async (): Promise<ApiResponse<CustomVideoResponse[]>> => {
+    return await apiRequest<CustomVideoResponse[]>('/videos');
+  },
+
+  // Get a single custom video by lesson ID
+  getByLesson: async (lessonId: string): Promise<ApiResponse<CustomVideoResponse>> => {
+    return await apiRequest<CustomVideoResponse>(`/videos/lesson/${lessonId}`);
+  },
+
+  // Upload custom video and thumbnail
+  upload: async (uploadData: {
+    lessonId: string;
+    moduleId: string;
+    title: string;
+    videoData: string;
+    thumbnailData: string;
+    duration?: number;
+  }): Promise<ApiResponse<any>> => {
+    return await apiRequest<any>('/videos/upload', 'POST', uploadData);
+  }
+};
+
 export { getToken, setToken, removeToken };

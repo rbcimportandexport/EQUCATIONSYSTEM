@@ -158,8 +158,18 @@ export const AdminPanel: React.FC = () => {
         whyImportant: 'Sample Importance summary checklist.',
         businessExample: 'Sample Case Study description.',
         images: [],
-        video: { videoUrl: lessonForm.videoUrl || '', thumbnail: '', duration: 10 },
-        pdf: { pdfUrl: lessonForm.pdfUrl || '', title: 'Handbook', totalPages: 1, size: '1.0 MB', mockPagesText: ['Page text data'] },
+        video: { 
+          videoUrl: lessonForm.videoUrl || '', 
+          thumbnail: lessonForm.videoThumbnail || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', 
+          duration: Number(lessonForm.videoDuration) || Number(lessonForm.duration) * 60 || 120 
+        },
+        pdf: { 
+          pdfUrl: lessonForm.pdfUrl || '', 
+          title: lessonForm.pdfTitle || 'Handbook', 
+          totalPages: Number(lessonForm.pdfPages) || 1, 
+          size: '1.2 MB', 
+          mockPagesText: lessonForm.pdfMockText ? lessonForm.pdfMockText.split('\n') : ['Study guide text content reference slides.'] 
+        },
         downloadOption: { title: 'Download File', fileUrl: '', size: '50 KB', type: 'pdf' },
         relatedTopics: [],
         faqs: [],
@@ -271,6 +281,24 @@ export const AdminPanel: React.FC = () => {
 
   const activeModuleOptions = modules.filter(m => m.courseId === (lessonFilterCourseId || courses[0]?.id));
   const activeLessonsList = lessons.filter(l => l.moduleId === (lessonFilterModuleId || activeModuleOptions[0]?.id));
+
+  // Sync module selection and auto-select active module option
+  React.useEffect(() => {
+    if (activeModuleOptions.length > 0) {
+      const exists = activeModuleOptions.some(m => m.id === lessonFilterModuleId);
+      if (!exists) {
+        setLessonFilterModuleId(activeModuleOptions[0].id);
+      }
+    } else {
+      setLessonFilterModuleId('');
+    }
+  }, [lessonFilterCourseId, activeModuleOptions, lessonFilterModuleId]);
+
+  React.useEffect(() => {
+    if (lessonFilterModuleId) {
+      setLessonForm(prev => ({ ...prev, moduleId: lessonFilterModuleId }));
+    }
+  }, [lessonFilterModuleId]);
 
   return (
     <div className="admin-panel-view">
@@ -385,6 +413,28 @@ export const AdminPanel: React.FC = () => {
                     className="input-field"
                   />
                 </div>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Upload Course Thumbnail Image</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const base64 = await new Promise<string>((resolve) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = () => resolve(reader.result as string);
+                      });
+                      setCourseForm({ ...courseForm, thumbnail: base64 });
+                    }
+                  }}
+                  className="input-field"
+                />
+                {courseForm.thumbnail && (
+                  <img src={courseForm.thumbnail} style={{ width: '80px', height: '45px', objectFit: 'cover', borderRadius: '6px', marginTop: '6px', border: '1px solid #cbd5e1' }} alt="Preview" />
+                )}
               </div>
               <button type="submit" className="btn btn-primary btn-full">
                 <Save size={16} />
@@ -619,6 +669,75 @@ export const AdminPanel: React.FC = () => {
                     className="input-field"
                   />
                 </div>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Upload Video Lecture (Real Upload)</label>
+                <input
+                  type="file"
+                  accept="video/*"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const base64 = await new Promise<string>((resolve) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = () => resolve(reader.result as string);
+                      });
+                      setLessonForm({ ...lessonForm, videoUrl: base64 });
+                    }
+                  }}
+                  className="input-field"
+                />
+                {lessonForm.videoUrl && (
+                  <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 600 }}>✓ Video File Loaded successfully</span>
+                )}
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Upload Video Cover Page / Poster (Image)</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const base64 = await new Promise<string>((resolve) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = () => resolve(reader.result as string);
+                      });
+                      setLessonForm({ ...lessonForm, videoThumbnail: base64 });
+                    }
+                  }}
+                  className="input-field"
+                />
+                {lessonForm.videoThumbnail && (
+                  <img src={lessonForm.videoThumbnail} style={{ width: '80px', height: 'auto', borderRadius: '4px', marginTop: '6px' }} alt="Poster Preview" />
+                )}
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Upload Study Slides & Handbook (PDF)</label>
+                <input
+                  type="file"
+                  accept=".pdf"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const base64 = await new Promise<string>((resolve) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = () => resolve(reader.result as string);
+                      });
+                      setLessonForm({ ...lessonForm, pdfUrl: base64, pdfTitle: file.name });
+                    }
+                  }}
+                  className="input-field"
+                />
+                {lessonForm.pdfUrl && (
+                  <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 600 }}>✓ PDF Study Handbook Loaded</span>
+                )}
               </div>
 
               <div className="form-group">

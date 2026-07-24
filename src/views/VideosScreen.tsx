@@ -29,6 +29,7 @@ const MODULE_IMAGES_AND_COLORS: { [key: number]: ModuleImageData } = {
 export const VideosScreen: React.FC = () => {
   const { 
     modules, 
+    lessons,
     setSelectedCourseId, 
     setSelectedModuleId, 
     setSelectedLessonId,
@@ -297,10 +298,16 @@ export const VideosScreen: React.FC = () => {
       {/* 3-Column Video Cards Grid */}
       <div className="videos-grid-container">
         {filteredModules.map((mod) => {
+          const modLessons = lessons.filter(l => l.moduleId === mod.id);
+          const firstLesson = [...modLessons].sort((a, b) => a.order - b.order)[0];
+          const customThumbnail = firstLesson?.content?.video?.thumbnail;
+          const hasCustomThumbnail = customThumbnail && customThumbnail.startsWith('data:image');
+
           const modMeta = MODULE_IMAGES_AND_COLORS[mod.order] || {
             image: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=600&q=80',
             accentColor: '#0284c7'
           };
+          const cardImage = hasCustomThumbnail ? customThumbnail : modMeta.image;
           const lessonsList = moduleLessonsMap[mod.order] || [];
           const videoDurationMin = 12 + (mod.order * 2);
 
@@ -312,7 +319,7 @@ export const VideosScreen: React.FC = () => {
             >
               {/* Thumbnail with Overlay Play Icon */}
               <div className="video-thumb-area">
-                <img src={modMeta.image} alt={mod.title} className="video-thumb-img" />
+                <img src={cardImage} alt={mod.title} className="video-thumb-img" />
                 <div className="video-thumb-overlay">
                   <div className="play-btn-circle">
                     <Play size={24} fill="#ffffff" style={{ marginLeft: '3px' }} />

@@ -360,6 +360,12 @@
   overflow: hidden;
   position: relative;
   box-shadow: var(--elevation-1);
+  /* Prevent text/element selection inside the player */
+  user-select: none;
+  -webkit-user-select: none;
+  /* Subtle CSS filter — appears in screen recordings but is invisible during normal viewing */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 .video-element {
@@ -367,6 +373,16 @@
   height: 100%;
   display: block;
   cursor: pointer;
+  /* Disable drag on the video element */
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* Hide browser-native download / remote-playback buttons */
+.video-element::-webkit-media-controls-download-button,
+.video-element::-webkit-media-controls-enclosure {
+  display: none !important;
+  -webkit-appearance: none !important;
 }
 
 .video-controls {
@@ -2391,5 +2407,114 @@
 }
 .search-box-wrapper:focus-within .search-box-icon {
   color: var(--md-sys-color-primary);
+}
+
+
+/* ==========================================================================
+   ADMIN PANEL STYLING OVERHAUL
+   ========================================================================== */
+.admin-panel-view {
+  height: 100%;
+  overflow-y: auto;
+  padding: 32px 48px;
+  box-sizing: border-box;
+}
+@media (max-width: 768px) {
+  .admin-panel-view {
+    padding: 16px 20px;
+  }
+}
+.admin-content-grid {
+  display: grid;
+  gap: 24px;
+}
+.admin-content-grid.grid-2 {
+  grid-template-columns: 1.2fr 0.8fr;
+}
+@media (max-width: 992px) {
+  .admin-content-grid.grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+.admin-items-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+.admin-item-row-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+.admin-item-row-block:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+.admin-item-info h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+}
+.admin-meta-span {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+.admin-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.reordering-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.admin-form-card {
+  padding: 24px;
+}
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+.input-field {
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background: #ffffff;
+  color: #0f172a;
+  transition: border-color 0.15s ease;
+}
+.input-field:focus {
+  border-color: #102a56;
+}
+.text-area {
+  resize: vertical;
+  min-height: 80px;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
 }
 

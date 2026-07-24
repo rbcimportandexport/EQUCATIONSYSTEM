@@ -20,8 +20,8 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '150mb' }));
+app.use(express.urlencoded({ limit: '150mb', extended: true }));
 
 // ─── Database Connection ─────────────────────────────────────────────────────
 const connectDB = async () => {
@@ -46,6 +46,7 @@ const connectDB = async () => {
 
 // ─── Routes ──────────────────────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
+app.use('/api/videos', require('./routes/videos'));
 
 // TTS Audio Proxy Endpoint for high quality Gujarati, Hindi, Marathi speech
 app.get('/api/tts', async (req, res) => {
