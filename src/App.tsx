@@ -253,10 +253,10 @@ const AppShell: React.FC = () => {
     }
 
     if (showSplash) {
-      // Fallback: Force hide splash screen after 15 seconds if video loading hangs
+      // Fallback: Force hide splash screen after 3 seconds if video loading hangs
       const timer = setTimeout(() => {
         setShowSplash(false);
-      }, 15000);
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [showSplash]);
@@ -339,6 +339,7 @@ const AppShell: React.FC = () => {
     return (
       <div 
         className="splash-screen-container" 
+        onClick={() => setShowSplash(false)}
         style={{ 
           position: 'fixed', 
           top: 0, 
@@ -350,7 +351,8 @@ const AppShell: React.FC = () => {
           justifyContent: 'center', 
           alignItems: 'center', 
           zIndex: 99999, 
-          overflow: 'hidden' 
+          overflow: 'hidden',
+          cursor: 'pointer'
         }}
       >
         <video
@@ -359,6 +361,7 @@ const AppShell: React.FC = () => {
           src="/splash.mp4"
           muted
           playsInline
+          autoPlay
           onEnded={() => setShowSplash(false)}
           onError={() => setShowSplash(false)}
           style={{ 
@@ -368,6 +371,31 @@ const AppShell: React.FC = () => {
             backgroundColor: '#000000' 
           }}
         />
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            setShowSplash(false);
+          }}
+          style={{
+            position: 'absolute',
+            top: '24px',
+            right: '24px',
+            background: 'rgba(255, 255, 255, 0.2)',
+            backdropFilter: 'blur(8px)',
+            color: '#ffffff',
+            border: '1px solid rgba(255, 255, 255, 0.4)',
+            padding: '8px 18px',
+            borderRadius: '20px',
+            fontSize: '13px',
+            fontWeight: 700,
+            cursor: 'pointer',
+            zIndex: 100000,
+            letterSpacing: '0.5px'
+          }}
+        >
+          Skip Intro →
+        </button>
       </div>
     );
   }
