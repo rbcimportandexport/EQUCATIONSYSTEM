@@ -217,7 +217,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                     ...lesson.content,
                     video: {
                       ...lesson.content.video,
-                      thumbnail: match.thumbnailData || lesson.content.video?.thumbnail,
+                      thumbnail: match.thumbnailData || lesson.content.video?.thumbnail || '',
                       duration: match.duration || lesson.content.video?.duration || 120
                     }
                   }
@@ -285,8 +285,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                   content: {
                     ...lesson.content,
                     video: {
-                      videoUrl: custom.videoData,
-                      thumbnail: custom.thumbnailData,
+                      videoUrl: custom.videoData || '',
+                      thumbnail: custom.thumbnailData || '',
                       duration: custom.duration || 120
                     }
                   }
@@ -731,8 +731,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                 content: {
                   ...lesson.content,
                   video: {
-                    videoUrl: custom.videoData,
-                    thumbnail: custom.thumbnailData,
+                    videoUrl: custom.videoData || '',
+                    thumbnail: custom.thumbnailData || '',
                     duration: custom.duration || 120
                   }
                 }

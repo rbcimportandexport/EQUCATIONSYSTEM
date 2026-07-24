@@ -10,7 +10,7 @@ import { videosApi } from '../utils/api';
 import { 
   ArrowLeft, ArrowRight, CheckCircle, Circle, 
   Copy, Check, FileText, Bookmark, HelpCircle, 
-  Info, AlertTriangle, Lightbulb, Upload, Video, Image, Settings
+  Info, AlertTriangle, Lightbulb, Upload, Settings
 } from 'lucide-react';
 
 export const LessonScreen: React.FC = () => {
