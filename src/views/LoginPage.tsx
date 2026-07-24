@@ -202,42 +202,65 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           return;
         }
       } else {
-        const res = await authApi.login({
-          email: email.toLowerCase().trim(),
-          password
-        });
+        const normEmail = email.toLowerCase().trim();
+        try {
+          const res = await authApi.login({
+            email: normEmail,
+            password
+          });
 
-        if (res.success && res.user) {
-          if (res.token) {
-            localStorage.setItem('rbc_auth_token', res.token);
+          if (res.success && res.user) {
+            if (res.token) {
+              localStorage.setItem('rbc_auth_token', res.token);
+            }
+            localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(res.user));
+            setSuccessMsg('Login successful!');
+            setTimeout(() => onLoginSuccess(res.user!), 400);
+            return;
+          } else {
+            setErrors({ general: res.message || 'Invalid email or password.' });
+            return;
           }
-          localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(res.user));
-          setSuccessMsg('Login successful!');
-          setTimeout(() => onLoginSuccess(res.user!), 400);
-          return;
-        } else {
-          setErrors({ general: res.message || 'Invalid email or password.' });
-          return;
+        } catch (loginErr: any) {
+          // Verify against local memory / credentials if server unreachable
+          const isOfficialAdmin = normEmail === 'inquiryrbcimport@gmail.com';
+          if (isOfficialAdmin) {
+            if (password !== 'RBC2026') {
+              setErrors({ general: 'Incorrect password for Super Admin account (RBC2026).' });
+              return;
+            }
+            const adminUser: AuthUser = {
+              id: '6a63582ff1894ab95a4e3f18',
+              name: 'RBC Admin',
+              email: 'inquiryrbcimport@gmail.com',
+              role: 'admin',
+              progressPercentage: 100
+            };
+            localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(adminUser));
+            setSuccessMsg('Admin login successful!');
+            setTimeout(() => onLoginSuccess(adminUser), 400);
+            return;
+          }
+
+          // Check if user exists in local registered users
+          const savedUsersRaw = localStorage.getItem('lms_users_v2_ie');
+          const localUsers: any[] = savedUsersRaw ? JSON.parse(savedUsersRaw) : [];
+          const matchedUser = localUsers.find((u: any) => u.email?.toLowerCase().trim() === normEmail);
+
+          if (matchedUser) {
+            localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(matchedUser));
+            setSuccessMsg('Login successful!');
+            setTimeout(() => onLoginSuccess(matchedUser), 400);
+            return;
+          } else {
+            setErrors({ general: 'No account found with this email. Please register first.' });
+            return;
+          }
         }
       }
     } catch (err: any) {
-      console.warn('Login error:', err);
-      // Offline fallback login for existing user session
-      const isOfficialAdmin = email.toLowerCase().trim() === 'inquiryrbcimport@gmail.com';
-      const userRole = isOfficialAdmin ? 'admin' : 'student';
-      const fallbackUser: AuthUser = {
-        id: Date.now().toString(),
-        name: isOfficialAdmin ? 'RBC Admin' : (name.trim() || (email.split('@')[0]) || 'Student Learner'),
-        email: email.toLowerCase().trim(),
-        phone,
-        country,
-        role: userRole,
-        progressPercentage: userRole === 'admin' ? 100 : 0
-      };
-      localStorage.setItem('rbc_auth_token', 'local_session_token');
-      localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(fallbackUser));
-      setSuccessMsg('Login successful!');
-      setTimeout(() => onLoginSuccess(fallbackUser), 400);
+      console.warn('Auth handler error:', err);
+      setErrors({ general: 'Authentication error. Please check your credentials.' });
     } finally {
       setLoading(false);
     }
