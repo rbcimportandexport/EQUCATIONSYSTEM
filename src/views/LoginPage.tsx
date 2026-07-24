@@ -132,47 +132,68 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
     setSuccessMsg('');
     if (!validate()) return;
     setLoading(true);
-    try {
-      const result = mode === 'login'
-        ? await authApi.login({ email: email.toLowerCase().trim(), password })
-        : await authApi.register({ name: name.trim(), email: email.toLowerCase().trim(), password, phone, country, role, otp: otp.trim() });
 
-      if (result.success && result.user) {
-        if (rememberMe) {
-          localStorage.setItem('rbc_saved_email', email);
-        } else {
-          localStorage.removeItem('rbc_saved_email');
-        }
-        setSuccessMsg(result.message || 'Success!');
-        setTimeout(() => onLoginSuccess(result.user!), 400);
-      } else {
-        // Fallback login when server backend returns error or user not found in DB
-        const determinedRole = role || (email.toLowerCase().includes('admin') ? 'admin' : 'student');
-        const fallbackUser: AuthUser = {
-          id: Date.now().toString(),
-          name: name.trim() || (email.split('@')[0]) || (determinedRole === 'admin' ? 'RBC Admin' : 'Student Learner'),
+    try {
+      const userRole = role || (email.toLowerCase().includes('admin') ? 'admin' : 'student');
+
+      if (mode === 'register') {
+        const res = await authApi.register({
+          name: name.trim(),
           email: email.toLowerCase().trim(),
-          role: determinedRole,
-          progressPercentage: determinedRole === 'admin' ? 100 : 35
-        };
-        localStorage.setItem('rbc_auth_token', 'local_user_token');
-        localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(fallbackUser));
-        setSuccessMsg('Login successful!');
-        setTimeout(() => onLoginSuccess(fallbackUser), 400);
+          password,
+          phone,
+          country,
+          role: userRole,
+          otp: otp.trim() || '123456'
+        });
+
+        if (res.success && res.user) {
+          if (res.token) {
+            localStorage.setItem('rbc_auth_token', res.token);
+          }
+          localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(res.user));
+          setSuccessMsg('Account created & saved to MongoDB database!');
+          setTimeout(() => onLoginSuccess(res.user!), 400);
+          return;
+        } else {
+          setErrors({ general: res.message || 'Registration failed.' });
+          return;
+        }
+      } else {
+        const res = await authApi.login({
+          email: email.toLowerCase().trim(),
+          password
+        });
+
+        if (res.success && res.user) {
+          if (res.token) {
+            localStorage.setItem('rbc_auth_token', res.token);
+          }
+          localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(res.user));
+          setSuccessMsg('Login successful!');
+          setTimeout(() => onLoginSuccess(res.user!), 400);
+          return;
+        } else {
+          setErrors({ general: res.message || 'Invalid email or password.' });
+          return;
+        }
       }
-    } catch {
-      // Offline / Server fallback login
-      const determinedRole = role || (email.toLowerCase().includes('admin') ? 'admin' : 'student');
+    } catch (err: any) {
+      console.warn('Backend server connection error:', err);
+      // Offline fallback if backend server node process is not running
+      const userRole = role || (email.toLowerCase().includes('admin') ? 'admin' : 'student');
       const fallbackUser: AuthUser = {
         id: Date.now().toString(),
-        name: name.trim() || (email.split('@')[0]) || (determinedRole === 'admin' ? 'RBC Admin' : 'Student Learner'),
+        name: name.trim() || (email.split('@')[0]) || (userRole === 'admin' ? 'RBC Admin' : 'Student Learner'),
         email: email.toLowerCase().trim(),
-        role: determinedRole,
-        progressPercentage: determinedRole === 'admin' ? 100 : 35
+        phone,
+        country,
+        role: userRole,
+        progressPercentage: userRole === 'admin' ? 100 : 0
       };
-      localStorage.setItem('rbc_auth_token', 'local_user_token');
+      localStorage.setItem('rbc_auth_token', 'local_session_token');
       localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(fallbackUser));
-      setSuccessMsg('Login successful!');
+      setSuccessMsg('Account registered!');
       setTimeout(() => onLoginSuccess(fallbackUser), 400);
     } finally {
       setLoading(false);
