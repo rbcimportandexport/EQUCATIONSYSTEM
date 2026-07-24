@@ -137,26 +137,68 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
       const userRole = isOfficialAdmin ? 'admin' : 'student';
 
       if (mode === 'register') {
-        const res = await authApi.register({
-          name: name.trim(),
-          email: email.toLowerCase().trim(),
-          password,
-          phone,
-          country,
-          role: userRole,
-          otp: otp.trim() || '123456'
-        });
+        const normEmail = email.toLowerCase().trim();
 
-        if (res.success && res.user) {
-          if (res.token) {
-            localStorage.setItem('rbc_auth_token', res.token);
-          }
-          localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(res.user));
-          setSuccessMsg('Account created & saved to MongoDB database!');
-          setTimeout(() => onLoginSuccess(res.user!), 400);
+        // 1. Check local storage for duplicate email
+        const savedUsersRaw = localStorage.getItem('lms_users_v2_ie');
+        const localUsers: any[] = savedUsersRaw ? JSON.parse(savedUsersRaw) : [];
+        const isLocallyRegistered = localUsers.some((u: any) => u.email?.toLowerCase().trim() === normEmail);
+
+        if (isLocallyRegistered) {
+          setErrors({ general: 'An account with this email already exists. Redirecting to Login page...' });
+          setTimeout(() => {
+            setMode('login');
+            setErrors({});
+          }, 1400);
           return;
-        } else {
-          setErrors({ general: res.message || 'Registration failed.' });
+        }
+
+        // 2. Register via Backend API or Fallback
+        try {
+          const res = await authApi.register({
+            name: name.trim(),
+            email: normEmail,
+            password,
+            phone,
+            country,
+            role: userRole,
+            otp: otp.trim() || '123456'
+          });
+
+          if (res.success) {
+            setSuccessMsg('Account registered successfully! Redirecting to login page...');
+            setTimeout(() => {
+              setMode('login');
+              setSuccessMsg('Registration complete! Please log in with your email & password.');
+            }, 1200);
+            return;
+          } else {
+            const isExisting = res.message && res.message.toLowerCase().includes('already exists');
+            setErrors({ general: res.message || 'Registration failed.' });
+            if (isExisting) {
+              setTimeout(() => setMode('login'), 1500);
+            }
+            return;
+          }
+        } catch (apiErr: any) {
+          // If server fails or offline: save user locally and redirect to LOGIN tab
+          const newLocalUser: AuthUser = {
+            id: Date.now().toString(),
+            name: isOfficialAdmin ? 'RBC Admin' : (name.trim() || normEmail.split('@')[0] || 'Student Learner'),
+            email: normEmail,
+            phone,
+            country,
+            role: isOfficialAdmin ? 'admin' : 'student',
+            progressPercentage: isOfficialAdmin ? 100 : 0
+          };
+          const updatedUsers = [...localUsers, newLocalUser];
+          localStorage.setItem('lms_users_v2_ie', JSON.stringify(updatedUsers));
+
+          setSuccessMsg('Account created successfully! Redirecting to login page...');
+          setTimeout(() => {
+            setMode('login');
+            setSuccessMsg('Registration complete! Please log in with your credentials.');
+          }, 1200);
           return;
         }
       } else {
@@ -179,8 +221,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
         }
       }
     } catch (err: any) {
-      console.warn('Backend server connection error:', err);
-      // Offline fallback if backend server node process is not running
+      console.warn('Login error:', err);
+      // Offline fallback login for existing user session
       const isOfficialAdmin = email.toLowerCase().trim() === 'inquiryrbcimport@gmail.com';
       const userRole = isOfficialAdmin ? 'admin' : 'student';
       const fallbackUser: AuthUser = {
@@ -194,7 +236,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
       };
       localStorage.setItem('rbc_auth_token', 'local_session_token');
       localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(fallbackUser));
-      setSuccessMsg('Account active!');
+      setSuccessMsg('Login successful!');
       setTimeout(() => onLoginSuccess(fallbackUser), 400);
     } finally {
       setLoading(false);
