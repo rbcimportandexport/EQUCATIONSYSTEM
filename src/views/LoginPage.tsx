@@ -598,7 +598,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
                 fontFamily: 'Inter, sans-serif'
               }}
             >
-              👑 Admin Login
+              Admin Login
             </button>
 
             <button
@@ -632,7 +632,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
                 fontFamily: 'Inter, sans-serif'
               }}
             >
-              🎓 Student / User Login
+              Student / User Login
             </button>
           </div>
         )}
