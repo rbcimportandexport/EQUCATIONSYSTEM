@@ -29,7 +29,8 @@ export const LessonScreen: React.FC = () => {
     markLessonComplete,
     toggleBookmark,
     bookmarks,
-    language
+    language,
+    userRole
   } = useApp();
 
   const [copiedCode, setCopiedCode] = useState(false);
@@ -295,12 +296,14 @@ export const LessonScreen: React.FC = () => {
             </div>
           )}
 
-          {/* Admin Custom Video Upload Options (Always Rendered for All Lessons) */}
-          <AdminVideoUpload 
-            lessonId={activeLesson.id}
-            moduleId={activeLesson.moduleId}
-            title={activeLesson.title}
-          />
+          {/* Admin Custom Video Upload Options (Only Visible to Admin) */}
+          {userRole === 'admin' && (
+            <AdminVideoUpload 
+              lessonId={activeLesson.id}
+              moduleId={activeLesson.moduleId}
+              title={activeLesson.title}
+            />
+          )}
 
           {/* 7. Built-in PDF Notes */}
           {activeLesson.content.pdf && (

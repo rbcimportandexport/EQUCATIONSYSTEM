@@ -35,6 +35,40 @@ const connectDB = async () => {
     const conn = await mongoose.connect(process.env.MONGODB_URI);
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
     process.env.USE_JSON_DB = 'false';
+
+    // Auto-seed default Admin and Student users if missing
+    try {
+      const User = require('./models/User');
+      const adminExists = await User.findOne({ email: 'inquiryrbcimport@gmail.com' });
+      if (!adminExists) {
+        await User.create({
+          name: 'RBC Admin',
+          email: 'inquiryrbcimport@gmail.com',
+          password: 'RBC2026',
+          role: 'admin',
+          phone: '+919876543210',
+          country: 'India',
+          progressPercentage: 100
+        });
+        console.log('👑 Official Admin (inquiryrbcimport@gmail.com) auto-seeded into MongoDB Atlas.');
+      }
+      const studentExists = await User.findOne({ email: 'student@rbcimportandexport.com' });
+      if (!studentExists) {
+        await User.create({
+          name: 'Student Learner',
+          email: 'student@rbcimportandexport.com',
+          password: 'studentpassword123',
+          role: 'student',
+          phone: '+919876543211',
+          country: 'India',
+          progressPercentage: 35
+        });
+        console.log('🎓 Student user auto-seeded into MongoDB Atlas.');
+      }
+    } catch (seedErr) {
+      console.warn('Auto-seed check error:', seedErr);
+    }
+
     return true;
   } catch (error) {
     console.error('❌ MongoDB connection failed:', error.message);

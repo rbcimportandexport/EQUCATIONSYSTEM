@@ -134,7 +134,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
     setLoading(true);
 
     try {
-      const userRole = role || (email.toLowerCase().includes('admin') ? 'admin' : 'student');
+      const isOfficialAdmin = email.toLowerCase().trim() === 'inquiryrbcimport@gmail.com';
+      const userRole = isOfficialAdmin ? 'admin' : 'student';
 
       if (mode === 'register') {
         const res = await authApi.register({
@@ -181,10 +182,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
     } catch (err: any) {
       console.warn('Backend server connection error:', err);
       // Offline fallback if backend server node process is not running
-      const userRole = role || (email.toLowerCase().includes('admin') ? 'admin' : 'student');
+      const isOfficialAdmin = email.toLowerCase().trim() === 'inquiryrbcimport@gmail.com';
+      const userRole = isOfficialAdmin ? 'admin' : 'student';
       const fallbackUser: AuthUser = {
         id: Date.now().toString(),
-        name: name.trim() || (email.split('@')[0]) || (userRole === 'admin' ? 'RBC Admin' : 'Student Learner'),
+        name: isOfficialAdmin ? 'RBC Admin' : (name.trim() || (email.split('@')[0]) || 'Student Learner'),
         email: email.toLowerCase().trim(),
         phone,
         country,
@@ -193,7 +195,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
       };
       localStorage.setItem('rbc_auth_token', 'local_session_token');
       localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(fallbackUser));
-      setSuccessMsg('Account registered!');
+      setSuccessMsg('Account active!');
       setTimeout(() => onLoginSuccess(fallbackUser), 400);
     } finally {
       setLoading(false);
@@ -616,78 +618,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           </button>
         </div>
 
-        {mode === 'login' && (
-          <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-            <button
-              type="button"
-              onClick={() => {
-                const adminUser: AuthUser = {
-                  id: 'admin-1',
-                  name: 'RBC Admin',
-                  email: 'admin@rbcimportandexport.com',
-                  role: 'admin',
-                  progressPercentage: 100
-                };
-                localStorage.setItem('rbc_auth_token', 'demo_admin_token');
-                localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(adminUser));
-                onLoginSuccess(adminUser);
-              }}
-              style={{
-                flex: 1,
-                padding: '10px 12px',
-                borderRadius: '8px',
-                border: '1.5px solid #0f172a',
-                background: '#0f172a',
-                color: '#ffffff',
-                fontSize: '13px',
-                fontWeight: '700',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '6px',
-                fontFamily: 'Inter, sans-serif'
-              }}
-            >
-              Admin Login
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                const studentUser: AuthUser = {
-                  id: 'user-1',
-                  name: 'Student Learner',
-                  email: 'student@rbcimportandexport.com',
-                  role: 'student',
-                  progressPercentage: 35
-                };
-                localStorage.setItem('rbc_auth_token', 'demo_student_token');
-                localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(studentUser));
-                onLoginSuccess(studentUser);
-              }}
-              style={{
-                flex: 1,
-                padding: '10px 12px',
-                borderRadius: '8px',
-                border: '1.5px solid #0284c7',
-                background: '#0284c7',
-                color: '#ffffff',
-                fontSize: '13px',
-                fontWeight: '700',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '6px',
-                fontFamily: 'Inter, sans-serif'
-              }}
-            >
-              Student / User Login
-            </button>
-          </div>
-        )}
-
         {successMsg && (
           <div style={{ padding: '10px 14px', borderRadius: '6px', background: '#f0fdf4', border: '1px solid #bbf7d0', marginBottom: '20px', fontSize: '13px', color: '#15803d', fontWeight: '500' }}>
             {successMsg}
@@ -742,36 +672,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
             </div>
           )}
 
-          {mode === 'register' && (
-            <div className="input-group">
-              <label className="input-label">Account Type</label>
-              <div style={{ display: 'flex', gap: '10px' }}>
-                {(['student', 'admin'] as const).map(r => (
-                  <button 
-                    key={r} 
-                    type="button" 
-                    onClick={() => setRole(r)}
-                    style={{
-                      flex: 1,
-                      padding: '10px',
-                      border: `1.5px solid ${role === r ? '#102A56' : '#cbd5e1'}`,
-                      borderRadius: '6px',
-                      background: role === r ? '#eff6ff' : '#ffffff',
-                      cursor: 'pointer',
-                      fontSize: '13px',
-                      fontWeight: '600',
-                      color: role === r ? '#102A56' : '#64748b',
-                      transition: 'all 0.15s ease',
-                      fontFamily: 'Inter, sans-serif',
-                      textTransform: 'capitalize'
-                    }}
-                  >
-                    {r}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
+
 
           <div className="input-group">
             <label className="input-label">Username / Email</label>

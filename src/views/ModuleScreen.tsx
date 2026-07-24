@@ -27,7 +27,8 @@ export const ModuleScreen: React.FC = () => {
     setLanguage,
     selectedModuleTab,
     setSelectedModuleTab,
-    syncCustomVideo
+    syncCustomVideo,
+    userRole
   } = useApp();
 
   const handleCycleLanguage = () => {
@@ -1021,8 +1022,8 @@ export const ModuleScreen: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Admin Custom Video Upload Options for selected topic */}
-                {selectedVideoLesson && (
+                {/* Admin Custom Video Upload Options for selected topic (Only visible to Admin) */}
+                {userRole === 'admin' && selectedVideoLesson && (
                   <AdminVideoUpload 
                     lessonId={selectedVideoLesson.id}
                     moduleId={selectedVideoLesson.moduleId}
