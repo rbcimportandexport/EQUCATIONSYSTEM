@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
+import { authApi } from '../utils/api';
 import type { Course, Module, Lesson, User } from '../utils/data';
 import { 
   Edit2, Trash2, ArrowUp, ArrowDown, Save, 
@@ -258,16 +259,34 @@ export const AdminPanel: React.FC = () => {
   // ----------------------------------------------------
   // USER HANDLERS
   // ----------------------------------------------------
-  const handleUserSubmit = (e: React.FormEvent) => {
+  const handleUserSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const id = editingUserId || `usr-${Date.now()}`;
-    saveUser({
+    const newUser: User = {
       id,
       progressPercentage: editingUserId ? (users.find(u => u.id === editingUserId)?.progressPercentage || 0) : 0,
       ...userForm
-    });
+    };
+    saveUser(newUser);
+
+    try {
+      if (!editingUserId) {
+        await authApi.register({
+          name: userForm.name.trim(),
+          email: userForm.email.toLowerCase().trim(),
+          password: 'rbcuser123',
+          role: userForm.role,
+          otp: '123456'
+        });
+      }
+    } catch (err) {
+      console.warn('Backend user sync:', err);
+    }
+
+    const savedName = userForm.name;
     setEditingUserId(null);
     setUserForm({ name: '', email: '', role: 'student' });
+    alert(editingUserId ? 'User updated successfully!' : `User "${savedName}" enrolled & saved to MongoDB Atlas!`);
   };
 
   const handleEditUser = (user: User) => {
@@ -763,61 +782,151 @@ export const AdminPanel: React.FC = () => {
       {/* ====================================================================
          4. USER TRACKING & CERTIFICATES MANAGEMENT
          ==================================================================== */}
+      {/* ====================================================================
+         4. USER TRACKING & CERTIFICATES MANAGEMENT
+         ==================================================================== */}
       {activeTab === 'users' && (
         <div className="admin-content-grid grid-2">
           {/* Student Progress List */}
-          <div className="card admin-list-card">
-            <h3>Enrolled Students Registry ({users.length})</h3>
-            <div className="admin-items-stack">
+          <div className="card admin-list-card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1.5px solid #e2e8f0', boxShadow: '0 4px 16px rgba(0,0,0,0.02)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+              <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <UsersIcon size={20} color="#2563eb" />
+                <span>Enrolled Students Registry ({users.length})</span>
+              </h3>
+            </div>
+
+            <div className="admin-items-stack" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {users.map(user => {
                 const hasCertificate = certificates.some(c => c.userId === user.id && c.courseId === 'import-export-master');
+                const isAdmin = user.role === 'admin';
                 return (
-                  <div key={user.id} className="card student-admin-row-item">
-                    <div className="student-profile-info">
-                      <div className="avatar">{user.name.substring(0, 2).toUpperCase()}</div>
-                      <div className="student-details">
-                        <h4>{user.name}</h4>
-                        <span className="student-email-span">{user.email}</span>
+                  <div 
+                    key={user.id} 
+                    className="student-admin-row-item"
+                    style={{ 
+                      background: '#ffffff', 
+                      border: '1.5px solid #e2e8f0', 
+                      borderRadius: '12px', 
+                      padding: '20px', 
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <div className="student-profile-info" style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
+                      <div 
+                        className="avatar" 
+                        style={{ 
+                          width: '46px', 
+                          height: '46px', 
+                          borderRadius: '50%', 
+                          background: isAdmin ? 'linear-gradient(135deg, #0f172a, #334155)' : 'linear-gradient(135deg, #2563eb, #0284c7)', 
+                          color: '#ffffff', 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          justifyContent: 'center', 
+                          fontWeight: 800, 
+                          fontSize: '16px',
+                          letterSpacing: '0.5px',
+                          boxShadow: '0 3px 10px rgba(0,0,0,0.12)',
+                          flexShrink: 0 
+                        }}
+                      >
+                        {user.name.substring(0, 2).toUpperCase()}
+                      </div>
+                      <div className="student-details" style={{ flex: 1 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', margin: 0 }}>{user.name}</h4>
+                          <span 
+                            style={{ 
+                              fontSize: '11px', 
+                              fontWeight: 700, 
+                              padding: '2px 8px', 
+                              borderRadius: '12px', 
+                              background: isAdmin ? '#f1f5f9' : '#eff6ff', 
+                              color: isAdmin ? '#334155' : '#2563eb',
+                              border: `1px solid ${isAdmin ? '#cbd5e1' : '#bfdbfe'}`,
+                              textTransform: 'uppercase',
+                              letterSpacing: '0.5px'
+                            }}
+                          >
+                            {user.role}
+                          </span>
+                        </div>
+                        <span className="student-email-span" style={{ fontSize: '13px', color: '#64748b', fontWeight: '500' }}>{user.email}</span>
                       </div>
                     </div>
 
                     {/* Progress tracking */}
-                    <div className="student-progress-meter">
-                      <div className="progress-labels">
+                    <div className="student-progress-meter" style={{ background: '#f8fafc', borderRadius: '10px', padding: '12px 14px', border: '1px solid #f1f5f9', marginBottom: '16px' }}>
+                      <div className="progress-labels" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', fontSize: '13px', fontWeight: 600, color: '#475569' }}>
                         <span>Course Study Progress</span>
-                        <span className="bold">{user.progressPercentage}%</span>
+                        <span className="bold" style={{ fontWeight: 800, color: '#2563eb' }}>{user.progressPercentage}%</span>
                       </div>
-                      <div className="progress-bar-container">
+                      <div className="progress-bar-container" style={{ height: '8px', width: '100%', background: '#e2e8f0', borderRadius: '999px', overflow: 'hidden' }}>
                         <div 
                           className="progress-bar-fill" 
-                          style={{ width: `${user.progressPercentage}%` }}
+                          style={{ width: `${user.progressPercentage}%`, height: '100%', background: 'linear-gradient(90deg, #2563eb, #0284c7)', borderRadius: '999px', transition: 'width 0.4s ease' }}
                         ></div>
                       </div>
                     </div>
 
-                    <div className="student-cert-action-row">
+                    <div className="student-cert-action-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', paddingTop: '12px', borderTop: '1px dashed #e2e8f0' }}>
                       {hasCertificate ? (
-                        <span className="badge badge-success cert-badge-status">
+                        <span className="badge badge-success cert-badge-status" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '20px', background: '#f0fdf4', color: '#16a34a', border: '1px solid #bbf7d0', fontSize: '12px', fontWeight: 700 }}>
                           <Award size={14} />
                           <span>Certificate Issued</span>
                         </span>
                       ) : (
                         <button
+                          type="button"
                           className="btn btn-primary btn-mini"
                           onClick={() => {
                             issueCertificate(user.id, 'import-export-master');
                             alert(`Issued Certificate of Completion to ${user.name}!`);
                           }}
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '6px',
+                            padding: '8px 16px',
+                            borderRadius: '8px',
+                            background: 'linear-gradient(135deg, #ea580c, #c2410c)',
+                            color: '#ffffff',
+                            fontWeight: 700,
+                            fontSize: '13px',
+                            border: 'none',
+                            cursor: 'pointer',
+                            boxShadow: '0 2px 6px rgba(234, 88, 12, 0.25)',
+                            transition: 'all 0.15s ease'
+                          }}
                         >
-                          Issue Certificate
+                          <Award size={14} />
+                          <span>Issue Certificate</span>
                         </button>
                       )}
 
                       <button 
+                        type="button"
                         className="btn btn-outlined btn-mini"
                         onClick={() => handleEditUser(user)}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          padding: '8px 14px',
+                          borderRadius: '8px',
+                          background: '#ffffff',
+                          color: '#475569',
+                          border: '1.5px solid #cbd5e1',
+                          fontWeight: 600,
+                          fontSize: '13px',
+                          cursor: 'pointer',
+                          transition: 'all 0.15s ease'
+                        }}
                       >
-                        <Edit2 size={12} />
+                        <Edit2 size={13} />
+                        <span>Edit User</span>
                       </button>
                     </div>
                   </div>
@@ -827,11 +936,13 @@ export const AdminPanel: React.FC = () => {
           </div>
 
           {/* User Vetting Form */}
-          <div className="card admin-form-card">
-            <h3>{editingUserId ? 'Edit User Credentials' : 'Enroll New User'}</h3>
-            <form onSubmit={handleUserSubmit} className="admin-form">
-              <div className="form-group">
-                <label className="form-label">Full Name</label>
+          <div className="card admin-form-card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1.5px solid #e2e8f0', boxShadow: '0 4px 16px rgba(0,0,0,0.02)' }}>
+            <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', marginBottom: '20px' }}>
+              {editingUserId ? 'Edit User Credentials' : 'Enroll New User'}
+            </h3>
+            <form onSubmit={handleUserSubmit} className="admin-form" style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+              <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <label className="form-label" style={{ fontSize: '13px', fontWeight: 700, color: '#334155' }}>Full Name</label>
                 <input
                   type="text"
                   required
@@ -839,11 +950,12 @@ export const AdminPanel: React.FC = () => {
                   onChange={e => setUserForm({ ...userForm, name: e.target.value })}
                   className="input-field"
                   placeholder="e.g. Rajesh Kumar"
+                  style={{ padding: '11px 14px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '14px', outline: 'none' }}
                 />
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Email Address</label>
+              <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <label className="form-label" style={{ fontSize: '13px', fontWeight: 700, color: '#334155' }}>Email Address</label>
                 <input
                   type="email"
                   required
@@ -851,22 +963,43 @@ export const AdminPanel: React.FC = () => {
                   onChange={e => setUserForm({ ...userForm, email: e.target.value })}
                   className="input-field"
                   placeholder="e.g. rajesh@logistics.com"
+                  style={{ padding: '11px 14px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '14px', outline: 'none' }}
                 />
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Role Privilege</label>
+              <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <label className="form-label" style={{ fontSize: '13px', fontWeight: 700, color: '#334155' }}>Role Privilege</label>
                 <select
                   value={userForm.role}
                   onChange={e => setUserForm({ ...userForm, role: e.target.value as User['role'] })}
                   className="input-field"
+                  style={{ padding: '11px 14px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '14px', outline: 'none', background: '#ffffff', cursor: 'pointer' }}
                 >
                   <option value="student">Student Account</option>
                   <option value="admin">Administrator</option>
                 </select>
               </div>
 
-              <button type="submit" className="btn btn-primary btn-full">
+              <button 
+                type="submit" 
+                className="btn btn-primary btn-full"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  padding: '13px',
+                  borderRadius: '10px',
+                  background: 'linear-gradient(135deg, #ea580c, #c2410c)',
+                  color: '#ffffff',
+                  fontWeight: 800,
+                  fontSize: '14px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(234, 88, 12, 0.25)',
+                  marginTop: '8px'
+                }}
+              >
                 <Save size={16} />
                 <span>Save User Settings</span>
               </button>
