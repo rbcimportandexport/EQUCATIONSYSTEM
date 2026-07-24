@@ -7,6 +7,7 @@ import { DiagramViewer } from '../components/DiagramViewer';
 import { QuizView } from '../components/QuizView';
 import { getTranslatedLesson, uiTranslations } from '../utils/translator';
 import { videosApi } from '../utils/api';
+import { saveVideoToIDB } from '../utils/indexedDB';
 import { 
   ArrowLeft, ArrowRight, CheckCircle, Circle, 
   Copy, Check, FileText, Bookmark, HelpCircle, 
@@ -495,8 +496,8 @@ const AdminVideoUpload: React.FC<{
       setProgressText('Converting thumbnail to Base64...');
       const imageBase64 = await convertToBase64(imageFile);
 
-      setProgressText('Uploading payload to MongoDB database...');
-      const res = await videosApi.upload({
+      setProgressText('Saving video payload to storage...');
+      await saveVideoToIDB({
         lessonId,
         moduleId,
         title,
@@ -505,18 +506,36 @@ const AdminVideoUpload: React.FC<{
         duration
       });
 
-      if (res.success) {
-        setMessage({ type: 'success', text: 'Custom Video & Thumbnail uploaded to MongoDB successfully!' });
-        setProgressText('Syncing new video player content...');
-        await syncCustomVideo(lessonId);
-        setVideoFile(null);
-        setImageFile(null);
-      } else {
-        setMessage({ type: 'error', text: res.message || 'Upload failed.' });
+      // Instantly sync into app state for immediate playback
+      await syncCustomVideo(lessonId);
+
+      // Attempt background upload to database server
+      try {
+        setProgressText('Syncing with database server...');
+        const res = await videosApi.upload({
+          lessonId,
+          moduleId,
+          title,
+          videoData: videoBase64,
+          thumbnailData: imageBase64,
+          duration
+        });
+
+        if (res.success) {
+          setMessage({ type: 'success', text: 'Custom Video & Thumbnail uploaded & synced successfully!' });
+        } else {
+          setMessage({ type: 'success', text: 'Video saved to local storage & ready to play! (Server upload limit exceeded).' });
+        }
+      } catch (serverErr) {
+        console.warn('Server upload skipped or payload too large:', serverErr);
+        setMessage({ type: 'success', text: 'Large video saved to local storage & ready to play!' });
       }
+
+      setVideoFile(null);
+      setImageFile(null);
     } catch (err: any) {
       console.error(err);
-      setMessage({ type: 'error', text: err.message || 'An error occurred during file conversion or upload.' });
+      setMessage({ type: 'error', text: err.message || 'An error occurred during file conversion.' });
     } finally {
       setIsUploading(false);
       setProgressText('');

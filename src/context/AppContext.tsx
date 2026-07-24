@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { videosApi } from '../utils/api';
+import { getVideoFromIDB, getAllVideosFromIDB } from '../utils/indexedDB';
 import type { 
   Course, Module, Lesson, UserProgress, Bookmark, Download, User, Certificate
 } from '../utils/data';
@@ -200,9 +201,38 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, []);
 
-  // Load all custom video thumbnails on app mount
+  // Load all custom video thumbnails on app mount (from IndexedDB & API)
   useEffect(() => {
     const fetchAllCustomVideos = async () => {
+      // 1. First check local IndexedDB for instant offline/large video payload loading
+      try {
+        const idbList = await getAllVideosFromIDB();
+        if (idbList.length > 0) {
+          setLessons(prevLessons => {
+            return prevLessons.map(lesson => {
+              const match = idbList.find(c => c.lessonId === lesson.id);
+              if (match) {
+                return {
+                  ...lesson,
+                  content: {
+                    ...lesson.content,
+                    video: {
+                      videoUrl: match.videoData || lesson.content.video?.videoUrl || '',
+                      thumbnail: match.thumbnailData || lesson.content.video?.thumbnail || '',
+                      duration: match.duration || lesson.content.video?.duration || 120
+                    }
+                  }
+                };
+              }
+              return lesson;
+            });
+          });
+        }
+      } catch (e) {
+        console.warn('IDB fetchAll error:', e);
+      }
+
+      // 2. Fetch from backend server API
       try {
         const res = await videosApi.getAll();
         if (res.success && res.data) {
@@ -719,6 +749,34 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const syncCustomVideo = async (lessonId: string) => {
+    // 1. Check local IndexedDB first for instant video playback
+    try {
+      const idbVideo = await getVideoFromIDB(lessonId);
+      if (idbVideo && idbVideo.videoData) {
+        setLessons(prevLessons => {
+          return prevLessons.map(lesson => {
+            if (lesson.id === lessonId) {
+              return {
+                ...lesson,
+                content: {
+                  ...lesson.content,
+                  video: {
+                    videoUrl: idbVideo.videoData || '',
+                    thumbnail: idbVideo.thumbnailData || '',
+                    duration: idbVideo.duration || 120
+                  }
+                }
+              };
+            }
+            return lesson;
+          });
+        });
+      }
+    } catch (err) {
+      console.warn('syncCustomVideo IDB check error:', err);
+    }
+
+    // 2. Fetch from backend API
     try {
       const res = await videosApi.getByLesson(lessonId);
       if (res.success && res.data) {
@@ -731,8 +789,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                 content: {
                   ...lesson.content,
                   video: {
-                    videoUrl: custom.videoData || '',
-                    thumbnail: custom.thumbnailData || '',
+                    videoUrl: custom.videoData || lesson.content.video?.videoUrl || '',
+                    thumbnail: custom.thumbnailData || lesson.content.video?.thumbnail || '',
                     duration: custom.duration || 120
                   }
                 }
