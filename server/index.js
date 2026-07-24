@@ -147,23 +147,25 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ─── Start Server ────────────────────────────────────────────────────────────
-connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log('');
-    console.log('🚀 RBC Education System Server Started!');
-    console.log(`📡 Server: http://localhost:${PORT}`);
-    console.log(`🔗 API: http://localhost:${PORT}/api`);
-    console.log(`❤️  Health: http://localhost:${PORT}/api/health`);
-    console.log(`📦 Database Mode: ${process.env.USE_JSON_DB === 'true' ? 'Local JSON (server/db.json)' : 'MongoDB Atlas'}`);
-    console.log('');
-    console.log('📋 Available Auth Endpoints:');
-    console.log('   POST   /api/auth/register       — Register new user');
-    console.log('   POST   /api/auth/login           — Login');
-    console.log('   GET    /api/auth/me              — Get current user');
-    console.log('   PUT    /api/auth/update-profile  — Update profile');
-    console.log('   PUT    /api/auth/change-password — Change password');
-    console.log('   POST   /api/auth/logout          — Logout');
-    console.log('');
-  });
+// Middleware to ensure DB connection on serverless requests
+app.use(async (req, res, next) => {
+  if (mongoose.connection.readyState !== 1) {
+    try {
+      await connectDB();
+    } catch (e) {
+      console.warn('DB connect error:', e);
+    }
+  }
+  next();
 });
+
+// ─── Start Server ────────────────────────────────────────────────────────────
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  connectDB().then(() => {
+    app.listen(PORT, () => {
+      console.log(`🚀 RBC Education System Server Started on port ${PORT}!`);
+    });
+  });
+}
+
+module.exports = app;

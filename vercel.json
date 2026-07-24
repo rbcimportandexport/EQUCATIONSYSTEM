@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
+    }
+  ],
+  "env": {
+    "MONGODB_URI": "mongodb+srv://inquiryrbcimport_db_user:fHtMYCe7zhYWeviv@cluster0.fz1axed.mongodb.net/education_system?retryWrites=true&w=majority",
+    "JWT_SECRET": "rbc_import_export_academy_super_secret_2026"
+  }
+}
