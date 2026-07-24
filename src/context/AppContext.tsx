@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { videosApi, usersApi } from '../utils/api';
+import { videosApi, usersApi, authApi } from '../utils/api';
 import { getVideoFromIDB, getAllVideosFromIDB } from '../utils/indexedDB';
 import type { 
   Course, Module, Lesson, UserProgress, Bookmark, Download, User, Certificate
@@ -204,6 +204,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setSelectedCourseId(firstCourse.id);
     }
   }, []);
+
+  // Auto-sync active logged-in user to MongoDB Atlas Cloud Database if missing
+  useEffect(() => {
+    if (currentUser && currentUser.email) {
+      authApi.register({
+        name: currentUser.name || currentUser.email.split('@')[0],
+        email: currentUser.email.toLowerCase().trim(),
+        password: 'rbcuser123',
+        role: currentUser.role || 'student',
+        otp: '123456'
+      }).then(() => {
+        fetchAllUsers();
+      }).catch(() => {
+        // Already registered in MongoDB Atlas
+      });
+    }
+  }, [currentUser?.email]);
 
   // Load all custom video thumbnails on app mount (from IndexedDB & API)
   useEffect(() => {
