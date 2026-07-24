@@ -32,7 +32,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [phone, setPhone] = useState('');
   const [country, setCountry] = useState('India');
-  const [role, setRole] = useState<'student' | 'admin'>('student');
   const [rememberMe, setRememberMe] = useState(false);
 
   // OTP State
