@@ -24,7 +24,7 @@ const AppShell: React.FC = () => {
   const { activeView, setActiveView, setUserRole, loginUser, setCurrentUser } = useApp();
   const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authLoading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -237,12 +237,30 @@ const AppShell: React.FC = () => {
   }, []);
 
 
-  // Default bypass setup for direct access to Dashboard
+  // Check for saved user session on app launch (activates Login Page if not logged in)
   useEffect(() => {
-    loginUser('RBC User', 'user@rbcimport.com', 'admin');
-    setUserRole('admin');
-    setActiveView('Dashboard');
-    setIsAuthenticated(true);
+    const savedUser = localStorage.getItem('lms_current_user_v2_ie');
+    const token = localStorage.getItem('rbc_auth_token');
+    if (savedUser && token) {
+      try {
+        const user = JSON.parse(savedUser);
+        if (user && user.email) {
+          loginUser(user.name || 'User', user.email, user.role || 'student');
+          setUserRole(user.role || 'student');
+          setIsAuthenticated(true);
+          if (user.role === 'admin') {
+            setActiveView('AdminPanel');
+          } else {
+            setActiveView('Dashboard');
+          }
+          return;
+        }
+      } catch (e) {
+        console.warn('Session parse error:', e);
+      }
+    }
+    // No saved session — user sees Login Page
+    setIsAuthenticated(false);
   }, []);
 
   const handleAuthSuccess = (user: AuthUser) => {

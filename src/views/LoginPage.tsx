@@ -565,6 +565,78 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           </button>
         </div>
 
+        {mode === 'login' && (
+          <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+            <button
+              type="button"
+              onClick={() => {
+                const adminUser: AuthUser = {
+                  id: 'admin-1',
+                  name: 'RBC Admin',
+                  email: 'admin@rbcimportandexport.com',
+                  role: 'admin',
+                  progressPercentage: 100
+                };
+                localStorage.setItem('rbc_auth_token', 'demo_admin_token');
+                localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(adminUser));
+                onLoginSuccess(adminUser);
+              }}
+              style={{
+                flex: 1,
+                padding: '10px 12px',
+                borderRadius: '8px',
+                border: '1.5px solid #0f172a',
+                background: '#0f172a',
+                color: '#ffffff',
+                fontSize: '13px',
+                fontWeight: '700',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px',
+                fontFamily: 'Inter, sans-serif'
+              }}
+            >
+              👑 Admin Login
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                const studentUser: AuthUser = {
+                  id: 'user-1',
+                  name: 'Student Learner',
+                  email: 'student@rbcimportandexport.com',
+                  role: 'student',
+                  progressPercentage: 35
+                };
+                localStorage.setItem('rbc_auth_token', 'demo_student_token');
+                localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(studentUser));
+                onLoginSuccess(studentUser);
+              }}
+              style={{
+                flex: 1,
+                padding: '10px 12px',
+                borderRadius: '8px',
+                border: '1.5px solid #0284c7',
+                background: '#0284c7',
+                color: '#ffffff',
+                fontSize: '13px',
+                fontWeight: '700',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px',
+                fontFamily: 'Inter, sans-serif'
+              }}
+            >
+              🎓 Student / User Login
+            </button>
+          </div>
+        )}
+
         {successMsg && (
           <div style={{ padding: '10px 14px', borderRadius: '6px', background: '#f0fdf4', border: '1px solid #bbf7d0', marginBottom: '20px', fontSize: '13px', color: '#15803d', fontWeight: '500' }}>
             {successMsg}
