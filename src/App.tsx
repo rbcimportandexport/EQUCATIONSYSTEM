@@ -253,10 +253,10 @@ const AppShell: React.FC = () => {
     }
 
     if (showSplash) {
-      // Fallback: Force hide splash screen after 3 seconds if video loading hangs
+      // Safety fallback: Hide splash screen after 12 seconds if video hangs/stalls
       const timer = setTimeout(() => {
         setShowSplash(false);
-      }, 3000);
+      }, 12000);
       return () => clearTimeout(timer);
     }
   }, [showSplash]);
