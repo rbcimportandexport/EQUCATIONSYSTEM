@@ -23,16 +23,14 @@ app.use(cors({
 app.use(express.json({ limit: '500mb' }));
 app.use(express.urlencoded({ limit: '500mb', extended: true }));
 
+const ATLAS_URI = 'mongodb+srv://inquiryrbcimport_db_user:fHtMYCe7zhYWeviv@cluster0.fz1axed.mongodb.net/education_system?retryWrites=true&w=majority';
+
 // ─── Database Connection ─────────────────────────────────────────────────────
 const connectDB = async () => {
-  if (!process.env.MONGODB_URI || process.env.MONGODB_URI.includes('YOUR_CLUSTER') || process.env.MONGODB_URI.includes('YOUR_USERNAME')) {
-    console.warn('⚠️  MONGODB_URI contains placeholder template values. Switching to local JSON fallback database (server/db.json).');
-    process.env.USE_JSON_DB = 'true';
-    return false;
-  }
+  const uri = process.env.MONGODB_URI || ATLAS_URI;
 
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI);
+    const conn = await mongoose.connect(uri);
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
     process.env.USE_JSON_DB = 'false';
 
@@ -72,7 +70,6 @@ const connectDB = async () => {
     return true;
   } catch (error) {
     console.error('❌ MongoDB connection failed:', error.message);
-    console.warn('⚠️  Switching to local JSON fallback database (server/db.json) for testing.');
     process.env.USE_JSON_DB = 'true';
     return false;
   }
@@ -80,10 +77,13 @@ const connectDB = async () => {
 
 // ─── Routes ──────────────────────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
-app.use('/api/videos', require('./routes/videos'));
+app.use('/auth', authRoutes);
 
-// TTS Audio Proxy Endpoint for high quality Gujarati, Hindi, Marathi speech
-app.get('/api/tts', async (req, res) => {
+app.use('/api/videos', require('./routes/videos'));
+app.use('/videos', require('./routes/videos'));
+
+// TTS Audio Proxy Endpoint for high quality speech
+const handleTTS = async (req, res) => {
   const { text, lang = 'gu' } = req.query;
   if (!text) return res.status(400).send('Text parameter required');
   try {
@@ -100,17 +100,21 @@ app.get('/api/tts', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-});
+};
+app.get('/api/tts', handleTTS);
+app.get('/tts', handleTTS);
 
 // Health check endpoint
-app.get('/api/health', (req, res) => {
+const handleHealth = (req, res) => {
   res.json({
     success: true,
     message: 'RBC Education System API is running',
     timestamp: new Date().toISOString(),
     database: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected'
   });
-});
+};
+app.get('/api/health', handleHealth);
+app.get('/health', handleHealth);
 
 // Root route
 app.get('/', (req, res) => {
