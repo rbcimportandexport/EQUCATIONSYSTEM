@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { videosApi } from '../utils/api';
+import { videosApi, usersApi } from '../utils/api';
 import { getVideoFromIDB, getAllVideosFromIDB } from '../utils/indexedDB';
 import type { 
   Course, Module, Lesson, UserProgress, Bookmark, Download, User, Certificate
@@ -61,6 +61,7 @@ interface AppContextType {
   
   // User Management
   saveUser: (user: User) => void;
+  fetchAllUsers: () => Promise<void>;
   issueCertificate: (userId: string, courseId: string) => void;
   
   // Student Stats & Progress Tracker
@@ -193,6 +194,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setCurrentUserState(JSON.parse(savedCurrentUser));
     }
     // No default user — stays null until real user sets their profile
+
+    // Fetch real users from MongoDB Atlas backend
+    fetchAllUsers();
 
     // Default select first course
     const firstCourse = savedCourses ? JSON.parse(savedCourses)[0] : initialCourses[0];
@@ -473,6 +477,27 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   // USER MANAGEMENT
+  const fetchAllUsers = async () => {
+    try {
+      const res = await usersApi.getAll();
+      if (res.success && res.users && res.users.length > 0) {
+        const mongoUsers: User[] = res.users.map((u: any) => ({
+          id: u.id || u._id,
+          name: u.name,
+          email: u.email,
+          role: u.role || 'student',
+          progressPercentage: u.progressPercentage || 0,
+          phone: u.phone,
+          country: u.country
+        }));
+        setUsers(mongoUsers);
+        saveToLocal('lms_users_v2_ie', mongoUsers);
+      }
+    } catch (e) {
+      console.warn('Backend user load:', e);
+    }
+  };
+
   const saveUser = (user: User) => {
     setUsers(prev => {
       const idx = prev.findIndex(u => u.id === user.id);
@@ -838,6 +863,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       deleteLesson,
       reorderLessons,
       saveUser,
+      fetchAllUsers,
       issueCertificate,
       
       progress,

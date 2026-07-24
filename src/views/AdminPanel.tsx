@@ -12,7 +12,7 @@ export const AdminPanel: React.FC = () => {
     courses, saveCourse, deleteCourse,
     modules, saveModule, deleteModule,
     lessons, saveLesson, deleteLesson, reorderLessons,
-    users, saveUser, certificates, issueCertificate
+    users, saveUser, fetchAllUsers, certificates, issueCertificate
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<'courses' | 'modules' | 'lessons' | 'users'>('courses');
@@ -279,6 +279,7 @@ export const AdminPanel: React.FC = () => {
           otp: '123456'
         });
       }
+      await fetchAllUsers();
     } catch (err) {
       console.warn('Backend user sync:', err);
     }
@@ -288,6 +289,13 @@ export const AdminPanel: React.FC = () => {
     setUserForm({ name: '', email: '', role: 'student' });
     alert(editingUserId ? 'User updated successfully!' : `User "${savedName}" enrolled & saved to MongoDB Atlas!`);
   };
+
+  // Auto-sync users from MongoDB Atlas whenever Users tab opens
+  React.useEffect(() => {
+    if (activeTab === 'users') {
+      fetchAllUsers();
+    }
+  }, [activeTab]);
 
   const handleEditUser = (user: User) => {
     setEditingUserId(user.id);

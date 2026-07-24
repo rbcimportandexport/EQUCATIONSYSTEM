@@ -152,6 +152,13 @@ export const authApi = {
   }
 };
 
+export const usersApi = {
+  // Fetch all users from MongoDB Atlas backend
+  getAll: async (): Promise<{ success: boolean; users?: AuthUser[]; message?: string }> => {
+    return await apiRequest('/auth/users');
+  }
+};
+
 export interface CustomVideoResponse {
   id: string;
   lessonId: string;

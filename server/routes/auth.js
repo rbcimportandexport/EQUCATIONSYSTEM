@@ -219,6 +219,43 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// ─── GET /api/auth/users ──────────────────────────────────────────────────────
+// Get all registered users from MongoDB Atlas / database
+router.get('/users', async (req, res) => {
+  try {
+    if (process.env.USE_JSON_DB === 'true') {
+      const users = db.getJsonUsers ? db.getJsonUsers() : [];
+      return res.json({
+        success: true,
+        users: users.map(u => db.toPublicJSON(u))
+      });
+    }
+
+    const User = require('../models/User');
+    const users = await User.find({}).select('-password').sort({ createdAt: -1 });
+    res.json({
+      success: true,
+      count: users.length,
+      users: users.map(u => ({
+        id: u._id.toString(),
+        name: u.name,
+        email: u.email,
+        phone: u.phone || '',
+        country: u.country || 'India',
+        role: u.role || 'student',
+        progressPercentage: u.progressPercentage || 0,
+        createdAt: u.createdAt
+      }))
+    });
+  } catch (error) {
+    console.error('Fetch users error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch users'
+    });
+  }
+});
+
 // ─── GET /api/auth/me ────────────────────────────────────────────────────────
 // Get current logged-in user
 router.get('/me', protect, async (req, res) => {
