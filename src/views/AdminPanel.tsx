@@ -216,6 +216,8 @@ export const AdminPanel = () => {
       keyPoints: lesson.content.keyPoints?.join('\n') || '',
       summary: lesson.content.summary || ''
     });
+  };
+
   // ----------------------------------------------------
   // USER HANDLERS
   // ----------------------------------------------------
@@ -1484,4 +1486,3 @@ export const AdminPanel = () => {
     </div>
   );
 };
-}
