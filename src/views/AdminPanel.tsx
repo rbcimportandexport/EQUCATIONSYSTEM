@@ -389,7 +389,7 @@ export const AdminPanel = () => {
                 gap: '24px'
               }}>
                 {modules.map(mod => {
-                  const imgData = MODULE_IMAGES_AND_COLORS[mod.order] || { image: '/assets/logo_emblem.png', accentColor: '#2563eb' };
+                  const imgData = MODULE_IMAGES_AND_COLORS[mod.order] || { image: '/logo_emblem.png', accentColor: '#2563eb' };
                   const modLessons = lessons.filter(l => l.moduleId === mod.id);
                   return (
                     <div
@@ -749,7 +749,7 @@ export const AdminPanel = () => {
                 gap: '24px'
               }}>
                 {modules.map(mod => {
-                  const imgData = MODULE_IMAGES_AND_COLORS[mod.order] || { image: '/assets/logo_emblem.png', accentColor: '#2563eb' };
+                  const imgData = MODULE_IMAGES_AND_COLORS[mod.order] || { image: '/logo_emblem.png', accentColor: '#2563eb' };
                   return (
                     <div
                       key={mod.id}
@@ -866,7 +866,7 @@ export const AdminPanel = () => {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
                       {filteredLessons.map((les) => {
                         const hasImg = les.content?.images && les.content.images.length > 0;
-                        const displayImg = hasImg ? les.content.images[0].url : '/assets/logo_emblem.png';
+                        const displayImg = hasImg ? les.content.images[0].url : '/logo_emblem.png';
                         const displayCaption = hasImg ? les.content.images[0].caption : 'No illustration diagram uploaded yet.';
 
                         return (
@@ -1059,7 +1059,7 @@ export const AdminPanel = () => {
                 gap: '24px'
               }}>
                 {modules.map(mod => {
-                  const imgData = MODULE_IMAGES_AND_COLORS[mod.order] || { image: '/assets/logo_emblem.png', accentColor: '#2563eb' };
+                  const imgData = MODULE_IMAGES_AND_COLORS[mod.order] || { image: '/logo_emblem.png', accentColor: '#2563eb' };
                   
                   // Count how many lessons in this module have a video
                   const moduleLessons = lessons.filter(l => l.moduleId === mod.id);

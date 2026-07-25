@@ -415,7 +415,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           if (Array.isArray(content.images)) {
             content.images = content.images.map((img: any) => {
               if (img && typeof img === 'object' && img.url && img.url.startsWith('data:') && img.url.length > 100000) {
-                return { ...img, url: '/assets/logo_emblem.png', highResUrl: '/assets/logo_emblem.png' };
+                return { ...img, url: '/logo_emblem.png', highResUrl: '/logo_emblem.png' };
               }
               return img;
             });
