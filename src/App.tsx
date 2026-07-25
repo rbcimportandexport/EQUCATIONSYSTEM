@@ -181,6 +181,9 @@ const AppShell: React.FC = () => {
         document.body.appendChild(overlay);
       } else {
         document.getElementById('rbc-vis-shield')?.remove();
+        videos.forEach(v => {
+          v.play().catch(() => {});
+        });
       }
     };
 
