@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { videosApi, usersApi, authApi } from '../utils/api';
+import { videosApi, usersApi, authApi, lessonsApi } from '../utils/api';
 import { getVideoFromIDB, getAllVideosFromIDB } from '../utils/indexedDB';
 import type { 
   Course, Module, Lesson, UserProgress, Bookmark, Download, User, Certificate
@@ -55,8 +55,8 @@ interface AppContextType {
   deleteCourse: (id: string) => void;
   saveModule: (module: Module) => void;
   deleteModule: (id: string) => void;
-  saveLesson: (lesson: Lesson) => void;
-  deleteLesson: (id: string) => void;
+  saveLesson: (lesson: Lesson) => Promise<void>;
+  deleteLesson: (id: string) => Promise<void>;
   reorderLessons: (moduleId: string, orderedIds: string[]) => void;
   
   // User Management
@@ -285,6 +285,47 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     fetchAllCustomVideos();
   }, []);
 
+  // Load custom lessons from MongoDB Atlas Cloud Database
+  useEffect(() => {
+    const fetchMongoLessons = async () => {
+      try {
+        const res = await lessonsApi.getAll();
+        if (res.success && res.data && res.data.length > 0) {
+          const mongoLessons = res.data;
+          setLessons(prevLessons => {
+            const merged = prevLessons.map(localLesson => {
+              const match = mongoLessons.find(m => m.id === localLesson.id);
+              if (match) {
+                return {
+                  ...localLesson,
+                  ...match,
+                  content: {
+                    ...localLesson.content,
+                    ...match.content
+                  }
+                };
+              }
+              return localLesson;
+            });
+            mongoLessons.forEach(mongoLesson => {
+              const exists = merged.some(m => m.id === mongoLesson.id);
+              if (!exists) {
+                merged.push(mongoLesson);
+              }
+            });
+            merged.sort((a, b) => a.order - b.order);
+            saveToLocal('lms_lessons_v23_ie', merged);
+            return merged;
+          });
+        }
+      } catch (err) {
+        console.warn('Failed to fetch customized lessons from MongoDB Atlas:', err);
+      }
+    };
+
+    fetchMongoLessons();
+  }, []);
+
   // Keep currentUser progress percentage in sync with completed lessons
   useEffect(() => {
     if (!currentUser || lessons.length === 0) return;
@@ -443,7 +484,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     lessonsToDelete.forEach(l => deleteLesson(l.id));
   };
 
-  const saveLesson = (lesson: Lesson) => {
+  const saveLesson = async (lesson: Lesson) => {
     setLessons(prev => {
       const idx = prev.findIndex(l => l.id === lesson.id);
       let updated;
@@ -457,9 +498,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       saveToLocal('lms_lessons_v23_ie', updated);
       return updated;
     });
+
+    try {
+      await lessonsApi.save(lesson);
+    } catch (err) {
+      console.warn('Failed to save lesson to MongoDB Atlas:', err);
+    }
   };
 
-  const deleteLesson = (id: string) => {
+  const deleteLesson = async (id: string) => {
     setLessons(prev => {
       const updated = prev.filter(l => l.id !== id);
       saveToLocal('lms_lessons_v23_ie', updated);
@@ -475,6 +522,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       saveToLocal('lms_downloads_ie', updated);
       return updated;
     });
+
+    try {
+      await lessonsApi.delete(id);
+    } catch (err) {
+      console.warn('Failed to delete lesson from MongoDB Atlas:', err);
+    }
   };
 
   const reorderLessons = (moduleId: string, orderedIds: string[]) => {

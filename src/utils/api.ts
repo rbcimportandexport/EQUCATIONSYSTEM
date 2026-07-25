@@ -1,3 +1,5 @@
+import type { Lesson } from './data';
+
 // API utility for making authenticated requests to the backend
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'https://equcationsystem-self.vercel.app/api'
@@ -198,6 +200,18 @@ export const videosApi = {
     duration?: number;
   }): Promise<ApiResponse<any>> => {
     return await apiRequest<any>('/videos/upload', 'POST', uploadData);
+  }
+};
+
+export const lessonsApi = {
+  getAll: async (): Promise<ApiResponse<Lesson[]>> => {
+    return await apiRequest<Lesson[]>('/lessons');
+  },
+  save: async (lesson: Lesson): Promise<ApiResponse<Lesson>> => {
+    return await apiRequest<Lesson>('/lessons/save', 'POST', lesson);
+  },
+  delete: async (id: string): Promise<ApiResponse<any>> => {
+    return await apiRequest<any>(`/lessons/${id}`, 'DELETE');
   }
 };
 
