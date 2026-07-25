@@ -60,6 +60,8 @@ const apiRequest = async <T>(
   
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache'
   };
   
   if (token) {
@@ -75,7 +77,9 @@ const apiRequest = async <T>(
     config.body = JSON.stringify(body);
   }
   
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
+  const separator = endpoint.includes('?') ? '&' : '?';
+  const url = `${API_BASE_URL}${endpoint}${method === 'GET' ? `${separator}_t=${Date.now()}` : ''}`;
+  const response = await fetch(url, config);
   const data = await response.json();
   
   return data;
