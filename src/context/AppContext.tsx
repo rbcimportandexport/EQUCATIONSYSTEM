@@ -96,7 +96,7 @@ interface AppContextType {
   // Login & Session profiles
   currentUser: User | null;
   setCurrentUser: (user: User | null) => void;
-  loginUser: (name: string, email: string, role: RoleType) => void;
+  loginUser: (name: string, email: string, role: RoleType, id?: string) => void;
   syncCustomVideo: (lessonId: string) => Promise<void>;
 }
 
@@ -496,8 +496,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // USER MANAGEMENT
   const fetchAllUsers = async () => {
     try {
+      console.log('[DEBUG] fetchAllUsers: initiating request...');
       const res = await usersApi.getAll();
+      console.log('[DEBUG] fetchAllUsers: raw response:', res);
       const rawUsers = res.users || (res as any).data || (Array.isArray(res) ? res : []);
+      console.log('[DEBUG] fetchAllUsers: parsed rawUsers:', rawUsers);
       if (rawUsers && Array.isArray(rawUsers) && rawUsers.length > 0) {
         const mongoUsers: User[] = rawUsers.map((u: any) => ({
           id: u.id || u._id || `usr-${Math.random()}`,
@@ -781,9 +784,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     localStorage.setItem('lms_language_ie', lang);
   };
 
-  const loginUser = (name: string, email: string, role: RoleType) => {
+  const loginUser = (name: string, email: string, role: RoleType, id?: string) => {
     const newUser: User = {
-      id: `u-${Date.now()}`,
+      id: id || `u-${Date.now()}`,
       name,
       email,
       role,

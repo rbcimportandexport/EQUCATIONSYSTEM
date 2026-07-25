@@ -206,7 +206,7 @@ const AppShell: React.FC = () => {
       try {
         const user = JSON.parse(savedUser);
         if (user && user.email) {
-          loginUser(user.name || 'User', user.email, user.role || 'student');
+          loginUser(user.name || 'User', user.email, user.role || 'student', user.id || user._id);
           setUserRole(user.role || 'student');
           setIsAuthenticated(true);
           return;
@@ -220,7 +220,7 @@ const AppShell: React.FC = () => {
   }, []);
 
   const handleAuthSuccess = (user: AuthUser) => {
-    loginUser(user.name, user.email, user.role);
+    loginUser(user.name, user.email, user.role, user.id);
 
     setUserRole(user.role);
     setIsAuthenticated(true);

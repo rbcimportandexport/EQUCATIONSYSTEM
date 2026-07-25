@@ -33,7 +33,7 @@ const db = {
       const users = getJsonUsers();
       return users.find(u => u.email.toLowerCase() === email.toLowerCase());
     }
-    return await User.findOne({ email: email.toLowerCase() });
+    return await User.findOne({ email: email.toLowerCase() }).select('+password');
   },
 
   findUserById: async (id) => {
