@@ -290,11 +290,9 @@ export const AdminPanel: React.FC = () => {
     alert(editingUserId ? 'User updated successfully!' : `User "${savedName}" enrolled & saved to MongoDB Atlas!`);
   };
 
-  // Auto-sync users from MongoDB Atlas whenever Users tab opens
+  // Auto-sync users from MongoDB Atlas on component mount & tab switch
   React.useEffect(() => {
-    if (activeTab === 'users') {
-      fetchAllUsers();
-    }
+    fetchAllUsers();
   }, [activeTab]);
 
   const handleEditUser = (user: User) => {

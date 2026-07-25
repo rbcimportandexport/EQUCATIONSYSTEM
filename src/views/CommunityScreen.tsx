@@ -4,9 +4,13 @@ import { Users, UserCheck } from 'lucide-react';
 import logoEmblem from '../assets/logo_emblem.png';
 
 export const CommunityScreen: React.FC = () => {
-  const { users, currentUser, language, certificates } = useApp();
+  const { users, currentUser, language, certificates, fetchAllUsers } = useApp();
   const [showCertModal, setShowCertModal] = React.useState(false);
   const [selectedCertUser, setSelectedCertUser] = React.useState('');
+
+  React.useEffect(() => {
+    fetchAllUsers();
+  }, []);
 
   const getLevelDetails = (pct: number, lang: string) => {
     if (pct === 100) {

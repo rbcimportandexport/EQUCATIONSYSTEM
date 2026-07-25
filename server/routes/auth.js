@@ -223,17 +223,9 @@ router.post('/login', async (req, res) => {
 // Get all registered users from MongoDB Atlas / database
 router.get('/users', async (req, res) => {
   try {
-    if (process.env.USE_JSON_DB === 'true') {
-      const users = db.getJsonUsers ? db.getJsonUsers() : [];
-      return res.json({
-        success: true,
-        users: users.map(u => db.toPublicJSON(u))
-      });
-    }
-
     const User = require('../models/User');
     const users = await User.find({}).select('-password').sort({ createdAt: -1 });
-    res.json({
+    return res.json({
       success: true,
       count: users.length,
       users: users.map(u => ({
@@ -248,11 +240,16 @@ router.get('/users', async (req, res) => {
       }))
     });
   } catch (error) {
-    console.error('Fetch users error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Failed to fetch users'
-    });
+    console.error('Fetch users from Atlas error, trying JSON fallback:', error);
+    try {
+      const users = db.getJsonUsers ? db.getJsonUsers() : [];
+      return res.json({
+        success: true,
+        users: users.map(u => db.toPublicJSON(u))
+      });
+    } catch {
+      res.status(500).json({ success: false, message: 'Failed to fetch users' });
+    }
   }
 });
 
