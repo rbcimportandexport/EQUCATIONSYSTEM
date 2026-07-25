@@ -965,12 +965,14 @@ export const ModuleScreen: React.FC = () => {
              2. IMAGES GRID MODE
              ========================================== */}
           {selectedTab === 'images' && (() => {
-            const allModuleImages = translatedLessons.flatMap(lesson => {
-              if (lesson.content?.images && lesson.content.images.length > 0) {
-                return lesson.content.images.map((img: any) => ({
-                  ...img,
-                  lessonTitle: lesson.title
-                }));
+            const allModuleImages = (translatedLessons || []).flatMap(lesson => {
+              if (lesson && lesson.content && Array.isArray(lesson.content.images)) {
+                return lesson.content.images
+                  .filter((img: any) => img && typeof img === 'object')
+                  .map((img: any) => ({
+                    ...img,
+                    lessonTitle: lesson.title || 'Untitled Topic'
+                  }));
               }
               return [];
             });
@@ -980,24 +982,27 @@ export const ModuleScreen: React.FC = () => {
                 <h3 className="mode-sub-title">Chapter Visual Resource Gallery</h3>
                 <div className="textbook-images-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
                   {allModuleImages.length > 0 ? (
-                    allModuleImages.map((img: any, imgIdx: number) => (
-                      <div key={imgIdx} className="card textbook-image-card" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                        <div className="image-wrapper" style={{ height: '180px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8fafc' }}>
-                          <img src={img.url} alt={img.lessonTitle} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-                        </div>
-                        <div className="image-card-info" style={{ padding: '16px', display: 'flex', flexDirection: 'column', flexGrow: 1, justifyContent: 'space-between' }}>
-                          <div>
-                            <h4 className="image-title" style={{ fontSize: '15px', fontWeight: 700, color: '#1e293b', marginBottom: '6px' }}>{img.lessonTitle} Diagram</h4>
-                            <p className="image-caption" style={{ fontSize: '13px', color: '#64748b', margin: '0 0 12px 0', lineHeight: '1.5' }}>{img.caption}</p>
+                    allModuleImages.map((img: any, imgIdx: number) => {
+                      if (!img || !img.url) return null;
+                      return (
+                        <div key={imgIdx} className="card textbook-image-card" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                          <div className="image-wrapper" style={{ height: '180px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8fafc' }}>
+                            <img src={img.url} alt={img.lessonTitle || ''} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
                           </div>
-                          <div className="image-actions">
-                            <button onClick={() => window.open(img.highResUrl || img.url, '_blank')} className="btn btn-outlined btn-mini" style={{ width: '100%', padding: '6px 12px', fontSize: '12px' }}>
-                              Zoom Fullscreen
-                            </button>
+                          <div className="image-card-info" style={{ padding: '16px', display: 'flex', flexDirection: 'column', flexGrow: 1, justifyContent: 'space-between' }}>
+                            <div>
+                              <h4 className="image-title" style={{ fontSize: '15px', fontWeight: 700, color: '#1e293b', marginBottom: '6px' }}>{img.lessonTitle || ''} Diagram</h4>
+                              <p className="image-caption" style={{ fontSize: '13px', color: '#64748b', margin: '0 0 12px 0', lineHeight: '1.5' }}>{img.caption || ''}</p>
+                            </div>
+                            <div className="image-actions">
+                              <button onClick={() => window.open(img.highResUrl || img.url, '_blank')} className="btn btn-outlined btn-mini" style={{ width: '100%', padding: '6px 12px', fontSize: '12px' }}>
+                                Zoom Fullscreen
+                              </button>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))
+                      );
+                    })
                   ) : (
                     <div style={{ padding: '40px', textAlign: 'center', color: '#64748b', gridColumn: '1 / -1' }}>
                       No visual diagrams available for this module.

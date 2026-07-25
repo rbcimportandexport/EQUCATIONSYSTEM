@@ -395,9 +395,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     fetchCustomVideo();
   }, [selectedLessonId]);
 
-  // Sync state helpers
   const saveToLocal = (key: string, data: any) => {
-    localStorage.setItem(key, JSON.stringify(data));
+    try {
+      localStorage.setItem(key, JSON.stringify(data));
+    } catch (e) {
+      console.warn(`localStorage write failed for key "${key}":`, e);
+    }
   };
 
   // Database Reset
