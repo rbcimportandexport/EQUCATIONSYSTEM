@@ -514,8 +514,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setUsers(mongoUsers);
         saveToLocal('lms_users_v2_ie', mongoUsers);
       }
-    } catch (e) {
-      console.warn('Backend user load:', e);
+    } catch (e: any) {
+      console.error('Backend user load error:', e);
+      alert('Error fetching users from API: ' + (e.message || e));
     }
   };
 

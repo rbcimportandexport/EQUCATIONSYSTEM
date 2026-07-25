@@ -30,7 +30,9 @@ const connectDB = async () => {
   const uri = process.env.MONGODB_URI || ATLAS_URI;
 
   try {
-    const conn = await mongoose.connect(uri);
+    const conn = await mongoose.connect(uri, {
+      serverSelectionTimeoutMS: 5000
+    });
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
     process.env.USE_JSON_DB = 'false';
 
