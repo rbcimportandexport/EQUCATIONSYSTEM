@@ -1,32 +1,45 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { authApi } from '../utils/api';
-import type { Course, Module, Lesson, User } from '../utils/data';
+import type { Module, Lesson, User } from '../utils/data';
 import { 
   Edit2, Trash2, ArrowUp, ArrowDown, Save, 
-  Layers, BookOpen, FileText, Users as UsersIcon, Award 
+  Layers, BookOpen, FileText, Users as UsersIcon, Award, ArrowLeft 
 } from 'lucide-react';
+
+interface ModuleImageData {
+  image: string;
+  accentColor: string;
+}
+
+const MODULE_IMAGES_AND_COLORS: { [key: number]: ModuleImageData } = {
+  1: { image: '/assets/Basic Import Export Terms   image.png', accentColor: '#10b981' },
+  2: { image: '/assets/Product Terms image.png', accentColor: '#3b82f6' },
+  3: { image: '/assets/Weight & Measurement.png', accentColor: '#eab308' },
+  4: { image: '/assets/Container Terms image.png', accentColor: '#f43f5e' },
+  5: { image: '/assets/Shipping Terms image.png', accentColor: '#8b5cf6' },
+  6: { image: '/assets/Incoterms image.png', accentColor: '#a855f7' },
+  7: { image: '/assets/Port & Logistics image.png', accentColor: '#14b8a6' },
+  8: { image: '/assets/Documentation image.png', accentColor: '#f97316' },
+  9: { image: '/assets/Customs image.png', accentColor: '#06b6d4' },
+  10: { image: '/assets/Payment Terms image.png', accentColor: '#ef4444' },
+  11: { image: '/assets/Freight Charges image.png', accentColor: '#3b82f6' },
+  12: { image: '/assets/Quality & Inspection image.png', accentColor: '#d97706' },
+  13: { image: '/assets/Business Operations image.png', accentColor: '#6366f1' },
+  14: { image: '/assets/Risk Management image.png', accentColor: '#84cc16' },
+  15: { image: '/assets/RBC Import & Export Internal Process  image.png', accentColor: '#f43f5e' }
+};
 
 export const AdminPanel: React.FC = () => {
   const { 
-    courses, saveCourse, deleteCourse,
+    courses,
     modules, saveModule, deleteModule,
     lessons, saveLesson, deleteLesson, reorderLessons,
     users, saveUser, fetchAllUsers, certificates, issueCertificate
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<'courses' | 'modules' | 'lessons' | 'users'>('courses');
-
-  // Form states - Course
-  const [editingCourseId, setEditingCourseId] = useState<string | null>(null);
-  const [courseForm, setCourseForm] = useState<Omit<Course, 'id'>>({
-    title: '',
-    description: '',
-    thumbnail: '',
-    category: '',
-    level: 'Intermediate',
-    language: 'English'
-  });
+  const [selectedAdminModuleId, setSelectedAdminModuleId] = useState<string | null>(null);
 
   // Form states - Module
   const [editingModuleId, setEditingModuleId] = useState<string | null>(null);
@@ -72,38 +85,6 @@ export const AdminPanel: React.FC = () => {
     role: 'student'
   });
 
-  // ----------------------------------------------------
-  // COURSE HANDLERS
-  // ----------------------------------------------------
-  const handleCourseSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const id = editingCourseId || `course-${Date.now()}`;
-    saveCourse({
-      id,
-      ...courseForm
-    });
-    setEditingCourseId(null);
-    setCourseForm({
-      title: '',
-      description: '',
-      thumbnail: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=600&q=80',
-      category: '',
-      level: 'Intermediate',
-      language: 'English'
-    });
-  };
-
-  const handleEditCourse = (course: Course) => {
-    setEditingCourseId(course.id);
-    setCourseForm({
-      title: course.title,
-      description: course.description,
-      thumbnail: course.thumbnail,
-      category: course.category,
-      level: course.level,
-      language: course.language
-    });
-  };
 
   // ----------------------------------------------------
   // MODULE HANDLERS
@@ -368,105 +349,264 @@ export const AdminPanel: React.FC = () => {
          1. COURSES
          ==================================================================== */}
       {activeTab === 'courses' && (
-        <div className="admin-content-grid grid-2">
-          <div className="card admin-list-card">
-            <h3>Registered Courses ({courses.length})</h3>
-            <div className="admin-items-stack">
-              {courses.map(course => (
-                <div key={course.id} className="admin-item-row-block">
-                  <div className="admin-item-details">
-                    <img src={course.thumbnail} className="admin-thumb" alt="" />
-                    <div className="admin-item-info">
-                      <h4>{course.title}</h4>
-                      <span className="admin-meta-span">{course.category} • {course.level}</span>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          {selectedAdminModuleId === null ? (
+            <div className="card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1px solid #cbd5e1' }}>
+              <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a', marginBottom: '20px' }}>
+                Course Modules Grid (Select a module to view its topics)
+              </h3>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                gap: '24px'
+              }}>
+                {modules.map(mod => {
+                  const imgData = MODULE_IMAGES_AND_COLORS[mod.order] || { image: '/assets/logo_emblem.png', accentColor: '#2563eb' };
+                  const modLessons = lessons.filter(l => l.moduleId === mod.id);
+                  return (
+                    <div
+                      key={mod.id}
+                      onClick={() => setSelectedAdminModuleId(mod.id)}
+                      style={{
+                        background: '#ffffff',
+                        borderRadius: '12px',
+                        border: `1.5px solid #e2e8f0`,
+                        borderTop: `5px solid ${imgData.accentColor}`,
+                        overflow: 'hidden',
+                        cursor: 'pointer',
+                        transition: 'transform 0.2s, box-shadow 0.2s',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                        display: 'flex',
+                        flexDirection: 'column'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-3px)';
+                        e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.08)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)';
+                      }}
+                    >
+                      <div style={{ position: 'relative', width: '100%', height: '140px', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid #e2e8f0' }}>
+                        <img
+                          src={imgData.image}
+                          alt={mod.title}
+                          style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '10px' }}
+                        />
+                        <div style={{
+                          position: 'absolute',
+                          top: '10px',
+                          left: '10px',
+                          background: 'rgba(15, 23, 42, 0.85)',
+                          color: '#ffffff',
+                          fontSize: '14px',
+                          fontWeight: 800,
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '6px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backdropFilter: 'blur(4px)'
+                        }}>
+                          {mod.order}
+                        </div>
+                      </div>
+                      <div style={{ padding: '16px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <div>
+                          <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', margin: '0 0 6px 0' }}>{mod.title}</h4>
+                          <p style={{ fontSize: '13px', color: '#64748b', margin: 0, lineHeight: '1.4', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{mod.description}</p>
+                        </div>
+                        <div style={{ marginTop: '14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', fontWeight: 700, color: '#2563eb' }}>
+                          <span>{modLessons.length} Topics/Lessons</span>
+                          <span>Manage Topics →</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            // Detail view of lessons inside selected module
+            (() => {
+              const selectedModObj = modules.find(m => m.id === selectedAdminModuleId);
+              if (!selectedModObj) return null;
+              const filteredLessons = lessons.filter(l => l.moduleId === selectedAdminModuleId).sort((a,b) => a.order - b.order);
+
+              return (
+                <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '24px' }}>
+                  <div className="card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1px solid #cbd5e1' }}>
+                    {/* Header */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '20px' }}>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedAdminModuleId(null)}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: '36px',
+                          height: '36px',
+                          borderRadius: '8px',
+                          border: '1.5px solid #cbd5e1',
+                          background: '#ffffff',
+                          cursor: 'pointer',
+                          color: '#475569'
+                        }}
+                      >
+                        <ArrowLeft size={16} />
+                      </button>
+                      <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span style={{ fontSize: '12px', fontWeight: 800, padding: '3px 8px', borderRadius: '12px', background: '#eff6ff', color: '#2563eb' }}>
+                            MODULE {selectedModObj.order}
+                          </span>
+                        </div>
+                        <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', margin: '4px 0 0 0' }}>
+                          {selectedModObj.title}
+                        </h3>
+                      </div>
+                    </div>
+
+                    {/* Topics/Lessons Stack */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      <h4 style={{ fontSize: '14px', fontWeight: 700, color: '#475569', margin: '10px 0 4px 0' }}>
+                        Lessons in this Module ({filteredLessons.length})
+                      </h4>
+                      {filteredLessons.length === 0 ? (
+                        <div style={{ padding: '32px', textAlign: 'center', border: '1.5px dashed #cbd5e1', borderRadius: '12px', color: '#94a3b8', fontSize: '14px' }}>
+                          No topics or lessons have been created for this module yet.
+                        </div>
+                      ) : (
+                        filteredLessons.map((les, idx) => (
+                          <div
+                            key={les.id}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              padding: '14px 18px',
+                              borderRadius: '10px',
+                              border: '1px solid #e2e8f0',
+                              background: '#f8fafc'
+                            }}
+                          >
+                            <div>
+                              <div style={{ fontSize: '11px', fontWeight: 800, color: '#64748b', textTransform: 'uppercase' }}>
+                                Topic #{idx + 1}
+                              </div>
+                              <div style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a', marginTop: '2px' }}>
+                                {les.title}
+                              </div>
+                              <div style={{ fontSize: '12px', color: '#64748b', marginTop: '2px' }}>
+                                {les.duration} mins • Order: {les.order}
+                              </div>
+                            </div>
+                            <div style={{ display: 'flex', gap: '8px' }}>
+                              <button
+                                type="button"
+                                className="btn btn-outlined btn-mini"
+                                onClick={() => {
+                                  setActiveTab('lessons');
+                                  setEditingLessonId(les.id);
+                                  setLessonForm({
+                                    moduleId: les.moduleId,
+                                    title: les.title,
+                                    description: les.description || '',
+                                    duration: les.duration || 10,
+                                    order: les.order || 1,
+                                    objectives: les.content?.objectives?.join('\n') || '',
+                                    writtenExplanation: les.content?.writtenExplanation || '',
+                                    codeLanguage: les.content?.codeBlock?.language || 'typescript',
+                                    codeSnippet: les.content?.codeBlock?.code || '',
+                                    videoUrl: les.content?.video?.videoUrl || '',
+                                    videoThumbnail: les.content?.video?.thumbnail || '',
+                                    videoDuration: les.content?.video?.duration || 0,
+                                    pdfUrl: les.content?.pdf?.pdfUrl || '',
+                                    pdfTitle: les.content?.pdf?.title || '',
+                                    pdfPages: les.content?.pdf?.totalPages || 1,
+                                    pdfMockText: les.content?.pdf?.mockPagesText?.join('\n') || '',
+                                    importantNotes: les.content?.importantNotes?.join('\n') || '',
+                                    keyPoints: les.content?.keyPoints?.join('\n') || '',
+                                    summary: les.content?.summary || ''
+                                  });
+                                }}
+                                style={{ padding: '6px 10px', borderRadius: '6px' }}
+                              >
+                                <Edit2 size={12} />
+                              </button>
+                              <button
+                                type="button"
+                                className="btn btn-text btn-danger btn-mini"
+                                onClick={() => {
+                                  if (confirm(`Are you sure you want to delete "${les.title}"?`)) {
+                                    deleteLesson(les.id);
+                                  }
+                                }}
+                                style={{ padding: '6px 10px', borderRadius: '6px' }}
+                              >
+                                <Trash2 size={12} />
+                              </button>
+                            </div>
+                          </div>
+                        ))
+                      )}
                     </div>
                   </div>
-                  <div className="admin-row-actions">
-                    <button className="btn btn-outlined btn-mini" onClick={() => handleEditCourse(course)}>
-                      <Edit2 size={12} />
-                    </button>
-                    <button className="btn btn-text btn-danger btn-mini" onClick={() => deleteCourse(course.id)}>
-                      <Trash2 size={12} />
+
+                  {/* Quick Add Form on the Right */}
+                  <div className="card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1px solid #cbd5e1' }}>
+                    <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', marginBottom: '16px' }}>
+                      Add Topic/Lesson to this Module
+                    </h3>
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-full"
+                      onClick={() => {
+                        setActiveTab('lessons');
+                        setEditingLessonId(null);
+                        setLessonForm({
+                          moduleId: selectedAdminModuleId,
+                          title: '',
+                          description: '',
+                          duration: 10,
+                          order: filteredLessons.length + 1,
+                          objectives: '',
+                          writtenExplanation: '',
+                          codeLanguage: 'typescript',
+                          codeSnippet: '',
+                          videoUrl: '',
+                          videoThumbnail: '',
+                          videoDuration: 0,
+                          pdfUrl: '',
+                          pdfTitle: '',
+                          pdfPages: 1,
+                          pdfMockText: '',
+                          importantNotes: '',
+                          keyPoints: '',
+                          summary: ''
+                        });
+                      }}
+                      style={{
+                        padding: '12px',
+                        background: 'linear-gradient(135deg, #ea580c, #c2410c)',
+                        color: '#ffffff',
+                        border: 'none',
+                        borderRadius: '8px',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        width: '100%'
+                      }}
+                    >
+                      + Create New Lesson/Topic
                     </button>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="card admin-form-card">
-            <h3>{editingCourseId ? 'Edit Course Settings' : 'Create New Course'}</h3>
-            <form onSubmit={handleCourseSubmit} className="admin-form">
-              <div className="form-group">
-                <label className="form-label">Course Title</label>
-                <input
-                  type="text"
-                  required
-                  value={courseForm.title}
-                  onChange={e => setCourseForm({ ...courseForm, title: e.target.value })}
-                  className="input-field"
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Description Summary</label>
-                <textarea
-                  required
-                  rows={3}
-                  value={courseForm.description}
-                  onChange={e => setCourseForm({ ...courseForm, description: e.target.value })}
-                  className="input-field text-area"
-                />
-              </div>
-              <div className="grid-2">
-                <div className="form-group">
-                  <label className="form-label">Category</label>
-                  <input
-                    type="text"
-                    required
-                    value={courseForm.category}
-                    onChange={e => setCourseForm({ ...courseForm, category: e.target.value })}
-                    className="input-field"
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Language</label>
-                  <input
-                    type="text"
-                    required
-                    value={courseForm.language}
-                    onChange={e => setCourseForm({ ...courseForm, language: e.target.value })}
-                    className="input-field"
-                  />
-                </div>
-              </div>
-              <div className="form-group">
-                <label className="form-label">Upload Course Thumbnail Image</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={async (e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      const base64 = await new Promise<string>((resolve) => {
-                        const reader = new FileReader();
-                        reader.readAsDataURL(file);
-                        reader.onload = () => resolve(reader.result as string);
-                      });
-                      setCourseForm({ ...courseForm, thumbnail: base64 });
-                    }
-                  }}
-                  className="input-field"
-                />
-                {courseForm.thumbnail && (
-                  <img src={courseForm.thumbnail} style={{ width: '80px', height: '45px', objectFit: 'cover', borderRadius: '6px', marginTop: '6px', border: '1px solid #cbd5e1' }} alt="Preview" />
-                )}
-              </div>
-              <button type="submit" className="btn btn-primary btn-full">
-                <Save size={16} />
-                <span>Save Course</span>
-              </button>
-            </form>
-          </div>
+              );
+            })()
+          )}
         </div>
       )}
 
