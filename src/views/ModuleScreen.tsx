@@ -52,6 +52,10 @@ export const ModuleScreen: React.FC = () => {
   const [pdfPage, setPdfPage] = useState(1);
   const [pdfZoom, setPdfZoom] = useState(100);
 
+  // Lightbox Image Popup state
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+  const [lightboxCaption, setLightboxCaption] = useState<string>('');
+
   // Tablet topic dropdown state
   const [isTopicDropdownOpen, setIsTopicDropdownOpen] = useState(false);
 
@@ -995,7 +999,14 @@ export const ModuleScreen: React.FC = () => {
                               <p className="image-caption" style={{ fontSize: '13px', color: '#64748b', margin: '0 0 12px 0', lineHeight: '1.5' }}>{img.caption || ''}</p>
                             </div>
                             <div className="image-actions">
-                              <button onClick={() => window.open(img.highResUrl || img.url, '_blank')} className="btn btn-outlined btn-mini" style={{ width: '100%', padding: '6px 12px', fontSize: '12px' }}>
+                              <button 
+                                onClick={() => {
+                                  setLightboxImage(img.highResUrl || img.url);
+                                  setLightboxCaption(img.caption || `${img.lessonTitle || ''} Diagram`);
+                                }} 
+                                className="btn btn-outlined btn-mini" 
+                                style={{ width: '100%', padding: '6px 12px', fontSize: '12px' }}
+                              >
                                 Zoom Fullscreen
                               </button>
                             </div>
@@ -1280,6 +1291,82 @@ export const ModuleScreen: React.FC = () => {
           </div>
         </div>
       </aside>
+
+      {lightboxImage && (
+        <div 
+          onClick={() => setLightboxImage(null)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 999999,
+            background: 'rgba(15, 23, 42, 0.85)',
+            backdropFilter: 'blur(8px)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '24px',
+            cursor: 'zoom-out'
+          }}
+        >
+          <button
+            onClick={() => setLightboxImage(null)}
+            style={{
+              position: 'absolute',
+              top: '20px',
+              right: '20px',
+              background: 'rgba(255,255,255,0.1)',
+              border: 'none',
+              borderRadius: '50%',
+              width: '44px',
+              height: '44px',
+              color: '#ffffff',
+              fontSize: '20px',
+              fontWeight: 800,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            ✕
+          </button>
+          
+          <img 
+            src={lightboxImage} 
+            alt="Fullscreen Diagram"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              maxWidth: '90%',
+              maxHeight: '80%',
+              objectFit: 'contain',
+              borderRadius: '8px',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+              cursor: 'default'
+            }}
+          />
+          
+          {lightboxCaption && (
+            <p 
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                color: '#e2e8f0',
+                marginTop: '16px',
+                fontSize: '15px',
+                fontWeight: 500,
+                textAlign: 'center',
+                maxWidth: '600px',
+                lineHeight: 1.5,
+                background: 'rgba(15, 23, 42, 0.6)',
+                padding: '8px 16px',
+                borderRadius: '20px'
+              }}
+            >
+              {lightboxCaption}
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 };
