@@ -199,8 +199,20 @@ const AppShell: React.FC = () => {
   }, []);
 
 
-  // Check for saved user session on app launch (activates Login Page if not logged in)
+  // Check for saved user session on app launch (forces auto-logout of legacy sessions)
   useEffect(() => {
+    // ONE-TIME FORCE LOGOUT MIGRATION: Clear legacy sessions for all users
+    const isWiped = localStorage.getItem('lms_force_logout_v4');
+    if (!isWiped) {
+      localStorage.removeItem('lms_current_user_v2_ie');
+      localStorage.removeItem('rbc_auth_token');
+      localStorage.removeItem('lms_users_v2_ie');
+      localStorage.setItem('lms_force_logout_v4', 'done');
+      setCurrentUser(null);
+      setIsAuthenticated(false);
+      return;
+    }
+
     const savedUser = localStorage.getItem('lms_current_user_v2_ie');
     const token = localStorage.getItem('rbc_auth_token');
     if (savedUser && token) {
