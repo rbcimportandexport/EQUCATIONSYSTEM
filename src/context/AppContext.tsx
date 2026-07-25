@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { videosApi, usersApi, authApi, lessonsApi } from '../utils/api';
-import { getVideoFromIDB, getAllVideosFromIDB } from '../utils/indexedDB';
+import { getVideoFromIDB, getAllVideosFromIDB, saveLessonsToIDB, getLessonsFromIDB } from '../utils/indexedDB';
 import type { 
   Course, Module, Lesson, UserProgress, Bookmark, Download, User, Certificate
 } from '../utils/data';
@@ -161,12 +161,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setLessons(JSON.parse(savedLessons));
       } catch (e) {
         setLessons(initialLessons);
-        localStorage.setItem('lms_lessons_v23_ie', JSON.stringify(initialLessons));
       }
     } else {
       setLessons(initialLessons);
-      localStorage.setItem('lms_lessons_v23_ie', JSON.stringify(initialLessons));
     }
+
+    // Async check from IndexedDB cache to load large base64 custom diagrams immediately
+    getLessonsFromIDB().then(idbLessons => {
+      if (idbLessons && idbLessons.length > 0) {
+        setLessons(idbLessons);
+      }
+    }).catch(err => {
+      console.warn('Failed to load lessons from IndexedDB cache:', err);
+    });
 
     if (savedUsers) setUsers(JSON.parse(savedUsers));
     else {
@@ -315,6 +322,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             });
             merged.sort((a, b) => a.order - b.order);
             saveToLocal('lms_lessons_v23_ie', merged);
+            saveLessonsToIDB(merged);
             return merged;
           });
         }
@@ -524,6 +532,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
       updated.sort((a, b) => a.order - b.order);
       saveToLocal('lms_lessons_v23_ie', updated);
+      saveLessonsToIDB(updated);
       return updated;
     });
 
