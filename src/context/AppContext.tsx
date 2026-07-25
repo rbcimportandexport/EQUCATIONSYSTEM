@@ -397,7 +397,32 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const saveToLocal = (key: string, data: any) => {
     try {
-      localStorage.setItem(key, JSON.stringify(data));
+      if (key === 'lms_lessons_v23_ie' && Array.isArray(data)) {
+        // Strip large base64 strings (longer than 100KB) from the data saved to localStorage
+        // to prevent QuotaExceededError and ensure instant loading from cache.
+        const sanitized = data.map(lesson => {
+          if (!lesson.content) return lesson;
+          const content = { ...lesson.content };
+          
+          if (Array.isArray(content.images)) {
+            content.images = content.images.map((img: any) => {
+              if (img && typeof img === 'object' && img.url && img.url.startsWith('data:') && img.url.length > 100000) {
+                return { ...img, url: '/assets/logo_emblem.png', highResUrl: '/assets/logo_emblem.png' };
+              }
+              return img;
+            });
+          }
+          
+          if (content.video && content.video.videoUrl && content.video.videoUrl.startsWith('data:') && content.video.videoUrl.length > 100000) {
+            content.video = { ...content.video, videoUrl: '' };
+          }
+          
+          return { ...lesson, content };
+        });
+        localStorage.setItem(key, JSON.stringify(sanitized));
+      } else {
+        localStorage.setItem(key, JSON.stringify(data));
+      }
     } catch (e) {
       console.warn(`localStorage write failed for key "${key}":`, e);
     }
