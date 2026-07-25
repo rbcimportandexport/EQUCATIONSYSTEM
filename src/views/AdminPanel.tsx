@@ -32,18 +32,36 @@ const MODULE_IMAGES_AND_COLORS: { [key: number]: ModuleImageData } = {
 
 const convertGoogleDriveLink = (url: string): string => {
   if (!url) return '';
+  
+  let cleanUrl = url.trim();
+  
+  // Extract src attribute if it's an iframe tag (e.g. from YouTube or Google Drive share embeds)
+  if (cleanUrl.startsWith('<') && cleanUrl.includes('src=')) {
+    const srcMatch = cleanUrl.match(/src=["']([^"']+)["']/);
+    if (srcMatch && srcMatch[1]) {
+      cleanUrl = srcMatch[1];
+    }
+  }
+
   const driveRegex = /(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:file\/d\/|open\?id=)([^/&?#\s]+)/;
-  const match = url.match(driveRegex);
+  const match = cleanUrl.match(driveRegex);
   if (match && match[1]) {
     return `https://drive.google.com/uc?export=download&id=${match[1]}`;
   }
-  return url;
+  return cleanUrl;
 };
 
 const renderPreviewVideo = (videoUrl: string, thumbnail?: string) => {
   if (!videoUrl) return null;
+  let cleanUrl = videoUrl.trim();
+  if (cleanUrl.startsWith('<') && cleanUrl.includes('src=')) {
+    const srcMatch = cleanUrl.match(/src=["']([^"']+)["']/);
+    if (srcMatch && srcMatch[1]) {
+      cleanUrl = srcMatch[1];
+    }
+  }
   const youtubeRegex = /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/ ]{11})/;
-  const ytMatch = videoUrl.match(youtubeRegex);
+  const ytMatch = cleanUrl.match(youtubeRegex);
   if (ytMatch && ytMatch[1]) {
     return (
       <iframe
@@ -56,7 +74,7 @@ const renderPreviewVideo = (videoUrl: string, thumbnail?: string) => {
     );
   }
   const driveRegex = /(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:file\/d\/|open\?id=)([^/&?#\s]+)/;
-  const driveMatch = videoUrl.match(driveRegex);
+  const driveMatch = cleanUrl.match(driveRegex);
   if (driveMatch && driveMatch[1]) {
     return (
       <iframe
@@ -70,7 +88,7 @@ const renderPreviewVideo = (videoUrl: string, thumbnail?: string) => {
   }
   return (
     <video 
-      src={videoUrl} 
+      src={cleanUrl} 
       poster={thumbnail}
       controls 
       style={{ width: '100%', maxHeight: '380px', objectFit: 'contain', background: '#000000', display: 'block' }}
