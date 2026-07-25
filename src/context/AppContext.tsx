@@ -513,13 +513,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
         setUsers(mongoUsers);
         saveToLocal('lms_users_v2_ie', mongoUsers);
-        alert('MongoDB Atlas successfully loaded ' + mongoUsers.length + ' users! Emails: ' + mongoUsers.map(u => u.email).join(', '));
-      } else {
-        alert('API loaded but rawUsers is not a valid array: ' + JSON.stringify(rawUsers));
       }
     } catch (e: any) {
       console.error('Backend user load error:', e);
-      alert('Error fetching users from API: ' + (e.message || e));
     }
   };
 

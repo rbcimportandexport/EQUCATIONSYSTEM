@@ -88,7 +88,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
       }
     } catch (err: any) {
       console.error('Auth request error:', err);
-      alert('Auth request failed error details: ' + (err.message || err));
       setErrors({ general: 'Server/Database is unreachable. Please verify that the backend is running.' });
     } finally {
       setIsLoading(false);
