@@ -184,6 +184,68 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ lessonId, videoUrl, th
 
   const isCompleted = progress[lessonId]?.completed || false;
 
+  const youtubeRegex = /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/ ]{11})/;
+  const ytMatch = videoUrl?.match(youtubeRegex);
+  const isYouTube = !!(ytMatch && ytMatch[1]);
+  const ytVideoId = ytMatch ? ytMatch[1] : '';
+
+  const driveRegex = /(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:file\/d\/|open\?id=)([^/&?#\s]+)/;
+  const driveMatch = videoUrl?.match(driveRegex);
+  const isDrive = !!(driveMatch && driveMatch[1]);
+  const driveFileId = driveMatch ? driveMatch[1] : '';
+
+  if (isYouTube || isDrive) {
+    const embedUrl = isYouTube 
+      ? `https://www.youtube.com/embed/${ytVideoId}?autoplay=0&rel=0`
+      : `https://drive.google.com/file/d/${driveFileId}/preview`;
+    
+    return (
+      <div className="custom-video-player" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div style={{ position: 'relative', width: '100%', paddingTop: '56.25%', borderRadius: '12px', overflow: 'hidden', border: '1.5px solid #e2e8f0', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+          <iframe
+            src={embedUrl}
+            title="Video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
+          />
+        </div>
+        
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', background: '#ffffff', borderRadius: '10px', border: '1.5px solid #e2e8f0' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontSize: '13px', fontWeight: 700, color: '#475569' }}>
+              Study Controls
+            </span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <button
+              onClick={() => markLessonComplete(lessonId, !isCompleted)}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '8px 14px',
+                borderRadius: '8px',
+                border: 'none',
+                background: isCompleted ? '#f0fdf4' : 'linear-gradient(135deg, #ea580c, #c2410c)',
+                color: isCompleted ? '#16a34a' : '#ffffff',
+                fontWeight: 700,
+                fontSize: '13px',
+                cursor: 'pointer',
+                boxShadow: isCompleted ? 'none' : '0 2px 6px rgba(234, 88, 12, 0.25)',
+                transition: 'all 0.15s ease'
+              }}
+            >
+              <CheckCircle size={15} fill={isCompleted ? 'currentColor' : 'none'} />
+              <span>{isCompleted ? 'Completed ✓' : 'Mark Completed'}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       ref={playerRef}

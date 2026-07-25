@@ -30,6 +30,54 @@ const MODULE_IMAGES_AND_COLORS: { [key: number]: ModuleImageData } = {
   15: { image: '/assets/RBC Import & Export Internal Process  image.png', accentColor: '#f43f5e' }
 };
 
+const convertGoogleDriveLink = (url: string): string => {
+  if (!url) return '';
+  const driveRegex = /(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:file\/d\/|open\?id=)([^/&?#\s]+)/;
+  const match = url.match(driveRegex);
+  if (match && match[1]) {
+    return `https://drive.google.com/uc?export=download&id=${match[1]}`;
+  }
+  return url;
+};
+
+const renderPreviewVideo = (videoUrl: string, thumbnail?: string) => {
+  if (!videoUrl) return null;
+  const youtubeRegex = /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/ ]{11})/;
+  const ytMatch = videoUrl.match(youtubeRegex);
+  if (ytMatch && ytMatch[1]) {
+    return (
+      <iframe
+        src={`https://www.youtube.com/embed/${ytMatch[1]}`}
+        title="Video preview"
+        frameBorder="0"
+        allowFullScreen
+        style={{ width: '100%', height: '240px', display: 'block' }}
+      />
+    );
+  }
+  const driveRegex = /(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:file\/d\/|open\?id=)([^/&?#\s]+)/;
+  const driveMatch = videoUrl.match(driveRegex);
+  if (driveMatch && driveMatch[1]) {
+    return (
+      <iframe
+        src={`https://drive.google.com/file/d/${driveMatch[1]}/preview`}
+        title="Video preview"
+        frameBorder="0"
+        allowFullScreen
+        style={{ width: '100%', height: '240px', display: 'block' }}
+      />
+    );
+  }
+  return (
+    <video 
+      src={videoUrl} 
+      poster={thumbnail}
+      controls 
+      style={{ width: '100%', maxHeight: '380px', objectFit: 'contain', background: '#000000', display: 'block' }}
+    />
+  );
+};
+
 export const AdminPanel = () => {
   const { 
     modules,
@@ -864,14 +912,33 @@ export const AdminPanel = () => {
                               🖼️ Edit Diagram: {targetLesObj.title}
                             </h3>
 
-                            <div className="form-group">
-                              <label className="form-label" style={{ fontWeight: 700 }}>Upload Image File</label>
+                            <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                              <label className="form-label" style={{ fontWeight: 700 }}>Paste Google Drive or Direct Image URL Link</label>
+                              <input
+                                type="text"
+                                placeholder="Paste link here (e.g., https://drive.google.com/...)"
+                                value={diagramImageUrl}
+                                onChange={(e) => {
+                                  const rawUrl = e.target.value;
+                                  const parsedUrl = convertGoogleDriveLink(rawUrl);
+                                  setDiagramImageUrl(parsedUrl);
+                                }}
+                                className="input-field"
+                                style={{ padding: '10px 14px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '13.5px', outline: 'none' }}
+                              />
+                            </div>
+
+                            <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                              <label className="form-label" style={{ fontWeight: 700 }}>Or Upload Image File (Warning: Size must be small)</label>
                               <input
                                 type="file"
                                 accept="image/*"
                                 onChange={async (e) => {
                                   const file = e.target.files?.[0];
                                   if (file) {
+                                    if (file.size > 1.5 * 1024 * 1024) {
+                                      alert("Warning: Large image file! Please use a Google Drive URL link instead to prevent browser storage crash.");
+                                    }
                                     const base64 = await new Promise<string>((resolve) => {
                                       const reader = new FileReader();
                                       reader.readAsDataURL(file);
@@ -883,7 +950,12 @@ export const AdminPanel = () => {
                                 className="input-field"
                               />
                               {diagramImageUrl && (
-                                <img src={diagramImageUrl} style={{ width: '100%', maxHeight: '180px', objectFit: 'contain', borderRadius: '8px', marginTop: '10px', border: '1px solid #cbd5e1', background: '#f8fafc', padding: '6px' }} alt="Preview" />
+                                <div style={{ marginTop: '10px' }}>
+                                  <img src={diagramImageUrl} style={{ width: '100%', maxHeight: '180px', objectFit: 'contain', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#f8fafc', padding: '6px' }} alt="Preview" />
+                                  {diagramImageUrl.startsWith('data:') && (
+                                    <span style={{ fontSize: '11px', color: '#ea580c', display: 'block', marginTop: '4px', fontWeight: 600 }}>⚠️ Storing locally as Base64. Google Drive link is highly recommended!</span>
+                                  )}
+                                </div>
                               )}
                             </div>
 
@@ -1111,12 +1183,7 @@ export const AdminPanel = () => {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                       {hasVideo ? (
                         <div style={{ border: '1.5px solid #e2e8f0', borderRadius: '16px', overflow: 'hidden', background: '#f8fafc' }}>
-                          <video 
-                            src={firstVideoLesson.content.video.videoUrl} 
-                            poster={firstVideoLesson.content.video.thumbnail}
-                            controls 
-                            style={{ width: '100%', maxHeight: '380px', objectFit: 'contain', background: '#000000', display: 'block' }}
-                          />
+                          {renderPreviewVideo(firstVideoLesson.content.video.videoUrl, firstVideoLesson.content.video.thumbnail)}
                           <div style={{ padding: '16px' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#16a34a', fontWeight: 700, fontSize: '14px' }}>
                               <span>Active Video Lecture Loaded Successfully</span>
@@ -1143,14 +1210,34 @@ export const AdminPanel = () => {
                       <span>Upload / Update Module Video</span>
                     </h3>
 
-                    <div className="form-group" style={{ marginBottom: '16px' }}>
-                      <label className="form-label" style={{ fontWeight: 700 }}>Upload Video Lecture File (MP4)</label>
+                    <div className="form-group" style={{ marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      <label className="form-label" style={{ fontWeight: 700 }}>Paste Google Drive or Direct Video / YouTube URL Link</label>
+                      <input
+                        type="text"
+                        placeholder="Paste Google Drive/YouTube video link here..."
+                        value={moduleVideoUrl}
+                        onChange={(e) => {
+                          const rawUrl = e.target.value;
+                          const parsedUrl = convertGoogleDriveLink(rawUrl);
+                          setModuleVideoUrl(parsedUrl);
+                        }}
+                        className="input-field"
+                        style={{ padding: '10px 14px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '13.5px', outline: 'none', width: '100%' }}
+                      />
+                    </div>
+
+                    <div className="form-group" style={{ marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      <label className="form-label" style={{ fontWeight: 700 }}>Or Upload Video File (Only for small clips &lt; 2MB)</label>
                       <input
                         type="file"
                         accept="video/*"
                         onChange={async (e) => {
                           const file = e.target.files?.[0];
                           if (file) {
+                            if (file.size > 2 * 1024 * 1024) {
+                              alert("File too large! Storing base64 videos in browser storage will cause QuotaExceeded crashes. Please upload your video to Google Drive or YouTube and paste the link instead.");
+                              return;
+                            }
                             const base64 = await new Promise<string>((resolve) => {
                               const reader = new FileReader();
                               reader.readAsDataURL(file);
@@ -1162,18 +1249,42 @@ export const AdminPanel = () => {
                         className="input-field"
                       />
                       {moduleVideoUrl && (
-                        <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 800, display: 'block', marginTop: '4px' }}>✓ Video Loaded (Ready to apply)</span>
+                        <div>
+                          <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 800, display: 'block', marginTop: '4px' }}>✓ Video URL Loaded (Ready to apply)</span>
+                          {moduleVideoUrl.startsWith('data:') && (
+                            <span style={{ fontSize: '11px', color: '#ea580c', display: 'block', marginTop: '4px', fontWeight: 600 }}>⚠️ Storing locally as Base64. Google Drive link is highly recommended!</span>
+                          )}
+                        </div>
                       )}
                     </div>
 
-                    <div className="form-group" style={{ marginBottom: '16px' }}>
-                      <label className="form-label" style={{ fontWeight: 700 }}>Upload Video Cover / Poster (Image)</label>
+                    <div className="form-group" style={{ marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      <label className="form-label" style={{ fontWeight: 700 }}>Paste Video Cover / Poster Image URL Link</label>
+                      <input
+                        type="text"
+                        placeholder="Paste image link here..."
+                        value={moduleVideoCover}
+                        onChange={(e) => {
+                          const rawUrl = e.target.value;
+                          const parsedUrl = convertGoogleDriveLink(rawUrl);
+                          setModuleVideoCover(parsedUrl);
+                        }}
+                        className="input-field"
+                        style={{ padding: '10px 14px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '13.5px', outline: 'none', width: '100%' }}
+                      />
+                    </div>
+
+                    <div className="form-group" style={{ marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      <label className="form-label" style={{ fontWeight: 700 }}>Or Upload Video Cover / Poster (Image)</label>
                       <input
                         type="file"
                         accept="image/*"
                         onChange={async (e) => {
                           const file = e.target.files?.[0];
                           if (file) {
+                            if (file.size > 1 * 1024 * 1024) {
+                              alert("Warning: Large image file! Please paste a URL link instead.");
+                            }
                             const base64 = await new Promise<string>((resolve) => {
                               const reader = new FileReader();
                               reader.readAsDataURL(file);
@@ -1185,7 +1296,12 @@ export const AdminPanel = () => {
                         className="input-field"
                       />
                       {moduleVideoCover && (
-                        <img src={moduleVideoCover} style={{ width: '100px', height: 'auto', borderRadius: '4px', marginTop: '6px', border: '1px solid #cbd5e1' }} alt="Poster" />
+                        <div>
+                          <img src={moduleVideoCover} style={{ width: '100px', height: 'auto', borderRadius: '4px', marginTop: '6px', border: '1px solid #cbd5e1' }} alt="Poster" />
+                          {moduleVideoCover.startsWith('data:') && (
+                            <span style={{ fontSize: '11px', color: '#ea580c', display: 'block', marginTop: '4px', fontWeight: 600 }}>⚠️ Storing locally as Base64. Google Drive link is highly recommended!</span>
+                          )}
+                        </div>
                       )}
                     </div>
 
