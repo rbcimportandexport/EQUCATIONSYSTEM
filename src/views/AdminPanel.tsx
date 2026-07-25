@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { authApi } from '../utils/api';
-import type { Module, Lesson, User } from '../utils/data';
+import type { Lesson, User } from '../utils/data';
 import { 
-  Edit2, Trash2, ArrowUp, ArrowDown, Save, 
+  Edit2, Trash2, Save, Video,
   Layers, BookOpen, FileText, Users as UsersIcon, Award, ArrowLeft, Eye 
 } from 'lucide-react';
 
@@ -30,11 +30,10 @@ const MODULE_IMAGES_AND_COLORS: { [key: number]: ModuleImageData } = {
   15: { image: '/assets/RBC Import & Export Internal Process  image.png', accentColor: '#f43f5e' }
 };
 
-export const AdminPanel: React.FC = () => {
+export const AdminPanel = () => {
   const { 
-    courses,
-    modules, saveModule, deleteModule,
-    lessons, saveLesson, deleteLesson, reorderLessons,
+    modules,
+    lessons, saveLesson, deleteLesson,
     users, saveUser, fetchAllUsers, certificates, issueCertificate,
     setActiveView, setSelectedModuleId, setSelectedLessonId, setSelectedModuleTab
   } = useApp();
@@ -42,19 +41,24 @@ export const AdminPanel: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'courses' | 'modules' | 'lessons' | 'users'>('courses');
   const [selectedAdminModuleId, setSelectedAdminModuleId] = useState<string | null>(null);
 
-  // Form states - Module
-  const [editingModuleId, setEditingModuleId] = useState<string | null>(null);
-  const [moduleForm, setModuleForm] = useState<Omit<Module, 'id'>>({
-    courseId: courses[0]?.id || '',
-    title: '',
-    description: '',
-    order: 1
-  });
+  // Diagrams states
+  const [selectedDiagramModuleId, setSelectedDiagramModuleId] = useState<string | null>(null);
+  const [editingDiagramLessonId, setEditingDiagramLessonId] = useState<string | null>(null);
+  const [diagramImageUrl, setDiagramImageUrl] = useState<string>('');
+  const [diagramImageCaption, setDiagramImageCaption] = useState<string>('');
+
+  // Video states
+  const [selectedVideoModuleId, setSelectedVideoModuleId] = useState<string | null>(null);
+  const [moduleVideoUrl, setModuleVideoUrl] = useState<string>('');
+  const [moduleVideoCover, setModuleVideoCover] = useState<string>('');
+  const [moduleVideoDesc, setModuleVideoDesc] = useState<string>('');
+  const [moduleVideoLoading, setModuleVideoLoading] = useState<boolean>(false);
+
+
 
   // Form states - Lesson
   const [editingLessonId, setEditingLessonId] = useState<string | null>(null);
-  const [lessonFilterCourseId, setLessonFilterCourseId] = useState<string>(courses[0]?.id || '');
-  const [lessonFilterModuleId, setLessonFilterModuleId] = useState<string>('');
+
   
   const [lessonForm, setLessonForm] = useState({
     moduleId: '',
@@ -90,35 +94,7 @@ export const AdminPanel: React.FC = () => {
   });
 
 
-  // ----------------------------------------------------
-  // MODULE HANDLERS
-  // ----------------------------------------------------
-  const handleModuleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const id = editingModuleId || `mod-${Date.now()}`;
-    saveModule({
-      id,
-      ...moduleForm,
-      order: Number(moduleForm.order)
-    });
-    setEditingModuleId(null);
-    setModuleForm(prev => ({
-      ...prev,
-      title: '',
-      description: '',
-      order: prev.order + 1
-    }));
-  };
 
-  const handleEditModule = (moduleObj: Module) => {
-    setEditingModuleId(moduleObj.id);
-    setModuleForm({
-      courseId: moduleObj.courseId,
-      title: moduleObj.title,
-      description: moduleObj.description,
-      order: moduleObj.order
-    });
-  };
 
   // ----------------------------------------------------
   // LESSON HANDLERS
@@ -240,25 +216,6 @@ export const AdminPanel: React.FC = () => {
       keyPoints: lesson.content.keyPoints?.join('\n') || '',
       summary: lesson.content.summary || ''
     });
-  };
-
-  const handleShiftLesson = (lessonId: string, direction: 'up' | 'down', currentModuleId: string) => {
-    const list = lessons.filter(l => l.moduleId === currentModuleId);
-    const index = list.findIndex(l => l.id === lessonId);
-    
-    if (direction === 'up' && index > 0) {
-      const reordered = [...list.map(l => l.id)];
-      reordered[index] = list[index - 1].id;
-      reordered[index - 1] = lessonId;
-      reorderLessons(currentModuleId, reordered);
-    } else if (direction === 'down' && index < list.length - 1) {
-      const reordered = [...list.map(l => l.id)];
-      reordered[index] = list[index + 1].id;
-      reordered[index + 1] = lessonId;
-      reorderLessons(currentModuleId, reordered);
-    }
-  };
-
   // ----------------------------------------------------
   // USER HANDLERS
   // ----------------------------------------------------
@@ -307,26 +264,7 @@ export const AdminPanel: React.FC = () => {
     });
   };
 
-  const activeModuleOptions = modules.filter(m => m.courseId === (lessonFilterCourseId || courses[0]?.id));
-  const activeLessonsList = lessons.filter(l => l.moduleId === (lessonFilterModuleId || activeModuleOptions[0]?.id));
 
-  // Sync module selection and auto-select active module option
-  React.useEffect(() => {
-    if (activeModuleOptions.length > 0) {
-      const exists = activeModuleOptions.some(m => m.id === lessonFilterModuleId);
-      if (!exists) {
-        setLessonFilterModuleId(activeModuleOptions[0].id);
-      }
-    } else {
-      setLessonFilterModuleId('');
-    }
-  }, [lessonFilterCourseId, activeModuleOptions, lessonFilterModuleId]);
-
-  React.useEffect(() => {
-    if (lessonFilterModuleId) {
-      setLessonForm(prev => ({ ...prev, moduleId: lessonFilterModuleId }));
-    }
-  }, [lessonFilterModuleId]);
 
   return (
     <div className="admin-panel-view">
@@ -338,7 +276,7 @@ export const AdminPanel: React.FC = () => {
             style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '8px', border: '1px solid #cbd5e1', cursor: 'pointer', background: activeTab === 'courses' ? '#102A56' : '#ffffff', color: activeTab === 'courses' ? '#ffffff' : '#334155', fontWeight: 600, fontSize: '13.5px' }}
           >
             <BookOpen size={16} />
-            <span>Manage Courses</span>
+            <span>📝 Written Lessons (Text)</span>
           </button>
           <button 
             className={`admin-tab ${activeTab === 'modules' ? 'active' : ''}`}
@@ -346,7 +284,7 @@ export const AdminPanel: React.FC = () => {
             style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '8px', border: '1px solid #cbd5e1', cursor: 'pointer', background: activeTab === 'modules' ? '#102A56' : '#ffffff', color: activeTab === 'modules' ? '#ffffff' : '#334155', fontWeight: 600, fontSize: '13.5px' }}
           >
             <Layers size={16} />
-            <span>Manage Modules</span>
+            <span>🖼️ Visual Diagrams (Photos)</span>
           </button>
           <button 
             className={`admin-tab ${activeTab === 'lessons' ? 'active' : ''}`}
@@ -354,7 +292,7 @@ export const AdminPanel: React.FC = () => {
             style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '8px', border: '1px solid #cbd5e1', cursor: 'pointer', background: activeTab === 'lessons' ? '#102A56' : '#ffffff', color: activeTab === 'lessons' ? '#ffffff' : '#334155', fontWeight: 600, fontSize: '13.5px' }}
           >
             <FileText size={16} />
-            <span>Manage Lessons</span>
+            <span>📽️ Module Videos</span>
           </button>
           <button 
             className={`admin-tab ${activeTab === 'users' ? 'active' : ''}`}
@@ -362,7 +300,7 @@ export const AdminPanel: React.FC = () => {
             style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '8px', border: '1px solid #cbd5e1', cursor: 'pointer', background: activeTab === 'users' ? '#102A56' : '#ffffff', color: activeTab === 'users' ? '#ffffff' : '#334155', fontWeight: 600, fontSize: '13.5px' }}
           >
             <UsersIcon size={16} />
-            <span>Manage Users</span>
+            <span>👥 Enrolled Students</span>
           </button>
         </div>
       </div>
@@ -548,7 +486,6 @@ export const AdminPanel: React.FC = () => {
                                 type="button"
                                 className="btn btn-outlined btn-mini"
                                 onClick={() => {
-                                  setActiveTab('lessons');
                                   handleEditLesson(les);
                                 }}
                                 style={{ padding: '6px 10px', borderRadius: '6px' }}
@@ -574,41 +511,725 @@ export const AdminPanel: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Quick Add Form on the Right */}
+                  {/* Text Editor Form on the Right */}
                   <div className="card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1px solid #cbd5e1' }}>
-                    <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', marginBottom: '16px' }}>
-                      Add Topic/Lesson to this Module
+                    <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', marginBottom: '16px' }}>
+                      {editingLessonId ? '✏️ Edit Lesson Text' : '📝 Create New Lesson (Text)'}
                     </h3>
+                    <form 
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        lessonForm.contentType = 'text'; // Lock format to text
+                        handleLessonSubmit(e);
+                      }} 
+                      className="admin-form"
+                    >
+                      <div className="form-group">
+                        <label className="form-label">Lesson Title</label>
+                        <input
+                          type="text"
+                          required
+                          value={lessonForm.title}
+                          onChange={e => setLessonForm({ ...lessonForm, title: e.target.value })}
+                          className="input-field"
+                        />
+                      </div>
+
+                      <div className="grid-2" style={{ marginBottom: '16px' }}>
+                        <div className="form-group">
+                          <label className="form-label">Est. Duration (minutes)</label>
+                          <input
+                            type="number"
+                            required
+                            value={lessonForm.duration}
+                            onChange={e => setLessonForm({ ...lessonForm, duration: Number(e.target.value) })}
+                            className="input-field"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label className="form-label">Order Sequence</label>
+                          <input
+                            type="number"
+                            required
+                            value={lessonForm.order}
+                            onChange={e => setLessonForm({ ...lessonForm, order: Number(e.target.value) })}
+                            className="input-field"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label" style={{ fontWeight: 700 }}>Written Explanation</label>
+                        <textarea
+                          rows={6}
+                          required
+                          placeholder="Write explanation text here..."
+                          value={lessonForm.writtenExplanation}
+                          onChange={e => setLessonForm({ ...lessonForm, writtenExplanation: e.target.value })}
+                          className="input-field text-area"
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label" style={{ fontWeight: 700 }}>Objectives (One per line)</label>
+                        <textarea
+                          rows={2}
+                          placeholder="Objective 1&#10;Objective 2"
+                          value={lessonForm.objectives}
+                          onChange={e => setLessonForm({ ...lessonForm, objectives: e.target.value })}
+                          className="input-field text-area"
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label" style={{ fontWeight: 700 }}>Important Notes (One per line)</label>
+                        <textarea
+                          rows={2}
+                          placeholder="Note 1&#10;Note 2"
+                          value={lessonForm.importantNotes}
+                          onChange={e => setLessonForm({ ...lessonForm, importantNotes: e.target.value })}
+                          className="input-field text-area"
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label" style={{ fontWeight: 700 }}>Key Points (One per line)</label>
+                        <textarea
+                          rows={2}
+                          placeholder="Point 1&#10;Point 2"
+                          value={lessonForm.keyPoints}
+                          onChange={e => setLessonForm({ ...lessonForm, keyPoints: e.target.value })}
+                          className="input-field text-area"
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label" style={{ fontWeight: 700 }}>Summary</label>
+                        <textarea
+                          rows={2}
+                          placeholder="Quick summary..."
+                          value={lessonForm.summary}
+                          onChange={e => setLessonForm({ ...lessonForm, summary: e.target.value })}
+                          className="input-field text-area"
+                        />
+                      </div>
+
+                      <div style={{ display: 'flex', gap: '10px', marginTop: '16px' }}>
+                        <button type="submit" className="btn btn-primary" style={{ flex: 1 }}>
+                          <Save size={16} />
+                          <span>{editingLessonId ? 'Update Lesson' : 'Save Lesson'}</span>
+                        </button>
+                        {editingLessonId && (
+                          <button
+                            type="button"
+                            className="btn btn-outlined"
+                            onClick={() => {
+                              setEditingLessonId(null);
+                              setLessonForm({
+                                moduleId: selectedAdminModuleId || '',
+                                title: '',
+                                description: '',
+                                duration: 10,
+                                order: filteredLessons.length + 1,
+                                contentType: 'text',
+                                imageUrl: '',
+                                imageCaption: '',
+                                objectives: '',
+                                writtenExplanation: '',
+                                codeLanguage: 'typescript',
+                                codeSnippet: '',
+                                videoUrl: '',
+                                videoThumbnail: '',
+                                videoDuration: 0,
+                                pdfUrl: '',
+                                pdfTitle: '',
+                                pdfPages: 1,
+                                pdfMockText: '',
+                                importantNotes: '',
+                                keyPoints: '',
+                                summary: ''
+                              });
+                            }}
+                          >
+                            Cancel
+                          </button>
+                        )}
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              );
+            })()
+          )
+          }
+        </div>
+      )}
+
+      {/* ====================================================================
+         2. VISUAL DIAGRAMS (PHOTOS)
+         ==================================================================== */}
+      {activeTab === 'modules' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          {selectedDiagramModuleId === null ? (
+            <div className="card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1px solid #cbd5e1' }}>
+              <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a', marginBottom: '20px' }}>
+                Course Modules Grid (Select a module to view/edit chapter photos)
+              </h3>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                gap: '24px'
+              }}>
+                {modules.map(mod => {
+                  const imgData = MODULE_IMAGES_AND_COLORS[mod.order] || { image: '/assets/logo_emblem.png', accentColor: '#2563eb' };
+                  return (
+                    <div
+                      key={mod.id}
+                      onClick={() => {
+                        setSelectedDiagramModuleId(mod.id);
+                        setEditingDiagramLessonId(null);
+                      }}
+                      style={{
+                        background: '#ffffff',
+                        borderRadius: '12px',
+                        border: `1.5px solid #e2e8f0`,
+                        borderTop: `5px solid ${imgData.accentColor}`,
+                        overflow: 'hidden',
+                        cursor: 'pointer',
+                        transition: 'transform 0.2s, box-shadow 0.2s',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                        display: 'flex',
+                        flexDirection: 'column'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-3px)';
+                        e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.08)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)';
+                      }}
+                    >
+                      <div style={{ position: 'relative', width: '100%', height: '140px', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid #e2e8f0' }}>
+                        <img
+                          src={imgData.image}
+                          alt={mod.title}
+                          style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '10px' }}
+                        />
+                        <div style={{
+                          position: 'absolute',
+                          top: '10px',
+                          left: '10px',
+                          background: 'rgba(15, 23, 42, 0.85)',
+                          color: '#ffffff',
+                          fontSize: '14px',
+                          fontWeight: 800,
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '6px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backdropFilter: 'blur(4px)'
+                        }}>
+                          {mod.order}
+                        </div>
+                      </div>
+                      <div style={{ padding: '16px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <div>
+                          <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', margin: '0 0 6px 0' }}>{mod.title}</h4>
+                          <p style={{ fontSize: '13px', color: '#64748b', margin: 0, lineHeight: '1.4', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{mod.description}</p>
+                        </div>
+                        <div style={{ marginTop: '14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', fontWeight: 700, color: '#2563eb' }}>
+                          <span>Manage Diagrams →</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            // Module diagrams viewer & editor
+            (() => {
+              const selectedModObj = modules.find(m => m.id === selectedDiagramModuleId);
+              if (!selectedModObj) return null;
+              const filteredLessons = lessons.filter(l => l.moduleId === selectedDiagramModuleId).sort((a,b) => a.order - b.order);
+
+              return (
+                <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '24px' }}>
+                  <div className="card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1px solid #cbd5e1' }}>
+                    {/* Header */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '20px' }}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedDiagramModuleId(null);
+                          setEditingDiagramLessonId(null);
+                        }}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: '36px',
+                          height: '36px',
+                          borderRadius: '8px',
+                          border: '1.5px solid #cbd5e1',
+                          background: '#ffffff',
+                          cursor: 'pointer',
+                          color: '#475569'
+                        }}
+                      >
+                        <ArrowLeft size={16} />
+                      </button>
+                      <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span style={{ fontSize: '12px', fontWeight: 800, padding: '3px 8px', borderRadius: '12px', background: '#eff6ff', color: '#2563eb' }}>
+                            MODULE {selectedModObj.order} DIAGRAMS
+                          </span>
+                        </div>
+                        <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', margin: '4px 0 0 0' }}>
+                          {selectedModObj.title}
+                        </h3>
+                      </div>
+                    </div>
+
+                    {/* Diagrams list */}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
+                      {filteredLessons.map((les) => {
+                        const hasImg = les.content?.images && les.content.images.length > 0;
+                        const displayImg = hasImg ? les.content.images[0].url : '/assets/logo_emblem.png';
+                        const displayCaption = hasImg ? les.content.images[0].caption : 'No illustration diagram uploaded yet.';
+
+                        return (
+                          <div 
+                            key={les.id}
+                            style={{ 
+                              border: '1.5px solid #e2e8f0', 
+                              borderRadius: '12px', 
+                              overflow: 'hidden', 
+                              background: '#ffffff',
+                              boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                              display: 'flex',
+                              flexDirection: 'column'
+                            }}
+                          >
+                            <div style={{ height: '110px', background: '#f8fafc', borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                              <img src={displayImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                            </div>
+                            <div style={{ padding: '12px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                              <div>
+                                <span style={{ fontSize: '11px', fontWeight: 800, color: '#64748b' }}>TOPIC {les.order}</span>
+                                <h4 style={{ fontSize: '13.5px', fontWeight: 700, color: '#0f172a', margin: '2px 0 6px 0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{les.title}</h4>
+                                <p style={{ fontSize: '11.5px', color: '#64748b', margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', height: '32px' }}>
+                                  {displayCaption}
+                                </p>
+                              </div>
+                              <button
+                                type="button"
+                                className="btn btn-outlined btn-mini"
+                                onClick={() => {
+                                  setEditingDiagramLessonId(les.id);
+                                  setDiagramImageUrl(hasImg ? les.content.images[0].url : '');
+                                  setDiagramImageCaption(hasImg ? les.content.images[0].caption : '');
+                                }}
+                                style={{ marginTop: '10px', width: '100%', fontSize: '11.5px', fontWeight: 700 }}
+                              >
+                                ✏️ Edit Diagram / Photo
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Right Diagram Editor */}
+                  <div className="card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1px solid #cbd5e1' }}>
+                    {editingDiagramLessonId === null ? (
+                      <div style={{ textAlign: 'center', padding: '40px 10px', color: '#94a3b8' }}>
+                        <Layers size={32} style={{ marginBottom: '12px', opacity: 0.5 }} />
+                        <h4 style={{ fontSize: '14px', fontWeight: 700, color: '#64748b' }}>Select Topic on the Left</h4>
+                        <p style={{ fontSize: '12px', color: '#94a3b8', marginTop: '4px' }}>Click \"Edit Diagram / Photo\" to upload or update diagrams.</p>
+                      </div>
+                    ) : (
+                      (() => {
+                        const targetLesObj = lessons.find(l => l.id === editingDiagramLessonId);
+                        if (!targetLesObj) return null;
+                        return (
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                            <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: 0 }}>
+                              🖼️ Edit Diagram: {targetLesObj.title}
+                            </h3>
+
+                            <div className="form-group">
+                              <label className="form-label" style={{ fontWeight: 700 }}>Upload Image File</label>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={async (e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    const base64 = await new Promise<string>((resolve) => {
+                                      const reader = new FileReader();
+                                      reader.readAsDataURL(file);
+                                      reader.onload = () => resolve(reader.result as string);
+                                    });
+                                    setDiagramImageUrl(base64);
+                                  }
+                                }}
+                                className="input-field"
+                              />
+                              {diagramImageUrl && (
+                                <img src={diagramImageUrl} style={{ width: '100%', maxHeight: '180px', objectFit: 'contain', borderRadius: '8px', marginTop: '10px', border: '1px solid #cbd5e1', background: '#f8fafc', padding: '6px' }} alt="Preview" />
+                              )}
+                            </div>
+
+                            <div className="form-group">
+                              <label className="form-label" style={{ fontWeight: 700 }}>Diagram Caption / Description</label>
+                              <textarea
+                                rows={3}
+                                placeholder="Describe the details shown in this diagram diagram..."
+                                value={diagramImageCaption}
+                                onChange={e => setDiagramImageCaption(e.target.value)}
+                                className="input-field text-area"
+                              />
+                            </div>
+
+                            <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                              <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={() => {
+                                  if (!diagramImageUrl) {
+                                    alert('Please upload a diagram image first.');
+                                    return;
+                                  }
+                                  saveLesson({
+                                    ...targetLesObj,
+                                    content: {
+                                      ...targetLesObj.content,
+                                      images: [{
+                                        url: diagramImageUrl,
+                                        caption: diagramImageCaption || `Visual diagram for ${targetLesObj.title}`,
+                                        highResUrl: diagramImageUrl
+                                      }]
+                                    }
+                                  });
+                                  alert('Diagram photo updated successfully!');
+                                  setEditingDiagramLessonId(null);
+                                  setDiagramImageUrl('');
+                                  setDiagramImageCaption('');
+                                }}
+                                style={{ flex: 1 }}
+                              >
+                                <Save size={14} />
+                                <span>Save Diagram</span>
+                              </button>
+                              <button
+                                type="button"
+                                className="btn btn-outlined"
+                                onClick={() => {
+                                  setEditingDiagramLessonId(null);
+                                  setDiagramImageUrl('');
+                                  setDiagramImageCaption('');
+                                }}
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })()
+                    )}
+                  </div>
+                </div>
+              );
+            })()
+          )
+          }
+        </div>
+      )}
+
+      {/* ====================================================================
+         3. LESSONS
+         ==================================================================== */}
+      {activeTab === 'lessons' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          {selectedVideoModuleId === null ? (
+            <div className="card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1px solid #cbd5e1' }}>
+              <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a', marginBottom: '20px' }}>
+                Course Modules Grid (Select a module to manage its video lecture)
+              </h3>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                gap: '24px'
+              }}>
+                {modules.map(mod => {
+                  const imgData = MODULE_IMAGES_AND_COLORS[mod.order] || { image: '/assets/logo_emblem.png', accentColor: '#2563eb' };
+                  
+                  // Count how many lessons in this module have a video
+                  const moduleLessons = lessons.filter(l => l.moduleId === mod.id);
+                  const hasVideo = moduleLessons.some(l => l.content?.video?.videoUrl);
+
+                  return (
+                    <div
+                      key={mod.id}
+                      onClick={() => {
+                        setSelectedVideoModuleId(mod.id);
+                      }}
+                      style={{
+                        background: '#ffffff',
+                        borderRadius: '12px',
+                        border: `1.5px solid #e2e8f0`,
+                        borderTop: `5px solid ${imgData.accentColor}`,
+                        overflow: 'hidden',
+                        cursor: 'pointer',
+                        transition: 'transform 0.2s, box-shadow 0.2s',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                        display: 'flex',
+                        flexDirection: 'column'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-3px)';
+                        e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.08)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)';
+                      }}
+                    >
+                      <div style={{ position: 'relative', width: '100%', height: '140px', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid #e2e8f0' }}>
+                        <img
+                          src={imgData.image}
+                          alt={mod.title}
+                          style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '10px' }}
+                        />
+                        <div style={{
+                          position: 'absolute',
+                          top: '10px',
+                          left: '10px',
+                          background: 'rgba(15, 23, 42, 0.85)',
+                          color: '#ffffff',
+                          fontSize: '14px',
+                          fontWeight: 800,
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '6px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backdropFilter: 'blur(4px)'
+                        }}>
+                          {mod.order}
+                        </div>
+
+                        {hasVideo && (
+                          <div style={{
+                            position: 'absolute',
+                            bottom: '10px',
+                            right: '10px',
+                            background: '#16a34a',
+                            color: '#ffffff',
+                            fontSize: '10px',
+                            fontWeight: 800,
+                            padding: '3px 8px',
+                            borderRadius: '12px',
+                            display: 'flex',
+                            alignItems: 'center',
+ gap: '4px'
+                          }}>
+                            <span>Active Video ✓</span>
+                          </div>
+                        )}
+                      </div>
+                      <div style={{ padding: '16px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <div>
+                          <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', margin: '0 0 6px 0' }}>{mod.title}</h4>
+                          <p style={{ fontSize: '13px', color: '#64748b', margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{mod.description}</p>
+                        </div>
+                        <div style={{ marginTop: '14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', fontWeight: 700, color: '#ea580c' }}>
+                          <span>Manage Video Lecture →</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            // Module Video viewer & editor
+            (() => {
+              const selectedModObj = modules.find(m => m.id === selectedVideoModuleId);
+              if (!selectedModObj) return null;
+              
+              const moduleLessons = lessons.filter(l => l.moduleId === selectedVideoModuleId);
+              const firstVideoLesson = moduleLessons.find(l => l.content?.video?.videoUrl);
+              const hasVideo = !!firstVideoLesson?.content?.video?.videoUrl;
+
+              return (
+                <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '24px' }}>
+                  <div className="card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1px solid #cbd5e1' }}>
+                    {/* Header */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '20px' }}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedVideoModuleId(null);
+                        }}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          width: '36px',
+                          height: '36px',
+                          borderRadius: '8px',
+                          border: '1.5px solid #cbd5e1',
+                          background: '#ffffff',
+                          cursor: 'pointer',
+                          color: '#475569'
+                        }}
+                      >
+                        <ArrowLeft size={16} />
+                      </button>
+                      <div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span style={{ fontSize: '12px', fontWeight: 800, padding: '3px 8px', borderRadius: '12px', background: '#fff7ed', color: '#ea580c' }}>
+                            MODULE {selectedModObj.order} VIDEO LECTURE
+                          </span>
+                        </div>
+                        <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', margin: '4px 0 0 0' }}>
+                          {selectedModObj.title}
+                        </h3>
+                      </div>
+                    </div>
+
+                    {/* Preview video */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                      {hasVideo ? (
+                        <div style={{ border: '1.5px solid #e2e8f0', borderRadius: '16px', overflow: 'hidden', background: '#f8fafc' }}>
+                          <video 
+                            src={firstVideoLesson.content.video.videoUrl} 
+                            poster={firstVideoLesson.content.video.thumbnail}
+                            controls 
+                            style={{ width: '100%', maxHeight: '380px', objectFit: 'contain', background: '#000000', display: 'block' }}
+                          />
+                          <div style={{ padding: '16px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#16a34a', fontWeight: 700, fontSize: '14px' }}>
+                              <span>Active Video Lecture Loaded Successfully</span>
+                            </div>
+                            <p style={{ fontSize: '13px', color: '#64748b', marginTop: '6px', margin: 0 }}>
+                              This video will be played for all {moduleLessons.length} topics inside Module {selectedModObj.order}.
+                            </p>
+                          </div>
+                        </div>
+                      ) : (
+                        <div style={{ padding: '60px 20px', textAlign: 'center', border: '2px dashed #cbd5e1', borderRadius: '16px', color: '#64748b' }}>
+                          <Video size={48} style={{ margin: '0 auto 12px auto', opacity: 0.5, color: '#ea580c' }} />
+                          <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#475569' }}>No Video Lecture Uploaded Yet</h4>
+                          <p style={{ fontSize: '13px', color: '#94a3b8', marginTop: '4px' }}>Use the form on the right to upload the video course for Module {selectedModObj.order}.</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Right Video Editor */}
+                  <div className="card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1px solid #cbd5e1' }}>
+                    <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Video size={18} color="#ea580c" />
+                      <span>Upload / Update Module Video</span>
+                    </h3>
+
+                    <div className="form-group" style={{ marginBottom: '16px' }}>
+                      <label className="form-label" style={{ fontWeight: 700 }}>Upload Video Lecture File (MP4)</label>
+                      <input
+                        type="file"
+                        accept="video/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const base64 = await new Promise<string>((resolve) => {
+                              const reader = new FileReader();
+                              reader.readAsDataURL(file);
+                              reader.onload = () => resolve(reader.result as string);
+                            });
+                            setModuleVideoUrl(base64);
+                          }
+                        }}
+                        className="input-field"
+                      />
+                      {moduleVideoUrl && (
+                        <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 800, display: 'block', marginTop: '4px' }}>✓ Video Loaded (Ready to apply)</span>
+                      )}
+                    </div>
+
+                    <div className="form-group" style={{ marginBottom: '16px' }}>
+                      <label className="form-label" style={{ fontWeight: 700 }}>Upload Video Cover / Poster (Image)</label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const base64 = await new Promise<string>((resolve) => {
+                              const reader = new FileReader();
+                              reader.readAsDataURL(file);
+                              reader.onload = () => resolve(reader.result as string);
+                            });
+                            setModuleVideoCover(base64);
+                          }
+                        }}
+                        className="input-field"
+                      />
+                      {moduleVideoCover && (
+                        <img src={moduleVideoCover} style={{ width: '100px', height: 'auto', borderRadius: '4px', marginTop: '6px', border: '1px solid #cbd5e1' }} alt="Poster" />
+                      )}
+                    </div>
+
+                    <div className="form-group" style={{ marginBottom: '16px' }}>
+                      <label className="form-label" style={{ fontWeight: 700 }}>Video Lecture Description</label>
+                      <textarea
+                        rows={3}
+                        placeholder="Write a short description or overview for this video lecture..."
+                        value={moduleVideoDesc}
+                        onChange={e => setModuleVideoDesc(e.target.value)}
+                        className="input-field text-area"
+                      />
+                    </div>
+
                     <button
                       type="button"
                       className="btn btn-primary btn-full"
-                      onClick={() => {
-                        setActiveTab('lessons');
-                        setEditingLessonId(null);
-                        setLessonForm({
-                          moduleId: selectedAdminModuleId,
-                          title: '',
-                          description: '',
-                          duration: 10,
-                          order: filteredLessons.length + 1,
-                          contentType: 'video',
-                          imageUrl: '',
-                          imageCaption: '',
-                          objectives: '',
-                          writtenExplanation: '',
-                          codeLanguage: 'typescript',
-                          codeSnippet: '',
-                          videoUrl: '',
-                          videoThumbnail: '',
-                          videoDuration: 0,
-                          pdfUrl: '',
-                          pdfTitle: '',
-                          pdfPages: 1,
-                          pdfMockText: '',
-                          importantNotes: '',
-                          keyPoints: '',
-                          summary: ''
-                        });
+                      disabled={moduleVideoLoading}
+                      onClick={async () => {
+                        if (!moduleVideoUrl) {
+                          alert('Please upload a video file first.');
+                          return;
+                        }
+                        setModuleVideoLoading(true);
+                        try {
+                          // Apply to all lessons in this module
+                          for (const les of moduleLessons) {
+                            await saveLesson({
+                              ...les,
+                              content: {
+                                ...les.content,
+                                video: {
+                                  videoUrl: moduleVideoUrl,
+                                  thumbnail: moduleVideoCover || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+                                  duration: 600
+                                }
+                              }
+                            });
+                          }
+                          alert(`Video lecture successfully applied to all ${moduleLessons.length} topics inside Module ${selectedModObj.order}!`);
+                        } catch (err) {
+                          console.error(err);
+                          alert('Failed to save video.');
+                        } finally {
+                          setModuleVideoLoading(false);
+                        }
                       }}
                       style={{
                         padding: '12px',
@@ -621,471 +1242,14 @@ export const AdminPanel: React.FC = () => {
                         width: '100%'
                       }}
                     >
-                      + Create New Lesson/Topic
+                      {moduleVideoLoading ? 'Saving Video...' : 'Apply Video to Module Chapters'}
                     </button>
                   </div>
                 </div>
               );
             })()
-          )}
-        </div>
-      )}
-
-      {/* ====================================================================
-         2. MODULES
-         ==================================================================== */}
-      {activeTab === 'modules' && (
-        <div className="admin-content-grid grid-2">
-          <div className="card admin-list-card">
-            <h3>Course Modules ({modules.length})</h3>
-            <div className="admin-items-stack">
-              {modules.map(mod => {
-                const parent = courses.find(c => c.id === mod.courseId);
-                return (
-                  <div key={mod.id} className="admin-item-row-block">
-                    <div className="admin-item-info">
-                      <h4>Module {mod.order}. {mod.title}</h4>
-                      <span className="admin-meta-span">Parent: {parent?.title || 'Unknown'}</span>
-                    </div>
-                    <div className="admin-row-actions">
-                      <button className="btn btn-outlined btn-mini" onClick={() => handleEditModule(mod)}>
-                        <Edit2 size={12} />
-                      </button>
-                      <button className="btn btn-text btn-danger btn-mini" onClick={() => deleteModule(mod.id)}>
-                        <Trash2 size={12} />
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="card admin-form-card">
-            <h3>{editingModuleId ? 'Edit Module Settings' : 'Create New Module'}</h3>
-            <form onSubmit={handleModuleSubmit} className="admin-form">
-              <div className="form-group">
-                <label className="form-label">Select Course</label>
-                <select
-                  value={moduleForm.courseId}
-                  onChange={e => setModuleForm({ ...moduleForm, courseId: e.target.value })}
-                  className="input-field"
-                >
-                  {courses.map(c => (
-                    <option key={c.id} value={c.id}>{c.title}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="form-group">
-                <label className="form-label">Module Title</label>
-                <input
-                  type="text"
-                  required
-                  value={moduleForm.title}
-                  onChange={e => setModuleForm({ ...moduleForm, title: e.target.value })}
-                  className="input-field"
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Description Blueprint</label>
-                <textarea
-                  required
-                  rows={2}
-                  value={moduleForm.description}
-                  onChange={e => setModuleForm({ ...moduleForm, description: e.target.value })}
-                  className="input-field text-area"
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Order Sequence</label>
-                <input
-                  type="number"
-                  required
-                  value={moduleForm.order}
-                  onChange={e => setModuleForm({ ...moduleForm, order: Number(e.target.value) })}
-                  className="input-field"
-                />
-              </div>
-              <button type="submit" className="btn btn-primary btn-full">
-                <Save size={16} />
-                <span>Save Module</span>
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* ====================================================================
-         3. LESSONS
-         ==================================================================== */}
-      {activeTab === 'lessons' && (
-        <div className="admin-content-grid grid-2">
-          <div className="card admin-list-card">
-            <h3>Syllabus Workspace & Reordering</h3>
-            <div className="scope-selection-box card">
-              <div className="form-group">
-                <label className="form-label">Select Course</label>
-                <select
-                  value={lessonFilterCourseId}
-                  onChange={e => {
-                    setLessonFilterCourseId(e.target.value);
-                    const matchingChaps = modules.filter(c => c.courseId === e.target.value);
-                    setLessonFilterModuleId(matchingChaps[0]?.id || '');
-                  }}
-                  className="input-field"
-                >
-                  {courses.map(c => (
-                    <option key={c.id} value={c.id}>{c.title}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Select Module</label>
-                <select
-                  value={lessonFilterModuleId}
-                  onChange={e => setLessonFilterModuleId(e.target.value)}
-                  className="input-field"
-                >
-                  <option value="">-- Select Module --</option>
-                  {activeModuleOptions.map(ch => (
-                    <option key={ch.id} value={ch.id}>Module {ch.order}. {ch.title}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div className="admin-items-stack">
-              {activeLessonsList.length === 0 ? (
-                <div className="empty-syllabus-label">No lessons in this scope. Add one using the form on the right!</div>
-              ) : (
-                activeLessonsList.map((lesson, idx) => (
-                  <div key={lesson.id} className="admin-item-row-block">
-                    <div className="admin-item-info">
-                      <h4>{lesson.order}. {lesson.title}</h4>
-                      <span className="admin-meta-span">Duration: {lesson.duration}m</span>
-                    </div>
-
-                    <div className="admin-row-actions">
-                      <div className="reordering-controls">
-                        <button 
-                          className="btn btn-outlined btn-mini"
-                          onClick={() => handleShiftLesson(lesson.id, 'up', lesson.moduleId)}
-                          disabled={idx === 0}
-                          title="Move Up"
-                        >
-                          <ArrowUp size={12} />
-                        </button>
-                        <button 
-                          className="btn btn-outlined btn-mini"
-                          onClick={() => handleShiftLesson(lesson.id, 'down', lesson.moduleId)}
-                          disabled={idx === activeLessonsList.length - 1}
-                          title="Move Down"
-                        >
-                          <ArrowDown size={12} />
-                        </button>
-                      </div>
-
-                      <button
-                        className="btn btn-outlined btn-mini"
-                        onClick={() => {
-                          setSelectedModuleId(lesson.moduleId);
-                          setSelectedLessonId(lesson.id);
-                          if (setSelectedModuleTab) {
-                            setSelectedModuleTab('read');
-                          }
-                          setActiveView('Chapters');
-                        }}
-                        style={{ color: '#2563eb', borderColor: '#bfdbfe', background: '#eff6ff', display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
-                        title="Open / Preview Topic"
-                      >
-                        <Eye size={12} />
-                        <span style={{ fontSize: '11px', fontWeight: 700 }}>Open</span>
-                      </button>
-                      
-                      <button className="btn btn-outlined btn-mini" onClick={() => handleEditLesson(lesson)}>
-                        <Edit2 size={12} />
-                      </button>
-                      
-                      <button className="btn btn-text btn-danger btn-mini" onClick={() => deleteLesson(lesson.id)}>
-                        <Trash2 size={12} />
-                      </button>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-
-          <div className="card admin-form-card max-h-800">
-            <h3>{editingLessonId ? 'Edit Lesson Workspace' : 'Add New Lesson'}</h3>
-            <form onSubmit={handleLessonSubmit} className="admin-form">
-              <div className="form-group">
-                <label className="form-label">Select Module</label>
-                <select
-                  value={lessonForm.moduleId}
-                  onChange={e => setLessonForm({ ...lessonForm, moduleId: e.target.value })}
-                  className="input-field"
-                  required
-                >
-                  <option value="">-- Select Module --</option>
-                  {modules.map(ch => {
-                    const course = courses.find(c => c.id === ch.courseId);
-                    return (
-                      <option key={ch.id} value={ch.id}>
-                        {course?.title.substring(0, 15)}.. &gt; Module {ch.order}. {ch.title}
-                      </option>
-                    );
-                  })}
-                </select>
-              </div>
-
-               <div className="form-group">
-                <label className="form-label">Lesson Title</label>
-                <input
-                  type="text"
-                  required
-                  value={lessonForm.title}
-                  onChange={e => setLessonForm({ ...lessonForm, title: e.target.value })}
-                  className="input-field"
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label" style={{ fontWeight: 700, color: '#102A56' }}>Select Topic Format / Type</label>
-                <select
-                  value={lessonForm.contentType}
-                  onChange={e => setLessonForm({ ...lessonForm, contentType: e.target.value })}
-                  className="input-field"
-                  style={{ border: '1.5px solid #102A56', background: '#f8fafc', fontWeight: 600 }}
-                >
-                  <option value="video">📽️ Video Lecture</option>
-                  <option value="image">🖼️ Visual Diagram / Image</option>
-                  <option value="text">📖 Written Explanation / Text</option>
-                  <option value="pdf">📄 PDF Handbook / Slides</option>
-                </select>
-              </div>
-
-              <div className="grid-2" style={{ marginBottom: '16px' }}>
-                <div className="form-group">
-                  <label className="form-label">Est. Duration (minutes)</label>
-                  <input
-                    type="number"
-                    required
-                    value={lessonForm.duration}
-                    onChange={e => setLessonForm({ ...lessonForm, duration: Number(e.target.value) })}
-                    className="input-field"
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Order Sequence</label>
-                  <input
-                    type="number"
-                    required
-                    value={lessonForm.order}
-                    onChange={e => setLessonForm({ ...lessonForm, order: Number(e.target.value) })}
-                    className="input-field"
-                  />
-                </div>
-              </div>
-
-              {/* 📽️ VIDEO TYPE INPUTS */}
-              {lessonForm.contentType === 'video' && (
-                <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  <div className="form-group" style={{ margin: 0 }}>
-                    <label className="form-label" style={{ fontWeight: 700 }}>Upload Video Lecture (Real Upload)</label>
-                    <input
-                      type="file"
-                      accept="video/*"
-                      onChange={async (e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          const base64 = await new Promise<string>((resolve) => {
-                            const reader = new FileReader();
-                            reader.readAsDataURL(file);
-                            reader.onload = () => resolve(reader.result as string);
-                          });
-                          setLessonForm({ ...lessonForm, videoUrl: base64 });
-                        }
-                      }}
-                      className="input-field"
-                    />
-                    {lessonForm.videoUrl && (
-                      <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 600, display: 'block', marginTop: '4px' }}>✓ Video File Loaded successfully</span>
-                    )}
-                  </div>
-
-                  <div className="form-group" style={{ margin: 0 }}>
-                    <label className="form-label" style={{ fontWeight: 700 }}>Upload Video Cover Page / Poster (Image)</label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={async (e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          const base64 = await new Promise<string>((resolve) => {
-                            const reader = new FileReader();
-                            reader.readAsDataURL(file);
-                            reader.onload = () => resolve(reader.result as string);
-                          });
-                          setLessonForm({ ...lessonForm, videoThumbnail: base64 });
-                        }
-                      }}
-                      className="input-field"
-                    />
-                    {lessonForm.videoThumbnail && (
-                      <img src={lessonForm.videoThumbnail} style={{ width: '80px', height: 'auto', borderRadius: '4px', marginTop: '6px' }} alt="Poster Preview" />
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* 🖼️ IMAGE DIAGRAM TYPE INPUTS */}
-              {lessonForm.contentType === 'image' && (
-                <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  <div className="form-group" style={{ margin: 0 }}>
-                    <label className="form-label" style={{ fontWeight: 700 }}>Upload Diagram / Illustration Image</label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={async (e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          const base64 = await new Promise<string>((resolve) => {
-                            const reader = new FileReader();
-                            reader.readAsDataURL(file);
-                            reader.onload = () => resolve(reader.result as string);
-                          });
-                          setLessonForm({ ...lessonForm, imageUrl: base64 });
-                        }
-                      }}
-                      className="input-field"
-                      required={!lessonForm.imageUrl}
-                    />
-                    {lessonForm.imageUrl && (
-                      <img src={lessonForm.imageUrl} style={{ width: '120px', height: 'auto', borderRadius: '4px', marginTop: '6px', border: '1px solid #cbd5e1' }} alt="Diagram Preview" />
-                    )}
-                  </div>
-
-                  <div className="form-group" style={{ margin: 0 }}>
-                    <label className="form-label" style={{ fontWeight: 700 }}>Diagram Description / Caption</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. Operational flowchart of custom clearance..."
-                      value={lessonForm.imageCaption}
-                      onChange={e => setLessonForm({ ...lessonForm, imageCaption: e.target.value })}
-                      className="input-field"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* 📄 PDF TYPE INPUTS */}
-              {lessonForm.contentType === 'pdf' && (
-                <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  <div className="form-group" style={{ margin: 0 }}>
-                    <label className="form-label" style={{ fontWeight: 700 }}>Upload Study Slides & Handbook (PDF)</label>
-                    <input
-                      type="file"
-                      accept=".pdf"
-                      onChange={async (e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          const base64 = await new Promise<string>((resolve) => {
-                            const reader = new FileReader();
-                            reader.readAsDataURL(file);
-                            reader.onload = () => resolve(reader.result as string);
-                          });
-                          setLessonForm({ ...lessonForm, pdfUrl: base64, pdfTitle: file.name });
-                        }
-                      }}
-                      className="input-field"
-                      required={!lessonForm.pdfUrl}
-                    />
-                    {lessonForm.pdfUrl && (
-                      <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 600, display: 'block', marginTop: '4px' }}>✓ PDF Study Handbook Loaded: {lessonForm.pdfTitle}</span>
-                    )}
-                  </div>
-
-                  <div className="form-group" style={{ margin: 0 }}>
-                    <label className="form-label" style={{ fontWeight: 700 }}>PDF Total Page Count</label>
-                    <input
-                      type="number"
-                      value={lessonForm.pdfPages}
-                      onChange={e => setLessonForm({ ...lessonForm, pdfPages: Number(e.target.value) })}
-                      className="input-field"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* 📖 WRITTEN TEXT TYPE INPUTS */}
-              {lessonForm.contentType === 'text' && (
-                <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  <div className="form-group" style={{ margin: 0 }}>
-                    <label className="form-label" style={{ fontWeight: 700 }}>Written Explanation</label>
-                    <textarea
-                      rows={6}
-                      required
-                      placeholder="Write your explanation text here..."
-                      value={lessonForm.writtenExplanation}
-                      onChange={e => setLessonForm({ ...lessonForm, writtenExplanation: e.target.value })}
-                      className="input-field text-area"
-                    />
-                  </div>
-
-                  <div className="form-group" style={{ margin: 0 }}>
-                    <label className="form-label" style={{ fontWeight: 700 }}>Objectives (One per line)</label>
-                    <textarea
-                      rows={2}
-                      placeholder="Objective 1&#10;Objective 2"
-                      value={lessonForm.objectives}
-                      onChange={e => setLessonForm({ ...lessonForm, objectives: e.target.value })}
-                      className="input-field text-area"
-                    />
-                  </div>
-
-                  <div className="form-group" style={{ margin: 0 }}>
-                    <label className="form-label" style={{ fontWeight: 700 }}>Important Notes (One per line)</label>
-                    <textarea
-                      rows={2}
-                      placeholder="Note 1&#10;Note 2"
-                      value={lessonForm.importantNotes}
-                      onChange={e => setLessonForm({ ...lessonForm, importantNotes: e.target.value })}
-                      className="input-field text-area"
-                    />
-                  </div>
-
-                  <div className="form-group" style={{ margin: 0 }}>
-                    <label className="form-label" style={{ fontWeight: 700 }}>Key Points (One per line)</label>
-                    <textarea
-                      rows={2}
-                      placeholder="Point 1&#10;Point 2"
-                      value={lessonForm.keyPoints}
-                      onChange={e => setLessonForm({ ...lessonForm, keyPoints: e.target.value })}
-                      className="input-field text-area"
-                    />
-                  </div>
-
-                  <div className="form-group" style={{ margin: 0 }}>
-                    <label className="form-label" style={{ fontWeight: 700 }}>Summary</label>
-                    <textarea
-                      rows={2}
-                      placeholder="Quick summary summary..."
-                      value={lessonForm.summary}
-                      onChange={e => setLessonForm({ ...lessonForm, summary: e.target.value })}
-                      className="input-field text-area"
-                    />
-                  </div>
-                </div>
-              )}
-
-              <button type="submit" className="btn btn-primary btn-full" style={{ marginTop: '10px' }}>
-                <Save size={16} />
-                <span>Save Lesson</span>
-              </button>
-            </form>
-          </div>
+          )
+          }
         </div>
       )}
 
@@ -1320,3 +1484,4 @@ export const AdminPanel: React.FC = () => {
     </div>
   );
 };
+}
