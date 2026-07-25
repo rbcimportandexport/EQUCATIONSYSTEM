@@ -1,5 +1,7 @@
 // API utility for making authenticated requests to the backend
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'https://equcationsystem-self.vercel.app/api'
+  : '/api';
 
 const getToken = (): string | null => {
   return localStorage.getItem('rbc_auth_token');
