@@ -158,7 +158,35 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     if (savedLessons) {
       try {
-        setLessons(JSON.parse(savedLessons));
+        let parsed = JSON.parse(savedLessons);
+        if (Array.isArray(parsed)) {
+          let migrated = false;
+          parsed = parsed.map(lesson => {
+            if (!lesson.content || !Array.isArray(lesson.content.images)) return lesson;
+            const hasPlaceholder = lesson.content.images.some((img: any) => 
+              img && typeof img === 'object' && img.url && 
+              (img.url.includes('logo_emblem') || img.url === '')
+            );
+            if (hasPlaceholder) {
+              const defaultLesson = initialLessons.find(l => l.id === lesson.id);
+              if (defaultLesson && defaultLesson.content && Array.isArray(defaultLesson.content.images)) {
+                migrated = true;
+                return {
+                  ...lesson,
+                  content: {
+                    ...lesson.content,
+                    images: defaultLesson.content.images
+                  }
+                };
+              }
+            }
+            return lesson;
+          });
+          if (migrated) {
+            localStorage.setItem('lms_lessons_v23_ie', JSON.stringify(parsed));
+          }
+        }
+        setLessons(parsed);
       } catch (e) {
         setLessons(initialLessons);
       }
@@ -169,7 +197,34 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     // Async check from IndexedDB cache to load large base64 custom diagrams immediately
     getLessonsFromIDB().then(idbLessons => {
       if (idbLessons && idbLessons.length > 0) {
-        setLessons(idbLessons);
+        let parsed = idbLessons;
+        let migrated = false;
+        parsed = parsed.map(lesson => {
+          if (!lesson.content || !Array.isArray(lesson.content.images)) return lesson;
+          const hasPlaceholder = lesson.content.images.some((img: any) => 
+            img && typeof img === 'object' && img.url && 
+            (img.url.includes('logo_emblem') || img.url === '')
+          );
+          if (hasPlaceholder) {
+            const defaultLesson = initialLessons.find(l => l.id === lesson.id);
+            if (defaultLesson && defaultLesson.content && Array.isArray(defaultLesson.content.images)) {
+              migrated = true;
+              return {
+                ...lesson,
+                content: {
+                  ...lesson.content,
+                  images: defaultLesson.content.images
+                }
+              };
+            }
+          }
+          return lesson;
+        });
+        if (migrated) {
+          localStorage.setItem('lms_lessons_v23_ie', JSON.stringify(parsed));
+          saveLessonsToIDB(parsed);
+        }
+        setLessons(parsed);
       }
     }).catch(err => {
       console.warn('Failed to load lessons from IndexedDB cache:', err);

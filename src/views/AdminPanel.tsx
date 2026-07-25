@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { authApi } from '../utils/api';
+import { authApi, usersApi } from '../utils/api';
 import type { Lesson, User } from '../utils/data';
 import { 
   Edit2, Trash2, Save, Video,
@@ -305,6 +305,12 @@ export const AdminPanel = () => {
           password: 'rbcuser123',
           role: userForm.role,
           otp: '123456'
+        });
+      } else {
+        await usersApi.update(editingUserId, {
+          name: userForm.name.trim(),
+          email: userForm.email.toLowerCase().trim(),
+          role: userForm.role
         });
       }
       await fetchAllUsers();
@@ -1559,7 +1565,7 @@ export const AdminPanel = () => {
                   value={userForm.name}
                   onChange={e => setUserForm({ ...userForm, name: e.target.value })}
                   className="input-field"
-                  placeholder="e.g. Rajesh Kumar"
+                  placeholder="Enter your name"
                   style={{ padding: '11px 14px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '14px', outline: 'none' }}
                 />
               </div>
@@ -1572,7 +1578,7 @@ export const AdminPanel = () => {
                   value={userForm.email}
                   onChange={e => setUserForm({ ...userForm, email: e.target.value })}
                   className="input-field"
-                  placeholder="e.g. rajesh@logistics.com"
+                  placeholder="Enter your email"
                   style={{ padding: '11px 14px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '14px', outline: 'none' }}
                 />
               </div>

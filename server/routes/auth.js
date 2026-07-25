@@ -259,6 +259,56 @@ router.get('/users', async (req, res) => {
   }
 });
 
+// ─── PUT /api/auth/users/:id ──────────────────────────────────────────────────
+// Update a user's role and details (name, email, role) from Admin Panel
+router.put('/users/:id', async (req, res) => {
+  try {
+    const { name, email, role } = req.body;
+    const userId = req.params.id;
+
+    // Check in database/MongoDB
+    const User = require('../models/User');
+    let user;
+    try {
+      user = await User.findById(userId);
+    } catch (e) {
+      // Ignore cast errors to try JSON fallback
+    }
+
+    if (user) {
+      if (name) user.name = name.trim();
+      if (email) user.email = email.toLowerCase().trim();
+      if (role) user.role = role;
+      await user.save({ validateBeforeSave: false });
+      return res.json({
+        success: true,
+        message: 'User updated successfully in MongoDB Atlas!',
+        user: {
+          id: user._id.toString(),
+          name: user.name,
+          email: user.email,
+          role: user.role
+        }
+      });
+    }
+
+    // Try fallback JSON DB
+    const updated = await db.updateUser(userId, { name, email, role });
+    if (updated) {
+      return res.json({
+        success: true,
+        message: 'User updated successfully in JSON fallback!',
+        user: db.toPublicJSON(updated)
+      });
+    }
+
+    res.status(404).json({ success: false, message: 'User not found' });
+  } catch (error) {
+    console.error('Update user error:', error);
+    res.status(500).json({ success: false, message: 'Failed to update user' });
+  }
+});
+
 // ─── GET /api/auth/me ────────────────────────────────────────────────────────
 // Get current logged-in user
 router.get('/me', protect, async (req, res) => {

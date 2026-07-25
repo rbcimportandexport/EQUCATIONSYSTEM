@@ -164,6 +164,10 @@ export const usersApi = {
   // Fetch all users from MongoDB Atlas backend
   getAll: async (): Promise<{ success: boolean; users?: AuthUser[]; message?: string }> => {
     return await apiRequest('/auth/users');
+  },
+  // Update user details and role privilege
+  update: async (id: string, data: { name: string; email: string; role: 'student' | 'admin' }): Promise<{ success: boolean; message?: string }> => {
+    return await apiRequest(`/auth/users/${id}`, 'PUT', data);
   }
 };
 
