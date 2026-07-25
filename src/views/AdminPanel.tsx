@@ -4,7 +4,7 @@ import { authApi } from '../utils/api';
 import type { Module, Lesson, User } from '../utils/data';
 import { 
   Edit2, Trash2, ArrowUp, ArrowDown, Save, 
-  Layers, BookOpen, FileText, Users as UsersIcon, Award, ArrowLeft 
+  Layers, BookOpen, FileText, Users as UsersIcon, Award, ArrowLeft, Eye 
 } from 'lucide-react';
 
 interface ModuleImageData {
@@ -35,7 +35,8 @@ export const AdminPanel: React.FC = () => {
     courses,
     modules, saveModule, deleteModule,
     lessons, saveLesson, deleteLesson, reorderLessons,
-    users, saveUser, fetchAllUsers, certificates, issueCertificate
+    users, saveUser, fetchAllUsers, certificates, issueCertificate,
+    setActiveView, setSelectedModuleId, setSelectedLessonId, setSelectedModuleTab
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<'courses' | 'modules' | 'lessons' | 'users'>('courses');
@@ -504,7 +505,24 @@ export const AdminPanel: React.FC = () => {
                                 {les.duration} mins • Order: {les.order}
                               </div>
                             </div>
-                            <div style={{ display: 'flex', gap: '8px' }}>
+                            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                              <button
+                                type="button"
+                                className="btn btn-outlined btn-mini"
+                                onClick={() => {
+                                  setSelectedModuleId(les.moduleId);
+                                  setSelectedLessonId(les.id);
+                                  if (setSelectedModuleTab) {
+                                    setSelectedModuleTab('read');
+                                  }
+                                  setActiveView('Chapters');
+                                }}
+                                style={{ padding: '6px 10px', borderRadius: '6px', color: '#2563eb', borderColor: '#bfdbfe', background: '#eff6ff', display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
+                                title="Open / Preview Topic"
+                              >
+                                <Eye size={12} />
+                                <span style={{ fontSize: '11px', fontWeight: 700 }}>Open</span>
+                              </button>
                               <button
                                 type="button"
                                 className="btn btn-outlined btn-mini"
@@ -765,6 +783,23 @@ export const AdminPanel: React.FC = () => {
                         </button>
                       </div>
 
+                      <button
+                        className="btn btn-outlined btn-mini"
+                        onClick={() => {
+                          setSelectedModuleId(lesson.moduleId);
+                          setSelectedLessonId(lesson.id);
+                          if (setSelectedModuleTab) {
+                            setSelectedModuleTab('read');
+                          }
+                          setActiveView('Chapters');
+                        }}
+                        style={{ color: '#2563eb', borderColor: '#bfdbfe', background: '#eff6ff', display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
+                        title="Open / Preview Topic"
+                      >
+                        <Eye size={12} />
+                        <span style={{ fontSize: '11px', fontWeight: 700 }}>Open</span>
+                      </button>
+                      
                       <button className="btn btn-outlined btn-mini" onClick={() => handleEditLesson(lesson)}>
                         <Edit2 size={12} />
                       </button>
