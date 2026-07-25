@@ -216,6 +216,24 @@ const AppShell: React.FC = () => {
       } catch (e) {
         console.warn('Session parse error:', e);
       }
+
+      // Asynchronously fetch fresh user profile from backend to sync updated roles/permissions
+      authApi.getMe().then(res => {
+        if (res.success && res.user) {
+          const freshUser = res.user;
+          localStorage.setItem('lms_current_user_v2_ie', JSON.stringify({
+            id: freshUser.id,
+            name: freshUser.name,
+            email: freshUser.email,
+            role: freshUser.role,
+            progressPercentage: freshUser.progressPercentage || 0
+          }));
+          loginUser(freshUser.name, freshUser.email, freshUser.role, freshUser.id);
+          setUserRole(freshUser.role);
+        }
+      }).catch(err => {
+        console.warn('Failed to sync fresh user profile:', err);
+      });
     }
     setAuthLoading(false);
   }, []);
