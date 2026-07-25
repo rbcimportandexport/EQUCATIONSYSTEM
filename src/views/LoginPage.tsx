@@ -215,7 +215,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
             }
             localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(res.user));
             setSuccessMsg('Login successful!');
-            setTimeout(() => onLoginSuccess(res.user!), 400);
+            onLoginSuccess(res.user!);
             return;
           } else {
             setErrors({ general: res.message || 'Invalid email or password.' });
@@ -238,7 +238,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
             };
             localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(adminUser));
             setSuccessMsg('Admin login successful!');
-            setTimeout(() => onLoginSuccess(adminUser), 400);
+            onLoginSuccess(adminUser);
             return;
           }
 
@@ -250,7 +250,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           if (matchedUser) {
             localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(matchedUser));
             setSuccessMsg('Login successful!');
-            setTimeout(() => onLoginSuccess(matchedUser), 400);
+            onLoginSuccess(matchedUser);
             return;
           } else {
             setErrors({ general: 'No account found with this email. Please register first.' });
