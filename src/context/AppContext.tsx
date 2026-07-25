@@ -497,15 +497,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const fetchAllUsers = async () => {
     try {
       const res = await usersApi.getAll();
-      if (res.success && res.users) {
-        const mongoUsers: User[] = res.users.map((u: any) => ({
-          id: u.id || u._id,
-          name: u.name,
-          email: u.email,
+      const rawUsers = res.users || (res as any).data || (Array.isArray(res) ? res : []);
+      if (rawUsers && Array.isArray(rawUsers) && rawUsers.length > 0) {
+        const mongoUsers: User[] = rawUsers.map((u: any) => ({
+          id: u.id || u._id || `usr-${Math.random()}`,
+          name: u.name || (u.email ? u.email.split('@')[0] : 'User'),
+          email: u.email || '',
           role: u.role || 'student',
-          progressPercentage: u.progressPercentage || 0,
-          phone: u.phone,
-          country: u.country
+          progressPercentage: typeof u.progressPercentage === 'number' ? u.progressPercentage : 0,
+          phone: u.phone || '',
+          country: u.country || 'India'
         }));
 
         setUsers(prev => {

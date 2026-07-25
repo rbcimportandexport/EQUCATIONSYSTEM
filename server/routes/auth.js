@@ -225,27 +225,33 @@ router.get('/users', async (req, res) => {
   try {
     const User = require('../models/User');
     const users = await User.find({}).select('-password').sort({ createdAt: -1 });
+    const userList = users.map(u => ({
+      id: u._id.toString(),
+      name: u.name,
+      email: u.email,
+      phone: u.phone || '',
+      country: u.country || 'India',
+      role: u.role || 'student',
+      progressPercentage: u.progressPercentage || 0,
+      createdAt: u.createdAt
+    }));
+
     return res.json({
       success: true,
-      count: users.length,
-      users: users.map(u => ({
-        id: u._id.toString(),
-        name: u.name,
-        email: u.email,
-        phone: u.phone || '',
-        country: u.country || 'India',
-        role: u.role || 'student',
-        progressPercentage: u.progressPercentage || 0,
-        createdAt: u.createdAt
-      }))
+      count: userList.length,
+      users: userList,
+      data: userList
     });
   } catch (error) {
     console.error('Fetch users from Atlas error, trying JSON fallback:', error);
     try {
       const users = db.getJsonUsers ? db.getJsonUsers() : [];
+      const userList = users.map(u => db.toPublicJSON(u));
       return res.json({
         success: true,
-        users: users.map(u => db.toPublicJSON(u))
+        count: userList.length,
+        users: userList,
+        data: userList
       });
     } catch {
       res.status(500).json({ success: false, message: 'Failed to fetch users' });
