@@ -19,6 +19,7 @@ import { AdminPanel } from './views/AdminPanel';
 import { QuizScreen } from './views/QuizScreen';
 import { CommunityScreen } from './views/CommunityScreen';
 import { VideosScreen } from './views/VideosScreen';
+import { PencilLoader } from './components/PencilLoader';
 
 const AppShell: React.FC = () => {
   const { activeView, setActiveView, setUserRole, loginUser, setCurrentUser } = useApp();
@@ -317,11 +318,8 @@ const AppShell: React.FC = () => {
         justifyContent: 'center',
         background: 'linear-gradient(135deg, #0a1628 0%, #102A56 100%)',
         flexDirection: 'column',
-        gap: '16px',
       }}>
-        <div style={{ width: '48px', height: '48px', border: '3px solid rgba(212,175,55,0.3)', borderTop: '3px solid #D4AF37', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
-        <div style={{ color: '#D4AF37', fontSize: '14px', fontWeight: '600', letterSpacing: '1px' }}>Loading RBC Academy...</div>
-        <style>{`@keyframes spin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }`}</style>
+        <PencilLoader text="Loading RBC Academy..." textColor="#D4AF37" color="#D4AF37" />
       </div>
     );
   }

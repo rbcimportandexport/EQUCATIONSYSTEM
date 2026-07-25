@@ -9,6 +9,7 @@ import {
   ArrowLeft, ArrowRight, CheckCircle2, Volume2, PlayCircle, Upload, Settings
 } from 'lucide-react';
 import { uiTranslations, translateModuleTitle, translateModuleDescription, getTranslatedLesson } from '../utils/translator';
+import { PencilLoader } from '../components/PencilLoader';
 
 export const ModuleScreen: React.FC = () => {
   const {
@@ -1555,19 +1556,20 @@ const AdminVideoUpload: React.FC<{
             />
           </div>
 
-          {progressText && (
-            <div style={{ fontSize: '13px', color: '#0284c7', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span className="spinner" style={{
-                width: '14px',
-                height: '14px',
-                border: '2px solid #0284c7',
-                borderTopColor: 'transparent',
-                borderRadius: '50%',
-                display: 'inline-block',
-                animation: 'spin 1s linear infinite'
-              }}></span>
-              <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-              {progressText}
+          {isUploading && (
+            <div style={{
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(15, 23, 42, 0.75)',
+              backdropFilter: 'blur(6px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 999999
+            }}>
+              <div className="card" style={{ padding: '32px', background: '#ffffff', borderRadius: '16px', border: '1px solid #cbd5e1', display: 'flex', flexDirection: 'column', alignItems: 'center', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
+                <PencilLoader text={progressText || "Processing video conversion & upload..."} textColor="#475569" color="#0284c7" />
+              </div>
             </div>
           )}
 
