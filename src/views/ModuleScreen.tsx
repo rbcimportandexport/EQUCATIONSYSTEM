@@ -38,8 +38,7 @@ export const ModuleScreen: React.FC = () => {
     else setLanguage('en');
   };
 
-  const selectedTab = selectedModuleTab || 'read';
-  const setSelectedTab = setSelectedModuleTab;
+
 
   const [isDownloadOpen, setIsDownloadOpen] = useState(false);
   const [activeTopicId, setActiveTopicId] = useState<string>('');
@@ -87,6 +86,28 @@ export const ModuleScreen: React.FC = () => {
 
   // Translate all lessons dynamically on load for the active language
   const translatedLessons = moduleLessons.map(l => getTranslatedLesson(l, language));
+
+  const activeVideoLesson = translatedLessons.find(l => l.id === activeVideoLessonId) || translatedLessons[0];
+
+  const hasRead = !!(activeVideoLesson?.content?.writtenExplanation && activeVideoLesson.content.writtenExplanation.trim().length > 0);
+  const hasImages = !!(activeVideoLesson?.content?.images && activeVideoLesson.content.images.length > 0);
+  const hasVideo = !!(activeVideoLesson?.content?.video?.videoUrl && activeVideoLesson.content.video.videoUrl.trim().length > 0);
+  const hasPdf = !!(activeVideoLesson?.content?.pdf?.pdfUrl && activeVideoLesson.content.pdf.pdfUrl.trim().length > 0);
+
+  let fallbackTab: 'pdf' | 'video' | 'read' | 'images' = 'read';
+  if (hasRead) fallbackTab = 'read';
+  else if (hasImages) fallbackTab = 'images';
+  else if (hasVideo) fallbackTab = 'video';
+  else if (hasPdf) fallbackTab = 'pdf';
+
+  let activeTab: 'pdf' | 'video' | 'read' | 'images' = (selectedModuleTab as any) || fallbackTab;
+  if (activeTab === 'read' && !hasRead) activeTab = fallbackTab;
+  if (activeTab === 'images' && !hasImages) activeTab = fallbackTab;
+  if (activeTab === 'video' && !hasVideo) activeTab = fallbackTab;
+  if (activeTab === 'pdf' && !hasPdf) activeTab = fallbackTab;
+
+  const selectedTab: 'pdf' | 'video' | 'read' | 'images' = activeTab;
+  const setSelectedTab = setSelectedModuleTab;
 
   // Auto-select first lesson when module changes or lessons populate
   useEffect(() => {
@@ -440,37 +461,45 @@ export const ModuleScreen: React.FC = () => {
         {/* Resource Toolbar */}
         <div className="textbook-resource-toolbar">
           <div className="toolbar-horizontal-scroll" style={{ overflowX: 'auto' }}>
-            <button
-              className={`toolbar-btn ${selectedTab === 'read' ? 'active' : ''}`}
-              onClick={() => setSelectedTab('read')}
-            >
-              <BookOpen size={16} />
-              <span>{t.readChapter}</span>
-            </button>
+            {hasRead && (
+              <button
+                className={`toolbar-btn ${selectedTab === 'read' ? 'active' : ''}`}
+                onClick={() => setSelectedTab('read')}
+              >
+                <BookOpen size={16} />
+                <span>{t.readChapter}</span>
+              </button>
+            )}
 
-            <button
-              className={`toolbar-btn ${selectedTab === 'images' ? 'active' : ''}`}
-              onClick={() => setSelectedTab('images')}
-            >
-              <Image size={16} />
-              <span>{t.viewImages}</span>
-            </button>
+            {hasImages && (
+              <button
+                className={`toolbar-btn ${selectedTab === 'images' ? 'active' : ''}`}
+                onClick={() => setSelectedTab('images')}
+              >
+                <Image size={16} />
+                <span>{t.viewImages}</span>
+              </button>
+            )}
 
-            <button
-              className={`toolbar-btn ${selectedTab === 'video' ? 'active' : ''}`}
-              onClick={() => setSelectedTab('video')}
-            >
-              <Video size={16} />
-              <span>{t.watchVideo}</span>
-            </button>
+            {hasVideo && (
+              <button
+                className={`toolbar-btn ${selectedTab === 'video' ? 'active' : ''}`}
+                onClick={() => setSelectedTab('video')}
+              >
+                <Video size={16} />
+                <span>{t.watchVideo}</span>
+              </button>
+            )}
 
-            <button
-              className={`toolbar-btn ${selectedTab === 'pdf' ? 'active' : ''}`}
-              onClick={() => setSelectedTab('pdf')}
-            >
-              <FileText size={16} />
-              <span>{t.openPdf}</span>
-            </button>
+            {hasPdf && (
+              <button
+                className={`toolbar-btn ${selectedTab === 'pdf' ? 'active' : ''}`}
+                onClick={() => setSelectedTab('pdf')}
+              >
+                <FileText size={16} />
+                <span>{t.openPdf}</span>
+              </button>
+            )}
 
             {/* Bookmark Module */}
             <button
@@ -939,21 +968,14 @@ export const ModuleScreen: React.FC = () => {
             <div className="textbook-images-mode">
               <h3 className="mode-sub-title">Chapter Visual Resource Gallery</h3>
               <div className="textbook-images-grid">
-                {translatedLessons.map(lesson => {
-                  const hasImage = lesson.content.images && lesson.content.images.length > 0;
-                  const img = hasImage ? lesson.content.images[0] : {
-                    url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
-                    caption: `Visual diagram demonstrating operations for ${lesson.title}.`,
-                    highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
-                  };
-
-                  return (
-                    <div key={lesson.id} className="card textbook-image-card">
+                {activeVideoLesson?.content?.images && activeVideoLesson.content.images.length > 0 ? (
+                  activeVideoLesson.content.images.map((img: any, imgIdx: number) => (
+                    <div key={imgIdx} className="card textbook-image-card">
                       <div className="image-wrapper">
-                        <img src={img.url} alt={lesson.title} />
+                        <img src={img.url} alt={activeVideoLesson.title} />
                       </div>
                       <div className="image-card-info">
-                        <h4 className="image-title">{lesson.title} Diagram</h4>
+                        <h4 className="image-title">{activeVideoLesson.title} Diagram</h4>
                         <p className="image-caption">{img.caption}</p>
                         <div className="image-actions">
                           <button onClick={() => window.open(img.highResUrl, '_blank')} className="btn btn-outlined btn-mini">
@@ -962,8 +984,12 @@ export const ModuleScreen: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                  );
-                })}
+                  ))
+                ) : (
+                  <div style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>
+                    No visual diagrams available for this topic.
+                  </div>
+                )}
               </div>
             </div>
           )}

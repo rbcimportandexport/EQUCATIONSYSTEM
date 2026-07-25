@@ -62,6 +62,9 @@ export const AdminPanel: React.FC = () => {
     description: '',
     duration: 10,
     order: 1,
+    contentType: 'video',
+    imageUrl: '',
+    imageCaption: '',
     objectives: '',
     writtenExplanation: '',
     codeLanguage: 'typescript',
@@ -140,29 +143,33 @@ export const AdminPanel: React.FC = () => {
         definition: 'Sample Definition',
         whyImportant: 'Sample Importance summary checklist.',
         businessExample: 'Sample Case Study description.',
-        images: [],
-        video: { 
+        images: lessonForm.contentType === 'image' && lessonForm.imageUrl ? [{
+          url: lessonForm.imageUrl,
+          caption: lessonForm.imageCaption || `Visual diagram for ${lessonForm.title}`,
+          highResUrl: lessonForm.imageUrl
+        }] : [],
+        video: lessonForm.contentType === 'video' ? { 
           videoUrl: lessonForm.videoUrl || '', 
           thumbnail: lessonForm.videoThumbnail || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80', 
           duration: Number(lessonForm.videoDuration) || Number(lessonForm.duration) * 60 || 120 
-        },
-        pdf: { 
+        } : { videoUrl: '', thumbnail: '', duration: 0 },
+        pdf: lessonForm.contentType === 'pdf' ? { 
           pdfUrl: lessonForm.pdfUrl || '', 
           title: lessonForm.pdfTitle || 'Handbook', 
           totalPages: Number(lessonForm.pdfPages) || 1, 
           size: '1.2 MB', 
           mockPagesText: lessonForm.pdfMockText ? lessonForm.pdfMockText.split('\n') : ['Study guide text content reference slides.'] 
-        },
+        } : { pdfUrl: '', title: '', totalPages: 1, size: '', mockPagesText: [] },
         downloadOption: { title: 'Download File', fileUrl: '', size: '50 KB', type: 'pdf' },
         relatedTopics: [],
         faqs: [],
         commonMistakes: [],
         practicalTips: [],
-        objectives: lessonForm.objectives.split('\n').filter(l => l.trim()),
-        writtenExplanation: lessonForm.writtenExplanation,
-        importantNotes: lessonForm.importantNotes.split('\n').filter(l => l.trim()),
-        keyPoints: lessonForm.keyPoints.split('\n').filter(l => l.trim()),
-        summary: lessonForm.summary,
+        objectives: lessonForm.contentType === 'text' ? lessonForm.objectives.split('\n').filter(l => l.trim()) : [],
+        writtenExplanation: lessonForm.contentType === 'text' ? lessonForm.writtenExplanation : '',
+        importantNotes: lessonForm.contentType === 'text' ? lessonForm.importantNotes.split('\n').filter(l => l.trim()) : [],
+        keyPoints: lessonForm.contentType === 'text' ? lessonForm.keyPoints.split('\n').filter(l => l.trim()) : [],
+        summary: lessonForm.contentType === 'text' ? lessonForm.summary : '',
         quiz: [
           {
             id: `q-default-${id}`,
@@ -197,15 +204,29 @@ export const AdminPanel: React.FC = () => {
   };
 
   const handleEditLesson = (lesson: Lesson) => {
+    let contentType = 'video';
+    if (lesson.content.video?.videoUrl) {
+      contentType = 'video';
+    } else if (lesson.content.images && lesson.content.images.length > 0) {
+      contentType = 'image';
+    } else if (lesson.content.writtenExplanation) {
+      contentType = 'text';
+    } else if (lesson.content.pdf?.pdfUrl) {
+      contentType = 'pdf';
+    }
+
     setEditingLessonId(lesson.id);
     setLessonForm({
       moduleId: lesson.moduleId,
       title: lesson.title,
-      description: lesson.description,
-      duration: lesson.duration,
-      order: lesson.order,
+      description: lesson.description || '',
+      duration: lesson.duration || 10,
+      order: lesson.order || 1,
+      contentType,
+      imageUrl: lesson.content.images?.[0]?.url || '',
+      imageCaption: lesson.content.images?.[0]?.caption || '',
       objectives: lesson.content.objectives?.join('\n') || '',
-      writtenExplanation: lesson.content.writtenExplanation,
+      writtenExplanation: lesson.content.writtenExplanation || '',
       codeLanguage: lesson.content.codeBlock?.language || 'typescript',
       codeSnippet: lesson.content.codeBlock?.code || '',
       videoUrl: lesson.content.video?.videoUrl || '',
@@ -214,10 +235,10 @@ export const AdminPanel: React.FC = () => {
       pdfUrl: lesson.content.pdf?.pdfUrl || '',
       pdfTitle: lesson.content.pdf?.title || '',
       pdfPages: lesson.content.pdf?.totalPages || 1,
-      pdfMockText: lesson.content.pdf?.mockPagesText[0] || '',
+      pdfMockText: lesson.content.pdf?.mockPagesText?.join('\n') || '',
       importantNotes: lesson.content.importantNotes?.join('\n') || '',
       keyPoints: lesson.content.keyPoints?.join('\n') || '',
-      summary: lesson.content.summary
+      summary: lesson.content.summary || ''
     });
   };
 
@@ -528,28 +549,7 @@ export const AdminPanel: React.FC = () => {
                                 className="btn btn-outlined btn-mini"
                                 onClick={() => {
                                   setActiveTab('lessons');
-                                  setEditingLessonId(les.id);
-                                  setLessonForm({
-                                    moduleId: les.moduleId,
-                                    title: les.title,
-                                    description: les.description || '',
-                                    duration: les.duration || 10,
-                                    order: les.order || 1,
-                                    objectives: les.content?.objectives?.join('\n') || '',
-                                    writtenExplanation: les.content?.writtenExplanation || '',
-                                    codeLanguage: les.content?.codeBlock?.language || 'typescript',
-                                    codeSnippet: les.content?.codeBlock?.code || '',
-                                    videoUrl: les.content?.video?.videoUrl || '',
-                                    videoThumbnail: les.content?.video?.thumbnail || '',
-                                    videoDuration: les.content?.video?.duration || 0,
-                                    pdfUrl: les.content?.pdf?.pdfUrl || '',
-                                    pdfTitle: les.content?.pdf?.title || '',
-                                    pdfPages: les.content?.pdf?.totalPages || 1,
-                                    pdfMockText: les.content?.pdf?.mockPagesText?.join('\n') || '',
-                                    importantNotes: les.content?.importantNotes?.join('\n') || '',
-                                    keyPoints: les.content?.keyPoints?.join('\n') || '',
-                                    summary: les.content?.summary || ''
-                                  });
+                                  handleEditLesson(les);
                                 }}
                                 style={{ padding: '6px 10px', borderRadius: '6px' }}
                               >
@@ -591,6 +591,9 @@ export const AdminPanel: React.FC = () => {
                           description: '',
                           duration: 10,
                           order: filteredLessons.length + 1,
+                          contentType: 'video',
+                          imageUrl: '',
+                          imageCaption: '',
                           objectives: '',
                           writtenExplanation: '',
                           codeLanguage: 'typescript',
@@ -837,7 +840,7 @@ export const AdminPanel: React.FC = () => {
                 </select>
               </div>
 
-              <div className="form-group">
+               <div className="form-group">
                 <label className="form-label">Lesson Title</label>
                 <input
                   type="text"
@@ -848,7 +851,22 @@ export const AdminPanel: React.FC = () => {
                 />
               </div>
 
-              <div className="grid-2">
+              <div className="form-group">
+                <label className="form-label" style={{ fontWeight: 700, color: '#102A56' }}>Select Topic Format / Type</label>
+                <select
+                  value={lessonForm.contentType}
+                  onChange={e => setLessonForm({ ...lessonForm, contentType: e.target.value })}
+                  className="input-field"
+                  style={{ border: '1.5px solid #102A56', background: '#f8fafc', fontWeight: 600 }}
+                >
+                  <option value="video">📽️ Video Lecture</option>
+                  <option value="image">🖼️ Visual Diagram / Image</option>
+                  <option value="text">📖 Written Explanation / Text</option>
+                  <option value="pdf">📄 PDF Handbook / Slides</option>
+                </select>
+              </div>
+
+              <div className="grid-2" style={{ marginBottom: '16px' }}>
                 <div className="form-group">
                   <label className="form-label">Est. Duration (minutes)</label>
                   <input
@@ -871,87 +889,198 @@ export const AdminPanel: React.FC = () => {
                 </div>
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Upload Video Lecture (Real Upload)</label>
-                <input
-                  type="file"
-                  accept="video/*"
-                  onChange={async (e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      const base64 = await new Promise<string>((resolve) => {
-                        const reader = new FileReader();
-                        reader.readAsDataURL(file);
-                        reader.onload = () => resolve(reader.result as string);
-                      });
-                      setLessonForm({ ...lessonForm, videoUrl: base64 });
-                    }
-                  }}
-                  className="input-field"
-                />
-                {lessonForm.videoUrl && (
-                  <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 600 }}>✓ Video File Loaded successfully</span>
-                )}
-              </div>
+              {/* 📽️ VIDEO TYPE INPUTS */}
+              {lessonForm.contentType === 'video' && (
+                <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                  <div className="form-group" style={{ margin: 0 }}>
+                    <label className="form-label" style={{ fontWeight: 700 }}>Upload Video Lecture (Real Upload)</label>
+                    <input
+                      type="file"
+                      accept="video/*"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const base64 = await new Promise<string>((resolve) => {
+                            const reader = new FileReader();
+                            reader.readAsDataURL(file);
+                            reader.onload = () => resolve(reader.result as string);
+                          });
+                          setLessonForm({ ...lessonForm, videoUrl: base64 });
+                        }
+                      }}
+                      className="input-field"
+                    />
+                    {lessonForm.videoUrl && (
+                      <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 600, display: 'block', marginTop: '4px' }}>✓ Video File Loaded successfully</span>
+                    )}
+                  </div>
 
-              <div className="form-group">
-                <label className="form-label">Upload Video Cover Page / Poster (Image)</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={async (e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      const base64 = await new Promise<string>((resolve) => {
-                        const reader = new FileReader();
-                        reader.readAsDataURL(file);
-                        reader.onload = () => resolve(reader.result as string);
-                      });
-                      setLessonForm({ ...lessonForm, videoThumbnail: base64 });
-                    }
-                  }}
-                  className="input-field"
-                />
-                {lessonForm.videoThumbnail && (
-                  <img src={lessonForm.videoThumbnail} style={{ width: '80px', height: 'auto', borderRadius: '4px', marginTop: '6px' }} alt="Poster Preview" />
-                )}
-              </div>
+                  <div className="form-group" style={{ margin: 0 }}>
+                    <label className="form-label" style={{ fontWeight: 700 }}>Upload Video Cover Page / Poster (Image)</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const base64 = await new Promise<string>((resolve) => {
+                            const reader = new FileReader();
+                            reader.readAsDataURL(file);
+                            reader.onload = () => resolve(reader.result as string);
+                          });
+                          setLessonForm({ ...lessonForm, videoThumbnail: base64 });
+                        }
+                      }}
+                      className="input-field"
+                    />
+                    {lessonForm.videoThumbnail && (
+                      <img src={lessonForm.videoThumbnail} style={{ width: '80px', height: 'auto', borderRadius: '4px', marginTop: '6px' }} alt="Poster Preview" />
+                    )}
+                  </div>
+                </div>
+              )}
 
-              <div className="form-group">
-                <label className="form-label">Upload Study Slides & Handbook (PDF)</label>
-                <input
-                  type="file"
-                  accept=".pdf"
-                  onChange={async (e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      const base64 = await new Promise<string>((resolve) => {
-                        const reader = new FileReader();
-                        reader.readAsDataURL(file);
-                        reader.onload = () => resolve(reader.result as string);
-                      });
-                      setLessonForm({ ...lessonForm, pdfUrl: base64, pdfTitle: file.name });
-                    }
-                  }}
-                  className="input-field"
-                />
-                {lessonForm.pdfUrl && (
-                  <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 600 }}>✓ PDF Study Handbook Loaded</span>
-                )}
-              </div>
+              {/* 🖼️ IMAGE DIAGRAM TYPE INPUTS */}
+              {lessonForm.contentType === 'image' && (
+                <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                  <div className="form-group" style={{ margin: 0 }}>
+                    <label className="form-label" style={{ fontWeight: 700 }}>Upload Diagram / Illustration Image</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const base64 = await new Promise<string>((resolve) => {
+                            const reader = new FileReader();
+                            reader.readAsDataURL(file);
+                            reader.onload = () => resolve(reader.result as string);
+                          });
+                          setLessonForm({ ...lessonForm, imageUrl: base64 });
+                        }
+                      }}
+                      className="input-field"
+                      required={!lessonForm.imageUrl}
+                    />
+                    {lessonForm.imageUrl && (
+                      <img src={lessonForm.imageUrl} style={{ width: '120px', height: 'auto', borderRadius: '4px', marginTop: '6px', border: '1px solid #cbd5e1' }} alt="Diagram Preview" />
+                    )}
+                  </div>
 
-              <div className="form-group">
-                <label className="form-label">Written Explanation</label>
-                <textarea
-                  rows={4}
-                  required
-                  value={lessonForm.writtenExplanation}
-                  onChange={e => setLessonForm({ ...lessonForm, writtenExplanation: e.target.value })}
-                  className="input-field text-area"
-                />
-              </div>
+                  <div className="form-group" style={{ margin: 0 }}>
+                    <label className="form-label" style={{ fontWeight: 700 }}>Diagram Description / Caption</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Operational flowchart of custom clearance..."
+                      value={lessonForm.imageCaption}
+                      onChange={e => setLessonForm({ ...lessonForm, imageCaption: e.target.value })}
+                      className="input-field"
+                    />
+                  </div>
+                </div>
+              )}
 
-              <button type="submit" className="btn btn-primary btn-full">
+              {/* 📄 PDF TYPE INPUTS */}
+              {lessonForm.contentType === 'pdf' && (
+                <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                  <div className="form-group" style={{ margin: 0 }}>
+                    <label className="form-label" style={{ fontWeight: 700 }}>Upload Study Slides & Handbook (PDF)</label>
+                    <input
+                      type="file"
+                      accept=".pdf"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const base64 = await new Promise<string>((resolve) => {
+                            const reader = new FileReader();
+                            reader.readAsDataURL(file);
+                            reader.onload = () => resolve(reader.result as string);
+                          });
+                          setLessonForm({ ...lessonForm, pdfUrl: base64, pdfTitle: file.name });
+                        }
+                      }}
+                      className="input-field"
+                      required={!lessonForm.pdfUrl}
+                    />
+                    {lessonForm.pdfUrl && (
+                      <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 600, display: 'block', marginTop: '4px' }}>✓ PDF Study Handbook Loaded: {lessonForm.pdfTitle}</span>
+                    )}
+                  </div>
+
+                  <div className="form-group" style={{ margin: 0 }}>
+                    <label className="form-label" style={{ fontWeight: 700 }}>PDF Total Page Count</label>
+                    <input
+                      type="number"
+                      value={lessonForm.pdfPages}
+                      onChange={e => setLessonForm({ ...lessonForm, pdfPages: Number(e.target.value) })}
+                      className="input-field"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* 📖 WRITTEN TEXT TYPE INPUTS */}
+              {lessonForm.contentType === 'text' && (
+                <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                  <div className="form-group" style={{ margin: 0 }}>
+                    <label className="form-label" style={{ fontWeight: 700 }}>Written Explanation</label>
+                    <textarea
+                      rows={6}
+                      required
+                      placeholder="Write your explanation text here..."
+                      value={lessonForm.writtenExplanation}
+                      onChange={e => setLessonForm({ ...lessonForm, writtenExplanation: e.target.value })}
+                      className="input-field text-area"
+                    />
+                  </div>
+
+                  <div className="form-group" style={{ margin: 0 }}>
+                    <label className="form-label" style={{ fontWeight: 700 }}>Objectives (One per line)</label>
+                    <textarea
+                      rows={2}
+                      placeholder="Objective 1&#10;Objective 2"
+                      value={lessonForm.objectives}
+                      onChange={e => setLessonForm({ ...lessonForm, objectives: e.target.value })}
+                      className="input-field text-area"
+                    />
+                  </div>
+
+                  <div className="form-group" style={{ margin: 0 }}>
+                    <label className="form-label" style={{ fontWeight: 700 }}>Important Notes (One per line)</label>
+                    <textarea
+                      rows={2}
+                      placeholder="Note 1&#10;Note 2"
+                      value={lessonForm.importantNotes}
+                      onChange={e => setLessonForm({ ...lessonForm, importantNotes: e.target.value })}
+                      className="input-field text-area"
+                    />
+                  </div>
+
+                  <div className="form-group" style={{ margin: 0 }}>
+                    <label className="form-label" style={{ fontWeight: 700 }}>Key Points (One per line)</label>
+                    <textarea
+                      rows={2}
+                      placeholder="Point 1&#10;Point 2"
+                      value={lessonForm.keyPoints}
+                      onChange={e => setLessonForm({ ...lessonForm, keyPoints: e.target.value })}
+                      className="input-field text-area"
+                    />
+                  </div>
+
+                  <div className="form-group" style={{ margin: 0 }}>
+                    <label className="form-label" style={{ fontWeight: 700 }}>Summary</label>
+                    <textarea
+                      rows={2}
+                      placeholder="Quick summary summary..."
+                      value={lessonForm.summary}
+                      onChange={e => setLessonForm({ ...lessonForm, summary: e.target.value })}
+                      className="input-field text-area"
+                    />
+                  </div>
+                </div>
+              )}
+
+              <button type="submit" className="btn btn-primary btn-full" style={{ marginTop: '10px' }}>
                 <Save size={16} />
                 <span>Save Lesson</span>
               </button>
