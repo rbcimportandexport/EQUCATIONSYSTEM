@@ -500,7 +500,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       console.log('[DEBUG] fetchAllUsers: raw response:', res);
       const rawUsers = res.users || (res as any).data || (Array.isArray(res) ? res : []);
       console.log('[DEBUG] fetchAllUsers: parsed rawUsers:', rawUsers);
-      if (rawUsers && Array.isArray(rawUsers) && rawUsers.length > 0) {
+      if (rawUsers && Array.isArray(rawUsers)) {
         const mongoUsers: User[] = rawUsers.map((u: any) => ({
           id: u.id || u._id || `usr-${Math.random()}`,
           name: u.name || (u.email ? u.email.split('@')[0] : 'User'),
@@ -513,6 +513,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
         setUsers(mongoUsers);
         saveToLocal('lms_users_v2_ie', mongoUsers);
+        alert('MongoDB Atlas successfully loaded ' + mongoUsers.length + ' users! Emails: ' + mongoUsers.map(u => u.email).join(', '));
+      } else {
+        alert('API loaded but rawUsers is not a valid array: ' + JSON.stringify(rawUsers));
       }
     } catch (e: any) {
       console.error('Backend user load error:', e);
