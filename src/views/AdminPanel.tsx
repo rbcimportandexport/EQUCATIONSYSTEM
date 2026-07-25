@@ -278,7 +278,7 @@ export const AdminPanel = () => {
             style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '8px', border: '1px solid #cbd5e1', cursor: 'pointer', background: activeTab === 'courses' ? '#102A56' : '#ffffff', color: activeTab === 'courses' ? '#ffffff' : '#334155', fontWeight: 600, fontSize: '13.5px' }}
           >
             <BookOpen size={16} />
-            <span>📝 Written Lessons (Text)</span>
+            <span>Written Lessons (Text)</span>
           </button>
           <button 
             className={`admin-tab ${activeTab === 'modules' ? 'active' : ''}`}
@@ -286,7 +286,7 @@ export const AdminPanel = () => {
             style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '8px', border: '1px solid #cbd5e1', cursor: 'pointer', background: activeTab === 'modules' ? '#102A56' : '#ffffff', color: activeTab === 'modules' ? '#ffffff' : '#334155', fontWeight: 600, fontSize: '13.5px' }}
           >
             <Layers size={16} />
-            <span>🖼️ Visual Diagrams (Photos)</span>
+            <span>Visual Diagrams (Photos)</span>
           </button>
           <button 
             className={`admin-tab ${activeTab === 'lessons' ? 'active' : ''}`}
@@ -294,7 +294,7 @@ export const AdminPanel = () => {
             style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '8px', border: '1px solid #cbd5e1', cursor: 'pointer', background: activeTab === 'lessons' ? '#102A56' : '#ffffff', color: activeTab === 'lessons' ? '#ffffff' : '#334155', fontWeight: 600, fontSize: '13.5px' }}
           >
             <FileText size={16} />
-            <span>📽️ Module Videos</span>
+            <span>Module Videos</span>
           </button>
           <button 
             className={`admin-tab ${activeTab === 'users' ? 'active' : ''}`}
@@ -302,7 +302,7 @@ export const AdminPanel = () => {
             style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '8px', border: '1px solid #cbd5e1', cursor: 'pointer', background: activeTab === 'users' ? '#102A56' : '#ffffff', color: activeTab === 'users' ? '#ffffff' : '#334155', fontWeight: 600, fontSize: '13.5px' }}
           >
             <UsersIcon size={16} />
-            <span>👥 Enrolled Students</span>
+            <span>Enrolled Students</span>
           </button>
         </div>
       </div>
