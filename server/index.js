@@ -75,6 +75,18 @@ const connectDB = async () => {
   }
 };
 
+// Middleware to ensure DB connection on serverless requests (MUST BE BEFORE ROUTES)
+app.use(async (req, res, next) => {
+  if (mongoose.connection.readyState !== 1) {
+    try {
+      await connectDB();
+    } catch (e) {
+      console.warn('DB connect error:', e);
+    }
+  }
+  next();
+});
+
 // ─── Routes ──────────────────────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
 app.use('/auth', authRoutes);
@@ -149,18 +161,6 @@ app.use((err, req, res, next) => {
     success: false,
     message: 'Internal server error'
   });
-});
-
-// Middleware to ensure DB connection on serverless requests
-app.use(async (req, res, next) => {
-  if (mongoose.connection.readyState !== 1) {
-    try {
-      await connectDB();
-    } catch (e) {
-      console.warn('DB connect error:', e);
-    }
-  }
-  next();
 });
 
 // ─── Start Server ────────────────────────────────────────────────────────────

@@ -4,7 +4,7 @@ import { authApi } from '../utils/api';
 import type { Course, Module, Lesson, User } from '../utils/data';
 import { 
   Edit2, Trash2, ArrowUp, ArrowDown, Save, 
-  Layers, BookOpen, FileText, Users as UsersIcon, Award 
+  Layers, BookOpen, FileText, Users as UsersIcon, Award, RefreshCw 
 } from 'lucide-react';
 
 export const AdminPanel: React.FC = () => {
@@ -16,6 +16,7 @@ export const AdminPanel: React.FC = () => {
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<'courses' | 'modules' | 'lessons' | 'users'>('courses');
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Form states - Course
   const [editingCourseId, setEditingCourseId] = useState<string | null>(null);
@@ -800,6 +801,30 @@ export const AdminPanel: React.FC = () => {
                 <UsersIcon size={20} color="#2563eb" />
                 <span>Enrolled Students Registry ({users.length})</span>
               </h3>
+              <button
+                type="button"
+                onClick={async () => {
+                  setIsRefreshing(true);
+                  await fetchAllUsers();
+                  setTimeout(() => setIsRefreshing(false), 500);
+                }}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '6px 14px',
+                  borderRadius: '8px',
+                  background: '#f1f5f9',
+                  color: '#2563eb',
+                  border: '1px solid #cbd5e1',
+                  fontWeight: 700,
+                  fontSize: '12px',
+                  cursor: 'pointer'
+                }}
+              >
+                <RefreshCw size={14} style={{ animation: isRefreshing ? 'spin 1s linear infinite' : 'none' }} />
+                <span>Sync Database</span>
+              </button>
             </div>
 
             <div className="admin-items-stack" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
