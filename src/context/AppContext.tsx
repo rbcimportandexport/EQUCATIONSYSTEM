@@ -512,16 +512,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           country: u.country || 'India'
         }));
 
-        setUsers(prev => {
-          const merged = [...mongoUsers];
-          prev.forEach(pu => {
-            if (pu.email && !merged.some(mu => mu.email?.toLowerCase() === pu.email.toLowerCase())) {
-              merged.push(pu);
-            }
-          });
-          saveToLocal('lms_users_v2_ie', merged);
-          return merged;
-        });
+        setUsers(mongoUsers);
+        saveToLocal('lms_users_v2_ie', mongoUsers);
       }
     } catch (e) {
       console.warn('Backend user load:', e);

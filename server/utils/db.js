@@ -4,12 +4,7 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const User = require('../models/User');
 
-const useJsonDb = () => {
-  if (mongoose.connection && mongoose.connection.readyState === 1) {
-    return false;
-  }
-  return process.env.USE_JSON_DB === 'true';
-};
+const useJsonDb = () => false;
 const jsonDbPath = path.join(__dirname, '../db.json');
 
 const getJsonUsers = () => {

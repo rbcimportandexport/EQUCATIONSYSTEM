@@ -181,24 +181,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
             return;
           }
         } catch (apiErr: any) {
-          // If server fails or offline: save user locally and redirect to LOGIN tab
-          const newLocalUser: AuthUser = {
-            id: Date.now().toString(),
-            name: isOfficialAdmin ? 'RBC Admin' : (name.trim() || normEmail.split('@')[0] || 'Student Learner'),
-            email: normEmail,
-            phone,
-            country,
-            role: isOfficialAdmin ? 'admin' : 'student',
-            progressPercentage: isOfficialAdmin ? 100 : 0
-          };
-          const updatedUsers = [...localUsers, newLocalUser];
-          localStorage.setItem('lms_users_v2_ie', JSON.stringify(updatedUsers));
-
-          setSuccessMsg('Account created successfully! Redirecting to login page...');
-          setTimeout(() => {
-            setMode('login');
-            setSuccessMsg('Registration complete! Please log in with your credentials.');
-          }, 1200);
+          setErrors({ general: 'Server/Database is unreachable. Please make sure the backend server is running and MongoDB Atlas is connected.' });
           return;
         }
       } else {
@@ -222,40 +205,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
             return;
           }
         } catch (loginErr: any) {
-          // Verify against local memory / credentials if server unreachable
-          const isOfficialAdmin = normEmail === 'inquiryrbcimport@gmail.com';
-          if (isOfficialAdmin) {
-            if (password !== 'RBC2026') {
-              setErrors({ general: 'Incorrect password for Super Admin account (RBC2026).' });
-              return;
-            }
-            const adminUser: AuthUser = {
-              id: '6a63582ff1894ab95a4e3f18',
-              name: 'RBC Admin',
-              email: 'inquiryrbcimport@gmail.com',
-              role: 'admin',
-              progressPercentage: 100
-            };
-            localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(adminUser));
-            setSuccessMsg('Admin login successful!');
-            onLoginSuccess(adminUser);
-            return;
-          }
-
-          // Check if user exists in local registered users
-          const savedUsersRaw = localStorage.getItem('lms_users_v2_ie');
-          const localUsers: any[] = savedUsersRaw ? JSON.parse(savedUsersRaw) : [];
-          const matchedUser = localUsers.find((u: any) => u.email?.toLowerCase().trim() === normEmail);
-
-          if (matchedUser) {
-            localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(matchedUser));
-            setSuccessMsg('Login successful!');
-            onLoginSuccess(matchedUser);
-            return;
-          } else {
-            setErrors({ general: 'No account found with this email. Please register first.' });
-            return;
-          }
+          setErrors({ general: 'Server/Database is unreachable. Please make sure the backend server is running and MongoDB Atlas is connected.' });
+          return;
         }
       }
     } catch (err: any) {
