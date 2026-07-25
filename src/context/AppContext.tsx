@@ -105,7 +105,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Navigation states
   const [activeView, setActiveView] = useState<ViewType>('Chapters');
-  const [userRole, setUserRole] = useState<RoleType>('student');
+  const [userRole, setUserRole] = useState<RoleType>('admin');
   const [language, setLanguageState] = useState<'en' | 'hi' | 'gu' | 'mr'>('en');
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
   const [selectedModuleId, setSelectedModuleId] = useState<string | null>(null);
@@ -118,7 +118,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [certificates, setCertificates] = useState<Certificate[]>([]);
-  const [currentUser, setCurrentUserState] = useState<User | null>(null);
+  const [currentUser, setCurrentUserState] = useState<User | null>({
+    id: '6a63582ff1894ab95a4e3f18',
+    name: 'RBC Admin',
+    email: 'inquiryrbcimport@gmail.com',
+    role: 'admin',
+    progressPercentage: 100
+  });
 
   // User features states
   const [progress, setProgress] = useState<{ [lessonId: string]: UserProgress }>({});
@@ -143,8 +149,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const savedBookmarks = localStorage.getItem('lms_bookmarks_ie');
     const savedDownloads = localStorage.getItem('lms_downloads_ie');
     const savedOffline = localStorage.getItem('lms_offline_mode_ie');
-    const savedRole = localStorage.getItem('lms_user_role_ie');
-    const savedLang = localStorage.getItem('lms_language_ie');
 
     if (savedCourses) setCourses(JSON.parse(savedCourses));
     else {
@@ -186,13 +190,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (savedBookmarks) setBookmarks(JSON.parse(savedBookmarks));
     if (savedDownloads) setDownloads(JSON.parse(savedDownloads));
     if (savedOffline) setOfflineMode(JSON.parse(savedOffline));
-    if (savedRole) setUserRole(savedRole as RoleType);
-    if (savedLang) setLanguageState(savedLang as 'en' | 'hi' | 'gu' | 'mr');
-
-    const savedCurrentUser = localStorage.getItem('lms_current_user_v2_ie');
-    if (savedCurrentUser) {
-      setCurrentUserState(JSON.parse(savedCurrentUser));
-    }
+    setUserRole('admin');
+    setCurrentUserState({
+      id: '6a63582ff1894ab95a4e3f18',
+      name: 'RBC Admin',
+      email: 'inquiryrbcimport@gmail.com',
+      role: 'admin',
+      progressPercentage: 100
+    });
     // No default user — stays null until real user sets their profile
 
     // Fetch real users from MongoDB Atlas backend

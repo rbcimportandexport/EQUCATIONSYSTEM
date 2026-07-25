@@ -2,9 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import { Sidebar } from './components/Sidebar';
 import { TopAppBar } from './components/TopAppBar';
-import { LoginPage } from './views/LoginPage';
-import { authApi } from './utils/api';
-import type { AuthUser } from './utils/api';
 
 // Import Views
 import { Dashboard } from './views/Dashboard';
@@ -21,10 +18,10 @@ import { CommunityScreen } from './views/CommunityScreen';
 import { VideosScreen } from './views/VideosScreen';
 
 const AppShell: React.FC = () => {
-  const { activeView, setActiveView, setUserRole, loginUser, setCurrentUser } = useApp();
+  const { activeView } = useApp();
   const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   const [authLoading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -199,44 +196,7 @@ const AppShell: React.FC = () => {
   }, []);
 
 
-  // Restore saved user session on app launch (remains logged in on F5 / refresh)
-  useEffect(() => {
-    const savedUser = localStorage.getItem('lms_current_user_v2_ie');
-    if (savedUser) {
-      try {
-        const user = JSON.parse(savedUser);
-        if (user && user.email) {
-          loginUser(user.name || 'User', user.email, user.role || 'student', user.id || user._id);
-          setUserRole(user.role || 'student');
-          setIsAuthenticated(true);
-          return;
-        }
-      } catch (e) {
-        console.warn('Session parse error:', e);
-      }
-    }
-    // No saved session — user sees Login Page
-    setIsAuthenticated(false);
-  }, []);
 
-  const handleAuthSuccess = (user: AuthUser) => {
-    loginUser(user.name, user.email, user.role, user.id);
-
-    setUserRole(user.role);
-    setIsAuthenticated(true);
-    if (user.role === 'admin') {
-      setActiveView('AdminPanel');
-    } else {
-      setActiveView('Dashboard');
-    }
-  };
-
-  const handleLogout = async () => {
-    await authApi.logout();
-    setCurrentUser(null);
-    localStorage.removeItem('lms_current_user_v2_ie');
-    setIsAuthenticated(false);
-  };
 
   useEffect(() => {
     if (showSplash && videoRef.current) {
@@ -325,9 +285,7 @@ const AppShell: React.FC = () => {
     );
   }
 
-  if (!isAuthenticated) {
-    return <LoginPage onLoginSuccess={handleAuthSuccess} />;
-  }
+
 
   if (showSplash) {
     return (
@@ -416,7 +374,7 @@ const AppShell: React.FC = () => {
   return (
     <div className="app-layout" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', width: '100%', maxWidth: '100vw', overflowX: 'hidden', background: '#ffffff' }}>
       {isLeftDrawerOpen && (
-        <Sidebar isOpen={isLeftDrawerOpen} onClose={() => setIsLeftDrawerOpen(false)} onLogout={handleLogout} />
+        <Sidebar isOpen={isLeftDrawerOpen} onClose={() => setIsLeftDrawerOpen(false)} />
       )}
 
       {isLeftDrawerOpen && (
@@ -427,7 +385,7 @@ const AppShell: React.FC = () => {
       )}
 
       <div className="main-content-panel" style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%' }}>
-        <TopAppBar onMenuClick={() => setIsLeftDrawerOpen(true)} onLogout={handleLogout} />
+        <TopAppBar onMenuClick={() => setIsLeftDrawerOpen(true)} />
         <main className="main-viewport-container" style={{ flex: 1, width: '100%', background: '#ffffff' }}>
           {renderActiveView()}
         </main>
