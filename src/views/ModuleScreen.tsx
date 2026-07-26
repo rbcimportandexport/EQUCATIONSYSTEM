@@ -797,7 +797,15 @@ export const ModuleScreen: React.FC = () => {
                                     // Save current sentence index as active position
                                     ttsChunkIndexMapRef.current[lesson.id] = idx;
                                     const text = chunks[idx];
-                                    const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${gttsLang}&client=tw-ob&ttsspeed=0.9`;
+                                    const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                                      ? 'https://equcationsystem-self.vercel.app/api'
+                                      : '/api';
+
+                                    // Detect if sentence has non-English/non-Latin scripts (Devanagari for Hindi/Marathi, Gujarati script for Gujarati)
+                                    const hasIndicScript = /[\u0900-\u097F\u0A80-\u0AFF]/.test(text);
+                                    const sentenceLang = hasIndicScript ? gttsLang : 'en';
+
+                                    const url = `${API_BASE_URL}/tts?text=${encodeURIComponent(text)}&lang=${sentenceLang}`;
 
                                     const audio = new Audio();
                                     audio.src = url;
