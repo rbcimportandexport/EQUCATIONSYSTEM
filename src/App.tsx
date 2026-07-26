@@ -460,6 +460,8 @@ const AppShell: React.FC = () => {
         <main className="main-viewport-container" style={{ flex: 1, width: '100%', background: '#ffffff' }}>
           {renderActiveView()}
         </main>
+      </div>
+
       {/* Toast Notifications */}
       <div 
         style={{
