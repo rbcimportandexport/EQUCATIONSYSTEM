@@ -25,9 +25,28 @@ export type ViewType =
 
 export type RoleType = 'student' | 'admin';
 
+export interface ToastInfo {
+  id: string;
+  message: string;
+  type: 'success' | 'error' | 'warning' | 'info';
+}
+
+export interface AlertModalInfo {
+  isOpen: boolean;
+  title: string;
+  message: string;
+  type?: 'success' | 'error' | 'warning' | 'info';
+}
+
 interface AppContextType {
   activeView: ViewType;
   setActiveView: (view: ViewType) => void;
+  toasts: ToastInfo[];
+  showToast: (message: string, type?: 'success' | 'error' | 'warning' | 'info') => void;
+  removeToast: (id: string) => void;
+  alertModal: AlertModalInfo;
+  showAlert: (title: string, message: string, type?: 'success' | 'error' | 'warning' | 'info') => void;
+  closeAlert: () => void;
   userRole: RoleType;
   setUserRole: (role: RoleType) => void;
   language: 'en' | 'hi' | 'gu' | 'mr';
@@ -104,6 +123,40 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Navigation states
+  // Toast & Custom Alert Modal States
+  const [toasts, setToasts] = useState<ToastInfo[]>([]);
+  const [alertModal, setAlertModal] = useState<AlertModalInfo>({
+    isOpen: false,
+    title: '',
+    message: '',
+    type: 'info'
+  });
+
+  const showToast = (message: string, type: 'success' | 'error' | 'warning' | 'info' = 'success') => {
+    const id = `toast-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    setToasts(prev => [...prev, { id, message, type }]);
+    setTimeout(() => {
+      setToasts(prev => prev.filter(t => t.id !== id));
+    }, 4500);
+  };
+
+  const removeToast = (id: string) => {
+    setToasts(prev => prev.filter(t => t.id !== id));
+  };
+
+  const showAlert = (title: string, message: string, type: 'success' | 'error' | 'warning' | 'info' = 'info') => {
+    setAlertModal({
+      isOpen: true,
+      title,
+      message,
+      type
+    });
+  };
+
+  const closeAlert = () => {
+    setAlertModal(prev => ({ ...prev, isOpen: false }));
+  };
+
   const [activeView, setActiveView] = useState<ViewType>('Chapters');
   const [userRole, setUserRole] = useState<RoleType>('student');
   const [language, setLanguageState] = useState<'en' | 'hi' | 'gu' | 'mr'>('en');
@@ -1057,7 +1110,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       currentUser,
       setCurrentUser: setCurrentUserState,
       loginUser,
-      resetDatabase
+      resetDatabase,
+      
+      toasts,
+      showToast,
+      removeToast,
+      alertModal,
+      showAlert,
+      closeAlert
     }}>
       {children}
     </AppContext.Provider>

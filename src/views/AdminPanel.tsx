@@ -101,7 +101,8 @@ export const AdminPanel = () => {
     modules,
     lessons, saveLesson, deleteLesson,
     users, saveUser, fetchAllUsers, certificates, issueCertificate,
-    setActiveView, setSelectedModuleId, setSelectedLessonId, setSelectedModuleTab
+    setActiveView, setSelectedModuleId, setSelectedLessonId, setSelectedModuleTab,
+    showAlert, showToast
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<'courses' | 'modules' | 'lessons' | 'users'>('courses');
@@ -168,7 +169,7 @@ export const AdminPanel = () => {
   const handleLessonSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!lessonForm.moduleId) {
-      alert('Please select a module for the lesson.');
+      showAlert('Required Selection', 'Please select a module for the lesson.', 'warning');
       return;
     }
 
@@ -321,7 +322,7 @@ export const AdminPanel = () => {
     const savedName = userForm.name;
     setEditingUserId(null);
     setUserForm({ name: '', email: '', role: 'student' });
-    alert(editingUserId ? 'User updated successfully!' : `User "${savedName}" enrolled & saved to MongoDB Atlas!`);
+    showAlert('User Status', editingUserId ? 'User updated successfully!' : `User "${savedName}" enrolled & saved to MongoDB Atlas!`, 'success');
   };
 
   // Auto-sync users from MongoDB Atlas on component mount & tab switch
@@ -961,7 +962,7 @@ export const AdminPanel = () => {
                                   const file = e.target.files?.[0];
                                   if (file) {
                                     if (file.size > 1.5 * 1024 * 1024) {
-                                      alert("Warning: Large image file! Please use a Google Drive URL link instead to prevent browser storage crash.");
+                                      showAlert('Large File Warning', 'Warning: Large image file! Please use a Google Drive URL link instead to prevent browser storage crash.', 'warning');
                                     }
                                     const base64 = await new Promise<string>((resolve) => {
                                       const reader = new FileReader();
@@ -1000,7 +1001,7 @@ export const AdminPanel = () => {
                                 className="btn btn-primary"
                                 onClick={() => {
                                   if (!diagramImageUrl) {
-                                    alert('Please upload a diagram image first.');
+                                    showAlert('Image Required', 'Please upload a diagram image first.', 'warning');
                                     return;
                                   }
                                   saveLesson({
@@ -1014,7 +1015,7 @@ export const AdminPanel = () => {
                                       }]
                                     }
                                   });
-                                  alert('Diagram photo updated successfully!');
+                                  showAlert('Diagram Saved', 'Diagram photo updated successfully!', 'success');
                                   setEditingDiagramLessonId(null);
                                   setDiagramImageUrl('');
                                   setDiagramImageCaption('');
@@ -1259,7 +1260,7 @@ export const AdminPanel = () => {
                           const file = e.target.files?.[0];
                           if (file) {
                             if (file.size > 2 * 1024 * 1024) {
-                              alert("File too large! Storing base64 videos in browser storage will cause QuotaExceeded crashes. Please upload your video to Google Drive or YouTube and paste the link instead.");
+                              showAlert('File Too Large', 'File too large! Storing base64 videos in browser storage will cause QuotaExceeded crashes. Please upload your video to Google Drive or YouTube and paste the link instead.', 'error');
                               return;
                             }
                             const base64 = await new Promise<string>((resolve) => {
@@ -1307,7 +1308,7 @@ export const AdminPanel = () => {
                           const file = e.target.files?.[0];
                           if (file) {
                             if (file.size > 1 * 1024 * 1024) {
-                              alert("Warning: Large image file! Please paste a URL link instead.");
+                              showAlert('Large File Warning', 'Warning: Large image file! Please paste a URL link instead.', 'warning');
                             }
                             const base64 = await new Promise<string>((resolve) => {
                               const reader = new FileReader();
@@ -1346,7 +1347,7 @@ export const AdminPanel = () => {
                       disabled={moduleVideoLoading}
                       onClick={async () => {
                         if (!moduleVideoUrl) {
-                          alert('Please upload a video file first.');
+                          showAlert('Selection Required', 'Please upload a video file first.', 'warning');
                           return;
                         }
                         setModuleVideoLoading(true);
@@ -1365,10 +1366,10 @@ export const AdminPanel = () => {
                               }
                             });
                           }
-                          alert(`Video lecture successfully applied to all ${moduleLessons.length} topics inside Module ${selectedModObj.order}!`);
+                          showAlert('Video Applied Successfully', `Video lecture successfully applied to all ${moduleLessons.length} topics inside Module ${selectedModObj.order}!`, 'success');
                         } catch (err) {
                           console.error(err);
-                          alert('Failed to save video.');
+                          showAlert('System Error', 'Failed to save video to database.', 'error');
                         } finally {
                           setModuleVideoLoading(false);
                         }
@@ -1499,7 +1500,7 @@ export const AdminPanel = () => {
                           className="btn btn-primary btn-mini"
                           onClick={() => {
                             issueCertificate(user.id, 'import-export-master');
-                            alert(`Issued Certificate of Completion to ${user.name}!`);
+                            showAlert('Certificate Issued', `Issued Certificate of Completion to ${user.name}!`, 'success');
                           }}
                           style={{
                             display: 'inline-flex',

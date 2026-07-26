@@ -22,7 +22,17 @@ import { VideosScreen } from './views/VideosScreen';
 import { PencilLoader } from './components/PencilLoader';
 
 const AppShell: React.FC = () => {
-  const { activeView, setActiveView, setUserRole, loginUser, setCurrentUser } = useApp();
+  const { 
+    activeView, 
+    setActiveView, 
+    setUserRole, 
+    loginUser, 
+    setCurrentUser,
+    toasts,
+    removeToast,
+    alertModal,
+    closeAlert
+  } = useApp();
   const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -450,7 +460,230 @@ const AppShell: React.FC = () => {
         <main className="main-viewport-container" style={{ flex: 1, width: '100%', background: '#ffffff' }}>
           {renderActiveView()}
         </main>
+      {/* Toast Notifications */}
+      <div 
+        style={{
+          position: 'fixed',
+          top: '24px',
+          right: '24px',
+          zIndex: 999999,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+          maxWidth: '350px',
+          pointerEvents: 'none'
+        }}
+      >
+        {toasts.map(toast => (
+          <div
+            key={toast.id}
+            onClick={() => removeToast(toast.id)}
+            style={{
+              pointerEvents: 'auto',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '14px 20px',
+              borderRadius: '12px',
+              background: toast.type === 'success' 
+                ? 'rgba(16, 185, 129, 0.95)' 
+                : toast.type === 'error'
+                ? 'rgba(239, 68, 68, 0.95)'
+                : toast.type === 'warning'
+                ? 'rgba(245, 158, 11, 0.95)'
+                : 'rgba(59, 130, 246, 0.95)',
+              color: '#ffffff',
+              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.15)',
+              backdropFilter: 'blur(8px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              fontSize: '14px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              animation: 'slideIn 0.3s ease forwards',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            {toast.type === 'success' && (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            )}
+            {toast.type === 'error' && (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+              </svg>
+            )}
+            {toast.type === 'warning' && (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+            )}
+            {toast.type === 'info' && (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+              </svg>
+            )}
+            <span>{toast.message}</span>
+          </div>
+        ))}
       </div>
+
+      {/* Custom Alert Modal */}
+      {alertModal.isOpen && (
+        <div 
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 1000000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px',
+            background: 'rgba(15, 23, 42, 0.45)',
+            backdropFilter: 'blur(8px)',
+            animation: 'fadeIn 0.25s ease forwards'
+          }}
+        >
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '440px',
+              background: '#ffffff',
+              borderRadius: '20px',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05)',
+              overflow: 'hidden',
+              animation: 'scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+              fontFamily: "'Inter', system-ui, sans-serif"
+            }}
+          >
+            {/* Header Icon & Background Accent */}
+            <div 
+              style={{
+                height: '8px',
+                background: alertModal.type === 'success' 
+                  ? 'linear-gradient(90deg, #10b981, #059669)' 
+                  : alertModal.type === 'error'
+                  ? 'linear-gradient(90deg, #ef4444, #dc2626)'
+                  : alertModal.type === 'warning'
+                  ? 'linear-gradient(90deg, #f59e0b, #d97706)'
+                  : 'linear-gradient(90deg, #3b82f6, #2563eb)'
+              }}
+            />
+            
+            <div style={{ padding: '30px 24px 24px 24px' }}>
+              <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                {/* Icon Wrapper */}
+                <div 
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '46px',
+                    height: '46px',
+                    borderRadius: '12px',
+                    flexShrink: 0,
+                    background: alertModal.type === 'success' 
+                      ? '#ecfdf5' 
+                      : alertModal.type === 'error'
+                      ? '#fef2f2'
+                      : alertModal.type === 'warning'
+                      ? '#fffbeb'
+                      : '#eff6ff',
+                    color: alertModal.type === 'success' 
+                      ? '#10b981' 
+                      : alertModal.type === 'error'
+                      ? '#ef4444'
+                      : alertModal.type === 'warning'
+                      ? '#f59e0b'
+                      : '#3b82f6'
+                  }}
+                >
+                  {alertModal.type === 'success' && (
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                  )}
+                  {alertModal.type === 'error' && (
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+                    </svg>
+                  )}
+                  {alertModal.type === 'warning' && (
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                  )}
+                  {alertModal.type === 'info' && (
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                    </svg>
+                  )}
+                </div>
+
+                {/* Content */}
+                <div style={{ flex: 1 }}>
+                  <h3 
+                    style={{ 
+                      fontSize: '18px', 
+                      fontWeight: 800, 
+                      color: '#0f172a', 
+                      margin: '0 0 8px 0',
+                      lineHeight: '1.4'
+                    }}
+                  >
+                    {alertModal.title}
+                  </h3>
+                  <p 
+                    style={{ 
+                      fontSize: '14.5px', 
+                      color: '#475569', 
+                      margin: 0, 
+                      lineHeight: '1.6',
+                      fontWeight: 500,
+                      whiteSpace: 'pre-line'
+                    }}
+                  >
+                    {alertModal.message}
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '28px' }}>
+                <button
+                  onClick={closeAlert}
+                  style={{
+                    padding: '11px 24px',
+                    borderRadius: '10px',
+                    border: 'none',
+                    background: alertModal.type === 'success' 
+                      ? '#10b981' 
+                      : alertModal.type === 'error'
+                      ? '#ef4444'
+                      : alertModal.type === 'warning'
+                      ? '#f59e0b'
+                      : '#2563eb',
+                    color: '#ffffff',
+                    fontSize: '14.5px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.05)',
+                    transition: 'all 0.15s ease'
+                  }}
+                  onMouseOver={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.filter = 'brightness(0.9)';
+                  }}
+                  onMouseOut={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.filter = 'brightness(1)';
+                  }}
+                >
+                  OK
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
