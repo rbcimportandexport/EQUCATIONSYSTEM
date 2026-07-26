@@ -37,6 +37,12 @@ export const VideosScreen: React.FC = () => {
     setActiveView
   } = useApp();
 
+  const formatDuration = (secs: number) => {
+    const m = Math.floor(secs / 60);
+    const s = Math.floor(secs % 60);
+    return `${m}:${s < 10 ? '0' : ''}${s}`;
+  };
+
   const [searchQuery, setSearchQuery] = useState('');
 
   // Filter modules based on search
@@ -309,7 +315,7 @@ export const VideosScreen: React.FC = () => {
           };
           const cardImage = hasCustomThumbnail ? customThumbnail : modMeta.image;
           const lessonsList = moduleLessonsMap[mod.order] || [];
-          const videoDurationMin = 12 + (mod.order * 2);
+          const duration = firstLesson?.content?.video?.duration || 120;
 
           return (
             <div 
@@ -327,7 +333,7 @@ export const VideosScreen: React.FC = () => {
                 </div>
                 <div className="video-duration-badge">
                   <Clock size={12} />
-                  <span>{videoDurationMin}:00 Mins</span>
+                  <span>{formatDuration(duration)}</span>
                 </div>
               </div>
 
