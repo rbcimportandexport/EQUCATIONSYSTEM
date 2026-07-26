@@ -102,7 +102,7 @@ export const AdminPanel = () => {
     lessons, saveLesson, deleteLesson,
     users, saveUser, fetchAllUsers, certificates, issueCertificate,
     setActiveView, setSelectedModuleId, setSelectedLessonId, setSelectedModuleTab,
-    showAlert, showToast
+    showAlert
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<'courses' | 'modules' | 'lessons' | 'users'>('courses');
