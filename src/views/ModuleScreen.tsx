@@ -99,7 +99,7 @@ export const ModuleScreen: React.FC = () => {
   const hasRead = !!(activeVideoLesson?.content?.writtenExplanation && activeVideoLesson.content.writtenExplanation.trim().length > 0);
   const hasImages = !!(activeVideoLesson?.content?.images && activeVideoLesson.content.images.length > 0);
   const hasVideo = !!(activeVideoLesson?.content?.video?.videoUrl && activeVideoLesson.content.video.videoUrl.trim().length > 0);
-  const hasPdf = !!(activeVideoLesson?.content?.pdf?.pdfUrl && activeVideoLesson.content.pdf.pdfUrl.trim().length > 0);
+  const hasPdf = false;
 
   let fallbackTab: 'pdf' | 'video' | 'read' | 'images' = 'read';
   if (hasRead) fallbackTab = 'read';
