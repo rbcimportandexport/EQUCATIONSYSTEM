@@ -22,12 +22,16 @@ router.get('/messages', async (req, res) => {
       return res.status(400).json({ success: false, message: 'senderId and receiverId are required' });
     }
 
+    const senderStr = String(senderId);
+    const receiverStr = String(receiverId);
     const senderObj = toObjectId(senderId);
     const receiverObj = toObjectId(receiverId);
 
     const messages = await ChatMessage.find({
       $or: [
+        { senderId: senderStr, receiverId: receiverStr },
         { senderId: senderObj, receiverId: receiverObj },
+        { senderId: receiverStr, receiverId: senderStr },
         { senderId: receiverObj, receiverId: senderObj }
       ]
     }).sort({ createdAt: 1 });
@@ -51,8 +55,15 @@ router.get('/notifications', async (req, res) => {
       return res.status(400).json({ success: false, message: 'receiverId is required' });
     }
 
+    const receiverStr = String(receiverId);
     const receiverObj = toObjectId(receiverId);
-    const messages = await ChatMessage.find({ receiverId: receiverObj });
+
+    const messages = await ChatMessage.find({
+      $or: [
+        { receiverId: receiverStr },
+        { receiverId: receiverObj }
+      ]
+    });
     const senderIds = [...new Set(messages.map(m => m.senderId.toString()))];
 
     res.json({
