@@ -749,6 +749,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
         setUsers(mongoUsers);
         saveToLocal('lms_users_v2_ie', mongoUsers);
+
+        // Update currentUser if their email matches one of the backend users to heal stale local storage cache IDs
+        const savedCurrentUserStr = localStorage.getItem('lms_current_user_v2_ie');
+        if (savedCurrentUserStr) {
+          try {
+            const currentObj = JSON.parse(savedCurrentUserStr);
+            const dbMatch = mongoUsers.find((u: User) => u.email.toLowerCase().trim() === currentObj.email.toLowerCase().trim());
+            if (dbMatch && dbMatch.id !== currentObj.id) {
+              console.log('[DEBUG] Syncing cached user ID to MongoDB ID:', dbMatch.id);
+              const updatedUser = { ...currentObj, id: dbMatch.id };
+              setCurrentUserState(updatedUser);
+              localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(updatedUser));
+            }
+          } catch (err) {
+            console.error('Error syncing currentUser ID:', err);
+          }
+        }
       }
     } catch (e: any) {
       console.error('Backend user load error:', e);
