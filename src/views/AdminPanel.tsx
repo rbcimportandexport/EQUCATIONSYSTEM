@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext';
 import { authApi, usersApi } from '../utils/api';
 import type { Lesson, User } from '../utils/data';
 import { 
-  Edit2, Trash2, Save, Video,
+  Edit2, Trash2, Save, Video, Settings,
   Layers, BookOpen, FileText, Users as UsersIcon, Award, ArrowLeft, Eye 
 } from 'lucide-react';
 
@@ -43,10 +43,19 @@ const convertGoogleDriveLink = (url: string): string => {
     }
   }
 
-  const driveRegex = /(?:https?:\/\/)?(?:docs|drive)\.google\.com\/(?:file\/d\/|open\?id=)([^/&?#\s]+)/;
-  const match = cleanUrl.match(driveRegex);
-  if (match && match[1]) {
-    return `https://drive.google.com/uc?export=download&id=${match[1]}`;
+  let fileId = '';
+  const pathMatch = cleanUrl.match(/\/file\/d\/([^/&?#\s]+)/);
+  if (pathMatch && pathMatch[1]) {
+    fileId = pathMatch[1];
+  } else {
+    const queryMatch = cleanUrl.match(/[?&]id=([^/&?#\s]+)/);
+    if (queryMatch && queryMatch[1]) {
+      fileId = queryMatch[1];
+    }
+  }
+
+  if (fileId) {
+    return `https://drive.google.com/uc?export=download&id=${fileId}`;
   }
   return cleanUrl;
 };
@@ -106,8 +115,54 @@ export const AdminPanel = () => {
     showConfirm
   } = useApp();
 
-  const [activeTab, setActiveTab] = useState<'courses' | 'modules' | 'lessons' | 'users'>('courses');
+  const [activeTab, setActiveTab] = useState<'courses' | 'modules' | 'lessons' | 'users' | 'settings'>('courses');
   const [selectedAdminModuleId, setSelectedAdminModuleId] = useState<string | null>(null);
+
+  // Access Code State
+  const [adminAccessCode, setAdminAccessCode] = useState('');
+  const [accessCodeLoading, setAccessCodeLoading] = useState(false);
+
+  // Fetch access code when settings tab is clicked
+  React.useEffect(() => {
+    if (activeTab === 'settings') {
+      const loadAccessCode = async () => {
+        setAccessCodeLoading(true);
+        try {
+          const res = await authApi.getAccessCode();
+          if (res.success && res.code) {
+            setAdminAccessCode(res.code);
+          }
+        } catch (err) {
+          console.error(err);
+        } finally {
+          setAccessCodeLoading(false);
+        }
+      };
+      loadAccessCode();
+    }
+  }, [activeTab]);
+
+  const handleSaveAccessCode = async () => {
+    if (!adminAccessCode || adminAccessCode.trim().length < 4) {
+      showAlert('Invalid Code', 'Access code must be at least 4 characters long.', 'warning');
+      return;
+    }
+    setAccessCodeLoading(true);
+    try {
+      const res = await authApi.updateAccessCode(adminAccessCode.trim());
+      if (res.success && res.code) {
+        setAdminAccessCode(res.code);
+        showAlert('Updated Successfully', 'Access code successfully updated!', 'success');
+      } else {
+        showAlert('Error', res.message || 'Failed to update access code.', 'error');
+      }
+    } catch (err) {
+      console.error(err);
+      showAlert('Error', 'Failed to save settings.', 'error');
+    } finally {
+      setAccessCodeLoading(false);
+    }
+  };
 
   // Diagrams states
   const [selectedDiagramModuleId, setSelectedDiagramModuleId] = useState<string | null>(null);
@@ -402,6 +457,14 @@ export const AdminPanel = () => {
           >
             <UsersIcon size={16} />
             <span>Enrolled Students</span>
+          </button>
+          <button 
+            className={`admin-tab ${activeTab === 'settings' ? 'active' : ''}`}
+            onClick={() => setActiveTab('settings')}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 18px', borderRadius: '8px', border: '1px solid #cbd5e1', cursor: 'pointer', background: activeTab === 'settings' ? '#102A56' : '#ffffff', color: activeTab === 'settings' ? '#ffffff' : '#334155', fontWeight: 600, fontSize: '13.5px' }}
+          >
+            <Settings size={16} />
+            <span>Access Code Settings</span>
           </button>
         </div>
       </div>
@@ -1675,6 +1738,63 @@ export const AdminPanel = () => {
                 <span>Save User Settings</span>
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'settings' && (
+        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+          <div className="card" style={{ padding: '32px', background: '#ffffff', borderRadius: '16px', border: '1.5px solid #cbd5e1', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Settings size={22} color="#0284c7" />
+              <span>LMS Access Code Settings</span>
+            </h3>
+            <p style={{ fontSize: '14px', color: '#64748b', lineHeight: '1.5', margin: 0 }}>
+              The system requires all users to enter an active "Admin Access Code" during registration and login. You can view and update the current security access code below:
+            </p>
+            
+            <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <label className="form-label" style={{ fontSize: '13px', fontWeight: 700, color: '#475569' }}>
+                Active Security Access Code
+              </label>
+              <input
+                type="text"
+                value={adminAccessCode}
+                onChange={e => setAdminAccessCode(e.target.value.toUpperCase())}
+                placeholder="Enter access code (e.g. RBC9988)"
+                className="input-field"
+                disabled={accessCodeLoading}
+                style={{ padding: '12px 16px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '15px', outline: 'none', fontWeight: 700, letterSpacing: '1px', width: '100%', boxSizing: 'border-box' }}
+              />
+            </div>
+
+            <button
+              type="button"
+              onClick={handleSaveAccessCode}
+              disabled={accessCodeLoading}
+              style={{
+                padding: '12px',
+                background: '#0284c7',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '8px',
+                fontWeight: 700,
+                cursor: accessCodeLoading ? 'not-allowed' : 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                fontSize: '14px',
+                boxShadow: '0 4px 12px rgba(2, 132, 199, 0.25)',
+                transition: 'all 0.2s',
+                width: '100%'
+              }}
+              onMouseOver={(e) => { if (!accessCodeLoading) e.currentTarget.style.background = '#0369a1'; }}
+              onMouseOut={(e) => { if (!accessCodeLoading) e.currentTarget.style.background = '#0284c7'; }}
+            >
+              <Save size={16} />
+              <span>{accessCodeLoading ? 'Saving...' : 'Save Settings'}</span>
+            </button>
           </div>
         </div>
       )}
