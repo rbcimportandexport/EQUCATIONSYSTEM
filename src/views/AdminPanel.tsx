@@ -120,6 +120,31 @@ export const AdminPanel = () => {
   const [moduleVideoCover, setModuleVideoCover] = useState<string>('');
   const [moduleVideoDesc, setModuleVideoDesc] = useState<string>('');
   const [moduleVideoLoading, setModuleVideoLoading] = useState<boolean>(false);
+  const [moduleVideoDuration, setModuleVideoDuration] = useState<string>('3:09');
+
+  // Load existing video settings when selectedVideoModuleId changes
+  React.useEffect(() => {
+    if (selectedVideoModuleId) {
+      const moduleLessons = lessons.filter(l => l.moduleId === selectedVideoModuleId);
+      const firstVideoLesson = moduleLessons.find(l => l.content?.video?.videoUrl);
+      if (firstVideoLesson?.content?.video?.videoUrl) {
+        setModuleVideoUrl(firstVideoLesson.content.video.videoUrl);
+        setModuleVideoCover(firstVideoLesson.content.video.thumbnail || '');
+        setModuleVideoDesc(firstVideoLesson.description || '');
+        
+        // Format the duration from seconds back to MM:SS string
+        const secs = firstVideoLesson.content.video.duration || 120;
+        const m = Math.floor(secs / 60);
+        const s = Math.floor(secs % 60);
+        setModuleVideoDuration(`${m}:${s < 10 ? '0' : ''}${s}`);
+      } else {
+        setModuleVideoUrl('');
+        setModuleVideoCover('');
+        setModuleVideoDesc('');
+        setModuleVideoDuration('3:09'); // default
+      }
+    }
+  }, [selectedVideoModuleId, lessons]);
 
 
 
@@ -1341,6 +1366,18 @@ export const AdminPanel = () => {
                       />
                     </div>
 
+                    <div className="form-group" style={{ marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      <label className="form-label" style={{ fontWeight: 700 }}>Video Duration (MM:SS)</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. 3:09 or 14:00"
+                        value={moduleVideoDuration}
+                        onChange={(e) => setModuleVideoDuration(e.target.value)}
+                        className="input-field"
+                        style={{ padding: '10px 14px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '13.5px', outline: 'none', width: '100%' }}
+                      />
+                    </div>
+
                     <button
                       type="button"
                       className="btn btn-primary btn-full"
@@ -1352,6 +1389,20 @@ export const AdminPanel = () => {
                         }
                         setModuleVideoLoading(true);
                         try {
+                          // Parse duration string MM:SS to seconds (default: 180 seconds = 3:00)
+                          let durationSeconds = 180;
+                          if (moduleVideoDuration && moduleVideoDuration.includes(':')) {
+                            const parts = moduleVideoDuration.split(':');
+                            const mins = parseInt(parts[0], 10) || 0;
+                            const secs = parseInt(parts[1], 10) || 0;
+                            durationSeconds = (mins * 60) + secs;
+                          } else if (moduleVideoDuration) {
+                            const num = parseInt(moduleVideoDuration, 10);
+                            if (!isNaN(num)) {
+                              durationSeconds = num < 60 ? num * 60 : num;
+                            }
+                          }
+
                           // Apply to all lessons in this module
                           for (const les of moduleLessons) {
                             await saveLesson({
@@ -1361,7 +1412,7 @@ export const AdminPanel = () => {
                                 video: {
                                   videoUrl: moduleVideoUrl,
                                   thumbnail: moduleVideoCover || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
-                                  duration: 600
+                                  duration: durationSeconds
                                 }
                               }
                             });
