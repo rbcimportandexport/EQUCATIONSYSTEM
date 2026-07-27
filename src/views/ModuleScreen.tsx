@@ -177,6 +177,12 @@ export const ModuleScreen: React.FC = () => {
 
   const selectedTab: 'pdf' | 'video' | 'read' | 'images' = activeTab;
   const setSelectedTab = (tab: 'pdf' | 'video' | 'read' | 'images') => {
+    const isModule1 = activeModule?.order === 1;
+    if (isModule1) {
+      setSelectedModuleTab(tab);
+      return;
+    }
+
     if (tab === 'images' && !isReadComplete && userRole !== 'admin') {
       showAlert(
         "Section Locked",
@@ -630,7 +636,7 @@ export const ModuleScreen: React.FC = () => {
             )}
 
             {hasImages && (() => {
-              const isLocked = !isReadComplete && userRole !== 'admin';
+              const isLocked = activeModule?.order !== 1 && !isReadComplete && userRole !== 'admin';
               return (
                 <button
                   className={`toolbar-btn ${selectedTab === 'images' ? 'active' : ''}`}
@@ -651,7 +657,7 @@ export const ModuleScreen: React.FC = () => {
             })()}
 
             {hasVideo && (() => {
-              const isLocked = (!isReadComplete || !isImagesCompleted) && userRole !== 'admin';
+              const isLocked = activeModule?.order !== 1 && (!isReadComplete || !isImagesCompleted) && userRole !== 'admin';
               return (
                 <button
                   className={`toolbar-btn ${selectedTab === 'video' ? 'active' : ''}`}
