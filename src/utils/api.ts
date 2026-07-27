@@ -46,11 +46,13 @@ interface RegisterData {
   country?: string;
   role?: 'student' | 'admin';
   otp?: string;
+  accessCode?: string;
 }
 
 interface LoginData {
   email: string;
   password: string;
+  accessCode?: string;
 }
 
 const apiRequest = async <T>(
@@ -166,6 +168,16 @@ export const authApi = {
     } catch {
       return false;
     }
+  },
+
+  // Get active access code (Admin only)
+  getAccessCode: async (): Promise<{ success: boolean; code?: string; message?: string }> => {
+    return await apiRequest('/auth/access-code');
+  },
+
+  // Update active access code (Admin only)
+  updateAccessCode: async (code: string): Promise<{ success: boolean; message?: string; code?: string }> => {
+    return await apiRequest('/auth/access-code', 'POST', { code });
   }
 };
 

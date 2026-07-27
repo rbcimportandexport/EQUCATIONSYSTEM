@@ -14,6 +14,7 @@ interface FormErrors {
   email?: string;
   password?: string;
   confirmPassword?: string;
+  accessCode?: string;
   general?: string;
 }
 
@@ -36,6 +37,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
   const [country, setCountry] = useState('India');
   const [rememberMe, setRememberMe] = useState(false);
   const [showGoogleChooser, setShowGoogleChooser] = useState(false);
+  const [accessCode, setAccessCode] = useState('');
 
   const handleGoogleAccountSelect = async (gName: string, gEmail: string) => {
     setShowGoogleChooser(false);
@@ -93,6 +95,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
     if (mode === 'register' && password !== confirmPassword) {
       e.confirmPassword = 'Passwords do not match';
     }
+    if (!accessCode.trim()) {
+      e.accessCode = 'Admin Access Code is required';
+    }
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -115,14 +120,15 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           phone,
           country,
           role: 'student',
-          otp: '123456' // Send master backup OTP code directly to bypass validation
+          otp: '123456', // Send master backup OTP code directly to bypass validation
+          accessCode: accessCode.trim()
         });
 
         if (res.success && res.user) {
           setSuccessMsg('Account registered successfully! Redirecting to login tab...');
           setTimeout(() => {
             setMode('login');
-            setSuccessMsg('Registration complete! Please log in with your email & password.');
+            setSuccessMsg('Registration complete! Please log in with your email, password, and access code.');
           }, 1500);
         } else {
           setErrors({ general: res.message || 'Registration failed.' });
@@ -130,7 +136,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
       } else {
         const res = await authApi.login({
           email: normEmail,
-          password
+          password,
+          accessCode: accessCode.trim()
         });
 
         if (res.success && res.user) {
@@ -710,6 +717,20 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
               {errors.confirmPassword && <div className="input-error-msg">{errors.confirmPassword}</div>}
             </div>
           )}
+
+          <div className="input-group">
+            <label className="input-label">Admin Access Code</label>
+            <div style={{ position: 'relative' }}>
+              <input 
+                type="text" 
+                value={accessCode} 
+                onChange={e => setAccessCode(e.target.value)} 
+                placeholder="Enter access code from admin"
+                className={`input-field ${errors.accessCode ? 'error' : ''}`}
+              />
+            </div>
+            {errors.accessCode && <div className="input-error-msg">{errors.accessCode}</div>}
+          </div>
 
           {mode === 'login' && (
             <div className="remember-forgot-row">

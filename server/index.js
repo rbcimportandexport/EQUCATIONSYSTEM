@@ -65,6 +65,13 @@ const connectDB = async () => {
         });
         console.log('🎓 Student user auto-seeded into MongoDB Atlas.');
       }
+      
+      const AccessCode = require('./models/AccessCode');
+      const codeExists = await AccessCode.findOne();
+      if (!codeExists) {
+        await AccessCode.create({ code: 'RBC9988' });
+        console.log('🔑 Default Access Code (RBC9988) auto-seeded into MongoDB Atlas.');
+      }
     } catch (seedErr) {
       console.warn('Auto-seed check error:', seedErr);
     }

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../utils/db');
-const { protect, generateToken } = require('../middleware/auth');
+const { protect, adminOnly, generateToken } = require('../middleware/auth');
 const { storeOTP, verifyOTP, isVerified, clearOTP } = require('../utils/otpStore');
 const { sendOTPEmail } = require('../utils/emailService');
 
@@ -96,13 +96,24 @@ router.post('/verify-otp', async (req, res) => {
 // Register a new user
 router.post('/register', async (req, res) => {
   try {
-    const { name, email, password, phone, country, role, otp } = req.body;
+    const { name, email, password, phone, country, role, otp, accessCode } = req.body;
 
     // Validation
     if (!name || !email || !password) {
       return res.status(400).json({
         success: false,
         message: 'Name, email and password are required'
+      });
+    }
+
+    const AccessCode = require('../models/AccessCode');
+    const dbCodeRecord = await AccessCode.findOne();
+    const systemCode = dbCodeRecord ? dbCodeRecord.code : 'RBC9988';
+
+    if (!accessCode || accessCode.trim().toUpperCase() !== systemCode.toUpperCase()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or missing Admin Access Code'
       });
     }
 
@@ -164,12 +175,23 @@ router.post('/register', async (req, res) => {
 // Login user
 router.post('/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, accessCode } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({
         success: false,
         message: 'Email and password are required'
+      });
+    }
+
+    const AccessCode = require('../models/AccessCode');
+    const dbCodeRecord = await AccessCode.findOne();
+    const systemCode = dbCodeRecord ? dbCodeRecord.code : 'RBC9988';
+
+    if (!accessCode || accessCode.trim().toUpperCase() !== systemCode.toUpperCase()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or missing Admin Access Code'
       });
     }
 
@@ -443,6 +465,45 @@ router.post('/logout', protect, (req, res) => {
     success: true,
     message: 'Logged out successfully'
   });
+});
+
+// ─── GET /api/auth/access-code ──────────────────────────────────────────────
+// Get active access code (Admin only)
+router.get('/access-code', protect, adminOnly, async (req, res) => {
+  try {
+    const AccessCode = require('../models/AccessCode');
+    let record = await AccessCode.findOne();
+    if (!record) {
+      record = await AccessCode.create({ code: 'RBC9988' });
+    }
+    res.json({ success: true, code: record.code });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+// ─── POST /api/auth/access-code ─────────────────────────────────────────────
+// Update active access code (Admin only)
+router.post('/access-code', protect, adminOnly, async (req, res) => {
+  try {
+    const { code } = req.body;
+    if (!code || code.trim().length < 4) {
+      return res.status(400).json({ success: false, message: 'Access code must be at least 4 characters' });
+    }
+
+    const AccessCode = require('../models/AccessCode');
+    let record = await AccessCode.findOne();
+    if (!record) {
+      record = new AccessCode();
+    }
+    record.code = code.trim().toUpperCase();
+    record.updatedAt = Date.now();
+    await record.save();
+
+    res.json({ success: true, message: 'Access code updated successfully', code: record.code });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
 });
 
 module.exports = router;
