@@ -2,7 +2,8 @@ import React from 'react';
 import { useApp } from '../context/AppContext';
 import { Users, UserCheck, MessageSquare, Send, X, MessageCircle } from 'lucide-react';
 import logoEmblem from '../assets/logo_emblem.png';
-import { chatApi, ChatMessage } from '../utils/api';
+import { chatApi } from '../utils/api';
+import type { ChatMessage } from '../utils/api';
 
 export const CommunityScreen: React.FC = () => {
   const { users, currentUser, language, certificates, fetchAllUsers } = useApp();
