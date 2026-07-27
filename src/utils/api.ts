@@ -108,6 +108,15 @@ export const authApi = {
     return result;
   },
 
+  // Google sign-in
+  googleLogin: async (name: string, email: string): Promise<{ success: boolean; message: string; user?: AuthUser; token?: string }> => {
+    const result = await apiRequest<AuthUser>('/auth/google-login', 'POST', { name, email });
+    if (result.success && result.token) {
+      setToken(result.token);
+    }
+    return result;
+  },
+
   // Send OTP to email
   sendOtp: async (email: string, type: 'register' | 'forgot_password' = 'register'): Promise<{ success: boolean; message: string }> => {
     return await apiRequest('/auth/send-otp', 'POST', { email, type });
@@ -216,6 +225,32 @@ export const lessonsApi = {
   },
   delete: async (id: string): Promise<ApiResponse<any>> => {
     return await apiRequest<any>(`/lessons/${id}`, 'DELETE');
+  }
+};
+
+export interface ChatMessage {
+  id?: string;
+  _id?: string;
+  senderId: string;
+  receiverId: string;
+  text: string;
+  createdAt: string;
+}
+
+export const chatApi = {
+  getMessages: async (senderId: string, receiverId: string): Promise<{ success: boolean; messages: ChatMessage[] }> => {
+    const result = await apiRequest<{ success: boolean; messages: ChatMessage[] }>(`/chat/messages?senderId=${senderId}&receiverId=${receiverId}`);
+    return {
+      success: result.success,
+      messages: (result as any).messages || []
+    };
+  },
+  sendMessage: async (senderId: string, receiverId: string, text: string): Promise<{ success: boolean; chatMessage: ChatMessage }> => {
+    const result = await apiRequest<{ success: boolean; chatMessage: ChatMessage }>('/chat/send', 'POST', { senderId, receiverId, text });
+    return {
+      success: result.success,
+      chatMessage: (result as any).chatMessage
+    };
   }
 };
 

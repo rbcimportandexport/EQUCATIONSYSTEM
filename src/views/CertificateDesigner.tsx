@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useApp } from '../context/AppContext';
 import html2canvas from 'html2canvas';
 import { Download, Printer, Edit3, RotateCcw, FileText, Award } from 'lucide-react';
@@ -647,7 +647,7 @@ const CertificatePreview: React.FC<{
 };
 
 const CertificateDesigner: React.FC = () => {
-  const { currentUser, certificates } = useApp();
+  const { currentUser, certificates, showAlert } = useApp();
   const [data, setData] = useState<CertificateData>(defaultData);
   const [isEditing, setIsEditing] = useState(false);
   const [scale, setScale] = useState(0.5);
@@ -731,7 +731,7 @@ const CertificateDesigner: React.FC = () => {
       link.href = canvas.toDataURL('image/png');
       link.click();
     } catch {
-      alert('Could not export PNG. Try printing instead.');
+      showAlert('Export Failed', 'Could not export PNG. Try printing instead.', 'error');
     }
   };
 

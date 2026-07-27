@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext';
 import { RefreshCw, Cpu, HardDrive } from 'lucide-react';
 
 export const Settings: React.FC = () => {
-  const { resetDatabase, offlineMode, setOfflineMode } = useApp();
+  const { resetDatabase, offlineMode, setOfflineMode, showConfirm } = useApp();
   const [slowCache, setSlowCache] = useState(false);
 
   // Calculate simulated local storage size
@@ -84,9 +84,11 @@ export const Settings: React.FC = () => {
           <button 
             className="btn btn-outlined btn-danger"
             onClick={() => {
-              if (window.confirm('Wipe everything? This action is permanent.')) {
-                resetDatabase();
-              }
+              showConfirm(
+                'Reset Local Database',
+                'Wipe everything? This action is permanent.',
+                () => resetDatabase()
+              );
             }}
           >
             <RefreshCw size={14} />

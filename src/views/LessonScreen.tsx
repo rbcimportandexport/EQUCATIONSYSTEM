@@ -31,7 +31,9 @@ export const LessonScreen: React.FC = () => {
     toggleBookmark,
     bookmarks,
     language,
-    userRole
+    userRole,
+    showAlert,
+    showToast
   } = useApp();
 
   const [copiedCode, setCopiedCode] = useState(false);
@@ -128,7 +130,7 @@ export const LessonScreen: React.FC = () => {
       }
     } else {
       markLessonComplete(activeLesson.id, true);
-      alert('Congratulations! You have completed the final lesson of this course. Check out your certificate on the Profile tab!');
+      showAlert('Course Completed!', 'Congratulations! You have completed the final lesson of this course. Check out your certificate on the Profile tab!', 'success');
       setActiveView('Profile');
     }
   };
@@ -334,7 +336,7 @@ export const LessonScreen: React.FC = () => {
                   </div>
                   <button 
                     className="btn btn-outlined btn-mini"
-                    onClick={() => alert(`Simulating file download: ${activeLesson.content.downloadOption.title}`)}
+                    onClick={() => showToast(`Simulating file download: ${activeLesson.content.downloadOption.title}`, 'info')}
                   >
                     Download File
                   </button>

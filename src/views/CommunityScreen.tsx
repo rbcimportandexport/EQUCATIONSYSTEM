@@ -1,12 +1,63 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { Users, UserCheck } from 'lucide-react';
+import { Users, UserCheck, MessageSquare, Send, X, MessageCircle } from 'lucide-react';
 import logoEmblem from '../assets/logo_emblem.png';
+import { chatApi, ChatMessage } from '../utils/api';
 
 export const CommunityScreen: React.FC = () => {
   const { users, currentUser, language, certificates, fetchAllUsers } = useApp();
   const [showCertModal, setShowCertModal] = React.useState(false);
   const [selectedCertUser, setSelectedCertUser] = React.useState('');
+
+  const [activeChatUser, setActiveChatUser] = React.useState<any>(null);
+  const [messages, setMessages] = React.useState<ChatMessage[]>([]);
+  const [messageText, setMessageText] = React.useState('');
+  const [isChatOpen, setIsChatOpen] = React.useState(false);
+  const messagesEndRef = React.useRef<HTMLDivElement>(null);
+
+  // Poll for messages when a chat is active
+  React.useEffect(() => {
+    if (!activeChatUser || !currentUser) return;
+
+    const fetchMessages = async () => {
+      try {
+        const res = await chatApi.getMessages(currentUser.id, activeChatUser.id);
+        if (res.success) {
+          setMessages(res.messages);
+        }
+      } catch (err) {
+        console.error('Error fetching chat messages:', err);
+      }
+    };
+
+    fetchMessages(); // initial load
+
+    const interval = setInterval(fetchMessages, 1500); // poll every 1.5s for real-time live updates
+
+    return () => clearInterval(interval);
+  }, [activeChatUser, currentUser]);
+
+  // Scroll to bottom on new message
+  React.useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  const handleSendMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!messageText.trim() || !currentUser || !activeChatUser) return;
+
+    const txt = messageText.trim();
+    setMessageText('');
+
+    try {
+      const res = await chatApi.sendMessage(currentUser.id, activeChatUser.id, txt);
+      if (res.success) {
+        setMessages(prev => [...prev, res.chatMessage]);
+      }
+    } catch (err) {
+      console.error('Error sending message:', err);
+    }
+  };
 
   React.useEffect(() => {
     fetchAllUsers();
@@ -258,6 +309,43 @@ export const CommunityScreen: React.FC = () => {
                       }}
                     >
                       {language === 'hi' ? 'प्रमाणपत्र देखें' : language === 'gu' ? 'પ્રમાણપત્ર જુઓ' : 'View Certificate'}
+                    </button>
+                  </div>
+                )}
+
+                {/* Chat button if not me */}
+                {!isMe && (
+                  <div style={{ marginTop: '10px' }}>
+                    <button
+                      onClick={() => {
+                        setActiveChatUser(u);
+                        setIsChatOpen(true);
+                      }}
+                      style={{
+                        width: '100%',
+                        padding: '8px',
+                        borderRadius: '10px',
+                        border: '1.5px solid var(--md-sys-color-primary)',
+                        background: 'transparent',
+                        color: 'var(--md-sys-color-primary)',
+                        fontWeight: '700',
+                        fontSize: '12px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '6px',
+                        transition: 'all 0.15s ease'
+                      }}
+                      onMouseOver={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.background = 'var(--md-sys-color-primary-container)';
+                      }}
+                      onMouseOut={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
+                      }}
+                    >
+                      <MessageSquare size={13} />
+                      <span>{language === 'hi' ? 'लाइव चैट' : language === 'gu' ? 'લાઇવ ચેટ' : 'Live Chat'}</span>
                     </button>
                   </div>
                 )}
@@ -656,6 +744,255 @@ export const CommunityScreen: React.FC = () => {
                 Close
               </button>
             </div>
+          </div>
+        </div>
+      )}
+      {/* Live Chat Panel */}
+      {isChatOpen && activeChatUser && currentUser && (
+        <div 
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 10000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(15, 23, 42, 0.45)',
+            backdropFilter: 'blur(8px)',
+            animation: 'fadeIn 0.2s ease forwards',
+            padding: '20px'
+          }}
+        >
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '480px',
+              height: '80vh',
+              maxHeight: '640px',
+              background: '#ffffff',
+              borderRadius: '24px',
+              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+              display: 'flex',
+              flexDirection: 'column',
+              overflow: 'hidden',
+              animation: 'scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+              border: '1px solid rgba(226, 232, 240, 0.8)'
+            }}
+          >
+            {/* Chat Header */}
+            <div 
+              style={{
+                padding: '18px 24px',
+                background: 'linear-gradient(135deg, #1e293b, #0f172a)',
+                color: '#ffffff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                borderBottom: '1px solid rgba(255,255,255,0.08)'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                {/* Active Indicator Avatar */}
+                <div style={{ position: 'relative' }}>
+                  <div 
+                    style={{
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '50%',
+                      background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontWeight: 800,
+                      fontSize: '14px',
+                      color: '#ffffff'
+                    }}
+                  >
+                    {activeChatUser.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
+                  </div>
+                  {/* Pulsing online indicator */}
+                  <span 
+                    style={{
+                      position: 'absolute',
+                      bottom: '0',
+                      right: '0',
+                      width: '12px',
+                      height: '12px',
+                      background: '#22c55e',
+                      border: '2px solid #0f172a',
+                      borderRadius: '50%',
+                      boxShadow: '0 0 8px #22c55e'
+                    }} 
+                  />
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ fontSize: '15px', fontWeight: 700, letterSpacing: '0.2px' }}>{activeChatUser.name}</span>
+                  <span style={{ fontSize: '11px', color: '#94a3b8' }}>
+                    {activeChatUser.role === 'admin' ? 'RBC Administrator' : 'RBC Learner'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Close Button */}
+              <button
+                onClick={() => {
+                  setIsChatOpen(false);
+                  setActiveChatUser(null);
+                }}
+                style={{
+                  background: 'rgba(255,255,255,0.1)',
+                  border: 'none',
+                  color: '#ffffff',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s ease'
+                }}
+                onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'}
+                onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {/* Chat Messages Body */}
+            <div 
+              style={{
+                flex: 1,
+                padding: '24px',
+                background: '#f8fafc',
+                overflowY: 'auto',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px'
+              }}
+            >
+              {messages.length === 0 ? (
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '12px', color: '#64748b', textAlign: 'center', padding: '0 20px' }}>
+                  <MessageCircle size={36} style={{ strokeWidth: 1.5, color: '#94a3b8' }} />
+                  <p style={{ margin: 0, fontSize: '14px', fontWeight: 500 }}>
+                    {language === 'hi' ? 'कोई संदेश नहीं। लाइव बातचीत शुरू करने के लिए पहला संदेश भेजें!' : language === 'gu' ? 'કોઈ સંદેશ નથી. વાતચીત શરૂ કરવા પહેલો સંદેશ મોકલો!' : 'No messages yet. Send the first message to start a live conversation!'}
+                  </p>
+                </div>
+              ) : (
+                messages.map((msg, index) => {
+                  const isSentByMe = msg.senderId === currentUser.id;
+                  const date = new Date(msg.createdAt);
+                  const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                  return (
+                    <div 
+                      key={msg.id || msg._id || index}
+                      style={{
+                        display: 'flex',
+                        justifyContent: isSentByMe ? 'flex-end' : 'flex-start',
+                        width: '100%'
+                      }}
+                    >
+                      <div 
+                        style={{
+                          maxWidth: '75%',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: isSentByMe ? 'flex-end' : 'flex-start'
+                        }}
+                      >
+                        {/* Bubble */}
+                        <div
+                          style={{
+                            padding: '12px 16px',
+                            borderRadius: isSentByMe ? '18px 18px 2px 18px' : '18px 18px 18px 2px',
+                            background: isSentByMe 
+                              ? 'linear-gradient(135deg, var(--md-sys-color-primary), var(--md-sys-color-secondary))' 
+                              : '#ffffff',
+                            color: isSentByMe ? '#ffffff' : '#1e293b',
+                            boxShadow: '0 2px 4px rgba(0,0,0,0.03), 0 1px 2px rgba(0,0,0,0.02)',
+                            fontSize: '14px',
+                            lineHeight: '1.5',
+                            fontWeight: 500,
+                            wordBreak: 'break-word',
+                            border: isSentByMe ? 'none' : '1px solid #e2e8f0'
+                          }}
+                        >
+                          {msg.text}
+                        </div>
+                        {/* Time */}
+                        <span 
+                          style={{
+                            fontSize: '10px',
+                            color: '#94a3b8',
+                            marginTop: '4px',
+                            fontWeight: 600
+                          }}
+                        >
+                          {timeString}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Chat Input Footer */}
+            <form 
+              onSubmit={handleSendMessage}
+              style={{
+                padding: '16px 20px',
+                background: '#ffffff',
+                borderTop: '1px solid #e2e8f0',
+                display: 'flex',
+                gap: '12px',
+                alignItems: 'center'
+              }}
+            >
+              <input
+                type="text"
+                value={messageText}
+                onChange={(e) => setMessageText(e.target.value)}
+                placeholder={language === 'hi' ? 'अपना संदेश यहाँ लिखें...' : language === 'gu' ? 'તમારો સંદેશ અહીં લખો...' : 'Write your message here...'}
+                style={{
+                  flex: 1,
+                  padding: '12px 16px',
+                  borderRadius: '14px',
+                  border: '1.5px solid #cbd5e1',
+                  background: '#f8fafc',
+                  fontSize: '14px',
+                  outline: 'none',
+                  transition: 'border-color 0.15s ease'
+                }}
+                onFocus={(e) => e.target.style.borderColor = 'var(--md-sys-color-primary)'}
+                onBlur={(e) => e.target.style.borderColor = '#cbd5e1'}
+              />
+              <button
+                type="submit"
+                disabled={!messageText.trim()}
+                style={{
+                  width: '42px',
+                  height: '42px',
+                  borderRadius: '12px',
+                  border: 'none',
+                  background: messageText.trim() 
+                    ? 'var(--md-sys-color-primary)' 
+                    : '#e2e8f0',
+                  color: messageText.trim() ? '#ffffff' : '#94a3b8',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: messageText.trim() ? 'pointer' : 'default',
+                  transition: 'all 0.15s ease',
+                  boxShadow: messageText.trim() ? '0 4px 10px rgba(16,42,86,0.15)' : 'none'
+                }}
+              >
+                <Send size={18} />
+              </button>
+            </form>
           </div>
         </div>
       )}

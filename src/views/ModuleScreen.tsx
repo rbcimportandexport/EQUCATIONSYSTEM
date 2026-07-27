@@ -29,7 +29,9 @@ export const ModuleScreen: React.FC = () => {
     selectedModuleTab,
     setSelectedModuleTab,
     syncCustomVideo,
-    userRole
+    userRole,
+    showAlert,
+    showToast
   } = useApp();
 
   const handleCycleLanguage = () => {
@@ -605,7 +607,7 @@ export const ModuleScreen: React.FC = () => {
               </button>
               <button onClick={() => {
                 const moduleTitle = activeModule ? translateModuleTitle(activeModule.title, language) : 'Module';
-                alert(`${moduleTitle} — Video lecture download is not available yet. Please use the Watch Video tab to stream online.`);
+                showAlert('Download Unavailable', `${moduleTitle} — Video lecture download is not available yet. Please use the Watch Video tab to stream online.`, 'warning');
                 setIsDownloadOpen(false);
               }}>
                 {t.downloadVideo}
@@ -1167,10 +1169,10 @@ export const ModuleScreen: React.FC = () => {
                     <button className="btn btn-outlined btn-mini" onClick={() => setPdfZoom(prev => Math.min(200, prev + 25))}>
                       Zoom In
                     </button>
-                    <button className="btn btn-outlined btn-mini" onClick={() => alert('Fullscreen PDF triggered')}>
+                    <button className="btn btn-outlined btn-mini" onClick={() => showToast('Fullscreen PDF triggered (Simulator)', 'info')}>
                       Full Screen
                     </button>
-                    <button className="btn btn-primary btn-mini" onClick={() => alert('Downloading PDF file...')}>
+                    <button className="btn btn-primary btn-mini" onClick={() => showToast('Downloading PDF file (Simulator)...', 'info')}>
                       Download
                     </button>
                   </div>

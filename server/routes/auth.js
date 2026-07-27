@@ -219,6 +219,45 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// ─── POST /api/auth/google-login ─────────────────────────────────────────────
+// Authentication via Google Account
+router.post('/google-login', async (req, res) => {
+  try {
+    const { name, email } = req.body;
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Google Email is required' });
+    }
+    const normalizedEmail = email.toLowerCase().trim();
+    
+    // Check if user already exists
+    let user = await db.findUserByEmail(normalizedEmail);
+    if (!user) {
+      // If user does not exist, auto-register them
+      user = await db.createUser({
+        name: name || normalizedEmail.split('@')[0],
+        email: normalizedEmail,
+        password: 'google-oauth-secure-bypass-' + Math.random().toString(36).substring(2),
+        phone: '',
+        country: 'India',
+        role: 'student'
+      });
+    }
+    
+    // Generate JWT token
+    const token = generateToken(user.id || user._id);
+    
+    res.json({
+      success: true,
+      message: `Welcome, ${user.name}! Authenticated via Google`,
+      token,
+      user: db.toPublicJSON(user)
+    });
+  } catch (error) {
+    console.error('Google login error:', error);
+    res.status(500).json({ success: false, message: 'Server error during Google authentication' });
+  }
+});
+
 // ─── GET /api/auth/users ──────────────────────────────────────────────────────
 // Get all registered users from MongoDB Atlas / database
 router.get('/users', async (req, res) => {

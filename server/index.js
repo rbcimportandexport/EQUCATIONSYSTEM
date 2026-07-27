@@ -99,6 +99,9 @@ app.use('/videos', require('./routes/videos'));
 app.use('/api/lessons', require('./routes/lessons'));
 app.use('/lessons', require('./routes/lessons'));
 
+app.use('/api/chat', require('./routes/chat'));
+app.use('/chat', require('./routes/chat'));
+
 // TTS Audio Proxy Endpoint for high quality speech
 const handleTTS = async (req, res) => {
   const { text, lang = 'gu' } = req.query;

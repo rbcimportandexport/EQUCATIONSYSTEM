@@ -38,6 +38,14 @@ export interface AlertModalInfo {
   type?: 'success' | 'error' | 'warning' | 'info';
 }
 
+export interface ConfirmModalInfo {
+  isOpen: boolean;
+  title: string;
+  message: string;
+  onConfirm: () => void;
+  onCancel?: () => void;
+}
+
 interface AppContextType {
   activeView: ViewType;
   setActiveView: (view: ViewType) => void;
@@ -47,6 +55,9 @@ interface AppContextType {
   alertModal: AlertModalInfo;
   showAlert: (title: string, message: string, type?: 'success' | 'error' | 'warning' | 'info') => void;
   closeAlert: () => void;
+  confirmModal: ConfirmModalInfo;
+  showConfirm: (title: string, message: string, onConfirm: () => void, onCancel?: () => void) => void;
+  closeConfirm: () => void;
   userRole: RoleType;
   setUserRole: (role: RoleType) => void;
   language: 'en' | 'hi' | 'gu' | 'mr';
@@ -155,6 +166,33 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const closeAlert = () => {
     setAlertModal(prev => ({ ...prev, isOpen: false }));
+  };
+
+  const [confirmModal, setConfirmModal] = useState<ConfirmModalInfo>({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: () => {}
+  });
+
+  const showConfirm = (title: string, message: string, onConfirm: () => void, onCancel?: () => void) => {
+    setConfirmModal({
+      isOpen: true,
+      title,
+      message,
+      onConfirm: () => {
+        onConfirm();
+        closeConfirm();
+      },
+      onCancel: () => {
+        if (onCancel) onCancel();
+        closeConfirm();
+      }
+    });
+  };
+
+  const closeConfirm = () => {
+    setConfirmModal(prev => ({ ...prev, isOpen: false }));
   };
 
   const [activeView, setActiveView] = useState<ViewType>('Chapters');
@@ -1117,7 +1155,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       removeToast,
       alertModal,
       showAlert,
-      closeAlert
+      closeAlert,
+      confirmModal,
+      showConfirm,
+      closeConfirm
     }}>
       {children}
     </AppContext.Provider>

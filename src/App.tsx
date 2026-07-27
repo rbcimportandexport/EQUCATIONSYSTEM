@@ -31,7 +31,9 @@ const AppShell: React.FC = () => {
     toasts,
     removeToast,
     alertModal,
-    closeAlert
+    closeAlert,
+    confirmModal,
+    closeConfirm
   } = useApp();
   const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
@@ -680,6 +682,112 @@ const AppShell: React.FC = () => {
                   }}
                 >
                   OK
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Custom Confirm Modal */}
+      {confirmModal.isOpen && (
+        <div 
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 1000001,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px',
+            background: 'rgba(15, 23, 42, 0.45)',
+            backdropFilter: 'blur(8px)',
+            animation: 'fadeIn 0.25s ease forwards'
+          }}
+        >
+          <div
+            style={{
+              width: '100%',
+              maxWidth: '440px',
+              background: '#ffffff',
+              borderRadius: '20px',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05)',
+              overflow: 'hidden',
+              animation: 'scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+              fontFamily: "'Inter', system-ui, sans-serif"
+            }}
+          >
+            {/* Header Accent */}
+            <div style={{ height: '8px', background: 'linear-gradient(90deg, #ea580c, #c2410c)' }} />
+            
+            <div style={{ padding: '30px 24px 24px 24px' }}>
+              <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                <div 
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '46px',
+                    height: '46px',
+                    borderRadius: '12px',
+                    flexShrink: 0,
+                    background: '#fffbeb',
+                    color: '#ea580c'
+                  }}
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                  </svg>
+                </div>
+
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', margin: '0 0 8px 0', lineHeight: '1.4' }}>
+                    {confirmModal.title}
+                  </h3>
+                  <p style={{ fontSize: '14.5px', color: '#475569', margin: 0, lineHeight: '1.6', fontWeight: 500 }}>
+                    {confirmModal.message}
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '28px' }}>
+                <button
+                  onClick={confirmModal.onCancel || closeConfirm}
+                  style={{
+                    padding: '11px 20px',
+                    borderRadius: '10px',
+                    border: '1.5px solid #cbd5e1',
+                    background: '#ffffff',
+                    color: '#475569',
+                    fontSize: '14px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                  onMouseOver={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#f8fafc'; }}
+                  onMouseOut={(e) => { (e.currentTarget as HTMLButtonElement).style.background = '#ffffff'; }}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmModal.onConfirm}
+                  style={{
+                    padding: '11px 24px',
+                    borderRadius: '10px',
+                    border: 'none',
+                    background: '#ef4444',
+                    color: '#ffffff',
+                    fontSize: '14px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 10px rgba(239, 68, 68, 0.2)',
+                    transition: 'all 0.15s ease'
+                  }}
+                  onMouseOver={(e) => { (e.currentTarget as HTMLButtonElement).style.filter = 'brightness(0.9)'; }}
+                  onMouseOut={(e) => { (e.currentTarget as HTMLButtonElement).style.filter = 'brightness(1)'; }}
+                >
+                  Confirm Delete
                 </button>
               </div>
             </div>

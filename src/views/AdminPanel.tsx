@@ -102,7 +102,8 @@ export const AdminPanel = () => {
     lessons, saveLesson, deleteLesson,
     users, saveUser, fetchAllUsers, certificates, issueCertificate,
     setActiveView, setSelectedModuleId, setSelectedLessonId, setSelectedModuleTab,
-    showAlert
+    showAlert,
+    showConfirm
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<'courses' | 'modules' | 'lessons' | 'users'>('courses');
@@ -596,9 +597,11 @@ export const AdminPanel = () => {
                                 type="button"
                                 className="btn btn-text btn-danger btn-mini"
                                 onClick={() => {
-                                  if (confirm(`Are you sure you want to delete "${les.title}"?`)) {
-                                    deleteLesson(les.id);
-                                  }
+                                  showConfirm(
+                                    'Confirm Deletion',
+                                    `Are you sure you want to delete "${les.title}"?`,
+                                    () => deleteLesson(les.id)
+                                  );
                                 }}
                                 style={{ padding: '6px 10px', borderRadius: '6px' }}
                               >
