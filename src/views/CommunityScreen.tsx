@@ -1,20 +1,39 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
 import { Users, UserCheck, MessageSquare, Send, X, MessageCircle } from 'lucide-react';
-import logoEmblem from '../assets/logo_emblem.png';
 import { chatApi } from '../utils/api';
 import type { ChatMessage } from '../utils/api';
 
 export const CommunityScreen: React.FC = () => {
-  const { users, currentUser, language, certificates, fetchAllUsers } = useApp();
-  const [showCertModal, setShowCertModal] = React.useState(false);
-  const [selectedCertUser, setSelectedCertUser] = React.useState('');
+  const { users, currentUser, language, fetchAllUsers } = useApp();
 
   const [activeChatUser, setActiveChatUser] = React.useState<any>(null);
   const [messages, setMessages] = React.useState<ChatMessage[]>([]);
   const [messageText, setMessageText] = React.useState('');
   const [isChatOpen, setIsChatOpen] = React.useState(false);
+  const [unreadSenders, setUnreadSenders] = React.useState<string[]>([]);
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
+
+  // Poll for message notifications (which users have messaged the current user)
+  React.useEffect(() => {
+    if (!currentUser) return;
+
+    const fetchNotifications = async () => {
+      try {
+        const res = await chatApi.getNotifications(currentUser.id);
+        if (res.success) {
+          setUnreadSenders(res.senderIds);
+        }
+      } catch (err) {
+        console.error('Error fetching chat notifications:', err);
+      }
+    };
+
+    fetchNotifications(); // initial load
+    const interval = setInterval(fetchNotifications, 3000); // poll every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [currentUser]);
 
   // Poll for messages when a chat is active
   React.useEffect(() => {
@@ -122,6 +141,13 @@ export const CommunityScreen: React.FC = () => {
       padding: '32px',
       overflowY: 'auto'
     }}>
+      <style>{`
+        @keyframes pulse {
+          0% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.05); opacity: 0.9; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+      `}</style>
       {/* Header */}
       <div style={{
         display: 'flex', alignItems: 'center', gap: '14px',
@@ -232,6 +258,18 @@ export const CommunityScreen: React.FC = () => {
                           {youLabel}
                         </span>
                       )}
+                      {!isMe && unreadSenders.includes(u.id) && (
+                        <span style={{
+                          fontSize: '10px', fontWeight: '800',
+                          background: 'linear-gradient(135deg, #ef4444, #dc2626)',
+                          color: '#ffffff', padding: '2px 8px',
+                          borderRadius: '10px', letterSpacing: '0.5px',
+                          boxShadow: '0 0 8px rgba(239, 68, 68, 0.5)',
+                          animation: 'pulse 1.5s infinite'
+                        }}>
+                          NEW MESSAGE
+                        </span>
+                      )}
                     </div>
                     <div style={{
                       fontSize: '12px', color: 'var(--md-sys-color-on-surface-variant)',
@@ -283,44 +321,14 @@ export const CommunityScreen: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Certificate button if completed */}
-                {(pct === 100 || (certificates && certificates.some(c => c.userId === u.id))) && (
-                  <div style={{ marginTop: '14px' }}>
-                    <button
-                      onClick={() => {
-                        setSelectedCertUser(u.name);
-                        setShowCertModal(true);
-                      }}
-                      style={{
-                        width: '100%',
-                        padding: '8px',
-                        borderRadius: '10px',
-                        border: 'none',
-                        background: 'linear-gradient(135deg, #fbbf24, #f97316)',
-                        color: '#fff',
-                        fontWeight: '700',
-                        fontSize: '12px',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '6px',
-                        boxShadow: '0 2px 6px rgba(245,158,11,0.2)',
-                        transition: 'transform 0.1s ease'
-                      }}
-                    >
-                      {language === 'hi' ? 'प्रमाणपत्र देखें' : language === 'gu' ? 'પ્રમાણપત્ર જુઓ' : 'View Certificate'}
-                    </button>
-                  </div>
-                )}
-
                 {/* Chat button if not me */}
                 {!isMe && (
-                  <div style={{ marginTop: '10px' }}>
+                  <div style={{ marginTop: '14px' }}>
                     <button
                       onClick={() => {
                         setActiveChatUser(u);
                         setIsChatOpen(true);
+                        setUnreadSenders(prev => prev.filter(id => id !== u.id));
                       }}
                       style={{
                         width: '100%',
@@ -356,398 +364,6 @@ export const CommunityScreen: React.FC = () => {
         </div>
       )}
 
-      {/* Certificate modal preview */}
-      {showCertModal && (
-        <div style={{
-          position: 'fixed', inset: 0, zIndex: 1000,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)'
-        }}>
-          {/* Print specific CSS override */}
-          <style dangerouslySetInnerHTML={{ __html: `
-            @media print {
-              body * {
-                visibility: hidden !important;
-              }
-              .print-certificate-container, .print-certificate-container * {
-                visibility: visible !important;
-              }
-              .print-certificate-container {
-                position: fixed !important;
-                left: 0 !important;
-                top: 0 !important;
-                width: 100vw !important;
-                height: 100vh !important;
-                border: none !important;
-                box-shadow: none !important;
-                background: white !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                z-index: 9999999 !important;
-                transform: scale(1) !important;
-              }
-              @page {
-                size: landscape;
-                margin: 0;
-              }
-            }
-          `}} />
-
-          <div onClick={() => setShowCertModal(false)}
-            style={{ position: 'absolute', inset: 0 }} />
-          
-          <div style={{
-            position: 'relative', zIndex: 1,
-            background: 'linear-gradient(135deg, #ffffff, #fcfbfa)',
-            borderRadius: '24px', padding: '12px',
-            boxShadow: '0 30px 90px rgba(0,0,0,0.45)',
-            maxWidth: '1000px', width: '95%',
-            overflowX: 'auto'
-          }}>
-            {/* Scrollable preview wrapper for smaller screens */}
-            <div style={{ overflowX: 'auto', width: '100%' }}>
-              
-              {/* Landscape Certificate Container */}
-              <div className="print-certificate-container" style={{
-                width: '950px',
-                height: '670px',
-                background: '#fbfaf7',
-                border: '14px solid #0f172a',
-                position: 'relative',
-                boxSizing: 'border-box',
-                padding: '0',
-                fontFamily: '"Inter", sans-serif',
-                color: '#0f172a',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column',
-                margin: '0 auto',
-                flexShrink: 0
-              }}>
-                {/* Thin gold inner frame border */}
-                <div style={{
-                  position: 'absolute', left: '16px', right: '16px', top: '16px', bottom: '16px',
-                  border: '1.5px solid #c5a880', pointerEvents: 'none', zIndex: 3
-                }} />
-
-                {/* World Map Watermark */}
-                <div style={{ position: 'absolute', left: '12%', top: '8%', width: '76%', height: '82%', opacity: 0.028, zIndex: 0, pointerEvents: 'none' }}>
-                  <svg viewBox="0 0 1000 500" style={{ width: '100%', height: '100%' }} fill="#102A56">
-                    <path d="M80,80 Q130,55 175,68 Q215,82 230,125 Q245,168 222,198 Q200,228 165,235 Q130,242 105,218 Q78,195 70,162 Q62,130 80,80Z"/>
-                    <path d="M162,195 Q185,205 195,228 Q200,250 188,265 Q172,272 158,260 Q142,248 148,232 Q154,216 162,195Z"/>
-                    <path d="M170,278 Q205,260 238,272 Q268,282 282,318 Q292,348 280,388 Q265,422 238,435 Q210,445 183,428 Q155,412 148,375 Q140,338 152,302 Q162,278 170,278Z"/>
-                    <path d="M420,68 Q458,55 492,62 Q522,70 532,98 Q542,126 518,148 Q494,165 462,158 Q428,150 418,122 Q408,94 420,68Z"/>
-                    <path d="M428,168 Q468,155 505,168 Q540,180 548,218 Q558,260 545,315 Q528,365 502,398 Q475,430 445,432 Q412,432 390,405 Q368,376 366,330 Q364,282 378,242 Q392,202 412,185 Q422,172 428,168Z"/>
-                    <path d="M535,58 Q588,42 648,48 Q710,55 762,78 Q812,100 830,138 Q848,172 832,202 Q816,232 772,242 Q728,252 682,240 Q636,228 600,202 Q564,176 544,146 Q524,116 528,82 Q530,65 535,58Z"/>
-                    <path d="M722,292 Q762,276 804,288 Q844,300 858,330 Q868,355 852,382 Q836,408 800,412 Q760,416 728,396 Q696,374 694,342 Q692,308 722,292Z"/>
-                    <path d="M820,118 Q836,110 848,118 Q858,126 854,140 Q850,154 836,156 Q822,158 818,144 Q814,130 820,118Z"/>
-                  </svg>
-                </div>
-
-                {/* Hourglass Navy Left Border Overlay SVG */}
-                <svg style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '200px', height: '100%', zIndex: 1, pointerEvents: 'none' }} viewBox="0 0 200 670" preserveAspectRatio="none">
-                  <polygon points="0,0 190,0 100,240 100,430 190,670 0,670" fill="#0b1a30" />
-                  <polyline points="190,0 100,240 100,430 190,670" stroke="#c5a880" strokeWidth="4" fill="none" />
-                  <polyline points="196,0 108,248 108,422 196,670" stroke="#ea580c" strokeWidth="2" fill="none" />
-                  {/* Cargo Ship Line Art (bottom left) */}
-                  <g stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" fill="none" transform="translate(10, 570)">
-                    <path d="M10,35 L60,35 L70,22 L25,22 Z" />
-                    <rect x="30" y="8" width="8" height="14" />
-                    <rect x="42" y="13" width="8" height="9" />
-                    <line x1="0" y1="35" x2="80" y2="35" stroke="rgba(255,255,255,0.15)" strokeWidth="2" />
-                  </g>
-                </svg>
-
-                {/* Bottom-Right Corner Navy Wedge SVG */}
-                <svg style={{ position: 'absolute', right: 0, bottom: 0, width: '200px', height: '200px', zIndex: 1, pointerEvents: 'none' }} viewBox="0 0 200 200">
-                  <polygon points="200,200 30,200 200,30" fill="#0b1a30" />
-                  <line x1="30" y1="200" x2="200" y2="30" stroke="#c5a880" strokeWidth="4" />
-                  <line x1="22" y1="200" x2="200" y2="22" stroke="#ea580c" strokeWidth="2" />
-                  {/* Harbor Crane Line Art */}
-                  <g stroke="rgba(255,255,255,0.08)" strokeWidth="1.5" fill="none" transform="translate(110, 110)">
-                    <line x1="30" y1="50" x2="30" y2="15" />
-                    <line x1="5" y1="20" x2="55" y2="20" />
-                    <line x1="5" y1="20" x2="30" y2="50" />
-                    <line x1="55" y1="20" x2="30" y2="50" />
-                    <line x1="30" y1="15" x2="10" y2="30" />
-                    <line x1="30" y1="15" x2="50" y2="30" />
-                  </g>
-                </svg>
-
-                {/* Gold Wax Seal Medallion (Top Left) */}
-                <svg style={{ position: 'absolute', left: '22px', top: '22px', width: '100px', height: '150px', zIndex: 10 }} viewBox="0 0 110 160">
-                  <polygon points="35,60 20,130 45,115 70,130 55,60" fill="#b45309" opacity="0.8" />
-                  <polygon points="50,60 35,135 60,120 85,135 70,60" fill="#d97706" />
-                  <circle cx="50" cy="55" r="42" fill="url(#goldGradComm)" stroke="#fff" strokeWidth="2" />
-                  <circle cx="50" cy="55" r="36" fill="none" stroke="#b45309" strokeWidth="2" strokeDasharray="3,3" />
-                  <text x="50" y="46" fill="#78350f" fontSize="9" fontWeight="900" textAnchor="middle" fontFamily="Georgia, serif">RBC</text>
-                  <text x="50" y="58" fill="#78350f" fontSize="9" fontWeight="900" textAnchor="middle" fontFamily="Georgia, serif">ACADEMY</text>
-                  <text x="50" y="70" fill="#78350f" fontSize="8" textAnchor="middle">★★★★★</text>
-                  <defs>
-                    <linearGradient id="goldGradComm" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#fef08a" />
-                      <stop offset="50%" stopColor="#facc15" />
-                      <stop offset="100%" stopColor="#ca8a04" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-
-                {/* Left Sidebar Details (Date, Duration, Level) - inside navy area */}
-                <div style={{
-                  position: 'absolute', left: 0, top: '200px', bottom: '180px', width: '120px',
-                  zIndex: 5, padding: '8px 10px 8px 18px', color: '#fff', display: 'flex',
-                  flexDirection: 'column', gap: '16px', justifyContent: 'center', boxSizing: 'border-box'
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <div style={{
-                      width: '24px', height: '24px', borderRadius: '50%', border: '1px solid #c5a880',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c5a880', flexShrink: 0
-                    }}>
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: '6px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 'bold' }}>Date of Issue</div>
-                      <div style={{ fontSize: '8px', fontWeight: '700' }}>
-                        {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <div style={{
-                      width: '24px', height: '24px', borderRadius: '50%', border: '1px solid #c5a880',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c5a880', flexShrink: 0
-                    }}>
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: '6px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 'bold' }}>Duration</div>
-                      <div style={{ fontSize: '8px', fontWeight: '700' }}>10+ Hours</div>
-                    </div>
-                  </div>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <div style={{
-                      width: '24px', height: '24px', borderRadius: '50%', border: '1px solid #c5a880',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c5a880', flexShrink: 0
-                    }}>
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" /></svg>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: '6px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 'bold' }}>Level</div>
-                      <div style={{ fontSize: '8px', fontWeight: '700' }}>Beginner to<br />Advanced</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Main Content Area (right of navy sidebar) */}
-                <div style={{
-                  marginLeft: '210px', marginRight: '190px', flexGrow: 1, zIndex: 2,
-                  boxSizing: 'border-box', padding: '20px 10px 14px',
-                  display: 'flex', flexDirection: 'column', height: '100%'
-                }}>
-
-                  {/* TOP: Logo centered + Cert ID top right */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%', marginBottom: '8px' }}>
-                    {/* Spacer left */}
-                    <div style={{ width: '100px' }} />
-
-                    {/* CENTER: Logo */}
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' }}>
-                      <img
-                        src={logoEmblem}
-                        alt="RBC Emblem"
-                        style={{ width: '52px', height: '52px', objectFit: 'contain' }}
-                      />
-                      <div style={{ fontSize: '30px', fontWeight: '900', color: '#0b1a30', letterSpacing: '-0.5px', lineHeight: '1.0', fontFamily: 'system-ui, sans-serif' }}>
-                        rbc
-                      </div>
-                      <div style={{ fontSize: '11px', fontWeight: '800', letterSpacing: '0.2px', fontFamily: 'system-ui, sans-serif' }}>
-                        <span style={{ color: '#ea580c' }}>I</span><span style={{ color: '#0b1a30' }}>mport & </span>
-                        <span style={{ color: '#ea580c' }}>E</span><span style={{ color: '#0b1a30' }}>xport</span>
-                      </div>
-                      <div style={{ fontSize: '7px', color: '#0b1a30', fontWeight: '700', letterSpacing: '0.5px' }}>
-                        Since <span style={{ color: '#ea580c' }}>2011</span>
-                      </div>
-                    </div>
-
-                    {/* RIGHT: Cert ID */}
-                    <div style={{ textAlign: 'right', width: '100px' }}>
-                      <div style={{ fontSize: '7px', color: '#64748b', fontWeight: '600' }}>CERTIFICATE ID</div>
-                      <div style={{ fontSize: '10px', fontWeight: '800', color: '#0f172a', letterSpacing: '0.5px' }}>
-                        {(() => {
-                          let sum = 0;
-                          for (let i = 0; i < selectedCertUser.length; i++) { sum += selectedCertUser.charCodeAt(i); }
-                          const serial = String(sum % 10000).padStart(4, '0');
-                          return `RBC-2026-0718-${serial}`;
-                        })()}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Certificate Titles */}
-                  <div style={{ textAlign: 'center', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                    <h1 style={{
-                      fontSize: '36px', fontWeight: '900', color: '#0b1a30', margin: '0 0 2px',
-                      letterSpacing: '3px', fontFamily: '"Georgia", serif'
-                    }}>
-                      CERTIFICATE
-                    </h1>
-                    <h2 style={{
-                      fontSize: '20px', fontWeight: '800', color: '#c5a880', margin: '0 0 8px',
-                      letterSpacing: '3px', fontFamily: '"Georgia", serif', textTransform: 'uppercase'
-                    }}>
-                      Of Completion
-                    </h2>
-
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', margin: '4px 0' }}>
-                      <span style={{ color: '#c5a880', fontSize: '10px' }}>✦</span>
-                      <span style={{ fontSize: '9px', letterSpacing: '1.5px', color: '#64748b', fontWeight: '700' }}>THIS IS PROUDLY PRESENTED TO</span>
-                      <span style={{ color: '#c5a880', fontSize: '10px' }}>✦</span>
-                    </div>
-
-                    {/* Student Name */}
-                    <h2 style={{
-                      fontSize: '52px', fontWeight: 'normal', color: '#0b1a30', margin: '4px 0',
-                      fontFamily: "'Great Vibes', 'Georgia', cursive"
-                    }}>
-                      {selectedCertUser}
-                    </h2>
-
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', margin: '2px 0 6px' }}>
-                      <div style={{ width: '80px', height: '1px', background: '#c5a880' }} />
-                      <span style={{ color: '#c5a880', fontSize: '10px' }}>◊</span>
-                      <div style={{ width: '80px', height: '1px', background: '#c5a880' }} />
-                    </div>
-
-                    <p style={{ fontSize: '10px', color: '#475569', lineHeight: 1.5, margin: '4px auto', maxWidth: '460px' }}>
-                      for successfully completing all syllabus modules, practice quizzes, video lectures, and assessments in the course
-                    </p>
-
-                    {/* Course Banner Ribbon */}
-                    <div style={{
-                      background: '#0f172a', color: '#fff', padding: '9px 30px', borderRadius: '2px',
-                      display: 'inline-block', fontWeight: '800', fontSize: '13px', letterSpacing: '1.5px',
-                      boxShadow: '0 4px 10px rgba(15,23,42,0.2)', border: '1px solid #c5a880', margin: '6px auto',
-                      position: 'relative'
-                    }}>
-                      <svg style={{ position: 'absolute', right: '100%', top: 0, height: '100%', width: '12px' }} viewBox="0 0 12 38" preserveAspectRatio="none">
-                        <polygon points="12,0 0,19 12,38" fill="#0f172a" />
-                        <polyline points="12,0 0,19 12,38" stroke="#c5a880" strokeWidth="2" fill="none" />
-                      </svg>
-                      <svg style={{ position: 'absolute', left: '100%', top: 0, height: '100%', width: '12px' }} viewBox="0 0 12 38" preserveAspectRatio="none">
-                        <polygon points="0,0 12,19 0,38" fill="#0f172a" />
-                        <polyline points="0,0 12,19 0,38" stroke="#c5a880" strokeWidth="2" fill="none" />
-                      </svg>
-                      {((language === 'hi' ? 'आयात एवं निर्यात मास्टर कोर्स' : language === 'gu' ? 'આયાત અને નિકાસ માસ્ટર કોર્સ' : 'Import & Export Master Course')).toUpperCase()}
-                    </div>
-
-                    <p style={{ fontSize: '9px', color: '#64748b', fontStyle: 'italic', margin: '4px auto 0', maxWidth: '460px', lineHeight: '1.3' }}>
-                      You have demonstrated dedication, consistency, and a strong understanding of International Trade, Logistics, Documentation, Customs, Shipping, Payment Terms, and Global Business Practices.
-                    </p>
-                  </div>
-
-                  {/* Bottom Row: Signatures + Wax Seal + QR */}
-                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end', gap: '45px', width: '100%', marginTop: '6px' }}>
-                    {/* Left: Kunal Pawar Signature */}
-                    <div style={{ width: '140px', textAlign: 'center', paddingBottom: '8px' }}>
-                      <div style={{ fontFamily: "'Great Vibes', 'Georgia', cursive", fontSize: '24px', color: '#1e293b', height: '26px', lineHeight: '26px' }}>
-                        Kunal Pawar
-                      </div>
-                      <div style={{ borderTop: '1px solid #cbd5e1', paddingTop: '4px', marginTop: '4px' }}>
-                        <div style={{ fontSize: '8px', fontWeight: '800', color: '#0f172a' }}>KUNAL PAWAR</div>
-                        <div style={{ fontSize: '7px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Academy Director</div>
-                      </div>
-                    </div>
-
-                    {/* Center: Wax Seal + QR code */}
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', bottom: '-4px', width: '160px' }}>
-                      <svg width="68" height="68" viewBox="0 0 100 100">
-                        <path d="M50 0 L55 35 L90 10 L65 45 L100 50 L65 55 L90 90 L55 65 L50 100 L45 65 L10 90 L35 55 L0 50 L35 45 L10 10 L45 35 Z" fill="#d97706" />
-                        <circle cx="50" cy="50" r="38" fill="#0f172a" />
-                        <circle cx="50" cy="50" r="34" fill="none" stroke="#d97706" strokeWidth="1" strokeDasharray="3,3" />
-                        <text x="50" y="42" fill="#d97706" fontSize="7" fontWeight="900" textAnchor="middle">COMPLETED</text>
-                        <text x="50" y="52" fill="#d97706" fontSize="7" fontWeight="900" textAnchor="middle">WITH</text>
-                        <text x="50" y="62" fill="#d97706" fontSize="7" fontWeight="900" textAnchor="middle">EXCELLENCE</text>
-                      </svg>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '4px' }}>
-                        <svg width="26" height="26" viewBox="0 0 25 25" style={{ background: '#fff', padding: '2px', border: '1px solid #cbd5e1', flexShrink: 0 }}>
-                          <path d="M0 0h7v7H0zm1 1v5h5V1zm10 0h3v3h-3zm3 0h4v4h-4zM0 10h3v3H0zm5 0h3v3H5zm6 0h3v3h-3zm4 0h4v4h-4zm-8 4v4H0v-4zm4 0h3v3H7zm11 0h3v3h-3zM0 18h7v7H0zm1 1v5h5v-5zm10 0h3v3h-3z" fill="#0f172a" />
-                        </svg>
-                        <div style={{ fontSize: '5px', color: '#64748b', textAlign: 'left', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '0.3px', lineHeight: '1.2' }}>
-                          <span style={{ color: '#0f172a', fontWeight: '900' }}>VERIFY CERTIFICATE</span><br />
-                          Scan QR code or visit<br />
-                          academy.rbcimportandexport.com/verify
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Right: Prakash Signature */}
-                    <div style={{ width: '140px', textAlign: 'center', paddingBottom: '8px' }}>
-                      <div style={{ fontFamily: "'Great Vibes', 'Georgia', cursive", fontSize: '24px', color: '#1e293b', height: '26px', lineHeight: '26px' }}>
-                        Prakash Kachchhi
-                      </div>
-                      <div style={{ borderTop: '1px solid #cbd5e1', paddingTop: '4px', marginTop: '4px' }}>
-                        <div style={{ fontSize: '8px', fontWeight: '800', color: '#0f172a' }}>PRAKASH KACHCHHI</div>
-                        <div style={{ fontSize: '7px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Founder & CEO</div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-
-                {/* Right Column Benefits */}
-                <div style={{
-                  position: 'absolute', right: '24px', top: '50%', transform: 'translateY(-50%)',
-                  width: '90px', display: 'flex', flexDirection: 'column',
-                  justifyContent: 'space-around', height: '70%', zIndex: 4, boxSizing: 'border-box'
-                }}>
-                  {[
-                    { label: 'COMPREHENSIVE\nCURRICULUM', icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5V4.5z" /></svg> },
-                    { label: 'INDUSTRY\nRELEVANT', icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20" /></svg> },
-                    { label: 'EXPERT\nINSTRUCTORS', icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></svg> },
-                    { label: 'GLOBAL\nPERSPECTIVE', icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" /></svg> },
-                  ].map((item, idx) => (
-                    <div key={idx} style={{ textAlign: 'center' }}>
-                      <div style={{
-                        width: '32px', height: '32px', borderRadius: '50%', background: '#0f172a',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c5a880', margin: '0 auto 4px', flexShrink: 0
-                      }}>
-                        {item.icon}
-                      </div>
-                      <div style={{ fontSize: '6.5px', fontWeight: '900', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '0.3px', lineHeight: '1.3', whiteSpace: 'pre-line' }}>
-                        {item.label}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-              </div>
-
-
-
-            </div>
-
-            {/* Print & Close Toolbar */}
-            <div style={{ display: 'flex', gap: '12px', padding: '16px 20px', borderTop: '1px solid #e2e8f0', marginTop: '12px' }}>
-              <button onClick={() => window.print()} style={{
-                flex: 1, padding: '12px', borderRadius: '10px',
-                border: '2px solid #d97706', background: 'transparent',
-                color: '#92400e', fontWeight: '700', fontSize: '14px', cursor: 'pointer'
-              }}>
-                Print
-              </button>
-              <button onClick={() => setShowCertModal(false)} style={{
-                flex: 1, padding: '12px', borderRadius: '10px', border: 'none',
-                background: 'linear-gradient(135deg, #d97706, #b45309)',
-                color: '#fff', fontWeight: '700', fontSize: '14px', cursor: 'pointer'
-              }}>
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
       {/* Live Chat Panel */}
       {isChatOpen && activeChatUser && currentUser && (
         <div 

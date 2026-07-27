@@ -251,6 +251,13 @@ export const chatApi = {
       success: result.success,
       chatMessage: (result as any).chatMessage
     };
+  },
+  getNotifications: async (receiverId: string): Promise<{ success: boolean; senderIds: string[] }> => {
+    const result = await apiRequest<{ success: boolean; senderIds: string[] }>(`/chat/notifications?receiverId=${receiverId}`);
+    return {
+      success: result.success,
+      senderIds: (result as any).senderIds || []
+    };
   }
 };
 
