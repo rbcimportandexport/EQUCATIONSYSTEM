@@ -455,13 +455,7 @@ export const ModuleScreen: React.FC = () => {
               </button>
             </div>
 
-            <button
-              type="button"
-              onClick={() => setSelectedTab('pdf')}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#0284c7', fontSize: '14px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px', padding: 0 }}
-            >
-              <span>Download PDF</span>
-            </button>
+            {/* Removed Download PDF button */}
           </div>
         </div>
 
