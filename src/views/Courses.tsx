@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { moduleLessonsMap } from '../utils/data';
-import { Search, ArrowRight } from 'lucide-react';
+import { Search, ArrowRight, Lock } from 'lucide-react';
 
 interface ModuleImageData {
   image: string;
@@ -29,11 +29,15 @@ const MODULE_IMAGES_AND_COLORS: { [key: number]: ModuleImageData } = {
 export const Courses: React.FC = () => {
   const { 
     modules, 
+    lessons,
+    progress,
+    userRole,
     setSelectedCourseId, 
     setSelectedModuleId, 
     setSelectedLessonId,
     setSelectedModuleTab,
-    setActiveView
+    setActiveView,
+    showAlert
   } = useApp();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -44,7 +48,50 @@ export const Courses: React.FC = () => {
     mod.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const getModuleQuizScore = (modId: string) => {
+    const modLessons = lessons.filter(l => l.moduleId === modId);
+    const questions = modLessons.flatMap(l => l.content.quiz || []);
+    if (questions.length === 0) return 100;
+
+    const quizProgress = progress[`mod-quiz-${modId}`];
+    if (!quizProgress || !quizProgress.quizScores) return 0;
+
+    let correctCount = 0;
+    questions.forEach(q => {
+      if (quizProgress.quizScores[q.id] === 1) {
+        correctCount++;
+      }
+    });
+
+    return Math.round((correctCount / questions.length) * 100);
+  };
+
+  const isModuleLocked = (modId: string) => {
+    if (userRole === 'admin') return false; // Admin bypass
+    const currentMod = modules.find(m => m.id === modId);
+    if (!currentMod) return false;
+
+    const sortedMods = [...modules].sort((a, b) => a.order - b.order);
+    const idx = sortedMods.findIndex(m => m.id === modId);
+    if (idx <= 0) return false; // Module 1 is never locked
+
+    const prevMod = sortedMods[idx - 1];
+    const prevScore = getModuleQuizScore(prevMod.id);
+    return prevScore < 100;
+  };
+
   const handleOpenModule = (moduleId: string, courseId: string) => {
+    if (isModuleLocked(moduleId)) {
+      const sortedMods = [...modules].sort((a, b) => a.order - b.order);
+      const idx = sortedMods.findIndex(m => m.id === moduleId);
+      const prevMod = sortedMods[idx - 1];
+      showAlert(
+        "Module Locked",
+        `This module is locked! You must complete the final exam/quiz of Module ${prevMod.order} (${prevMod.title}) with a 100% score to unlock it.`,
+        "warning"
+      );
+      return;
+    }
     setSelectedCourseId(courseId);
     setSelectedModuleId(moduleId);
     setSelectedLessonId(null);
@@ -307,16 +354,22 @@ export const Courses: React.FC = () => {
           };
           const chapterCount = moduleLessonsMap[mod.id]?.length || 10;
 
+          const isLocked = isModuleLocked(mod.id);
+
           return (
             <div 
               key={mod.id} 
               className="varsity-module-card"
               onClick={() => handleOpenModule(mod.id, mod.courseId)}
+              style={{
+                opacity: isLocked ? 0.75 : 1,
+                cursor: isLocked ? 'not-allowed' : 'pointer'
+              }}
             >
               {/* Top Accent Color Line */}
               <div 
                 className="module-accent-bar" 
-                style={{ background: imgData.accentColor }} 
+                style={{ background: isLocked ? '#94a3b8' : imgData.accentColor }} 
               />
 
               {/* Module Image Banner */}
@@ -325,8 +378,30 @@ export const Courses: React.FC = () => {
                   src={imgData.image} 
                   alt={mod.title} 
                   className="module-card-img" 
+                  style={{
+                    filter: isLocked ? 'grayscale(1) opacity(0.6)' : 'none'
+                  }}
                 />
                 <div className="module-number-badge">{mod.order}</div>
+                {isLocked && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '12px',
+                    right: '14px',
+                    background: 'rgba(239, 68, 68, 0.95)',
+                    color: '#ffffff',
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
+                    backdropFilter: 'blur(4px)'
+                  }}>
+                    <Lock size={18} />
+                  </div>
+                )}
               </div>
 
               {/* Module Content */}

@@ -5,7 +5,7 @@ import { videosApi } from '../utils/api';
 import { saveVideoToIDB } from '../utils/indexedDB';
 import {
   BookOpen, Image, Video, FileText, Download, Bookmark,
-  ChevronRight, ChevronDown, Award, Pause,
+  ChevronRight, ChevronDown, Award, Pause, Lock,
   ArrowLeft, ArrowRight, CheckCircle2, Volume2, PlayCircle, Upload, Settings
 } from 'lucide-react';
 import { uiTranslations, translateModuleTitle, translateModuleDescription, getTranslatedLesson } from '../utils/translator';
@@ -101,6 +101,68 @@ export const ModuleScreen: React.FC = () => {
   const hasVideo = !!(activeVideoLesson?.content?.video?.videoUrl && activeVideoLesson.content.video.videoUrl.trim().length > 0);
   const hasPdf = false;
 
+  // Calculate stats
+  const totalTopics = translatedLessons.length;
+  // Calculate progress of this module
+  const completedTopicsCount = translatedLessons.filter(l => progress[l.id]?.completed).length;
+  const completionPercentage = totalTopics > 0
+    ? Math.round((completedTopicsCount / totalTopics) * 100)
+    : 0;
+
+  const isModuleCompleted = completionPercentage === 100;
+
+  // 1. Check if all topics (written explanation) in this module are completed
+  const isReadComplete = completedTopicsCount === totalTopics;
+
+  // 2. Check if images/diagrams tab is completed (saved in localStorage)
+  const imagesCompletedKey = `lms_images_completed_${activeModule?.id || ''}`;
+  const [isImagesCompleted, setIsImagesCompletedState] = useState(
+    localStorage.getItem(imagesCompletedKey) === 'true'
+  );
+
+  // Sync state if module changes
+  useEffect(() => {
+    setIsImagesCompletedState(localStorage.getItem(imagesCompletedKey) === 'true');
+  }, [activeModule?.id]);
+
+  const handleMarkImagesCompleted = () => {
+    localStorage.setItem(imagesCompletedKey, 'true');
+    setIsImagesCompletedState(true);
+    showToast('Visual Diagrams completed! Video Lecture unlocked.', 'success');
+  };
+
+  const getModuleQuizScore = (modId: string) => {
+    const modLessons = lessons.filter(l => l.moduleId === modId);
+    const questions = modLessons.flatMap(l => l.content.quiz || []);
+    if (questions.length === 0) return 100;
+
+    const quizProgress = progress[`mod-quiz-${modId}`];
+    if (!quizProgress || !quizProgress.quizScores) return 0;
+
+    let correctCount = 0;
+    questions.forEach(q => {
+      if (quizProgress.quizScores[q.id] === 1) {
+        correctCount++;
+      }
+    });
+
+    return Math.round((correctCount / questions.length) * 100);
+  };
+
+  const isModuleLocked = (modId: string) => {
+    if (userRole === 'admin') return false; // Admin bypass
+    const currentMod = modules.find(m => m.id === modId);
+    if (!currentMod) return false;
+
+    const sortedMods = [...modules].sort((a, b) => a.order - b.order);
+    const idx = sortedMods.findIndex(m => m.id === modId);
+    if (idx <= 0) return false; // Module 1 is never locked
+
+    const prevMod = sortedMods[idx - 1];
+    const prevScore = getModuleQuizScore(prevMod.id);
+    return prevScore < 100;
+  };
+
   let fallbackTab: 'pdf' | 'video' | 'read' | 'images' = 'read';
   if (hasRead) fallbackTab = 'read';
   else if (hasImages) fallbackTab = 'images';
@@ -114,7 +176,33 @@ export const ModuleScreen: React.FC = () => {
   if (activeTab === 'pdf' && !hasPdf) activeTab = fallbackTab;
 
   const selectedTab: 'pdf' | 'video' | 'read' | 'images' = activeTab;
-  const setSelectedTab = setSelectedModuleTab;
+  const setSelectedTab = (tab: 'pdf' | 'video' | 'read' | 'images') => {
+    if (tab === 'images' && !isReadComplete && userRole !== 'admin') {
+      showAlert(
+        "Section Locked",
+        "Please read and mark all topics in this module as completed to unlock the Visual Diagrams tab!",
+        "warning"
+      );
+      return;
+    }
+    if (tab === 'video' && (!isReadComplete || !isImagesCompleted) && userRole !== 'admin') {
+      if (!isReadComplete) {
+        showAlert(
+          "Section Locked",
+          "Please read and mark all topics in this module as completed first, then complete the Visual Diagrams to unlock the Video Lecture!",
+          "warning"
+        );
+      } else {
+        showAlert(
+          "Section Locked",
+          "Please complete the Visual Diagrams section first and click 'Mark Visuals as Completed' to unlock the Video Lecture!",
+          "warning"
+        );
+      }
+      return;
+    }
+    setSelectedModuleTab(tab);
+  };
 
   // Auto-select first lesson when module changes or lessons populate
   useEffect(() => {
@@ -132,17 +220,6 @@ export const ModuleScreen: React.FC = () => {
 
   // Get active translation keys
   const t = uiTranslations[language];
-
-  // Calculate stats
-  const totalTopics = translatedLessons.length;
-
-  // Calculate progress of this module
-  const completedTopicsCount = translatedLessons.filter(l => progress[l.id]?.completed).length;
-  const completionPercentage = totalTopics > 0
-    ? Math.round((completedTopicsCount / totalTopics) * 100)
-    : 0;
-
-  const isModuleCompleted = completionPercentage === 100;
 
   // Sync selectedModuleId if null to avoid null states in downstream views
   useEffect(() => {
@@ -329,6 +406,86 @@ export const ModuleScreen: React.FC = () => {
     );
   }
 
+  if (isModuleLocked(activeModule.id)) {
+    const sortedMods = [...modules].sort((a, b) => a.order - b.order);
+    const idx = sortedMods.findIndex(m => m.id === activeModule.id);
+    const prevMod = sortedMods[idx - 1];
+    const prevTitle = translateModuleTitle(prevMod.title, language);
+
+    return (
+      <div style={{
+        minHeight: '80vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: '#ffffff',
+        padding: '40px 24px',
+        fontFamily: 'system-ui, sans-serif'
+      }}>
+        <div style={{
+          maxWidth: '480px',
+          width: '100%',
+          padding: '40px 32px',
+          borderRadius: '24px',
+          background: 'rgba(255, 255, 255, 0.8)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(226, 232, 240, 0.8)',
+          boxShadow: '0 20px 40px rgba(15, 23, 42, 0.08)',
+          textAlign: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '24px'
+        }}>
+          <div style={{
+            width: '80px',
+            height: '80px',
+            borderRadius: '50%',
+            background: 'rgba(239, 68, 68, 0.08)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#ef4444',
+            boxShadow: '0 0 20px rgba(239, 68, 68, 0.1)'
+          }}>
+            <Lock size={36} />
+          </div>
+          <div>
+            <h2 style={{ fontSize: '22px', fontWeight: '800', color: '#0f172a', margin: '0 0 10px 0' }}>
+              {language === 'hi' ? 'मॉड्यूल लॉक है' : language === 'gu' ? 'મોડ્યુલ લૉક છે' : 'Module is Locked'}
+            </h2>
+            <p style={{ fontSize: '15px', color: '#475569', lineHeight: '1.6', margin: 0 }}>
+              {language === 'hi'
+                ? `यह मॉड्यूल लॉक है! इसे अनलॉक करने के लिए आपको पिछले मॉड्यूल ${prevMod.order} (${prevTitle}) की परीक्षा को 100% अंकों के साथ पूरा करना होगा।`
+                : language === 'gu'
+                ? `આ મોડ્યુલ લૉક છે! તેને અનલૉક કરવા માટે તમારે અગાઉના મોડ્યુલ ${prevMod.order} (${prevTitle}) ની પરીક્ષા ૧૦૦% ગુણ સાથે પાસ કરવી પડશે.`
+                : `This module is locked! To unlock it, you must complete the final exam/quiz of Module ${prevMod.order} (${prevTitle}) with a 100% score.`}
+            </p>
+          </div>
+          <button 
+            onClick={() => setActiveView('Courses')}
+            style={{
+              background: '#0284c7',
+              color: '#ffffff',
+              border: 'none',
+              padding: '12px 28px',
+              borderRadius: '20px',
+              fontSize: '14px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(2, 132, 199, 0.2)',
+              transition: 'all 0.2s'
+            }}
+            onMouseOver={(e) => e.currentTarget.style.background = '#0369a1'}
+            onMouseOut={(e) => e.currentTarget.style.background = '#0284c7'}
+          >
+            {language === 'hi' ? 'मॉड्यूल सूची पर जाएं' : language === 'gu' ? 'મોડ્યુલ સૂચિ જુઓ' : 'View All Modules'}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   // Translating titles & description
   const translatedModuleTitle = translateModuleTitle(activeModule.title, language);
   const translatedModuleDesc = translateModuleDescription(activeModule.description, language);
@@ -472,25 +629,47 @@ export const ModuleScreen: React.FC = () => {
               </button>
             )}
 
-            {hasImages && (
-              <button
-                className={`toolbar-btn ${selectedTab === 'images' ? 'active' : ''}`}
-                onClick={() => setSelectedTab('images')}
-              >
-                <Image size={16} />
-                <span>{t.viewImages}</span>
-              </button>
-            )}
+            {hasImages && (() => {
+              const isLocked = !isReadComplete && userRole !== 'admin';
+              return (
+                <button
+                  className={`toolbar-btn ${selectedTab === 'images' ? 'active' : ''}`}
+                  onClick={() => setSelectedTab('images')}
+                  style={{
+                    opacity: isLocked ? 0.6 : 1,
+                    cursor: isLocked ? 'not-allowed' : 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}
+                >
+                  <Image size={16} />
+                  <span>{t.viewImages}</span>
+                  {isLocked && <Lock size={12} style={{ color: '#94a3b8' }} />}
+                </button>
+              );
+            })()}
 
-            {hasVideo && (
-              <button
-                className={`toolbar-btn ${selectedTab === 'video' ? 'active' : ''}`}
-                onClick={() => setSelectedTab('video')}
-              >
-                <Video size={16} />
-                <span>{t.watchVideo}</span>
-              </button>
-            )}
+            {hasVideo && (() => {
+              const isLocked = (!isReadComplete || !isImagesCompleted) && userRole !== 'admin';
+              return (
+                <button
+                  className={`toolbar-btn ${selectedTab === 'video' ? 'active' : ''}`}
+                  onClick={() => setSelectedTab('video')}
+                  style={{
+                    opacity: isLocked ? 0.6 : 1,
+                    cursor: isLocked ? 'not-allowed' : 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}
+                >
+                  <Video size={16} />
+                  <span>{t.watchVideo}</span>
+                  {isLocked && <Lock size={12} style={{ color: '#94a3b8' }} />}
+                </button>
+              );
+            })()}
 
             {hasPdf && (
               <button
@@ -988,6 +1167,57 @@ export const ModuleScreen: React.FC = () => {
 
             return (
               <div className="textbook-images-mode">
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  flexWrap: 'wrap',
+                  gap: '16px',
+                  background: '#f8fafc',
+                  border: '1px solid #cbd5e1',
+                  borderRadius: '16px',
+                  padding: '20px 24px',
+                  marginBottom: '24px'
+                }}>
+                  <div>
+                    <h4 style={{ margin: '0 0 4px 0', fontSize: '16px', fontWeight: '700', color: '#0f172a' }}>
+                      {language === 'hi' ? 'चित्र और आरेख पूर्ण करें' : 'Visual Diagrams Completion'}
+                    </h4>
+                    <p style={{ margin: 0, fontSize: '13px', color: '#64748b' }}>
+                      {language === 'hi' 
+                        ? 'वीडियो व्याख्यान अनलॉक करने के लिए चित्रों को समझें और पूर्ण चिह्नित करें।' 
+                        : 'Understand the diagrams and mark completed to unlock the video lecture.'}
+                    </p>
+                  </div>
+                  <button
+                    onClick={handleMarkImagesCompleted}
+                    disabled={isImagesCompleted}
+                    style={{
+                      background: isImagesCompleted ? '#e2e8f0' : '#0284c7',
+                      color: isImagesCompleted ? '#64748b' : '#ffffff',
+                      border: 'none',
+                      padding: '10px 20px',
+                      borderRadius: '20px',
+                      fontSize: '13.5px',
+                      fontWeight: 600,
+                      cursor: isImagesCompleted ? 'default' : 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseOver={(e) => { if (!isImagesCompleted) e.currentTarget.style.background = '#0369a1'; }}
+                    onMouseOut={(e) => { if (!isImagesCompleted) e.currentTarget.style.background = '#0284c7'; }}
+                  >
+                    <CheckCircle2 size={16} />
+                    <span>
+                      {isImagesCompleted
+                        ? (language === 'hi' ? 'पूर्ण चिह्नित' : 'Completed & Unlocked')
+                        : (language === 'hi' ? 'पूर्ण चिह्नित करें' : 'Mark as Completed')}
+                    </span>
+                  </button>
+                </div>
+
                 <h3 className="mode-sub-title">Chapter Visual Resource Gallery</h3>
                 <div className="textbook-images-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
                   {allModuleImages.length > 0 ? (
