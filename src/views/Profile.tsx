@@ -1,13 +1,31 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
+import { chatApi } from '../utils/api';
 import { Award, Shield, User, Clock, FileText, Edit3, Save, X, BookOpen, Star, TrendingUp } from 'lucide-react';
 import logoEmblem from '../assets/logo_emblem.png';
 
 export const Profile: React.FC = () => {
-  const { courses, progress, getCourseCompletionPercentage, currentUser, loginUser, language, certificates } = useApp();
+  const { 
+    courses, progress, getCourseCompletionPercentage, 
+    currentUser, loginUser, language, certificates,
+    users, fetchAllUsers, showAlert
+  } = useApp();
   const [showCertificate, setShowCertificate] = useState(false);
   const [certCourseTitle, setCertCourseTitle] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+
+  const [requestedCert, setRequestedCert] = useState<Record<string, boolean>>(() => {
+    const state: Record<string, boolean> = {};
+    if (currentUser) {
+      courses.forEach(c => {
+        const val = localStorage.getItem(`lms_requested_cert_${currentUser.id}_${c.id}`);
+        if (val === 'true') {
+          state[c.id] = true;
+        }
+      });
+    }
+    return state;
+  });
 
   const fallbackName = language === 'hi' ? 'विद्यार्थी' : language === 'gu' ? 'વિદ્યાર્થી' : 'Student';
   const fallbackEmail = 'student@rbcacademy.com';
@@ -61,11 +79,41 @@ export const Profile: React.FC = () => {
   const userLevel = getLevelDetails(totalProgress, language);
 
   const hasCourseCertificate = (courseId: string) => {
-    return getCourseCompletionPercentage(courseId) === 100 || 
-      (certificates && certificates.some(c => c.userId === currentUser?.id && c.courseId === courseId));
+    return certificates && certificates.some(c => c.userId === currentUser?.id && c.courseId === courseId);
   };
-
   const visibleCertificates = courses.filter(c => hasCourseCertificate(c.id));
+
+  React.useEffect(() => {
+    fetchAllUsers();
+  }, []);
+
+  const handleRequestApproval = async (courseId: string, courseTitle: string) => {
+    if (!currentUser) return;
+    
+    const adminUser = users.find(u => u.role === 'admin' || u.email === 'inquiryrbcimport@gmail.com');
+    if (!adminUser) {
+      showAlert('Error', 'Could not locate an administrator. Please contact support.', 'error');
+      return;
+    }
+
+    const adminId = adminUser.id || (adminUser as any)._id;
+    const studentId = currentUser.id || (currentUser as any)._id;
+
+    try {
+      const messageText = `[SYSTEM NOTIFICATION]: Student ${currentUser.name} (${currentUser.email}) has completed the course "${courseTitle}" and is requesting certificate approval.`;
+      const res = await chatApi.sendMessage(studentId, adminId, messageText);
+      if (res.success) {
+        localStorage.setItem(`lms_requested_cert_${currentUser.id}_${courseId}`, 'true');
+        setRequestedCert(prev => ({ ...prev, [courseId]: true }));
+        showAlert('Request Sent', 'Your request for certificate approval has been sent to the Administrator. They will review your progress and issue your certificate shortly.', 'success');
+      } else {
+        showAlert('Error', 'Failed to send request. Please try again.', 'error');
+      }
+    } catch (err) {
+      console.error(err);
+      showAlert('Error', 'Failed to send request. Server is unreachable.', 'error');
+    }
+  };
 
   const handleOpenCertificate = (courseTitle: string) => {
     setCertCourseTitle(courseTitle);
@@ -284,16 +332,49 @@ export const Profile: React.FC = () => {
             <BookOpen size={18} color="#2563eb" />
             <h3 style={{ margin: 0, color: '#0f172a', fontSize: '16px', fontWeight: '700' }}>Course Progress</h3>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             {courses.map(course => {
               const pct = getCourseCompletionPercentage(course.id);
+              const isApproved = hasCourseCertificate(course.id);
+              const isRequested = requestedCert[course.id];
+              
               return (
-                <div key={course.id}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-                    <span style={{ fontSize: '13px', color: '#334155', fontWeight: '600' }}>{course.title}</span>
-                    <span style={{ fontSize: '13px', color: pct === 100 ? '#10b981' : '#f97316', fontWeight: '700' }}>
-                      {pct === 100 ? '✓ Done' : `${pct}%`}
-                    </span>
+                <div key={course.id} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '14px', color: '#1e293b', fontWeight: '700' }}>{course.title}</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      <span style={{ fontSize: '13px', color: pct === 100 ? '#10b981' : '#f97316', fontWeight: '700' }}>
+                        {pct === 100 ? '✓ Done' : `${pct}%`}
+                      </span>
+                      {pct === 100 && (
+                        isApproved ? (
+                          <span style={{ fontSize: '11px', color: '#10b981', fontWeight: '800', background: '#f0fdf4', padding: '4px 10px', borderRadius: '12px', border: '1px solid #bbf7d0' }}>
+                            ✓ Approved
+                          </span>
+                        ) : (
+                          <button
+                            disabled={isRequested}
+                            onClick={() => handleRequestApproval(course.id, course.title)}
+                            style={{
+                              padding: '6px 14px',
+                              borderRadius: '8px',
+                              border: 'none',
+                              background: isRequested 
+                                ? '#cbd5e1' 
+                                : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                              color: isRequested ? '#64748b' : '#fff',
+                              fontWeight: '700',
+                              fontSize: '11px',
+                              cursor: isRequested ? 'default' : 'pointer',
+                              boxShadow: isRequested ? 'none' : '0 2px 6px rgba(59,130,246,0.2)',
+                              transition: 'all 0.15s ease'
+                            }}
+                          >
+                            {isRequested ? 'Approval Pending...' : 'Approve for Certificate'}
+                          </button>
+                        )
+                      )}
+                    </div>
                   </div>
                   <div style={{ height: '6px', background: '#f1f5f9', borderRadius: '6px', overflow: 'hidden' }}>
                     <div style={{
@@ -328,7 +409,7 @@ export const Profile: React.FC = () => {
             }}>
               <Award size={48} color="#cbd5e1" style={{ marginBottom: '12px' }} />
               <p style={{ color: '#64748b', fontSize: '14px', margin: 0 }}>
-                No certificates yet. Complete 100% of any course to earn your credential!
+                No certificates yet. Completed courses will appear here once approved by the administrator.
               </p>
             </div>
           ) : (
