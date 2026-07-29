@@ -81,8 +81,6 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
     return () => clearInterval(timer);
   }, [quizFinished, timeLeft, activeQuestions.length, onComplete]);
 
-  if (!activeQuestions || activeQuestions.length === 0) return null;
-
   const currentQuestion = activeQuestions[currentIdx];
 
   // Shuffle option choices dynamically for the current question
@@ -101,6 +99,8 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
       setShuffledOptions([]);
     }
   }, [currentIdx, currentQuestion]);
+
+  if (!activeQuestions || activeQuestions.length === 0 || !currentQuestion) return null;
 
   const handleOptionToggle = (optionIdx: string) => {
     if (isAnswered) return;
