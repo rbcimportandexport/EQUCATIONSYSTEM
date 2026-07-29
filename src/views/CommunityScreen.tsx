@@ -271,13 +271,7 @@ export const CommunityScreen: React.FC = () => {
                         </span>
                       )}
                     </div>
-                    <div style={{
-                      fontSize: '12px', color: 'var(--md-sys-color-on-surface-variant)',
-                      marginTop: '2px', whiteSpace: 'nowrap',
-                      overflow: 'hidden', textOverflow: 'ellipsis'
-                    }}>
-                      {u.email}
-                    </div>
+                    {/* Email hidden for privacy */}
                   </div>
                 </div>
 
