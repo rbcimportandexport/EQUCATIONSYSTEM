@@ -1617,7 +1617,7 @@ export const AdminPanel = () => {
                           className="btn btn-primary btn-mini"
                           onClick={() => {
                             issueCertificate(user.id, 'import-export-master');
-                            showAlert('Certificate Issued', `Issued Certificate of Completion to ${user.name}!`, 'success');
+                            showAlert('Certificate Approved', `Approved and Issued Certificate of Completion to ${user.name}!`, 'success');
                           }}
                           style={{
                             display: 'inline-flex',
@@ -1636,7 +1636,7 @@ export const AdminPanel = () => {
                           }}
                         >
                           <Award size={14} />
-                          <span>Issue Certificate</span>
+                          <span>Approve & Issue Certificate</span>
                         </button>
                       )}
 

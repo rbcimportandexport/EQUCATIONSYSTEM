@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { authApi } from '../utils/api';
 import type { AuthUser } from '../utils/api';
-import logoEmblem from '../assets/logo_emblem.png';
+import { useApp } from '../context/AppContext';
+import { 
+  ChevronDown, Search, Eye, EyeOff, AlertCircle, Info, ShieldCheck
+} from 'lucide-react';
 
 interface LoginPageProps {
   onLoginSuccess: (user: AuthUser) => void;
@@ -18,11 +21,126 @@ interface FormErrors {
   general?: string;
 }
 
-import { useApp } from '../context/AppContext';
+interface Country {
+  name: string;
+  code: string;
+  flag: string;
+  iso: string;
+}
+
+const countries: Country[] = [
+  { name: 'India', code: '+91', flag: '🇮🇳', iso: 'IN' },
+  { name: 'United Arab Emirates', code: '+971', flag: '🇦🇪', iso: 'AE' },
+  { name: 'United States', code: '+1', flag: '🇺🇸', iso: 'US' },
+  { name: 'United Kingdom', code: '+44', flag: '🇬🇧', iso: 'GB' },
+  { name: 'Canada', code: '+1', flag: '🇨🇦', iso: 'CA' },
+  { name: 'Australia', code: '+61', flag: '🇦🇺', iso: 'AU' },
+  { name: 'Singapore', code: '+65', flag: '🇸🇬', iso: 'SG' },
+  { name: 'Saudi Arabia', code: '+966', flag: '🇸🇦', iso: 'SA' },
+  { name: 'Oman', code: '+968', flag: '🇴🇲', iso: 'OM' },
+  { name: 'Qatar', code: '+974', flag: '🇶🇦', iso: 'QA' },
+  { name: 'Kuwait', code: '+965', flag: '🇰🇼', iso: 'KW' },
+  { name: 'Bahrain', code: '+973', flag: '🇧🇭', iso: 'BH' },
+  { name: 'Bangladesh', code: '+880', flag: '🇧🇩', iso: 'BD' },
+  { name: 'Nepal', code: '+977', flag: '🇳🇵', iso: 'NP' },
+  { name: 'Sri Lanka', code: '+94', flag: '🇱🇰', iso: 'LK' },
+  { name: 'Pakistan', code: '+92', flag: '🇵🇰', iso: 'PK' },
+  { name: 'Germany', code: '+49', flag: '🇩🇪', iso: 'DE' },
+  { name: 'France', code: '+33', flag: '🇫🇷', iso: 'FR' },
+  { name: 'Italy', code: '+39', flag: '🇮🇹', iso: 'IT' },
+  { name: 'Spain', code: '+34', flag: '🇪🇸', iso: 'ES' },
+  { name: 'Netherlands', code: '+31', flag: '🇳🇱', iso: 'NL' },
+  { name: 'South Africa', code: '+27', flag: '🇿🇦', iso: 'ZA' },
+  { name: 'New Zealand', code: '+64', flag: '🇳🇿', iso: 'NZ' },
+  { name: 'Malaysia', code: '+60', flag: '🇲🇾', iso: 'MY' },
+  { name: 'Indonesia', code: '+62', flag: '🇮🇩', iso: 'ID' },
+  { name: 'Thailand', code: '+66', flag: '🇹🇭', iso: 'TH' },
+  { name: 'Philippines', code: '+63', flag: '🇵🇭', iso: 'PH' },
+  { name: 'Vietnam', code: '+84', flag: '🇻🇳', iso: 'VN' },
+  { name: 'Japan', code: '+81', flag: '🇯🇵', iso: 'JP' },
+  { name: 'South Korea', code: '+82', flag: '🇰🇷', iso: 'KR' },
+  { name: 'China', code: '+86', flag: '🇨🇳', iso: 'CN' },
+  { name: 'Hong Kong', code: '+852', flag: '🇭🇰', iso: 'HK' },
+  { name: 'Taiwan', code: '+886', flag: '🇹🇼', iso: 'TW' },
+  { name: 'Afghanistan', code: '+93', flag: '🇦🇫', iso: 'AF' },
+  { name: 'Albania', code: '+355', flag: '🇦🇱', iso: 'AL' },
+  { name: 'Algeria', code: '+213', flag: '🇩🇿', iso: 'DZ' },
+  { name: 'Andorra', code: '+376', flag: '🇦🇩', iso: 'AD' },
+  { name: 'Angola', code: '+244', flag: '🇦🇴', iso: 'AO' },
+  { name: 'Argentina', code: '+54', flag: '🇦🇷', iso: 'AR' },
+  { name: 'Armenia', code: '+374', flag: '🇦🇲', iso: 'AM' },
+  { name: 'Austria', code: '+43', flag: '🇦🇹', iso: 'AT' },
+  { name: 'Azerbaijan', code: '+994', flag: '🇦🇿', iso: 'AZ' },
+  { name: 'Belarus', code: '+375', flag: '🇧🇾', iso: 'BY' },
+  { name: 'Belgium', code: '+32', flag: '🇧🇪', iso: 'BE' },
+  { name: 'Bolivia', code: '+591', flag: '🇧🇴', iso: 'BO' },
+  { name: 'Bosnia and Herzegovina', code: '+387', flag: '🇧🇦', iso: 'BA' },
+  { name: 'Brazil', code: '+55', flag: '🇧🇷', iso: 'BR' },
+  { name: 'Bulgaria', code: '+359', flag: '🇧🇬', iso: 'BG' },
+  { name: 'Cambodia', code: '+855', flag: '🇰🇭', iso: 'KH' },
+  { name: 'Cameroon', code: '+237', flag: '🇨🇲', iso: 'CM' },
+  { name: 'Chile', code: '+56', flag: '🇨🇱', iso: 'CL' },
+  { name: 'Colombia', code: '+57', flag: '🇨🇴', iso: 'CO' },
+  { name: 'Costa Rica', code: '+506', flag: '🇨🇷', iso: 'CR' },
+  { name: 'Croatia', code: '+385', flag: '🇭🇷', iso: 'HR' },
+  { name: 'Cyprus', code: '+357', flag: '🇨🇾', iso: 'CY' },
+  { name: 'Czech Republic', code: '+420', flag: '🇨🇿', iso: 'CZ' },
+  { name: 'Denmark', code: '+45', flag: '🇩🇰', iso: 'DK' },
+  { name: 'Dominican Republic', code: '+1', flag: '🇩🇴', iso: 'DO' },
+  { name: 'Ecuador', code: '+593', flag: '🇪🇨', iso: 'EC' },
+  { name: 'Egypt', code: '+20', flag: '🇪🇬', iso: 'EG' },
+  { name: 'El Salvador', code: '+503', flag: '🇸🇻', iso: 'SV' },
+  { name: 'Estonia', code: '+372', flag: '🇪🇪', iso: 'EE' },
+  { name: 'Ethiopia', code: '+251', flag: '🇪🇹', iso: 'ET' },
+  { name: 'Finland', code: '+358', flag: '🇫🇮', iso: 'FI' },
+  { name: 'Georgia', code: '+995', flag: '🇬🇪', iso: 'GE' },
+  { name: 'Ghana', code: '+233', flag: '🇬🇭', iso: 'GH' },
+  { name: 'Greece', code: '+30', flag: '🇬🇷', iso: 'GR' },
+  { name: 'Guatemala', code: '+502', flag: '🇬🇹', iso: 'GT' },
+  { name: 'Honduras', code: '+504', flag: '🇭🇳', iso: 'HN' },
+  { name: 'Hungary', code: '+36', flag: '🇭🇺', iso: 'HU' },
+  { name: 'Iceland', code: '+354', flag: '🇮🇸', iso: 'IS' },
+  { name: 'Iraq', code: '+964', flag: '🇮🇶', iso: 'IQ' },
+  { name: 'Ireland', code: '+353', flag: '🇮🇪', iso: 'IE' },
+  { name: 'Israel', code: '+972', flag: '🇮🇱', iso: 'IL' },
+  { name: 'Jordan', code: '+962', flag: '🇯🇴', iso: 'JO' },
+  { name: 'Kazakhstan', code: '+7', flag: '🇰🇿', iso: 'KZ' },
+  { name: 'Kenya', code: '+254', flag: '🇰🇪', iso: 'KE' },
+  { name: 'Latvia', code: '+371', flag: '🇱🇻', iso: 'LV' },
+  { name: 'Lebanon', code: '+961', flag: '🇱🇧', iso: 'LB' },
+  { name: 'Libya', code: '+218', flag: '🇱🇾', iso: 'LY' },
+  { name: 'Lithuania', code: '+370', flag: '🇱🇹', iso: 'LT' },
+  { name: 'Luxembourg', code: '+352', flag: '🇱🇺', iso: 'LU' },
+  { name: 'Malta', code: '+356', flag: '🇲🇹', iso: 'MT' },
+  { name: 'Mexico', code: '+52', flag: '🇲🇽', iso: 'MX' },
+  { name: 'Morocco', code: '+212', flag: '🇲🇦', iso: 'MA' },
+  { name: 'Myanmar', code: '+95', flag: '🇲🇲', iso: 'MM' },
+  { name: 'Nigeria', code: '+234', flag: '🇳🇬', iso: 'NG' },
+  { name: 'Norway', code: '+47', flag: '🇳🇴', iso: 'NO' },
+  { name: 'Panama', code: '+507', flag: '🇵🇦', iso: 'PA' },
+  { name: 'Paraguay', code: '+595', flag: '🇵🇾', iso: 'PY' },
+  { name: 'Peru', code: '+51', flag: '🇵🇪', iso: 'PE' },
+  { name: 'Romania', code: '+40', flag: '🇷🇴', iso: 'RO' },
+  { name: 'Russia', code: '+7', flag: '🇷🇺', iso: 'RU' },
+  { name: 'Serbia', code: '+381', flag: '🇷🇸', iso: 'RS' },
+  { name: 'Slovakia', code: '+421', flag: '🇸🇰', iso: 'SK' },
+  { name: 'Slovenia', code: '+386', flag: '🇸🇮', iso: 'SI' },
+  { name: 'Sweden', code: '+46', flag: '🇸🇪', iso: 'SE' },
+  { name: 'Switzerland', code: '+41', flag: '🇨🇭', iso: 'CH' },
+  { name: 'Tunisia', code: '+216', flag: '🇹🇳', iso: 'TN' },
+  { name: 'Turkey', code: '+90', flag: '🇹🇷', iso: 'TR' },
+  { name: 'Uganda', code: '+256', flag: '🇺🇬', iso: 'UG' },
+  { name: 'Ukraine', code: '+380', flag: '🇺🇦', iso: 'UA' },
+  { name: 'Uruguay', code: '+598', flag: '🇺🇾', iso: 'UY' },
+  { name: 'Uzbekistan', code: '+998', flag: '🇺🇿', iso: 'UZ' },
+  { name: 'Venezuela', code: '+58', flag: '🇻🇪', iso: 'VE' },
+  { name: 'Yemen', code: '+967', flag: '🇾🇪', iso: 'YE' },
+  { name: 'Zimbabwe', code: '+263', flag: '🇿🇼', iso: 'ZW' }
+];
 
 export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
   const { showAlert } = useApp();
-  const [mode, setMode] = useState<AuthMode>('register'); // Default to register tab as requested previously
+  const [mode, setMode] = useState<AuthMode>('login'); // Default to login as in reference layout
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -33,11 +151,23 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [phoneVal, setPhoneVal] = useState('');
   const [phone, setPhone] = useState('');
   const [country, setCountry] = useState('India');
+  const [selectedCountry, setSelectedCountry] = useState<Country>(countries[0]);
   const [rememberMe, setRememberMe] = useState(false);
   const [accessCode, setAccessCode] = useState('');
 
+  // Dropdown states
+  const [isCountryOpen, setIsCountryOpen] = useState(false);
+  const [isPhoneOpen, setIsPhoneOpen] = useState(false);
+  const [countrySearch, setCountrySearch] = useState('');
+  const [phoneSearch, setPhoneSearch] = useState('');
+
+  const countryDropdownRef = useRef<HTMLDivElement>(null);
+  const phoneDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Load custom fonts and handle initial local storage
   useEffect(() => {
     const id = 'rbc-fonts';
     if (!document.getElementById(id)) {
@@ -54,10 +184,34 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
     }
   }, []);
 
+  // Sync phone and country state variables when selectedCountry or phoneVal changes
+  useEffect(() => {
+    if (phoneVal.trim()) {
+      setPhone(`${selectedCountry.code} ${phoneVal.trim()}`);
+    } else {
+      setPhone('');
+    }
+    setCountry(selectedCountry.name);
+  }, [selectedCountry, phoneVal]);
+
+  // Handle clicking outside to close custom select dropdowns
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (countryDropdownRef.current && !countryDropdownRef.current.contains(event.target as Node)) {
+        setIsCountryOpen(false);
+      }
+      if (phoneDropdownRef.current && !phoneDropdownRef.current.contains(event.target as Node)) {
+        setIsPhoneOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const validate = (): boolean => {
     const e: FormErrors = {};
     if (mode === 'register' && (!name.trim() || name.trim().length < 2)) {
-      e.name = 'Full name required (min 2 characters)';
+      e.name = 'Full name required (min. 2 characters)';
     }
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       e.email = 'Valid email address required';
@@ -93,7 +247,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           phone,
           country,
           role: 'student',
-          otp: '123456', // Send master backup OTP code directly to bypass validation
+          otp: '123456', // Master OTP bypass key
           accessCode: accessCode.trim()
         });
 
@@ -101,7 +255,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           setSuccessMsg('Account registered successfully! Redirecting to login tab...');
           setTimeout(() => {
             setMode('login');
-            setSuccessMsg('Registration complete! Please log in with your email, password, and access code.');
+            setSuccessMsg('Registration complete! Please log in with your credentials.');
           }, 1500);
         } else {
           setErrors({ general: res.message || 'Registration failed.' });
@@ -126,32 +280,26 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           setSuccessMsg('Login successful!');
           onLoginSuccess(res.user);
         } else {
-          setErrors({ general: res.message || 'Invalid email or password.' });
+          setErrors({ general: res.message || 'Invalid email, password, or access code.' });
         }
       }
     } catch (err: any) {
       console.error('Auth request error:', err);
-      setErrors({ general: 'Server/Database is unreachable. Please verify that the backend is running.' });
+      setErrors({ general: 'Server is currently unreachable. Please make sure the backend is running.' });
     } finally {
       setLoading(false);
     }
   };
 
-  const EyeIcon = ({ open }: { open: boolean }) => (
-    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      {open ? (
-        <>
-          <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/>
-          <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/>
-          <line x1="1" y1="1" x2="23" y2="23"/>
-        </>
-      ) : (
-        <>
-          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-          <circle cx="12" cy="12" r="3"/>
-        </>
-      )}
-    </svg>
+  // Filter lists based on search
+  const filteredCountries = countries.filter(c =>
+    c.name.toLowerCase().includes(countrySearch.toLowerCase()) ||
+    c.code.includes(countrySearch)
+  );
+
+  const filteredPhoneCountries = countries.filter(c =>
+    c.name.toLowerCase().includes(phoneSearch.toLowerCase()) ||
+    c.code.includes(phoneSearch)
   );
 
   return (
@@ -162,32 +310,94 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           height: 100dvh;
           width: 100vw;
           display: flex;
-          background: #f8fafc;
+          background: #ffffff;
           font-family: 'Inter', sans-serif;
           box-sizing: border-box;
           overflow: hidden;
         }
 
+        /* ─── Left Branding Panel (Light Grey/Blue) ─── */
         .left-panel {
           flex: 1.1;
           display: flex;
           flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          padding: 20px 40px;
-          background: #f1f5f9;
+          background: #f3f6f9;
           border-right: 1px solid #e2e8f0;
           box-sizing: border-box;
           height: 100%;
+          padding: 48px 52px;
+          justify-content: space-between;
+          position: relative;
         }
 
+        .brand-logo-row {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          align-self: flex-start;
+        }
+
+        .logo-diamond-icon {
+          width: 28px;
+          height: 28px;
+          fill: #2563eb;
+        }
+
+        .brand-logo-text {
+          font-size: 16px;
+          font-weight: 700;
+          color: #0f172a;
+          letter-spacing: 0.5px;
+          font-family: 'Poppins', sans-serif;
+          text-transform: uppercase;
+        }
+
+        .brand-text-wrapper {
+          margin-top: 40px;
+          text-align: left;
+          width: 100%;
+        }
+
+        .brand-welcome-title {
+          font-size: 32px;
+          font-weight: 700;
+          color: #0f172a;
+          margin: 0 0 10px;
+          font-family: 'Poppins', sans-serif;
+        }
+
+        .brand-welcome-subtitle {
+          font-size: 15px;
+          color: #64748b;
+          margin: 0;
+          line-height: 1.5;
+        }
+
+        .illustration-container {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          max-height: 380px;
+          margin-top: 20px;
+        }
+
+        .vector-svg-graphic {
+          width: 100%;
+          height: 100%;
+          max-width: 440px;
+          object-fit: contain;
+        }
+
+        /* ─── Right Authentication Panel (White Form) ─── */
         .right-panel {
-          width: 480px;
+          flex: 0.9;
           background: #ffffff;
           display: flex;
           flex-direction: column;
-          justify-content: flex-start;
-          padding: 60px 52px;
+          justify-content: center;
+          padding: 48px 64px;
           box-sizing: border-box;
           position: relative;
           height: 100%;
@@ -199,99 +409,70 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           display: flex;
           flex-direction: column;
           width: 100%;
-          margin: auto 0;
+          max-width: 400px;
+          margin: 0 auto;
           box-sizing: border-box;
         }
 
-        .illustration-container {
-          width: 80%;
-          max-width: 350px;
-          margin-bottom: 20px;
+        .form-heading-row {
+          margin-bottom: 24px;
+          text-align: left;
         }
 
-        .illustration-img {
-          width: 100%;
-          height: auto;
-          object-fit: contain;
-        }
-
-        .left-title {
-          font-size: 22px;
-          font-weight: 700;
-          color: #0f172a;
-          margin: 0 0 10px;
-          line-height: 1.35;
-          text-align: center;
-          font-family: 'Poppins', sans-serif;
-        }
-
-        .left-desc {
-          font-size: 14px;
-          color: #64748b;
-          margin: 0;
-          line-height: 1.6;
-          text-align: center;
-          max-width: 320px;
-        }
-
-        .form-heading {
-          font-size: 28px;
+        .form-title {
+          font-size: 24px;
           font-weight: 700;
           color: #0f172a;
           margin: 0 0 6px;
-          letter-spacing: -0.5px;
           font-family: 'Poppins', sans-serif;
         }
 
-        .form-subheading {
-          font-size: 14px;
-          color: #94a3b8;
-          margin: 0 0 28px;
+        .form-subtitle {
+          font-size: 13.5px;
+          color: #64748b;
+          margin: 0;
         }
 
-        .tab-bar {
-          display: flex;
-          border-bottom: 1px solid #e2e8f0;
-          margin-bottom: 24px;
-        }
-
-        .tab-btn {
-          border: none;
-          background: none;
-          padding: 0 0 12px;
-          margin-right: 28px;
-          font-size: 14px;
-          font-weight: 600;
-          font-family: 'Inter', sans-serif;
-          cursor: pointer;
-          color: #94a3b8;
-          border-bottom: 2px solid transparent;
-          margin-bottom: -1px;
-          transition: all 0.15s ease;
-        }
-
-        .tab-btn.active {
-          color: #102A56;
-          border-bottom: 2px solid #102A56;
-        }
-
+        /* Input Labels & Fields matching user reference design */
         .input-group {
-          margin-bottom: 16px;
+          margin-bottom: 18px;
           width: 100%;
           box-sizing: border-box;
+          position: relative;
+          text-align: left;
+        }
+
+        .label-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 6px;
         }
 
         .input-label {
-          display: block;
           font-size: 13px;
+          font-weight: 600;
+          color: #334155;
+        }
+
+        .forgot-link-btn {
+          font-size: 13px;
+          color: #2563eb;
+          background: none;
+          border: none;
+          cursor: pointer;
           font-weight: 500;
-          color: #475569;
-          margin-bottom: 6px;
+          padding: 0;
+          font-family: 'Inter', sans-serif;
+        }
+
+        .forgot-link-btn:hover {
+          text-decoration: underline;
         }
 
         .input-field {
           width: 100%;
-          padding: 10px 12px;
+          padding: 10px 14px;
           border: 1px solid #cbd5e1;
           border-radius: 6px;
           font-size: 14px;
@@ -300,29 +481,235 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           background: #ffffff;
           outline: none;
           box-sizing: border-box;
-          transition: all 0.15s ease;
+          transition: border-color 0.2s, box-shadow 0.2s;
           -webkit-appearance: none;
         }
 
         .input-field:focus {
-          border-color: #102A56;
-          box-shadow: 0 0 0 3px rgba(16, 42, 86, 0.08);
+          border-color: #2563eb;
+          box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
         }
 
         .input-field.error {
           border-color: #ef4444;
+          background: #fffefb;
         }
 
         .input-error-msg {
-          font-size: 12px;
+          font-size: 11.5px;
           color: #ef4444;
           margin-top: 4px;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          font-weight: 500;
         }
 
-        .remember-forgot-row {
+        /* Custom Selector triggers */
+        .custom-select-container {
+          position: relative;
+          width: 100%;
+        }
+
+        .custom-select-trigger {
+          width: 100%;
+          padding: 10px 14px;
+          background: #ffffff;
+          border: 1px solid #cbd5e1;
+          border-radius: 6px;
+          font-size: 14px;
           display: flex;
           align-items: center;
           justify-content: space-between;
+          cursor: pointer;
+          font-family: 'Inter', sans-serif;
+          color: #0f172a;
+          box-sizing: border-box;
+          outline: none;
+          transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .custom-select-trigger:focus {
+          border-color: #2563eb;
+          box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .selected-val {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .flag-emoji {
+          font-size: 15px;
+        }
+
+        .chevron-icon {
+          color: #64748b;
+        }
+
+        /* Options select list */
+        .custom-select-dropdown {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          margin-top: 4px;
+          background: #ffffff;
+          border: 1px solid #cbd5e1;
+          border-radius: 6px;
+          box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.05);
+          z-index: 50;
+          max-height: 180px;
+          overflow-y: auto;
+          display: flex;
+          flex-direction: column;
+          box-sizing: border-box;
+        }
+
+        .dropdown-search-wrapper {
+          position: sticky;
+          top: 0;
+          background: #ffffff;
+          padding: 6px;
+          border-bottom: 1px solid #f1f5f9;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          z-index: 10;
+        }
+
+        .dropdown-search-input {
+          flex: 1;
+          padding: 5px 8px;
+          border: 1px solid #cbd5e1;
+          border-radius: 4px;
+          font-size: 12px;
+          outline: none;
+          font-family: 'Inter', sans-serif;
+        }
+
+        .dropdown-search-input:focus {
+          border-color: #2563eb;
+        }
+
+        .dropdown-options-list {
+          overflow-y: auto;
+          flex: 1;
+        }
+
+        .dropdown-option-item {
+          width: 100%;
+          padding: 8px 12px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          border: none;
+          background: none;
+          cursor: pointer;
+          text-align: left;
+          font-size: 13px;
+          font-family: 'Inter', sans-serif;
+          color: #334155;
+          transition: background 0.1s ease;
+        }
+
+        .dropdown-option-item:hover {
+          background: #f1f5f9;
+        }
+
+        .dropdown-option-item.selected {
+          background: #f0f7ff;
+          color: #2563eb;
+          font-weight: 600;
+        }
+
+        .option-code {
+          margin-left: auto;
+          color: #94a3b8;
+          font-size: 11px;
+        }
+
+        .no-options-found {
+          padding: 12px;
+          text-align: center;
+          font-size: 12px;
+          color: #94a3b8;
+        }
+
+        /* Combined Phone Prefix styling */
+        .phone-input-wrapper {
+          display: flex;
+          border: 1px solid #cbd5e1;
+          border-radius: 6px;
+          background: #ffffff;
+          overflow: visible;
+          position: relative;
+          transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .phone-input-wrapper:focus-within {
+          border-color: #2563eb;
+          box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .phone-prefix-selector {
+          position: relative;
+          border-right: 1px solid #cbd5e1;
+        }
+
+        .phone-prefix-trigger {
+          height: 100%;
+          padding: 0 10px;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          font-family: 'Inter', sans-serif;
+          font-size: 13.5px;
+          color: #0f172a;
+          outline: none;
+        }
+
+        .phone-number-field {
+          flex: 1;
+          border: none;
+          background: transparent;
+          padding: 10px 12px;
+          font-size: 14px;
+          font-family: 'Inter', sans-serif;
+          color: #0f172a;
+          outline: none;
+          box-sizing: border-box;
+        }
+
+        .phone-prefix-dropdown {
+          width: 220px;
+          top: 100%;
+          left: 0;
+        }
+
+        /* Access Code Notice Alert */
+        .access-info-box {
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 6px;
+          padding: 8px 10px;
+          display: flex;
+          gap: 6px;
+          align-items: flex-start;
+          margin-bottom: 14px;
+          font-size: 11px;
+          color: #64748b;
+          line-height: 1.4;
+        }
+
+        /* Checkbox & Remember Row matching layout exactly */
+        .checkbox-row {
+          display: flex;
+          align-items: center;
           margin-bottom: 24px;
         }
 
@@ -331,26 +718,19 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           align-items: center;
           gap: 8px;
           cursor: pointer;
-          font-size: 13px;
-          color: #64748b;
+          font-size: 13.5px;
+          color: #475569;
+          font-weight: 500;
+          user-select: none;
         }
 
-        .forgot-btn {
-          font-size: 13px;
-          color: #102A56;
-          background: none;
-          border: none;
-          cursor: pointer;
-          font-weight: 600;
-          padding: 0;
-        }
-
+        /* Submit Button matching reference */
         .submit-btn {
           width: 100%;
-          padding: 12px;
+          padding: 11px 16px;
           border: none;
           border-radius: 6px;
-          background: #0f2547;
+          background: #2563eb;
           color: #ffffff;
           font-size: 14px;
           font-weight: 600;
@@ -365,66 +745,24 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
         }
 
         .submit-btn:hover:not(:disabled) {
-          background: #1e3a60;
+          background: #1d4ed8;
         }
 
         .submit-btn:disabled {
-          background: #cbd5e1;
+          background: #93c5fd;
           cursor: not-allowed;
-        }
-
-        .divider-row {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          margin: 20px 0;
-        }
-
-        .divider-line {
-          flex: 1;
-          height: 1px;
-          background: #e2e8f0;
-        }
-
-        .divider-text {
-          font-size: 12px;
-          color: #cbd5e1;
-          font-weight: 500;
-        }
-
-        .google-btn {
-          width: 100%;
-          padding: 11px;
-          border: 1px solid #cbd5e1;
-          border-radius: 6px;
-          background: #ffffff;
-          color: #475569;
-          font-size: 14px;
-          font-weight: 500;
-          cursor: pointer;
-          font-family: 'Inter', sans-serif;
-          transition: background 0.15s ease;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 10px;
-          box-sizing: border-box;
-        }
-
-        .google-btn:hover {
-          background: #f8fafc;
         }
 
         .toggle-mode-text {
           text-align: center;
           font-size: 13px;
-          color: #94a3b8;
+          color: #64748b;
           margin-top: 20px;
         }
 
         .toggle-mode-btn {
           font-size: 13px;
-          color: #102A56;
+          color: #2563eb;
           background: none;
           border: none;
           cursor: pointer;
@@ -432,15 +770,19 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           padding: 0 0 0 4px;
         }
 
+        .toggle-mode-btn:hover {
+          text-decoration: underline;
+        }
+
         .footer-text {
-          margin-top: 32px;
+          margin-top: 24px;
           text-align: center;
-          font-size: 11px;
-          color: #cbd5e1;
+          font-size: 11.5px;
+          color: #94a3b8;
         }
 
         .footer-link {
-          color: #94a3b8;
+          color: #64748b;
           cursor: pointer;
           text-decoration: underline;
         }
@@ -450,166 +792,290 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           100% { transform: rotate(360deg); }
         }
 
+        /* Responsive Layouts */
         @media (max-width: 900px) {
           .left-panel {
             display: none;
           }
           .right-panel {
-            width: 100%;
-            max-width: 100%;
-            padding: 40px 30px;
-            box-shadow: none;
-            border-left: none;
-            height: 100%;
+            flex: 1;
+            padding: 40px 24px;
           }
           .login-page-container {
             background: #ffffff;
-            align-items: flex-start;
-            justify-content: center;
-          }
-          .form-content-wrapper {
-            margin: 0;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .right-panel {
-            padding: 24px 20px;
-          }
-          .form-heading {
-            font-size: 24px;
           }
         }
       `}</style>
 
+      {/* ─── Left Branding Panel (Warehouse Graphic) ─── */}
       <div className="left-panel">
-        <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-          <img 
-            src={logoEmblem} 
-            alt="RBC Logo" 
-            style={{ width: '150px', height: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }} 
-          />
+        <div className="brand-logo-row">
+          <svg className="logo-diamond-icon" viewBox="0 0 24 24">
+            <path d="M12 2L2 12l10 10 10-10L12 2zM5.5 12L12 5.5l6.5 6.5-6.5 6.5L5.5 12z" />
+            <rect x="9.5" y="9.5" width="5" height="5" fill="#2563eb" />
+          </svg>
+          <span className="brand-logo-text">RBC Warehouse</span>
         </div>
+
+        <div className="brand-text-wrapper">
+          <h2 className="brand-welcome-title">Welcome Back!</h2>
+          <p className="brand-welcome-subtitle">
+            Sign in to continue to your account and manage global inventory.
+          </p>
+        </div>
+
+        {/* High-quality Inline Vector Warehouse & Delivery Truck Graphic */}
         <div className="illustration-container">
-          <img 
-            src="/login-illustration.png" 
-            alt="RBC Academy Learning" 
-            className="illustration-img" 
-          />
+          <svg className="vector-svg-graphic" viewBox="0 0 600 450" fill="none">
+            {/* Ground Shadow */}
+            <ellipse cx="300" cy="370" rx="240" ry="15" fill="#e2e8f0" />
+            
+            {/* Sky Background Element */}
+            <circle cx="300" cy="220" r="160" fill="#f0f7ff" />
+
+            {/* Trees in Background */}
+            <path d="M120 280 L140 230 L160 280 Z" fill="#93c5fd" opacity="0.5" />
+            <path d="M145 290 L160 250 L175 290 Z" fill="#93c5fd" opacity="0.5" />
+
+            {/* Warehouse Main Building Structure */}
+            <rect x="150" y="160" width="280" height="190" rx="8" fill="#cbd5e1" />
+            <rect x="160" y="170" width="260" height="180" rx="6" fill="#e2e8f0" />
+
+            {/* Roof Top */}
+            <polygon points="135,160 300,100 465,160" fill="#1e293b" />
+            
+            {/* Windows */}
+            <rect x="185" y="195" width="55" height="35" rx="4" fill="#38bdf8" opacity="0.8" />
+            <line x1="212" y1="195" x2="212" y2="230" stroke="#1e293b" strokeWidth="2" />
+            <line x1="185" y1="212" x2="240" y2="212" stroke="#1e293b" strokeWidth="2" />
+
+            <rect x="360" y="195" width="55" height="35" rx="4" fill="#38bdf8" opacity="0.8" />
+            <line x1="387" y1="195" x2="387" y2="230" stroke="#1e293b" strokeWidth="2" />
+            <line x1="360" y1="212" x2="415" y2="212" stroke="#1e293b" strokeWidth="2" />
+
+            {/* Large Bay Door */}
+            <rect x="235" y="245" width="130" height="105" fill="#475569" />
+            <line x1="235" y1="265" x2="365" y2="265" stroke="#334155" strokeWidth="2" />
+            <line x1="235" y1="285" x2="365" y2="285" stroke="#334155" strokeWidth="2" />
+            <line x1="235" y1="305" x2="365" y2="305" stroke="#334155" strokeWidth="2" />
+            <line x1="235" y1="325" x2="365" y2="325" stroke="#334155" strokeWidth="2" />
+
+            {/* Door Roll Shutter Header */}
+            <rect x="230" y="235" width="140" height="15" rx="3" fill="#94a3b8" />
+
+            {/* Cargo Box piles next to warehouse */}
+            <rect x="100" y="315" width="40" height="35" rx="3" fill="#d97706" />
+            <line x1="100" y1="332" x2="140" y2="332" stroke="#b45309" strokeWidth="1.5" />
+            <rect x="115" y="285" width="30" height="30" rx="3" fill="#b45309" />
+
+            {/* DELIVERY TRUCK */}
+            {/* Truck Ground Shadow */}
+            <ellipse cx="440" cy="380" rx="100" ry="8" fill="#94a3b8" opacity="0.5" />
+
+            {/* Cargo Box Container */}
+            <rect x="360" y="250" width="130" height="95" rx="4" fill="#ffffff" />
+            <rect x="360" y="250" width="130" height="95" rx="4" stroke="#cbd5e1" strokeWidth="2" fill="none" />
+            
+            {/* RBC Branding Text on Container */}
+            <text x="425" y="305" fontFamily="'Poppins', sans-serif" fontWeight="bold" fontSize="24" fill="#2563eb" textAnchor="middle">RBC</text>
+            <text x="425" y="325" fontFamily="'Inter', sans-serif" fontWeight="500" fontSize="10" fill="#64748b" letterSpacing="2" textAnchor="middle">LOGISTICS</text>
+
+            {/* Truck Cabin (Blue) */}
+            <path d="M490,345 L490,285 L525,285 L550,312 L550,345 Z" fill="#2563eb" />
+            <rect x="498" y="293" width="28" height="20" fill="#e2e8f0" rx="2" />
+            
+            {/* Bumper and Lights */}
+            <rect x="542" y="335" width="12" height="8" rx="2" fill="#e2c044" />
+            <rect x="548" y="338" width="5" height="10" rx="1" fill="#cbd5e1" />
+
+            {/* Wheels */}
+            <circle cx="395" cy="370" r="18" fill="#1e293b" />
+            <circle cx="395" cy="370" r="8" fill="#94a3b8" />
+            <circle cx="465" cy="370" r="18" fill="#1e293b" />
+            <circle cx="465" cy="370" r="8" fill="#94a3b8" />
+            <circle cx="525" cy="370" r="18" fill="#1e293b" />
+            <circle cx="525" cy="370" r="8" fill="#94a3b8" />
+          </svg>
         </div>
-        <h2 className="left-title">
-          Trade knowledge made<br />simple for everyone
-        </h2>
-        <p className="left-desc">
-          Learn Import &amp; Export from certified industry experts at your own pace.
-        </p>
+
+        <div style={{ fontSize: '11px', color: '#94a3b8', textAlign: 'left' }}>
+          © {new Date().getFullYear()} RBC Import &amp; Export. All rights reserved.
+        </div>
       </div>
 
+      {/* ─── Right Authentication Panel (White Form) ─── */}
       <div className="right-panel">
         <div className="form-content-wrapper">
 
-        <div style={{ display: 'none' }} className="mobile-only-logo">
-          <style>{`
-            @media (max-width: 900px) {
-              .mobile-only-logo {
-                display: flex !important;
-                flex-direction: column;
-                align-items: center;
-                margin-bottom: 32px;
-              }
-            }
-          `}</style>
-          <img 
-            src={logoEmblem} 
-            alt="RBC Logo" 
-            style={{ width: '130px', height: 'auto', objectFit: 'contain', mixBlendMode: 'multiply', marginBottom: '8px' }} 
-          />
-          <span style={{ fontSize: '13px', color: '#64748b', fontWeight: '500', letterSpacing: '0.5px' }}>
-            IMPORT &amp; EXPORT ACADEMY
-          </span>
-        </div>
-
-        <h1 className="form-heading">
-          {mode === 'login' ? 'Log In' : 'Create Account'}
-        </h1>
-        <p className="form-subheading">
-          {mode === 'login' ? 'Welcome back to RBC Academy' : 'Join thousands of trade learners'}
-        </p>
-
-        <div className="tab-bar">
-          <button 
-            type="button" 
-            className={`tab-btn ${mode === 'login' ? 'active' : ''}`}
-            onClick={() => { setMode('login'); setErrors({}); setSuccessMsg(''); }}
-          >
-            Login
-          </button>
-          <button 
-            type="button" 
-            className={`tab-btn ${mode === 'register' ? 'active' : ''}`}
-            onClick={() => { setMode('register'); setErrors({}); setSuccessMsg(''); }}
-          >
-            Register
-          </button>
-        </div>
-
-        {successMsg && (
-          <div style={{ padding: '10px 14px', borderRadius: '6px', background: '#f0fdf4', border: '1px solid #bbf7d0', marginBottom: '20px', fontSize: '13px', color: '#15803d', fontWeight: '500' }}>
-            {successMsg}
+          {/* Form Header */}
+          <div className="form-heading-row">
+            <h1 className="form-title">
+              {mode === 'login' ? 'Sign In' : 'Create Account'}
+            </h1>
+            <p className="form-subheading">
+              {mode === 'login' ? 'Enter your details below to log in' : 'Fill out the form below to create a new profile'}
+            </p>
           </div>
-        )}
-        {errors.general && (
-          <div style={{ padding: '10px 14px', borderRadius: '6px', background: '#fef2f2', border: '1px solid #fecaca', marginBottom: '20px', fontSize: '13px', color: '#dc2626', fontWeight: '500' }}>
-            {errors.general}
-          </div>
-        )}
 
-        <form onSubmit={handleSubmit}>
-          {mode === 'register' && (
-            <div className="input-group">
-              <label className="input-label">Full Name</label>
-              <input 
-                type="text" 
-                value={name} 
-                onChange={e => setName(e.target.value)} 
-                placeholder="Enter your name"
-                className={`input-field ${errors.name ? 'error' : ''}`}
-              />
-              {errors.name && <div className="input-error-msg">{errors.name}</div>}
+          {/* Alert notifications */}
+          {successMsg && (
+            <div style={{ display: 'flex', gap: '8px', padding: '10px 12px', borderRadius: '6px', background: '#f0fdf4', border: '1px solid #bbf7d0', marginBottom: '18px', fontSize: '13px', color: '#15803d', fontWeight: '500' }}>
+              <ShieldCheck size={16} style={{ flexShrink: 0, marginTop: '1px' }} />
+              <span>{successMsg}</span>
+            </div>
+          )}
+          {errors.general && (
+            <div style={{ display: 'flex', gap: '8px', padding: '10px 12px', borderRadius: '6px', background: '#fef2f2', border: '1px solid #fecaca', marginBottom: '18px', fontSize: '13px', color: '#dc2626', fontWeight: '500' }}>
+              <AlertCircle size={16} style={{ flexShrink: 0, marginTop: '1px' }} />
+              <span>{errors.general}</span>
             </div>
           )}
 
-          {mode === 'register' && (
-            <div style={{ display: 'flex', gap: '12px' }} className="input-group">
-              <div style={{ flex: 1 }}>
-                <label className="input-label">Phone</label>
+          <form onSubmit={handleSubmit}>
+            {/* Full Name (Registration only) */}
+            {mode === 'register' && (
+              <div className="input-group">
+                <label className="input-label">Full Name</label>
                 <input 
-                  type="tel" 
-                  value={phone} 
-                  onChange={e => setPhone(e.target.value)} 
-                  placeholder="+91 98765 43210"
-                  className="input-field"
+                  type="text" 
+                  value={name} 
+                  onChange={e => setName(e.target.value)} 
+                  placeholder="Enter your full name"
+                  className={`input-field ${errors.name ? 'error' : ''}`}
                 />
+                {errors.name && (
+                  <div className="input-error-msg">
+                    <AlertCircle size={12} />
+                    <span>{errors.name}</span>
+                  </div>
+                )}
               </div>
-              <div style={{ flex: 1 }}>
-                <label className="input-label">Country</label>
-                <select 
-                  value={country} 
-                  onChange={e => setCountry(e.target.value)}
-                  className="input-field"
-                  style={{ cursor: 'pointer' }}
-                >
-                  {['India', 'UAE', 'USA', 'UK', 'Canada', 'Australia', 'Singapore', 'Other'].map(c => (
-                    <option key={c} value={c}>{c}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          )}
+            )}
 
-          <div className="input-group">
-            <label className="input-label">Username / Email</label>
-            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+            {/* Country of Residence (Registration only) */}
+            {mode === 'register' && (
+              <div className="input-group">
+                <label className="input-label">Country of Residence</label>
+                <div className="custom-select-container" ref={countryDropdownRef}>
+                  <button
+                    type="button"
+                    className="custom-select-trigger"
+                    onClick={() => setIsCountryOpen(prev => !prev)}
+                  >
+                    <span className="selected-val">
+                      <span className="flag-emoji">{selectedCountry.flag}</span>
+                      <span>{selectedCountry.name}</span>
+                    </span>
+                    <ChevronDown size={16} className="chevron-icon" />
+                  </button>
+                  
+                  {isCountryOpen && (
+                    <div className="custom-select-dropdown">
+                      <div className="dropdown-search-wrapper">
+                        <Search size={13} style={{ color: '#94a3b8' }} />
+                        <input
+                          type="text"
+                          placeholder="Search country..."
+                          value={countrySearch}
+                          onChange={e => setCountrySearch(e.target.value)}
+                          className="dropdown-search-input"
+                          autoFocus
+                        />
+                      </div>
+                      <div className="dropdown-options-list">
+                        {filteredCountries.map(c => (
+                          <button
+                            key={c.iso}
+                            type="button"
+                            className={`dropdown-option-item ${selectedCountry.iso === c.iso ? 'selected' : ''}`}
+                            onClick={() => {
+                              setSelectedCountry(c);
+                              setIsCountryOpen(false);
+                              setCountrySearch('');
+                            }}
+                          >
+                            <span className="flag-emoji">{c.flag}</span>
+                            <span>{c.name}</span>
+                            <span className="option-code">{c.code}</span>
+                          </button>
+                        ))}
+                        {filteredCountries.length === 0 && (
+                          <div className="no-options-found">No countries found</div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Phone Number (Registration only) */}
+            {mode === 'register' && (
+              <div className="input-group">
+                <label className="input-label">Phone Number</label>
+                <div className="phone-input-wrapper">
+                  <div className="phone-prefix-selector" ref={phoneDropdownRef}>
+                    <button
+                      type="button"
+                      className="phone-prefix-trigger"
+                      onClick={() => setIsPhoneOpen(prev => !prev)}
+                    >
+                      <span className="flag-emoji">{selectedCountry.flag}</span>
+                      <span>{selectedCountry.code}</span>
+                      <ChevronDown size={11} className="chevron-small" />
+                    </button>
+
+                    {isPhoneOpen && (
+                      <div className="custom-select-dropdown phone-prefix-dropdown">
+                        <div className="dropdown-search-wrapper">
+                          <Search size={13} style={{ color: '#94a3b8' }} />
+                          <input
+                            type="text"
+                            placeholder="Search code..."
+                            value={phoneSearch}
+                            onChange={e => setPhoneSearch(e.target.value)}
+                            className="dropdown-search-input"
+                            autoFocus
+                          />
+                        </div>
+                        <div className="dropdown-options-list">
+                          {filteredPhoneCountries.map(c => (
+                            <button
+                              key={c.iso}
+                              type="button"
+                              className={`dropdown-option-item ${selectedCountry.iso === c.iso ? 'selected' : ''}`}
+                              onClick={() => {
+                                setSelectedCountry(c);
+                                setIsPhoneOpen(false);
+                                setPhoneSearch('');
+                              }}
+                            >
+                              <span className="flag-emoji">{c.flag}</span>
+                              <span style={{ marginRight: '4px' }}>{c.name}</span>
+                              <span className="option-code">{c.code}</span>
+                            </button>
+                          ))}
+                          {filteredPhoneCountries.length === 0 && (
+                            <div className="no-options-found">No codes found</div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <input
+                    type="tel"
+                    value={phoneVal}
+                    onChange={e => setPhoneVal(e.target.value.replace(/[^0-9\s-]/g, ''))}
+                    placeholder="Enter phone number"
+                    className="phone-number-field"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Email Address */}
+            <div className="input-group">
+              <label className="input-label">Email Address</label>
               <input 
                 type="email" 
                 value={email} 
@@ -617,59 +1083,40 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
                 placeholder="Enter your email"
                 className={`input-field ${errors.email ? 'error' : ''}`}
               />
+              {errors.email && (
+                <div className="input-error-msg">
+                  <AlertCircle size={12} />
+                  <span>{errors.email}</span>
+                </div>
+              )}
             </div>
-            {errors.email && <div className="input-error-msg">{errors.email}</div>}
-          </div>
 
-          <div className="input-group">
-            <label className="input-label">Password</label>
-            <div style={{ position: 'relative' }}>
-              <input 
-                type={showPassword ? 'text' : 'password'} 
-                value={password} 
-                onChange={e => setPassword(e.target.value)} 
-                placeholder={mode === 'login' ? 'Enter your password' : 'Min. 6 characters'}
-                className={`input-field ${errors.password ? 'error' : ''}`}
-                style={{ paddingRight: '44px' }}
-              />
-              <button 
-                type="button" 
-                onClick={() => setShowPassword(s => !s)}
-                style={{
-                  position: 'absolute',
-                  right: '12px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  padding: 0,
-                  display: 'flex',
-                  alignItems: 'center',
-                  zIndex: 10
-                }}
-              >
-                <EyeIcon open={showPassword} />
-              </button>
-            </div>
-            {errors.password && <div className="input-error-msg">{errors.password}</div>}
-          </div>
-
-          {mode === 'register' && (
+            {/* Password */}
             <div className="input-group">
-              <label className="input-label">Confirm Password</label>
+              <div className="label-row">
+                <label className="input-label">Password</label>
+                {mode === 'login' && (
+                  <button 
+                    type="button" 
+                    className="forgot-link-btn"
+                    onClick={() => showAlert('Contact Administrator', 'Please contact administrator at admin@rbcimportandexport.com to reset your password.', 'info')}
+                  >
+                    Forgot Password?
+                  </button>
+                )}
+              </div>
               <div style={{ position: 'relative' }}>
                 <input 
-                  type={showConfirmPassword ? 'text' : 'password'} 
-                  value={confirmPassword} 
-                  onChange={e => setConfirmPassword(e.target.value)} 
-                  placeholder="Re-enter your password"
-                  className={`input-field ${errors.confirmPassword ? 'error' : ''}`}
-                  style={{ paddingRight: '44px' }}
+                  type={showPassword ? 'text' : 'password'} 
+                  value={password} 
+                  onChange={e => setPassword(e.target.value)} 
+                  placeholder="Enter your password"
+                  className={`input-field ${errors.password ? 'error' : ''}`}
+                  style={{ paddingRight: '40px' }}
                 />
                 <button 
                   type="button" 
-                  onClick={() => setShowConfirmPassword(s => !s)}
+                  onClick={() => setShowPassword(s => !s)}
                   style={{
                     position: 'absolute',
                     right: '12px',
@@ -684,88 +1131,138 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
                     zIndex: 10
                   }}
                 >
-                  <EyeIcon open={showConfirmPassword} />
+                  {showPassword ? <EyeOff size={16} stroke="#94a3b8" /> : <Eye size={16} stroke="#94a3b8" />}
                 </button>
               </div>
-              {errors.confirmPassword && <div className="input-error-msg">{errors.confirmPassword}</div>}
+              {errors.password && (
+                <div className="input-error-msg">
+                  <AlertCircle size={12} />
+                  <span>{errors.password}</span>
+                </div>
+              )}
             </div>
-          )}
 
-          <div className="input-group">
-            <label className="input-label">Admin Access Code</label>
-            <div style={{ position: 'relative' }}>
+            {/* Confirm Password (Registration only) */}
+            {mode === 'register' && (
+              <div className="input-group">
+                <label className="input-label">Confirm Password</label>
+                <div style={{ position: 'relative' }}>
+                  <input 
+                    type={showConfirmPassword ? 'text' : 'password'} 
+                    value={confirmPassword} 
+                    onChange={e => setConfirmPassword(e.target.value)} 
+                    placeholder="Confirm your password"
+                    className={`input-field ${errors.confirmPassword ? 'error' : ''}`}
+                    style={{ paddingRight: '40px' }}
+                  />
+                  <button 
+                    type="button" 
+                    onClick={() => setShowConfirmPassword(s => !s)}
+                    style={{
+                      position: 'absolute',
+                      right: '12px',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      padding: 0,
+                      display: 'flex',
+                      alignItems: 'center',
+                      zIndex: 10
+                    }}
+                  >
+                    {showConfirmPassword ? <EyeOff size={16} stroke="#94a3b8" /> : <Eye size={16} stroke="#94a3b8" />}
+                  </button>
+                </div>
+                {errors.confirmPassword && (
+                  <div className="input-error-msg">
+                    <AlertCircle size={12} />
+                    <span>{errors.confirmPassword}</span>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Admin Access Code */}
+            <div className="input-group">
+              <label className="input-label">Admin Access Code</label>
               <input 
                 type="text" 
                 value={accessCode} 
                 onChange={e => setAccessCode(e.target.value)} 
-                placeholder="Enter access code from admin"
+                placeholder="Enter administrative access code"
                 className={`input-field ${errors.accessCode ? 'error' : ''}`}
               />
+              {errors.accessCode && (
+                <div className="input-error-msg">
+                  <AlertCircle size={12} />
+                  <span>{errors.accessCode}</span>
+                </div>
+              )}
             </div>
-            {errors.accessCode && <div className="input-error-msg">{errors.accessCode}</div>}
-          </div>
 
-          {mode === 'login' && (
-            <div className="remember-forgot-row">
-              <label className="checkbox-label">
-                <input 
-                  type="checkbox" 
-                  checked={rememberMe} 
-                  onChange={e => setRememberMe(e.target.checked)}
-                  style={{ width: '15px', height: '15px', accentColor: '#102A56', cursor: 'pointer' }}
-                />
-                <span>Keep me signed in</span>
-              </label>
+            {/* Notice about Access Code (Registration only) */}
+            {mode === 'register' && (
+              <div className="access-info-box">
+                <Info size={14} style={{ marginRight: '6px', flexShrink: 0, color: '#2563eb' }} />
+                <span>An exclusive administrative Access Code is required to register a profile.</span>
+              </div>
+            )}
+
+            {/* Remember Me Checkbox (Login only) */}
+            {mode === 'login' && (
+              <div className="checkbox-row">
+                <label className="checkbox-label">
+                  <input 
+                    type="checkbox" 
+                    checked={rememberMe} 
+                    onChange={e => setRememberMe(e.target.checked)}
+                    style={{ width: '15px', height: '15px', accentColor: '#2563eb', cursor: 'pointer' }}
+                  />
+                  <span>Remember me</span>
+                </label>
+              </div>
+            )}
+
+            <button 
+              type="submit" 
+              className="submit-btn" 
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <svg style={{ animation: 'spin 0.8s linear infinite' }} width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.3)" strokeWidth="3"/>
+                    <path d="M12 2a10 10 0 0110 10" stroke="#ffffff" strokeWidth="3" strokeLinecap="round"/>
+                  </svg>
+                  <span>{mode === 'login' ? 'Signing In...' : 'Registering...'}</span>
+                </>
+              ) : (
+                <span>{mode === 'login' ? 'Sign In' : 'Create Account'}</span>
+              )}
+            </button>
+
+            <div className="toggle-mode-text">
+              {mode === 'login' ? "Don't have an account?" : 'Already have an account?'}
               <button 
                 type="button" 
-                className="forgot-btn"
-                onClick={() => showAlert('Contact Administrator', 'Please contact administrator: admin@rbcimportandexport.com', 'info')}
+                className="toggle-mode-btn"
+                onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setErrors({}); setSuccessMsg(''); }}
               >
-                Forgot password?
+                {mode === 'login' ? 'Register here' : 'Sign in here'}
               </button>
             </div>
-          )}
+          </form>
 
-          <button 
-            type="submit" 
-            className="submit-btn" 
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <svg style={{ animation: 'spin 0.8s linear infinite' }} width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.3)" strokeWidth="3"/>
-                  <path d="M12 2a10 10 0 0110 10" stroke="#ffffff" strokeWidth="3" strokeLinecap="round"/>
-                </svg>
-                {mode === 'login' ? 'Logging in...' : 'Registering...'}
-              </>
-            ) : (
-              mode === 'login' ? 'Log In' : 'Create Account'
-            )}
-          </button>
-
-
-
-          <div className="toggle-mode-text">
-            {mode === 'login' ? "Don't have an account?" : 'Already have an account?'}
-            <button 
-              type="button" 
-              className="toggle-mode-btn"
-              onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setErrors({}); setSuccessMsg(''); }}
-            >
-              {mode === 'login' ? 'Register here' : 'Login here'}
-            </button>
+          <div className="footer-text">
+            By continuing, you agree to our{' '}
+            <span className="footer-link">Terms of Service</span>
+            {' '}and{' '}
+            <span className="footer-link">Privacy Policy</span>
           </div>
-        </form>
-
-        <div className="footer-text">
-          By continuing you agree to our{' '}
-          <span className="footer-link">Terms of Service</span>
-          {' '}and{' '}
-          <span className="footer-link">Privacy Policy</span>
         </div>
       </div>
     </div>
-  </div>
   );
 };
