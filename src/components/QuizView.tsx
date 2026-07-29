@@ -21,6 +21,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
   const [isCorrect, setIsCorrect] = useState(false);
   const [score, setScore] = useState(0);
   const [quizFinished, setQuizFinished] = useState(false);
+  const [shuffledOptions, setShuffledOptions] = useState<{ text: string; originalIdx: string }[]>([]);
 
   // Load progress and reset on lessonId update
   useEffect(() => {
@@ -36,6 +37,37 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
   if (!questions || questions.length === 0) return null;
 
   const currentQuestion = questions[currentIdx];
+
+  // Shuffling options deterministically based on lessonId + currentIdx
+  useEffect(() => {
+    if (!currentQuestion) {
+      setShuffledOptions([]);
+      return;
+    }
+    if (currentQuestion.options) {
+      const mapped = currentQuestion.options.map((opt, idx) => ({
+        text: opt,
+        originalIdx: idx.toString()
+      }));
+
+      let seed = currentIdx;
+      for (let i = 0; i < lessonId.length; i++) {
+        seed += lessonId.charCodeAt(i);
+      }
+
+      const shuffled = [...mapped];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = (seed + i) % (i + 1);
+        const temp = shuffled[i];
+        shuffled[i] = shuffled[j];
+        shuffled[j] = temp;
+      }
+
+      setShuffledOptions(shuffled);
+    } else {
+      setShuffledOptions([]);
+    }
+  }, [currentIdx, lessonId, questions]);
 
   const handleOptionToggle = (optionIdx: string) => {
     if (isAnswered) return;
@@ -339,15 +371,14 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
           </div>
         ) : (
           <div className="options-list">
-            {currentQuestion.options?.map((option, idx) => {
-              const optionStr = idx.toString();
-              const isSelected = selectedOptions.includes(optionStr);
+            {shuffledOptions.map((opt, idx) => {
+              const isSelected = selectedOptions.includes(opt.originalIdx);
               
               let optionClass = 'option-item';
               if (isSelected) optionClass += ' selected';
               
               if (isAnswered) {
-                const isCorrectOption = currentQuestion.correctAnswers.includes(optionStr);
+                const isCorrectOption = currentQuestion.correctAnswers.includes(opt.originalIdx);
                 if (isCorrectOption) {
                   optionClass += ' correct';
                 } else if (isSelected) {
@@ -359,7 +390,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
                 <button
                   key={idx}
                   className={optionClass}
-                  onClick={() => handleOptionToggle(optionStr)}
+                  onClick={() => handleOptionToggle(opt.originalIdx)}
                   disabled={isAnswered}
                 >
                   <span className="option-bullet">
@@ -374,7 +405,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
                       String.fromCharCode(65 + idx)
                     )}
                   </span>
-                  <span className="option-label">{option}</span>
+                  <span className="option-label">{opt.text}</span>
                 </button>
               );
             })}
