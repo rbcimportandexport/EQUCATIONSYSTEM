@@ -919,7 +919,7 @@ export const ModuleScreen: React.FC = () => {
                                   if (lessonLang.content?.whyImportant) parts.push(lessonLang.content.whyImportant);
                                   if (lessonLang.content?.importantNotes?.length) parts.push(...lessonLang.content.importantNotes);
                                   if (lessonLang.content?.commonMistakes?.length) parts.push(...lessonLang.content.commonMistakes);
-                                  if (lessonLang.content?.practicalTips?.length) parts.push(...lessonLang.content.practicalTips);
+                                  if (lessonLang.content?.practicalTips?.length) parts.push(lessonLang.content.practicalTips[0]);
                                   if (lessonLang.content?.summary) parts.push(lessonLang.content.summary);
 
                                   // Split into sentence-by-sentence chunks for precise sentence resume
