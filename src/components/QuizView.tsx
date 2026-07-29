@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import type { QuizQuestion } from '../utils/data';
 import { useApp } from '../context/AppContext';
-import { HelpCircle, Check, X, ArrowRight, RotateCcw, Award, Trophy, BookOpen } from 'lucide-react';
+import { HelpCircle, Check, X, ArrowRight, RotateCcw, Award, Trophy, BookOpen, Clock, AlertTriangle } from 'lucide-react';
 
 interface QuizViewProps {
   lessonId: string;
@@ -9,11 +9,24 @@ interface QuizViewProps {
   onComplete?: () => void;
 }
 
+// Fisher-Yates array shuffling utility
+const shuffleArray = <T,>(array: T[]): T[] => {
+  const copy = [...array];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = copy[i];
+    copy[i] = copy[j];
+    copy[j] = temp;
+  }
+  return copy;
+};
+
 export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onComplete }) => {
   const { saveQuizScore, language, currentUser } = useApp();
   const [showCelebration, setShowCelebration] = useState(false);
   const [celebrationVisible, setCelebrationVisible] = useState(false);
 
+  const [activeQuestions, setActiveQuestions] = useState<QuizQuestion[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [typedAnswer, setTypedAnswer] = useState('');
@@ -23,8 +36,21 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
   const [quizFinished, setQuizFinished] = useState(false);
   const [shuffledOptions, setShuffledOptions] = useState<{ text: string; originalIdx: string }[]>([]);
 
-  // Load progress and reset on lessonId update
+  // Live Timer State (in seconds)
+  const [timeLeft, setTimeLeft] = useState<number>(0);
+
+  // Initialize and shuffle questions for this chapter on load or lessonId change
   useEffect(() => {
+    if (questions && questions.length > 0) {
+      const shuffled = shuffleArray(questions);
+      setActiveQuestions(shuffled);
+      // Allocate 45 seconds per chapter question (minimum 60s total)
+      const allocatedTime = Math.max(60, shuffled.length * 45);
+      setTimeLeft(allocatedTime);
+    } else {
+      setActiveQuestions([]);
+      setTimeLeft(0);
+    }
     setCurrentIdx(0);
     setSelectedOptions([]);
     setTypedAnswer('');
@@ -32,13 +58,34 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
     setIsCorrect(false);
     setScore(0);
     setQuizFinished(false);
-  }, [lessonId]);
+  }, [lessonId, questions]);
 
-  if (!questions || questions.length === 0) return null;
+  // Countdown Timer Interval Effect
+  useEffect(() => {
+    if (quizFinished || timeLeft <= 0 || activeQuestions.length === 0) return;
 
-  const currentQuestion = questions[currentIdx];
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          setQuizFinished(true);
+          setShowCelebration(true);
+          setTimeout(() => setCelebrationVisible(true), 50);
+          if (onComplete) onComplete();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
 
-  // Shuffling options deterministically based on lessonId + currentIdx
+    return () => clearInterval(timer);
+  }, [quizFinished, timeLeft, activeQuestions.length, onComplete]);
+
+  if (!activeQuestions || activeQuestions.length === 0) return null;
+
+  const currentQuestion = activeQuestions[currentIdx];
+
+  // Shuffle option choices dynamically for the current question
   useEffect(() => {
     if (!currentQuestion) {
       setShuffledOptions([]);
@@ -49,25 +96,11 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
         text: opt,
         originalIdx: idx.toString()
       }));
-
-      let seed = currentIdx;
-      for (let i = 0; i < lessonId.length; i++) {
-        seed += lessonId.charCodeAt(i);
-      }
-
-      const shuffled = [...mapped];
-      for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = (seed + i) % (i + 1);
-        const temp = shuffled[i];
-        shuffled[i] = shuffled[j];
-        shuffled[j] = temp;
-      }
-
-      setShuffledOptions(shuffled);
+      setShuffledOptions(shuffleArray(mapped));
     } else {
       setShuffledOptions([]);
     }
-  }, [currentIdx, lessonId, questions]);
+  }, [currentIdx, currentQuestion]);
 
   const handleOptionToggle = (optionIdx: string) => {
     if (isAnswered) return;
@@ -91,7 +124,6 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
     if (currentQuestion.type === 'mcq' || currentQuestion.type === 'true-false') {
       correct = selectedOptions[0] === currentQuestion.correctAnswers[0];
     } else if (currentQuestion.type === 'multi-answer') {
-      // Sort and compare arrays
       const sortedSelected = [...selectedOptions].sort();
       const sortedCorrect = [...currentQuestion.correctAnswers].sort();
       correct = 
@@ -108,7 +140,6 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
       setScore(s => s + 1);
     }
 
-    // Save score in context progress
     saveQuizScore(lessonId, currentQuestion.id, correct);
   };
 
@@ -118,7 +149,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
     setIsAnswered(false);
     setIsCorrect(false);
 
-    if (currentIdx < questions.length - 1) {
+    if (currentIdx < activeQuestions.length - 1) {
       setCurrentIdx(currentIdx + 1);
     } else {
       setQuizFinished(true);
@@ -129,6 +160,12 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
   };
 
   const resetQuiz = () => {
+    if (questions && questions.length > 0) {
+      const shuffled = shuffleArray(questions);
+      setActiveQuestions(shuffled);
+      const allocatedTime = Math.max(60, shuffled.length * 45);
+      setTimeLeft(allocatedTime);
+    }
     setCurrentIdx(0);
     setSelectedOptions([]);
     setTypedAnswer('');
@@ -140,9 +177,15 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
     setCelebrationVisible(false);
   };
 
+  const formatTimer = (totalSeconds: number) => {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  };
+
   if (quizFinished) {
-    const passed = score >= questions.length * 0.7;
-    const pct = Math.round((score / questions.length) * 100);
+    const passed = score >= activeQuestions.length * 0.7;
+    const pct = Math.round((score / activeQuestions.length) * 100);
     const userName = currentUser?.name || (language === 'hi' ? 'विद्यार्थी' : language === 'gu' ? 'વિદ્યાર્થી' : 'Student');
     const CONFETTI_COLORS = ['#fbbf24','#f97316','#ec4899','#8b5cf6','#3b82f6','#10b981','#ef4444','#06b6d4'];
     const confettiPieces = Array.from({ length: 48 }, (_, i) => ({
@@ -246,14 +289,14 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
                 marginBottom: '20px'
               }}>
                 <span style={{ fontSize: '36px', fontWeight: '900', color: passed ? '#4ade80' : '#fbbf24' }}>
-                  {score}/{questions.length}
+                  {score}/{activeQuestions.length}
                 </span>
                 <div style={{ textAlign: 'left' }}>
                   <div style={{ fontSize: '22px', fontWeight: '800', color: passed ? '#4ade80' : '#fbbf24' }}>{pct}%</div>
                   <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', fontWeight: '600' }}>
                     {passed
                       ? (language === 'hi' ? 'उत्तीर्ण ✓' : language === 'gu' ? 'પાસ ✓' : 'PASSED ✓')
-                      : (language === 'hi' ? 'फिर कोशिश करें' : language === 'gu' ? 'ફરી પ્રयास' : 'TRY AGAIN')}
+                      : (language === 'hi' ? 'फिर कोशिश करें' : language === 'gu' ? 'ફરી પ્રયાસ' : 'TRY AGAIN')}
                   </div>
                 </div>
               </div>
@@ -313,12 +356,12 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
           </h3>
           <p className="result-score-label">
             {language === 'hi'
-              ? <><strong className="score-span">{questions.length}</strong> में से <strong className="score-span">{score}</strong> प्रश्नों का सही उत्तर दिया।</>
+              ? <><strong className="score-span">{activeQuestions.length}</strong> में से <strong className="score-span">{score}</strong> प्रश्नों का सही उत्तर दिया।</>
               : language === 'gu'
-                ? <><strong className="score-span">{questions.length}</strong> માંથી <strong className="score-span">{score}</strong> પ્રશ્નોના સાચા જવાબ આપ્યા.</>
+                ? <><strong className="score-span">{activeQuestions.length}</strong> માંથી <strong className="score-span">{score}</strong> પ્રશ્નોના સાચા જવાબ આપ્યા.</>
                 : language === 'mr'
-                  ? <><strong className="score-span">{questions.length}</strong> पैकी <strong className="score-span">{score}</strong> प्रश्नांची अचूक उत्तरे दिली.</>
-                  : <>You scored <strong className="score-span">{score}</strong> out of <strong className="score-span">{questions.length}</strong> questions correctly.</>}
+                  ? <><strong className="score-span">{activeQuestions.length}</strong> पैकी <strong className="score-span">{score}</strong> प्रश्नांची अचूक उत्तरे दिली.</>
+                  : <>You scored <strong className="score-span">{score}</strong> out of <strong className="score-span">{activeQuestions.length}</strong> questions correctly.</>}
           </p>
           <div className="progress-bar-container large">
             <div className={`progress-bar-fill ${passed ? 'success' : 'warning'}`} style={{ width: `${pct}%` }}></div>
@@ -334,24 +377,41 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
     );
   }
 
+  const isTimeLow = timeLeft < 30;
+
   return (
     <div className="quiz-container card">
-      <div className="quiz-header">
-        <div className="quiz-meta">
+      <div className="quiz-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div className="quiz-meta" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <HelpCircle size={18} className="meta-icon" />
           <span className="quiz-count">
             {language === 'hi' 
-              ? `प्रश्न ${currentIdx + 1} / ${questions.length}` 
+              ? `प्रश्न ${currentIdx + 1} / ${activeQuestions.length}` 
               : language === 'gu' 
-                ? `પ્રશ્ન ${currentIdx + 1} / ${questions.length}` 
+                ? `પ્રશ્ન ${currentIdx + 1} / ${activeQuestions.length}` 
                 : language === 'mr' 
-                  ? `प्रश्न ${currentIdx + 1} / ${questions.length}` 
-                  : `Question ${currentIdx + 1} of ${questions.length}`}
+                  ? `प्रश्न ${currentIdx + 1} / ${activeQuestions.length}` 
+                  : `Question ${currentIdx + 1} of ${activeQuestions.length}`}
           </span>
         </div>
-        <span className="quiz-badge">
-          {language === 'hi' ? 'अभ्यास जांच' : language === 'gu' ? 'અભ્યાસ ચકાસણી' : language === 'mr' ? 'सराव चाचणी' : 'Practice Check'}
-        </span>
+
+        {/* Dynamic Countdown Timer Badge */}
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '6px',
+          padding: '6px 14px',
+          borderRadius: '20px',
+          fontWeight: '700',
+          fontSize: '13px',
+          backgroundColor: isTimeLow ? 'rgba(239, 68, 68, 0.15)' : 'rgba(37, 99, 235, 0.1)',
+          color: isTimeLow ? '#ef4444' : '#2563eb',
+          border: `1px solid ${isTimeLow ? 'rgba(239, 68, 68, 0.4)' : 'rgba(37, 99, 235, 0.3)'}`,
+          transition: 'all 0.3s ease'
+        }}>
+          {isTimeLow ? <AlertTriangle size={15} className="animate-pulse" /> : <Clock size={15} />}
+          <span>{formatTimer(timeLeft)}</span>
+        </div>
       </div>
 
       <h4 className="quiz-question-text">{currentQuestion.question}</h4>
@@ -504,7 +564,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
         ) : (
           <button className="btn btn-primary" onClick={handleNext}>
             <span>
-              {currentIdx < questions.length - 1 
+              {currentIdx < activeQuestions.length - 1 
                 ? (language === 'hi' ? 'अगला प्रश्न' : language === 'gu' ? 'આગલો પ્રશ્ન' : language === 'mr' ? 'पुढील प्रश्न' : 'Next Question') 
                 : (language === 'hi' ? 'क्विज़ समाप्त करें' : language === 'gu' ? 'ક્વિઝ પૂર્ણ કરો' : language === 'mr' ? 'क्विझ पूर्ण करा' : 'Finish Quiz')}
             </span>

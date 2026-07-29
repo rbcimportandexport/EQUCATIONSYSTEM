@@ -2,7 +2,7 @@ import React from 'react';
 import { useApp } from '../context/AppContext';
 import { QuizView } from '../components/QuizView';
 import { translateModuleTitle, getTranslatedLesson } from '../utils/translator';
-import { ArrowLeft, Award } from 'lucide-react';
+import { Award } from 'lucide-react';
 
 export const QuizScreen: React.FC = () => {
   const { 
@@ -18,20 +18,13 @@ export const QuizScreen: React.FC = () => {
   const rawModuleLessons = lessons.filter(l => l.moduleId === (activeModule?.id || ''));
   const moduleLessons = rawModuleLessons.map(l => getTranslatedLesson(l, language));
   
-  // Gather all quiz questions for this module
+  // Gather all chapter-related quiz questions for this module
   const questions = moduleLessons.flatMap(l => l.content.quiz || []);
 
   const translatedTitle = activeModule ? translateModuleTitle(activeModule.title, language) : '';
 
   return (
     <div className="quiz-workspace-page">
-      <div className="quiz-workspace-header">
-        <button className="back-btn" onClick={() => setActiveView('Chapters')}>
-          <ArrowLeft size={16} />
-          <span>{language === 'hi' ? 'वापस जाएँ' : language === 'gu' ? 'પાછા જાઓ' : language === 'mr' ? 'मागे जा' : 'Back to Chapter'}</span>
-        </button>
-      </div>
-
       <div className="quiz-workspace-body">
         <div className="quiz-info-header-card card">
           <div className="info-meta">
