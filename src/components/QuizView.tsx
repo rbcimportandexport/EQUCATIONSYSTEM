@@ -44,7 +44,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
     if (questions && questions.length > 0) {
       const shuffled = shuffleArray(questions);
       setActiveQuestions(shuffled);
-      // Allocate 45 seconds per chapter question (minimum 60s total)
+      // Allocate 45 seconds per question (minimum 60s total)
       const allocatedTime = Math.max(60, shuffled.length * 45);
       setTimeLeft(allocatedTime);
     } else {
@@ -124,6 +124,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
     if (currentQuestion.type === 'mcq' || currentQuestion.type === 'true-false') {
       correct = selectedOptions[0] === currentQuestion.correctAnswers[0];
     } else if (currentQuestion.type === 'multi-answer') {
+      // Sort and compare arrays
       const sortedSelected = [...selectedOptions].sort();
       const sortedCorrect = [...currentQuestion.correctAnswers].sort();
       correct = 
@@ -140,6 +141,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
       setScore(s => s + 1);
     }
 
+    // Save score in context progress
     saveQuizScore(lessonId, currentQuestion.id, correct);
   };
 
@@ -296,7 +298,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
                   <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', fontWeight: '600' }}>
                     {passed
                       ? (language === 'hi' ? 'उत्तीर्ण ✓' : language === 'gu' ? 'પાસ ✓' : 'PASSED ✓')
-                      : (language === 'hi' ? 'फिर कोशिश करें' : language === 'gu' ? 'ફરી પ્રયાસ' : 'TRY AGAIN')}
+                      : (language === 'hi' ? 'फिर कोशिश करें' : language === 'gu' ? 'ફરી પ્રयास' : 'TRY AGAIN')}
                   </div>
                 </div>
               </div>
