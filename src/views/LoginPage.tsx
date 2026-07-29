@@ -3,24 +3,6 @@ import { authApi } from '../utils/api';
 import type { AuthUser } from '../utils/api';
 import logoEmblem from '../assets/logo_emblem.png';
 
-const GOOGLE_CLIENT_ID = '1097275091219-21t4ed8placeholder.apps.googleusercontent.com';
-
-const decodeJwt = (token: string) => {
-  try {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(
-      window.atob(base64)
-        .split('')
-        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-        .join('')
-    );
-    return JSON.parse(jsonPayload);
-  } catch (e) {
-    return null;
-  }
-};
-
 interface LoginPageProps {
   onLoginSuccess: (user: AuthUser) => void;
 }
@@ -56,31 +38,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
   const [rememberMe, setRememberMe] = useState(false);
   const [accessCode, setAccessCode] = useState('');
 
-  const handleGoogleAccountSelect = async (gName: string, gEmail: string) => {
-    setLoading(true);
-    setErrors({});
-    setSuccessMsg('');
-
-    try {
-      const res = await authApi.googleLogin(gName, gEmail);
-      if (res.success && res.user) {
-        if (res.token) {
-          localStorage.setItem('rbc_auth_token', res.token);
-        }
-        localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(res.user));
-        setSuccessMsg('Google Login successful!');
-        onLoginSuccess(res.user);
-      } else {
-        setErrors({ general: res.message || 'Google Login failed.' });
-      }
-    } catch (err: any) {
-      console.error('Google auth error:', err);
-      setErrors({ general: 'Server/Database is unreachable. Please verify that the backend is running.' });
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     const id = 'rbc-fonts';
     if (!document.getElementById(id)) {
@@ -96,47 +53,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
       setRememberMe(true);
     }
   }, []);
-
-  useEffect(() => {
-    // Dynamic loading of Google GSI Client Script
-    const script = document.createElement('script');
-    script.src = 'https://accounts.google.com/gsi/client';
-    script.async = true;
-    script.defer = true;
-    
-    script.onload = () => {
-      try {
-        const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID;
-        (window as any).google.accounts.id.initialize({
-          client_id: clientId,
-          callback: async (response: any) => {
-            const decoded = decodeJwt(response.credential);
-            if (decoded && decoded.email) {
-              await handleGoogleAccountSelect(decoded.name || decoded.email.split('@')[0], decoded.email);
-            }
-          }
-        });
-
-        const container = document.getElementById('google-btn-container');
-        if (container) {
-          (window as any).google.accounts.id.renderButton(
-            container,
-            { theme: 'outline', size: 'large', width: container.clientWidth || 320 }
-          );
-        }
-      } catch (e) {
-        console.warn('Google GSI init failed:', e);
-      }
-    };
-
-    document.body.appendChild(script);
-
-    return () => {
-      try {
-        document.body.removeChild(script);
-      } catch (e) {}
-    };
-  }, [mode]);
 
   const validate = (): boolean => {
     const e: FormErrors = {};
@@ -828,22 +744,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
             )}
           </button>
 
-          <div className="divider-row">
-            <div className="divider-line" />
-            <span className="divider-text">or</span>
-            <div className="divider-line" />
-          </div>
 
-          <div 
-            id="google-btn-container" 
-            style={{ 
-              width: '100%', 
-              display: 'flex', 
-              justifyContent: 'center',
-              marginTop: '12px',
-              minHeight: '44px' 
-            }}
-          />
 
           <div className="toggle-mode-text">
             {mode === 'login' ? "Don't have an account?" : 'Already have an account?'}
