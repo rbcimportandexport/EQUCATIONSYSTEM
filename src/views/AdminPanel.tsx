@@ -230,7 +230,15 @@ export const AdminPanel = () => {
     pdfMockText: '',
     importantNotes: '',
     keyPoints: '',
-    summary: ''
+    summary: '',
+    quizType: 'mcq' as 'mcq' | 'true-false' | 'fill-blank',
+    quizQuestion: '',
+    quizOptionA: '',
+    quizOptionB: '',
+    quizOptionC: '',
+    quizOptionD: '',
+    quizCorrectAnswer: '0',
+    quizExplanation: ''
   });
 
   // Form states - User
@@ -296,11 +304,17 @@ export const AdminPanel = () => {
         summary: lessonForm.contentType === 'text' ? lessonForm.summary : '',
         quiz: [
           {
-            id: `q-default-${id}`,
-            type: 'true-false',
-            question: `Concept check for: ${lessonForm.title}`,
-            correctAnswers: ['true'],
-            explanation: 'Concept matches standard global customs regulations.'
+            id: `q-custom-${id}`,
+            type: lessonForm.quizType,
+            question: lessonForm.quizQuestion || `Concept check for: ${lessonForm.title}`,
+            options: lessonForm.quizType === 'mcq' ? [
+              lessonForm.quizOptionA || 'Option A',
+              lessonForm.quizOptionB || 'Option B',
+              lessonForm.quizOptionC || 'Option C',
+              lessonForm.quizOptionD || 'Option D'
+            ] : undefined,
+            correctAnswers: [lessonForm.quizCorrectAnswer || '0'],
+            explanation: lessonForm.quizExplanation || 'Concept matches standard global customs regulations.'
           }
         ]
       }
@@ -323,7 +337,15 @@ export const AdminPanel = () => {
       codeSnippet: '',
       videoUrl: '',
       pdfUrl: '',
-      order: prev.order + 1
+      order: prev.order + 1,
+      quizType: 'mcq',
+      quizQuestion: '',
+      quizOptionA: '',
+      quizOptionB: '',
+      quizOptionC: '',
+      quizOptionD: '',
+      quizCorrectAnswer: '0',
+      quizExplanation: ''
     }));
   };
 
@@ -338,6 +360,14 @@ export const AdminPanel = () => {
     } else if (lesson.content.pdf?.pdfUrl) {
       contentType = 'pdf';
     }
+
+    const firstQuiz = lesson.content.quiz?.[0] || {
+      type: 'mcq',
+      question: '',
+      options: ['', '', '', ''],
+      correctAnswers: ['0'],
+      explanation: ''
+    };
 
     setEditingLessonId(lesson.id);
     setLessonForm({
@@ -362,7 +392,15 @@ export const AdminPanel = () => {
       pdfMockText: lesson.content.pdf?.mockPagesText?.join('\n') || '',
       importantNotes: lesson.content.importantNotes?.join('\n') || '',
       keyPoints: lesson.content.keyPoints?.join('\n') || '',
-      summary: lesson.content.summary || ''
+      summary: lesson.content.summary || '',
+      quizType: (firstQuiz.type === 'mcq' || firstQuiz.type === 'true-false' || firstQuiz.type === 'fill-blank') ? firstQuiz.type : 'mcq',
+      quizQuestion: firstQuiz.question || '',
+      quizOptionA: firstQuiz.options?.[0] || '',
+      quizOptionB: firstQuiz.options?.[1] || '',
+      quizOptionC: firstQuiz.options?.[2] || '',
+      quizOptionD: firstQuiz.options?.[3] || '',
+      quizCorrectAnswer: firstQuiz.correctAnswers?.[0] || '0',
+      quizExplanation: firstQuiz.explanation || ''
     });
   };
 
@@ -780,6 +818,139 @@ export const AdminPanel = () => {
                         />
                       </div>
 
+                      {/* Custom Quiz Question Customization Section */}
+                      <div style={{
+                        marginTop: '24px',
+                        padding: '16px',
+                        borderRadius: '12px',
+                        background: '#f8fafc',
+                        border: '1.5px solid #cbd5e1',
+                        marginBottom: '20px'
+                      }}>
+                        <h4 style={{ fontSize: '14px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px 0', borderBottom: '1.5px solid #cbd5e1', paddingBottom: '6px' }}>
+                          ❓ Lesson Quiz Question Customization
+                        </h4>
+
+                        <div className="form-group" style={{ marginBottom: '12px' }}>
+                          <label className="form-label" style={{ fontWeight: 700, fontSize: '12px' }}>Question Type</label>
+                          <select
+                            value={lessonForm.quizType}
+                            onChange={e => setLessonForm({ ...lessonForm, quizType: e.target.value as any })}
+                            className="input-field"
+                            style={{ width: '100%', height: '40px', padding: '8px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
+                          >
+                            <option value="mcq">Multiple Choice (MCQ)</option>
+                            <option value="true-false">True / False</option>
+                            <option value="fill-blank">Fill in the Blank</option>
+                          </select>
+                        </div>
+
+                        <div className="form-group" style={{ marginBottom: '12px' }}>
+                          <label className="form-label" style={{ fontWeight: 700, fontSize: '12px' }}>Question Text</label>
+                          <input
+                            type="text"
+                            required
+                            placeholder="e.g. Which of the following is correct?"
+                            value={lessonForm.quizQuestion}
+                            onChange={e => setLessonForm({ ...lessonForm, quizQuestion: e.target.value })}
+                            className="input-field"
+                          />
+                        </div>
+
+                        {lessonForm.quizType === 'mcq' && (
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
+                            <div className="form-group">
+                              <label className="form-label">Option A</label>
+                              <input
+                                type="text"
+                                required
+                                value={lessonForm.quizOptionA}
+                                onChange={e => setLessonForm({ ...lessonForm, quizOptionA: e.target.value })}
+                                className="input-field"
+                              />
+                            </div>
+                            <div className="form-group">
+                              <label className="form-label">Option B</label>
+                              <input
+                                type="text"
+                                required
+                                value={lessonForm.quizOptionB}
+                                onChange={e => setLessonForm({ ...lessonForm, quizOptionB: e.target.value })}
+                                className="input-field"
+                              />
+                            </div>
+                            <div className="form-group">
+                              <label className="form-label">Option C</label>
+                              <input
+                                type="text"
+                                required
+                                value={lessonForm.quizOptionC}
+                                onChange={e => setLessonForm({ ...lessonForm, quizOptionC: e.target.value })}
+                                className="input-field"
+                              />
+                            </div>
+                            <div className="form-group">
+                              <label className="form-label">Option D</label>
+                              <input
+                                type="text"
+                                required
+                                value={lessonForm.quizOptionD}
+                                onChange={e => setLessonForm({ ...lessonForm, quizOptionD: e.target.value })}
+                                className="input-field"
+                              />
+                            </div>
+                          </div>
+                        )}
+
+                        <div className="form-group" style={{ marginBottom: '12px' }}>
+                          <label className="form-label" style={{ fontWeight: 700, fontSize: '12px' }}>Correct Answer</label>
+                          {lessonForm.quizType === 'mcq' ? (
+                            <select
+                              value={lessonForm.quizCorrectAnswer}
+                              onChange={e => setLessonForm({ ...lessonForm, quizCorrectAnswer: e.target.value })}
+                              className="input-field"
+                              style={{ width: '100%', height: '40px', padding: '8px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
+                            >
+                              <option value="0">Option A</option>
+                              <option value="1">Option B</option>
+                              <option value="2">Option C</option>
+                              <option value="3">Option D</option>
+                            </select>
+                          ) : lessonForm.quizType === 'true-false' ? (
+                            <select
+                              value={lessonForm.quizCorrectAnswer}
+                              onChange={e => setLessonForm({ ...lessonForm, quizCorrectAnswer: e.target.value })}
+                              className="input-field"
+                              style={{ width: '100%', height: '40px', padding: '8px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
+                            >
+                              <option value="true">True (सत्य)</option>
+                              <option value="false">False (असत्य)</option>
+                            </select>
+                          ) : (
+                            <input
+                              type="text"
+                              required
+                              placeholder="e.g. Export"
+                              value={lessonForm.quizCorrectAnswer}
+                              onChange={e => setLessonForm({ ...lessonForm, quizCorrectAnswer: e.target.value })}
+                              className="input-field"
+                            />
+                          )}
+                        </div>
+
+                        <div className="form-group" style={{ marginBottom: '12px' }}>
+                          <label className="form-label" style={{ fontWeight: 700, fontSize: '12px' }}>Answer Explanation</label>
+                          <textarea
+                            rows={2}
+                            required
+                            placeholder="Explanation of the correct answer..."
+                            value={lessonForm.quizExplanation}
+                            onChange={e => setLessonForm({ ...lessonForm, quizExplanation: e.target.value })}
+                            className="input-field text-area"
+                          />
+                        </div>
+                      </div>
+
                       <div style={{ display: 'flex', gap: '10px', marginTop: '16px' }}>
                         <button type="submit" className="btn btn-primary" style={{ flex: 1 }}>
                           <Save size={16} />
@@ -813,7 +984,15 @@ export const AdminPanel = () => {
                                 pdfMockText: '',
                                 importantNotes: '',
                                 keyPoints: '',
-                                summary: ''
+                                summary: '',
+                                quizType: 'mcq',
+                                quizQuestion: '',
+                                quizOptionA: '',
+                                quizOptionB: '',
+                                quizOptionC: '',
+                                quizOptionD: '',
+                                quizCorrectAnswer: '0',
+                                quizExplanation: ''
                               });
                             }}
                           >
