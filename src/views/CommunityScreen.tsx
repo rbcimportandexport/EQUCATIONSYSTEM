@@ -123,16 +123,16 @@ export const CommunityScreen: React.FC = () => {
   const subtitle = language === 'hi'
     ? 'इस प्लेटफॉर्म पर रजिस्टर्ड सभी यूज़र्स की सूची'
     : language === 'gu'
-    ? 'આ પ્લેટફોર્મ પર નોંધાયેલ તમામ વપરાશકર્તાઓ'
-    : 'All users registered on this platform';
+      ? 'આ પ્લેટફોર્મ પર નોંધાયેલ તમામ વપરાશકર્તાઓ'
+      : 'All users registered on this platform';
 
   const youLabel = language === 'hi' ? 'आप' : language === 'gu' ? 'તમે' : 'YOU';
   const progressLabel = language === 'hi' ? 'प्रगति' : language === 'gu' ? 'પ્રગતિ' : 'Progress';
   const emptyLabel = language === 'hi'
     ? 'अभी तक कोई सदस्य नहीं। प्रोफाइल अपडेट करें!'
     : language === 'gu'
-    ? 'હજુ સુધી કોઈ સભ્ય નથી. પ્રોફાઇલ અપડેટ કરો!'
-    : 'No members yet. Update your profile to appear here!';
+      ? 'હજુ સુધી કોઈ સભ્ય નથી. પ્રોફાઇલ અપડેટ કરો!'
+      : 'No members yet. Update your profile to appear here!';
 
   return (
     <div style={{
@@ -360,7 +360,7 @@ export const CommunityScreen: React.FC = () => {
 
       {/* Live Chat Panel */}
       {isChatOpen && activeChatUser && currentUser && (
-        <div 
+        <div
           style={{
             position: 'fixed',
             inset: 0,
@@ -391,7 +391,7 @@ export const CommunityScreen: React.FC = () => {
             }}
           >
             {/* Chat Header */}
-            <div 
+            <div
               style={{
                 padding: '18px 24px',
                 background: 'linear-gradient(135deg, #1e293b, #0f172a)',
@@ -405,7 +405,7 @@ export const CommunityScreen: React.FC = () => {
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 {/* Active Indicator Avatar */}
                 <div style={{ position: 'relative' }}>
-                  <div 
+                  <div
                     style={{
                       width: '40px',
                       height: '40px',
@@ -422,7 +422,7 @@ export const CommunityScreen: React.FC = () => {
                     {activeChatUser.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)}
                   </div>
                   {/* Pulsing online indicator */}
-                  <span 
+                  <span
                     style={{
                       position: 'absolute',
                       bottom: '0',
@@ -433,7 +433,7 @@ export const CommunityScreen: React.FC = () => {
                       border: '2px solid #0f172a',
                       borderRadius: '50%',
                       boxShadow: '0 0 8px #22c55e'
-                    }} 
+                    }}
                   />
                 </div>
 
@@ -472,7 +472,7 @@ export const CommunityScreen: React.FC = () => {
             </div>
 
             {/* Chat Messages Body */}
-            <div 
+            <div
               style={{
                 flex: 1,
                 padding: '24px',
@@ -497,7 +497,7 @@ export const CommunityScreen: React.FC = () => {
                   const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
                   return (
-                    <div 
+                    <div
                       key={msg.id || msg._id || index}
                       style={{
                         display: 'flex',
@@ -505,7 +505,7 @@ export const CommunityScreen: React.FC = () => {
                         width: '100%'
                       }}
                     >
-                      <div 
+                      <div
                         style={{
                           maxWidth: '75%',
                           display: 'flex',
@@ -518,8 +518,8 @@ export const CommunityScreen: React.FC = () => {
                           style={{
                             padding: '12px 16px',
                             borderRadius: isSentByMe ? '18px 18px 2px 18px' : '18px 18px 18px 2px',
-                            background: isSentByMe 
-                              ? 'linear-gradient(135deg, var(--md-sys-color-primary), var(--md-sys-color-secondary))' 
+                            background: isSentByMe
+                              ? 'linear-gradient(135deg, var(--md-sys-color-primary), var(--md-sys-color-secondary))'
                               : '#ffffff',
                             color: isSentByMe ? '#ffffff' : '#1e293b',
                             boxShadow: '0 2px 4px rgba(0,0,0,0.03), 0 1px 2px rgba(0,0,0,0.02)',
@@ -533,7 +533,7 @@ export const CommunityScreen: React.FC = () => {
                           {msg.text}
                         </div>
                         {/* Time */}
-                        <span 
+                        <span
                           style={{
                             fontSize: '10px',
                             color: '#94a3b8',
@@ -552,7 +552,7 @@ export const CommunityScreen: React.FC = () => {
             </div>
 
             {/* Chat Input Footer */}
-            <form 
+            <form
               onSubmit={handleSendMessage}
               style={{
                 padding: '16px 20px',
@@ -589,8 +589,8 @@ export const CommunityScreen: React.FC = () => {
                   height: '42px',
                   borderRadius: '12px',
                   border: 'none',
-                  background: messageText.trim() 
-                    ? 'var(--md-sys-color-primary)' 
+                  background: messageText.trim()
+                    ? 'var(--md-sys-color-primary)'
                     : '#e2e8f0',
                   color: messageText.trim() ? '#ffffff' : '#94a3b8',
                   display: 'flex',
