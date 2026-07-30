@@ -1,7 +1,8 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
 import { QuizView } from '../components/QuizView';
-import { translateModuleTitle, getTranslatedLesson } from '../utils/translator';
+import { translateModuleTitle } from '../utils/translator';
+import { getTranslatedLesson } from '../utils/translatorWrap';
 import { Award } from 'lucide-react';
 
 export const QuizScreen: React.FC = () => {

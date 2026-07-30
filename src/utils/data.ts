@@ -109,6 +109,7 @@ export interface Lesson {
   duration: number; // in minutes
   order: number;
   content: LessonContent;
+  translations?: any;
 }
 
 export interface UserProgress {

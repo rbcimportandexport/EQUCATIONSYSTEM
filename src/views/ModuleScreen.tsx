@@ -8,7 +8,8 @@ import {
   ChevronRight, ChevronDown, Award, Pause, Lock,
   ArrowLeft, ArrowRight, CheckCircle2, Volume2, PlayCircle, Upload, Settings
 } from 'lucide-react';
-import { uiTranslations, translateModuleTitle, translateModuleDescription, getTranslatedLesson } from '../utils/translator';
+import { uiTranslations, translateModuleTitle, translateModuleDescription } from '../utils/translator';
+import { getTranslatedLesson } from '../utils/translatorWrap';
 import { PencilLoader } from '../components/PencilLoader';
 
 export const ModuleScreen: React.FC = () => {

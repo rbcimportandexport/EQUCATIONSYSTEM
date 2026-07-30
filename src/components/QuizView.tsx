@@ -44,8 +44,8 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
     if (questions && questions.length > 0) {
       const shuffled = shuffleArray(questions);
       setActiveQuestions(shuffled);
-      // Allocate 45 seconds per question (minimum 60s total)
-      const allocatedTime = Math.max(60, shuffled.length * 45);
+      // Allocate exactly 40 seconds per question
+      const allocatedTime = shuffled.length * 40;
       setTimeLeft(allocatedTime);
     } else {
       setActiveQuestions([]);

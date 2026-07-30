@@ -249,6 +249,20 @@ export const AdminPanel = () => {
     role: 'student'
   });
 
+  // Quiz Translation States
+  const [quizLang, setQuizLang] = useState<'en' | 'hi' | 'gu' | 'mr'>('en');
+  const [quizTranslations, setQuizTranslations] = useState<{
+    [key in 'hi' | 'gu' | 'mr']: {
+      question: string;
+      options: string[];
+      explanation: string;
+    }
+  }>({
+    hi: { question: '', options: ['', '', '', ''], explanation: '' },
+    gu: { question: '', options: ['', '', '', ''], explanation: '' },
+    mr: { question: '', options: ['', '', '', ''], explanation: '' }
+  });
+
 
 
 
@@ -317,6 +331,59 @@ export const AdminPanel = () => {
             explanation: lessonForm.quizExplanation || 'Concept matches standard global customs regulations.'
           }
         ]
+      },
+      translations: {
+        hi: {
+          quiz: [
+            {
+              id: `q-custom-${id}-hi`,
+              type: lessonForm.quizType,
+              question: quizTranslations.hi.question || lessonForm.quizQuestion,
+              options: lessonForm.quizType === 'mcq' ? [
+                quizTranslations.hi.options[0] || lessonForm.quizOptionA,
+                quizTranslations.hi.options[1] || lessonForm.quizOptionB,
+                quizTranslations.hi.options[2] || lessonForm.quizOptionC,
+                quizTranslations.hi.options[3] || lessonForm.quizOptionD
+              ] : undefined,
+              correctAnswers: [lessonForm.quizCorrectAnswer],
+              explanation: quizTranslations.hi.explanation || lessonForm.quizExplanation
+            }
+          ]
+        },
+        gu: {
+          quiz: [
+            {
+              id: `q-custom-${id}-gu`,
+              type: lessonForm.quizType,
+              question: quizTranslations.gu.question || lessonForm.quizQuestion,
+              options: lessonForm.quizType === 'mcq' ? [
+                quizTranslations.gu.options[0] || lessonForm.quizOptionA,
+                quizTranslations.gu.options[1] || lessonForm.quizOptionB,
+                quizTranslations.gu.options[2] || lessonForm.quizOptionC,
+                quizTranslations.gu.options[3] || lessonForm.quizOptionD
+              ] : undefined,
+              correctAnswers: [lessonForm.quizCorrectAnswer],
+              explanation: quizTranslations.gu.explanation || lessonForm.quizExplanation
+            }
+          ]
+        },
+        mr: {
+          quiz: [
+            {
+              id: `q-custom-${id}-mr`,
+              type: lessonForm.quizType,
+              question: quizTranslations.mr.question || lessonForm.quizQuestion,
+              options: lessonForm.quizType === 'mcq' ? [
+                quizTranslations.mr.options[0] || lessonForm.quizOptionA,
+                quizTranslations.mr.options[1] || lessonForm.quizOptionB,
+                quizTranslations.mr.options[2] || lessonForm.quizOptionC,
+                quizTranslations.mr.options[3] || lessonForm.quizOptionD
+              ] : undefined,
+              correctAnswers: [lessonForm.quizCorrectAnswer],
+              explanation: quizTranslations.mr.explanation || lessonForm.quizExplanation
+            }
+          ]
+        }
       }
     };
 
@@ -329,6 +396,12 @@ export const AdminPanel = () => {
 
     saveLesson(assembledLesson);
     setEditingLessonId(null);
+    setQuizLang('en');
+    setQuizTranslations({
+      hi: { question: '', options: ['', '', '', ''], explanation: '' },
+      gu: { question: '', options: ['', '', '', ''], explanation: '' },
+      mr: { question: '', options: ['', '', '', ''], explanation: '' }
+    });
     setLessonForm(prev => ({
       ...prev,
       title: '',
@@ -368,6 +441,46 @@ export const AdminPanel = () => {
       correctAnswers: ['0'],
       explanation: ''
     };
+
+    const trans = lesson.translations || {
+      hi: { quiz: [] },
+      gu: { quiz: [] },
+      mr: { quiz: [] }
+    };
+
+    setQuizLang('en');
+    setQuizTranslations({
+      hi: {
+        question: trans.hi?.quiz?.[0]?.question || '',
+        options: [
+          trans.hi?.quiz?.[0]?.options?.[0] || '',
+          trans.hi?.quiz?.[0]?.options?.[1] || '',
+          trans.hi?.quiz?.[0]?.options?.[2] || '',
+          trans.hi?.quiz?.[0]?.options?.[3] || ''
+        ],
+        explanation: trans.hi?.quiz?.[0]?.explanation || ''
+      },
+      gu: {
+        question: trans.gu?.quiz?.[0]?.question || '',
+        options: [
+          trans.gu?.quiz?.[0]?.options?.[0] || '',
+          trans.gu?.quiz?.[0]?.options?.[1] || '',
+          trans.gu?.quiz?.[0]?.options?.[2] || '',
+          trans.gu?.quiz?.[0]?.options?.[3] || ''
+        ],
+        explanation: trans.gu?.quiz?.[0]?.explanation || ''
+      },
+      mr: {
+        question: trans.mr?.quiz?.[0]?.question || '',
+        options: [
+          trans.mr?.quiz?.[0]?.options?.[0] || '',
+          trans.mr?.quiz?.[0]?.options?.[1] || '',
+          trans.mr?.quiz?.[0]?.options?.[2] || '',
+          trans.mr?.quiz?.[0]?.options?.[3] || ''
+        ],
+        explanation: trans.mr?.quiz?.[0]?.explanation || ''
+      }
+    });
 
     setEditingLessonId(lesson.id);
     setLessonForm({
@@ -827,12 +940,80 @@ export const AdminPanel = () => {
                         border: '1.5px solid #cbd5e1',
                         marginBottom: '20px'
                       }}>
-                        <h4 style={{ fontSize: '14px', fontWeight: 800, color: '#0f172a', margin: '0 0 16px 0', borderBottom: '1.5px solid #cbd5e1', paddingBottom: '6px' }}>
+                        <h4 style={{ fontSize: '14px', fontWeight: 800, color: '#0f172a', margin: '0 0 12px 0', borderBottom: '1.5px solid #cbd5e1', paddingBottom: '6px' }}>
                           ❓ Lesson Quiz Question Customization
                         </h4>
 
+                        {/* Language tabs */}
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '16px' }}>
+                          <button
+                            type="button"
+                            onClick={() => setQuizLang('en')}
+                            style={{
+                              padding: '5px 10px',
+                              borderRadius: '6px',
+                              border: '1.5px solid #cbd5e1',
+                              fontSize: '11px',
+                              fontWeight: 700,
+                              cursor: 'pointer',
+                              background: quizLang === 'en' ? '#102A56' : '#ffffff',
+                              color: quizLang === 'en' ? '#ffffff' : '#334155'
+                            }}
+                          >
+                            🇬🇧 English
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setQuizLang('hi')}
+                            style={{
+                              padding: '5px 10px',
+                              borderRadius: '6px',
+                              border: '1.5px solid #cbd5e1',
+                              fontSize: '11px',
+                              fontWeight: 700,
+                              cursor: 'pointer',
+                              background: quizLang === 'hi' ? '#102A56' : '#ffffff',
+                              color: quizLang === 'hi' ? '#ffffff' : '#334155'
+                            }}
+                          >
+                            🇮🇳 Hindi (हिंदी)
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setQuizLang('gu')}
+                            style={{
+                              padding: '5px 10px',
+                              borderRadius: '6px',
+                              border: '1.5px solid #cbd5e1',
+                              fontSize: '11px',
+                              fontWeight: 700,
+                              cursor: 'pointer',
+                              background: quizLang === 'gu' ? '#102A56' : '#ffffff',
+                              color: quizLang === 'gu' ? '#ffffff' : '#334155'
+                            }}
+                          >
+                            🇮🇳 Gujarati (ગુજરાતી)
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setQuizLang('mr')}
+                            style={{
+                              padding: '5px 10px',
+                              borderRadius: '6px',
+                              border: '1.5px solid #cbd5e1',
+                              fontSize: '11px',
+                              fontWeight: 700,
+                              cursor: 'pointer',
+                              background: quizLang === 'mr' ? '#102A56' : '#ffffff',
+                              color: quizLang === 'mr' ? '#ffffff' : '#334155'
+                            }}
+                          >
+                            🇮🇳 Marathi (मराठी)
+                          </button>
+                        </div>
+
                         <div className="form-group" style={{ marginBottom: '12px' }}>
-                          <label className="form-label" style={{ fontWeight: 700, fontSize: '12px' }}>Question Type</label>
+                          <label className="form-label" style={{ fontWeight: 700, fontSize: '12px' }}>Question Type (Shared)</label>
                           <select
                             value={lessonForm.quizType}
                             onChange={e => setLessonForm({ ...lessonForm, quizType: e.target.value as any })}
@@ -846,13 +1027,24 @@ export const AdminPanel = () => {
                         </div>
 
                         <div className="form-group" style={{ marginBottom: '12px' }}>
-                          <label className="form-label" style={{ fontWeight: 700, fontSize: '12px' }}>Question Text</label>
+                          <label className="form-label" style={{ fontWeight: 700, fontSize: '12px' }}>
+                            Question Text ({quizLang.toUpperCase()})
+                          </label>
                           <input
                             type="text"
                             required
-                            placeholder="e.g. Which of the following is correct?"
-                            value={lessonForm.quizQuestion}
-                            onChange={e => setLessonForm({ ...lessonForm, quizQuestion: e.target.value })}
+                            placeholder={quizLang === 'en' ? "e.g. Which of the following is correct?" : `Write translation in ${quizLang === 'hi' ? 'Hindi' : quizLang === 'gu' ? 'Gujarati' : 'Marathi'}...`}
+                            value={quizLang === 'en' ? lessonForm.quizQuestion : quizTranslations[quizLang].question}
+                            onChange={e => {
+                              if (quizLang === 'en') {
+                                setLessonForm({ ...lessonForm, quizQuestion: e.target.value });
+                              } else {
+                                setQuizTranslations({
+                                  ...quizTranslations,
+                                  [quizLang]: { ...quizTranslations[quizLang], question: e.target.value }
+                                });
+                              }
+                            }}
                             className="input-field"
                           />
                         </div>
@@ -860,42 +1052,86 @@ export const AdminPanel = () => {
                         {lessonForm.quizType === 'mcq' && (
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
                             <div className="form-group">
-                              <label className="form-label">Option A</label>
+                              <label className="form-label">Option A ({quizLang.toUpperCase()})</label>
                               <input
                                 type="text"
                                 required
-                                value={lessonForm.quizOptionA}
-                                onChange={e => setLessonForm({ ...lessonForm, quizOptionA: e.target.value })}
+                                value={quizLang === 'en' ? lessonForm.quizOptionA : quizTranslations[quizLang].options[0]}
+                                onChange={e => {
+                                  if (quizLang === 'en') {
+                                    setLessonForm({ ...lessonForm, quizOptionA: e.target.value });
+                                  } else {
+                                    const newOpts = [...quizTranslations[quizLang].options];
+                                    newOpts[0] = e.target.value;
+                                    setQuizTranslations({
+                                      ...quizTranslations,
+                                      [quizLang]: { ...quizTranslations[quizLang], options: newOpts }
+                                    });
+                                  }
+                                }}
                                 className="input-field"
                               />
                             </div>
                             <div className="form-group">
-                              <label className="form-label">Option B</label>
+                              <label className="form-label">Option B ({quizLang.toUpperCase()})</label>
                               <input
                                 type="text"
                                 required
-                                value={lessonForm.quizOptionB}
-                                onChange={e => setLessonForm({ ...lessonForm, quizOptionB: e.target.value })}
+                                value={quizLang === 'en' ? lessonForm.quizOptionB : quizTranslations[quizLang].options[1]}
+                                onChange={e => {
+                                  if (quizLang === 'en') {
+                                    setLessonForm({ ...lessonForm, quizOptionB: e.target.value });
+                                  } else {
+                                    const newOpts = [...quizTranslations[quizLang].options];
+                                    newOpts[1] = e.target.value;
+                                    setQuizTranslations({
+                                      ...quizTranslations,
+                                      [quizLang]: { ...quizTranslations[quizLang], options: newOpts }
+                                    });
+                                  }
+                                }}
                                 className="input-field"
                               />
                             </div>
                             <div className="form-group">
-                              <label className="form-label">Option C</label>
+                              <label className="form-label">Option C ({quizLang.toUpperCase()})</label>
                               <input
                                 type="text"
                                 required
-                                value={lessonForm.quizOptionC}
-                                onChange={e => setLessonForm({ ...lessonForm, quizOptionC: e.target.value })}
+                                value={quizLang === 'en' ? lessonForm.quizOptionC : quizTranslations[quizLang].options[2]}
+                                onChange={e => {
+                                  if (quizLang === 'en') {
+                                    setLessonForm({ ...lessonForm, quizOptionC: e.target.value });
+                                  } else {
+                                    const newOpts = [...quizTranslations[quizLang].options];
+                                    newOpts[2] = e.target.value;
+                                    setQuizTranslations({
+                                      ...quizTranslations,
+                                      [quizLang]: { ...quizTranslations[quizLang], options: newOpts }
+                                    });
+                                  }
+                                }}
                                 className="input-field"
                               />
                             </div>
                             <div className="form-group">
-                              <label className="form-label">Option D</label>
+                              <label className="form-label">Option D ({quizLang.toUpperCase()})</label>
                               <input
                                 type="text"
                                 required
-                                value={lessonForm.quizOptionD}
-                                onChange={e => setLessonForm({ ...lessonForm, quizOptionD: e.target.value })}
+                                value={quizLang === 'en' ? lessonForm.quizOptionD : quizTranslations[quizLang].options[3]}
+                                onChange={e => {
+                                  if (quizLang === 'en') {
+                                    setLessonForm({ ...lessonForm, quizOptionD: e.target.value });
+                                  } else {
+                                    const newOpts = [...quizTranslations[quizLang].options];
+                                    newOpts[3] = e.target.value;
+                                    setQuizTranslations({
+                                      ...quizTranslations,
+                                      [quizLang]: { ...quizTranslations[quizLang], options: newOpts }
+                                    });
+                                  }
+                                }}
                                 className="input-field"
                               />
                             </div>
@@ -903,7 +1139,7 @@ export const AdminPanel = () => {
                         )}
 
                         <div className="form-group" style={{ marginBottom: '12px' }}>
-                          <label className="form-label" style={{ fontWeight: 700, fontSize: '12px' }}>Correct Answer</label>
+                          <label className="form-label" style={{ fontWeight: 700, fontSize: '12px' }}>Correct Answer (Shared)</label>
                           {lessonForm.quizType === 'mcq' ? (
                             <select
                               value={lessonForm.quizCorrectAnswer}
@@ -939,13 +1175,24 @@ export const AdminPanel = () => {
                         </div>
 
                         <div className="form-group" style={{ marginBottom: '12px' }}>
-                          <label className="form-label" style={{ fontWeight: 700, fontSize: '12px' }}>Answer Explanation</label>
+                          <label className="form-label" style={{ fontWeight: 700, fontSize: '12px' }}>
+                            Answer Explanation ({quizLang.toUpperCase()})
+                          </label>
                           <textarea
                             rows={2}
                             required
-                            placeholder="Explanation of the correct answer..."
-                            value={lessonForm.quizExplanation}
-                            onChange={e => setLessonForm({ ...lessonForm, quizExplanation: e.target.value })}
+                            placeholder={quizLang === 'en' ? "Explanation of the correct answer..." : `Write explanation translation in ${quizLang === 'hi' ? 'Hindi' : quizLang === 'gu' ? 'Gujarati' : 'Marathi'}...`}
+                            value={quizLang === 'en' ? lessonForm.quizExplanation : quizTranslations[quizLang].explanation}
+                            onChange={e => {
+                              if (quizLang === 'en') {
+                                setLessonForm({ ...lessonForm, quizExplanation: e.target.value });
+                              } else {
+                                setQuizTranslations({
+                                  ...quizTranslations,
+                                  [quizLang]: { ...quizTranslations[quizLang], explanation: e.target.value }
+                                });
+                              }
+                            }}
                             className="input-field text-area"
                           />
                         </div>
