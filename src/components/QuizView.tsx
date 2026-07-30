@@ -354,8 +354,8 @@ export const QuizView: React.FC<QuizViewProps> = ({
                 }} />
               </div>
 
-              {/* Module Unlocked Notification Banner */}
-              {passed && nextModuleOrder && (
+              {/* Module Unlocked Notification Banner - STRICTLY REQUIRE 100% SCORE */}
+              {pct === 100 && nextModuleOrder && (
                 <div style={{
                   margin: '0 0 24px',
                   padding: '16px 20px',
@@ -366,12 +366,12 @@ export const QuizView: React.FC<QuizViewProps> = ({
                 }}>
                   <div style={{ fontSize: '17px', fontWeight: '900', color: '#4ade80', marginBottom: '4px' }}>
                     🎉 {language === 'hi'
-                      ? `बधाई हो! आपने अगला मॉड्यूल ${nextModuleOrder} अनलॉक कर लिया है!`
+                      ? `बधाई हो! आपने 100% अंक हासिल करके अगला मॉड्यूल ${nextModuleOrder} अनलॉक कर लिया है!`
                       : language === 'gu'
-                        ? `અભિનંદન! તમે આગળનું મોડ્યુલ ${nextModuleOrder} અનલોક કરી દીધું છે!`
+                        ? `અભિનંદન! તમે 100% ગુણ મેળવીને આગળનું મોડ્યુલ ${nextModuleOrder} અનલોક કરી દીધું છે!`
                         : language === 'mr'
-                          ? `अभिनंदन! तुम्ही पुढील मॉड्यूल ${nextModuleOrder} अनलॉक केले आहे!`
-                          : `Congratulations! You unlocked Module ${nextModuleOrder}!`}
+                          ? `अभिनंदन! तुम्ही 100% गुण मिळवून पुढील मॉड्यूल ${nextModuleOrder} अनलॉक केले आहे!`
+                          : `Congratulations! You scored 100% and unlocked Module ${nextModuleOrder}!`}
                   </div>
                   {nextModuleTitle && (
                     <div style={{ fontSize: '13px', color: '#cbd5e1', fontWeight: '600' }}>
@@ -383,7 +383,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
 
               {/* Buttons */}
               <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                {passed && onNextModule && nextModuleOrder && (
+                {pct === 100 && onNextModule && nextModuleOrder && (
                   <button
                     onClick={() => {
                       setShowCelebration(false);

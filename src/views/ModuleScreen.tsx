@@ -161,7 +161,7 @@ export const ModuleScreen: React.FC = () => {
 
     const prevMod = sortedMods[idx - 1];
     const prevScore = getModuleQuizScore(prevMod.id);
-    return prevScore < 70;
+    return prevScore < 100;
   };
 
   let fallbackTab: 'pdf' | 'video' | 'read' | 'images' = 'read';
@@ -463,10 +463,10 @@ export const ModuleScreen: React.FC = () => {
             </h2>
             <p style={{ fontSize: '15px', color: '#475569', lineHeight: '1.6', margin: 0 }}>
               {language === 'hi'
-                ? `यह मॉड्यूल लॉक है! इसे अनलॉक करने के लिए आपको पिछले मॉड्यूल ${prevMod.order} (${prevTitle}) के अंतिम मूल्यांकन में कम से कम 70% अंक प्राप्त करने होंगे।`
+                ? `यह मॉड्यूल लॉक है! इसे अनलॉक करने के लिए आपको पिछले मॉड्यूल ${prevMod.order} (${prevTitle}) के अंतिम मूल्यांकन में 100% अंक प्राप्त करने होंगे।`
                 : language === 'gu'
-                ? `આ મોડ્યુલ લૉક છે! તેને અનલૉક કરવા માટે તમારે અગાઉના મોડ્યુલ ${prevMod.order} (${prevTitle}) ના મૂલ્યાંકનમાં ઓછામાં ઓછા ૭૦% ગુણ મેળવવા પડશે.`
-                : `This module is locked! To unlock it, you must complete the final exam/quiz of Module ${prevMod.order} (${prevTitle}) with at least 70% score.`}
+                ? `આ મોડ્યુલ લૉક છે! તેને અનલૉક કરવા માટે તમારે અગાઉના મોડ્યુલ ${prevMod.order} (${prevTitle}) ના મૂલ્યાંકનમાં ૧૦૦% ગુણ મેળવવા પડશે.`
+                : `This module is locked! To unlock it, you must complete the final exam/quiz of Module ${prevMod.order} (${prevTitle}) with a 100% score.`}
             </p>
           </div>
           <button 
