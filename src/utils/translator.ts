@@ -2519,6 +2519,124 @@ export const getTranslatedLesson = (
         }
       }
 
+          // ---- NEW CONCEPT-BASED TEMPLATES (mod-1, mod-2 roles) ----
+
+          // Case 0: "Is it true that X is a key participant in international import-export trade operations?"
+          else if (q.question.includes('key participant in international import-export')) {
+            if (lang === 'hi') {
+              translatedQuestion = `क्या यह सच है कि ${cleanTitle} अंतरराष्ट्रीय आयात-निर्यात व्यापार में एक महत्वपूर्ण भागीदार है?`;
+              translatedExplanation = `हाँ, ${cleanTitle} वैश्विक आपूर्ति श्रृंखला में एक महत्वपूर्ण भूमिका निभाता है, जो मूल से गंतव्य तक माल की आवाजाही सुनिश्चित करता है।`;
+            } else if (lang === 'gu') {
+              translatedQuestion = `શું એ સાચું છે કે ${cleanTitle} આંતરરાષ્ટ્રીય આયાત-નિકાસ વ્યાપારમાં એક મહત્વપૂર્ણ ભાગીદાર છે?`;
+              translatedExplanation = `હા, ${cleanTitle} વૈશ્વિક સપ્લાય ચેઇનમાં આવશ્યક ભૂમિકા ભજવે છે, મૂળ સ્થાનથી ગંતવ્ય સ્થાન સુધી માલ પહોંચાડે છે.`;
+            } else if (lang === 'mr') {
+              translatedQuestion = `हे खरे आहे का की ${cleanTitle} आंतरराष्ट्रीय आयात-निर्यात व्यापारात एक महत्त्वाचा सहभागी आहे?`;
+              translatedExplanation = `होय, ${cleanTitle} जागतिक पुरवठा साखळीत महत्त्वाची भूमिका बजावते, उत्पत्ती स्थानापासून गंतव्यापर्यंत माल पोहोचविण्यात मदत करते.`;
+            }
+          }
+          // Case 1: "Does X have no responsibility in ensuring legal documentation compliance?"
+          else if (q.question.includes('no responsibility in ensuring legal documentation')) {
+            if (lang === 'hi') {
+              translatedQuestion = `क्या ${cleanTitle} की अंतरराष्ट्रीय व्यापार में कानूनी दस्तावेज़ीकरण अनुपालन सुनिश्चित करने में कोई ज़िम्मेदारी नहीं है?`;
+              translatedExplanation = `गलत। ${cleanTitle} सटीक दस्तावेज़ बनाए रखने, भुगतान करने और सीमा शुल्क अनुपालन आवश्यकताओं का पालन करने के लिए जिम्मेदार है।`;
+            } else if (lang === 'gu') {
+              translatedQuestion = `શું ${cleanTitle} ને આંતરરાષ્ટ્રીય વ્યાપારમાં કાનૂની દસ્તાવેજ પાલન સુનિશ્ચિત કરવાની કોઈ જવાબદારી નથી?`;
+              translatedExplanation = `ખોટું. ${cleanTitle} સચોટ દસ્તાવેજ જાળવવા, ચૂકવણી કરવા અને કસ્ટમ્સ પાલન આવશ્યકતાઓનું પાલન કરવા માટે જવાબદાર છે.`;
+            } else if (lang === 'mr') {
+              translatedQuestion = `${cleanTitle} ला आंतरराष्ट्रीय व्यापारात कायदेशीर दस्तऐवज पालन सुनिश्चित करण्याची कोणतीही जबाबदारी नाही का?`;
+              translatedExplanation = `चुकीचे. ${cleanTitle} अचूक कागदपत्रे राखणे, देयके करणे आणि सीमाशुल्क पालन आवश्यकतांचे पालन करण्यासाठी जबाबदार आहे.`;
+            }
+          }
+          // Case 2: "In international trade, what is the primary role of a X?"
+          else if (q.question.includes('primary role of a')) {
+            if (lang === 'hi') {
+              translatedQuestion = `अंतरराष्ट्रीय व्यापार में, ${cleanTitle} की प्राथमिक भूमिका क्या है?`;
+              translatedOptions = [
+                `बिना किसी बाज़ार अनुसंधान के यादृच्छिक रूप से उत्पादों का चयन करना।`,
+                `सप्लायर से माल खरीदना, भुगतान प्रबंधित करना और आयात प्रक्रियाओं को संभालना।`,
+                `केवल शिपिंग लेबल और बंदरगाह दस्तावेज़ तैयार करना।`,
+                `आयातित माल पर सीमा शुल्क का भुगतान करने से बचना।`
+              ];
+              translatedExplanation = `${cleanTitle} माल की सोर्सिंग, भुगतान प्रबंधन, अनुपालन और सुचारू आयात प्रक्रियाओं को सुनिश्चित करने के लिए जिम्मेदार है।`;
+            } else if (lang === 'gu') {
+              translatedQuestion = `આંતરરાષ્ટ્રીય વ્યાપારમાં, ${cleanTitle} ની પ્રાથમિક ભૂમિકા શું છે?`;
+              translatedOptions = [
+                `કોઈ પણ બજાર સંશોધન વિના ઉત્પાદનો પસંદ કરવા.`,
+                `સપ્લાયર પાસેથી માલ ખરીદવો, ચૂકવણી સંચાલિત કરવી અને આયાત પ્રક્રિયાઓ સંભાળવી.`,
+                `ફક્ત શિપિંગ લેબલ અને પોર્ટ દસ્તાવેજ તૈયાર કરવા.`,
+                `આયાત થયેલ માલ પર કસ્ટમ્સ ડ્યૂટી ચૂકવવાનું ટાળવું.`
+              ];
+              translatedExplanation = `${cleanTitle} માલ સોર્સ કરવા, ચૂકવણી સંચાલિત કરવા, પાલન સુનિશ્ચિત કરવા અને આયાત પ્રક્રિયા સરળ બનાવવા જવાબદાર છે.`;
+            } else if (lang === 'mr') {
+              translatedQuestion = `आंतरराष्ट्रीय व्यापारात, ${cleanTitle} ची प्राथमिक भूमिका काय आहे?`;
+              translatedOptions = [
+                `कोणत्याही बाजार संशोधनाशिवाय उत्पादने निवडणे.`,
+                `सप्लायरकडून माल खरेदी करणे, देयके व्यवस्थापित करणे आणि आयात प्रक्रिया हाताळणे.`,
+                `फक्त शिपिंग लेबल आणि बंदर कागदपत्रे तयार करणे.`,
+                `आयात केलेल्या मालावर सीमाशुल्क भरणे टाळणे.`
+              ];
+              translatedExplanation = `${cleanTitle} माल सोर्सिंग, देयक व्यवस्थापन, पालन सुनिश्चित करणे आणि आयात प्रक्रिया सुलभ करण्यासाठी जबाबदार आहे.`;
+            }
+          }
+          // Case 3: "Is it true that understanding the role of X helps prevent costly trade disputes?"
+          else if (q.question.includes('understanding the role of')) {
+            if (lang === 'hi') {
+              translatedQuestion = `क्या यह सच है कि ${cleanTitle} की भूमिका को समझने से महंगे व्यापार विवादों और भुगतान विफलताओं को रोकने में मदद मिलती है?`;
+              translatedExplanation = `हाँ, ${cleanTitle} की जिम्मेदारियों को स्पष्ट रूप से परिभाषित करने से गलत संचार, भुगतान विवाद और व्यापार में कानूनी समस्याएँ रोकी जा सकती हैं।`;
+            } else if (lang === 'gu') {
+              translatedQuestion = `શું એ સાચું છે કે ${cleanTitle} ની ભૂમિકા સમજવાથી ખર્ચાળ વ્યાપાર વિવાદો અને ચૂકવણી નિષ્ફળતાઓ રોકવામાં મદદ મળે છે?`;
+              translatedExplanation = `હા, ${cleanTitle} ની જવાબદારીઓ સ્પષ્ટ રીતે નક્કી કરવાથી ગેરસમજ, ચૂકવણી વિવાદ અને વ્યાપારમાં કાનૂની સમસ્યાઓ ટાળી શકાય છે.`;
+            } else if (lang === 'mr') {
+              translatedQuestion = `हे खरे आहे का की ${cleanTitle} ची भूमिका समजून घेतल्याने खर्चिक व्यापार वाद आणि देयक अपयश टाळण्यास मदत होते?`;
+              translatedExplanation = `होय, ${cleanTitle} च्या जबाबदाऱ्या स्पष्टपणे परिभाषित केल्यास गैरसमज, देयक वाद आणि व्यापारातील कायदेशीर समस्या टाळता येतात.`;
+            }
+          }
+          // Case 4: "What is the most common mistake when dealing with a X in international trade?"
+          else if (q.question.includes('most common mistake when dealing with a')) {
+            if (lang === 'hi') {
+              translatedQuestion = `अंतरराष्ट्रीय व्यापार में ${cleanTitle} के साथ काम करते समय सबसे आम गलती क्या है?`;
+              translatedOptions = [
+                `ऑर्डर देने से पहले उत्पाद के नमूने मांगना।`,
+                `हस्ताक्षरित अनुबंध या सत्यापित दस्तावेज़ीकरण के बिना अग्रिम भुगतान करना।`,
+                `ऑर्डर देने से पहले आयात शुल्क की जाँच करना।`,
+                `सीमा शुल्क निकासी के लिए माल ढुलाई अग्रेषक का उपयोग करना।`
+              ];
+              translatedExplanation = `${cleanTitle} के साथ काम करते समय उचित लिखित समझौते या दस्तावेज़ सत्यापन के बिना अग्रिम राशि का भुगतान करना सबसे आम और महंगी गलती है।`;
+            } else if (lang === 'gu') {
+              translatedQuestion = `આંતરરાષ્ટ્રીય વ્યાપારમાં ${cleanTitle} સાથે કામ કરતી વખતે સૌથી સામાન્ય ભૂલ કઈ છે?`;
+              translatedOptions = [
+                `ઓર્ડર આપતા પહેલા ઉત્પાદનના નમૂના માગવા.`,
+                `સહી કરેલ કરાર અથવા ચકાસાયેલ દસ્તાવેજ વિના અગ્રિમ ચૂકવણી કરવી.`,
+                `ઓર્ડર આપતા પહેલા આયાત ડ્યૂટી ચકાસવી.`,
+                `કસ્ટમ્સ ક્લિયરન્સ માટે ફ્રેઇટ ફોરવર્ડરનો ઉપયોગ કરવો.`
+              ];
+              translatedExplanation = `${cleanTitle} સાથે કામ કરતી વખતે યોગ્ય લેખિત કરાર અથવા દસ્તાવેજ ચકાસણી વિના અગ્રિમ ચૂકવણી કરવી સૌથી સામાન્ય અને ખર્ચાળ ભૂલ છે.`;
+            } else if (lang === 'mr') {
+              translatedQuestion = `आंतरराष्ट्रीय व्यापारात ${cleanTitle} शी व्यवहार करताना सर्वात सामान्य चूक कोणती आहे?`;
+              translatedOptions = [
+                `ऑर्डर देण्यापूर्वी उत्पादनाचे नमुने मागणे.`,
+                `स्वाक्षरी केलेल्या कराराशिवाय किंवा सत्यापित कागदपत्रांशिवाय आगाऊ देयक करणे.`,
+                `ऑर्डर देण्यापूर्वी आयात शुल्क तपासणे.`,
+                `सीमाशुल्क क्लिअरन्ससाठी फ्रेट फॉरवर्डरचा वापर करणे.`
+              ];
+              translatedExplanation = `${cleanTitle} शी व्यवहार करताना योग्य लेखी करारावर किंवा कागदपत्र सत्यापनाशिवाय आगाऊ रक्कम भरणे ही सर्वात सामान्य आणि महाग चूक आहे.`;
+            }
+          }
+          // Case 5 (default): "Can a X operate successfully in global trade without understanding customs compliance?"
+          else if (q.question.includes('operate successfully in global trade without understanding')) {
+            if (lang === 'hi') {
+              translatedQuestion = `क्या कोई ${cleanTitle} सीमा शुल्क अनुपालन और दस्तावेज़ीकरण आवश्यकताओं को समझे बिना अंतरराष्ट्रीय व्यापार में सफलतापूर्वक काम कर सकता है?`;
+              translatedExplanation = `नहीं। ${cleanTitle} को सफलतापूर्वक अंतरराष्ट्रीय व्यापार संचालित करने के लिए सीमा शुल्क अनुपालन, दस्तावेज़ीकरण आवश्यकताओं और भुगतान प्रक्रियाओं को समझना अनिवार्य है।`;
+            } else if (lang === 'gu') {
+              translatedQuestion = `શું ${cleanTitle} કસ્ટમ્સ પાલન અને દસ્તાવેজ આવશ્યકતાઓ સમજ્યા વિના આંતરરાષ્ટ્રીય વ્યાપારમાં સફળ રીતે કામ કરી શકે?`;
+              translatedExplanation = `ના. ${cleanTitle} ને સફળ રીતે આંતરરાષ્ટ્રીય વ્યાપાર ચલાવવા માટે કસ્ટમ્સ પાલન, દસ્તાવેજ આવશ્યકતાઓ અને ચૂકવણી પ્રક્રિયાઓ સમજવી ફરજિયાત છે.`;
+            } else if (lang === 'mr') {
+              translatedQuestion = `सीमाशुल्क पालन आणि दस्तऐवज आवश्यकता न समजता ${cleanTitle} आंतरराष्ट्रीय व्यापारात यशस्वीपणे कार्य करू शकतो का?`;
+              translatedExplanation = `नाही. ${cleanTitle} ला यशस्वीपणे आंतरराष्ट्रीय व्यापार करण्यासाठी सीमाशुल्क पालन, दस्तऐवज आवश्यकता आणि देयक प्रक्रिया समजणे आवश्यक आहे.`;
+            }
+          }
+
+
       return {
         ...q,
         question: translatedQuestion,

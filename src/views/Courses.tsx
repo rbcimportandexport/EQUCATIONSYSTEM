@@ -77,7 +77,7 @@ export const Courses: React.FC = () => {
 
     const prevMod = sortedMods[idx - 1];
     const prevScore = getModuleQuizScore(prevMod.id);
-    return prevScore < 100;
+    return prevScore < 70;
   };
 
   const handleOpenModule = (moduleId: string, courseId: string) => {
@@ -87,7 +87,7 @@ export const Courses: React.FC = () => {
       const prevMod = sortedMods[idx - 1];
       showAlert(
         "Module Locked",
-        `This module is locked! You must complete the final exam/quiz of Module ${prevMod.order} (${prevMod.title}) with a 100% score to unlock it.`,
+        `This module is locked! You must complete the final exam/quiz of Module ${prevMod.order} (${prevMod.title}) with at least 70% score to unlock it.`,
         "warning"
       );
       return;

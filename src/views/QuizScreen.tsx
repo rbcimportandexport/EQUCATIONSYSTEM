@@ -8,6 +8,7 @@ import { Award } from 'lucide-react';
 export const QuizScreen: React.FC = () => {
   const { 
     selectedModuleId, 
+    setSelectedModuleId,
     modules, 
     lessons, 
     language, 
@@ -21,6 +22,11 @@ export const QuizScreen: React.FC = () => {
   
   // Gather all quiz questions for this module
   const questions = moduleLessons.flatMap(l => l.content.quiz || []);
+
+  const sortedMods = [...modules].sort((a, b) => a.order - b.order);
+  const activeIdx = sortedMods.findIndex(m => m.id === activeModule?.id);
+  const nextModule = activeIdx >= 0 && activeIdx < sortedMods.length - 1 ? sortedMods[activeIdx + 1] : null;
+  const nextModuleTitle = nextModule ? translateModuleTitle(nextModule.title, language) : '';
 
   const translatedTitle = activeModule ? translateModuleTitle(activeModule.title, language) : '';
 
@@ -52,8 +58,16 @@ export const QuizScreen: React.FC = () => {
           <QuizView 
             lessonId={`mod-quiz-${activeModule?.id}`} 
             questions={questions}
+            nextModuleOrder={nextModule?.order}
+            nextModuleTitle={nextModuleTitle}
+            onNextModule={() => {
+              if (nextModule) {
+                setSelectedModuleId(nextModule.id);
+                setActiveView('Chapters');
+              }
+            }}
             onComplete={() => {
-              // Optional callback on finish
+              // Completed callback
             }}
           />
         ) : (

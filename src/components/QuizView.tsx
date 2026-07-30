@@ -7,6 +7,9 @@ interface QuizViewProps {
   lessonId: string;
   questions: QuizQuestion[];
   onComplete?: () => void;
+  onNextModule?: () => void;
+  nextModuleTitle?: string;
+  nextModuleOrder?: number;
 }
 
 // Fisher-Yates array shuffling utility
@@ -21,7 +24,14 @@ const shuffleArray = <T,>(array: T[]): T[] => {
   return copy;
 };
 
-export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onComplete }) => {
+export const QuizView: React.FC<QuizViewProps> = ({ 
+  lessonId, 
+  questions, 
+  onComplete,
+  onNextModule,
+  nextModuleTitle,
+  nextModuleOrder
+}) => {
   const { saveQuizScore, language, currentUser } = useApp();
   const [showCelebration, setShowCelebration] = useState(false);
   const [celebrationVisible, setCelebrationVisible] = useState(false);
@@ -39,7 +49,12 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
   // Live Timer State (in seconds)
   const [timeLeft, setTimeLeft] = useState<number>(0);
 
-  // Initialize and shuffle questions for this chapter on load or lessonId change
+  // Stable key for questions so parent re-renders don't reset current question index
+  const questionsKey = questions && questions.length > 0
+    ? `${lessonId}_${questions.length}_${questions.map(q => q.id).join('_')}`
+    : lessonId;
+
+  // Initialize and shuffle questions ONLY when chapter or question list changes
   useEffect(() => {
     if (questions && questions.length > 0) {
       const shuffled = shuffleArray(questions);
@@ -55,7 +70,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
     setScore(0);
     setQuizFinished(false);
     setTimeLeft(40);
-  }, [lessonId, questions]);
+  }, [questionsKey]);
 
   // Reset timer to 40s whenever moving to a new question
   useEffect(() => {
@@ -325,12 +340,80 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
                 }} />
               </div>
 
+              {/* Progress bar */}
+              <div style={{ height: '8px', background: 'rgba(255,255,255,0.08)', borderRadius: '8px', overflow: 'hidden', marginBottom: '24px' }}>
+                <div style={{
+                  height: '100%',
+                  width: `${pct}%`,
+                  background: passed
+                    ? 'linear-gradient(90deg, #22c55e, #4ade80)'
+                    : 'linear-gradient(90deg, #fbbf24, #f97316)',
+                  borderRadius: '8px',
+                  transition: 'width 1s ease 0.5s',
+                  boxShadow: passed ? '0 0 12px rgba(34,197,94,0.5)' : '0 0 12px rgba(251,191,36,0.5)'
+                }} />
+              </div>
+
+              {/* Module Unlocked Notification Banner */}
+              {passed && nextModuleOrder && (
+                <div style={{
+                  margin: '0 0 24px',
+                  padding: '16px 20px',
+                  background: 'linear-gradient(135deg, rgba(34,197,94,0.2), rgba(16,185,129,0.15))',
+                  border: '1px solid rgba(34,197,94,0.4)',
+                  borderRadius: '16px',
+                  textAlign: 'center'
+                }}>
+                  <div style={{ fontSize: '17px', fontWeight: '900', color: '#4ade80', marginBottom: '4px' }}>
+                    🎉 {language === 'hi'
+                      ? `बधाई हो! आपने अगला मॉड्यूल ${nextModuleOrder} अनलॉक कर लिया है!`
+                      : language === 'gu'
+                        ? `અભિનંદન! તમે આગળનું મોડ્યુલ ${nextModuleOrder} અનલોક કરી દીધું છે!`
+                        : language === 'mr'
+                          ? `अभिनंदन! तुम्ही पुढील मॉड्यूल ${nextModuleOrder} अनलॉक केले आहे!`
+                          : `Congratulations! You unlocked Module ${nextModuleOrder}!`}
+                  </div>
+                  {nextModuleTitle && (
+                    <div style={{ fontSize: '13px', color: '#cbd5e1', fontWeight: '600' }}>
+                      {nextModuleTitle}
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* Buttons */}
-              <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+              <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                {passed && onNextModule && nextModuleOrder && (
+                  <button
+                    onClick={() => {
+                      setShowCelebration(false);
+                      setCelebrationVisible(false);
+                      onNextModule();
+                    }}
+                    style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                      padding: '12px 24px', borderRadius: '12px', border: 'none',
+                      background: 'linear-gradient(135deg, #10b981, #059669)',
+                      color: '#ffffff', fontWeight: '800', fontSize: '14px', cursor: 'pointer',
+                      boxShadow: '0 4px 16px rgba(16,185,129,0.4)'
+                    }}
+                  >
+                    <span>
+                      {language === 'hi'
+                        ? `मॉड्यूल ${nextModuleOrder} पर जाएं`
+                        : language === 'gu'
+                          ? `મોડ્યુલ ${nextModuleOrder} પર જાઓ`
+                          : language === 'mr'
+                            ? `मॉड्यूल ${nextModuleOrder} वर जा`
+                            : `Go to Module ${nextModuleOrder}`}
+                    </span>
+                    <ArrowRight size={16} />
+                  </button>
+                )}
                 <button
                   onClick={() => { setShowCelebration(false); setCelebrationVisible(false); }}
                   style={{
-                    padding: '12px 28px', borderRadius: '12px',
+                    padding: '12px 24px', borderRadius: '12px',
                     border: '1px solid rgba(255,255,255,0.2)',
                     background: 'rgba(255,255,255,0.08)',
                     color: '#fff', fontWeight: '700', fontSize: '14px', cursor: 'pointer'
@@ -342,7 +425,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
                   onClick={resetQuiz}
                   style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                    padding: '12px 28px', borderRadius: '12px', border: 'none',
+                    padding: '12px 24px', borderRadius: '12px', border: 'none',
                     background: 'linear-gradient(135deg, #fbbf24, #f97316)',
                     color: '#1e293b', fontWeight: '800', fontSize: '14px', cursor: 'pointer',
                     boxShadow: '0 4px 16px rgba(251,191,36,0.4)'

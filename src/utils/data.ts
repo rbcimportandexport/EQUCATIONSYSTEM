@@ -3680,12 +3680,6 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
           id: `${lessonId}-q1`,
           type: 'mcq',
           question: 'Which of the following MUST be printed on export master cartons?',
-          options: [
-            'The factory owner\'s personal phone number.',
-            'Consignee address, Country of Origin, Gross Weight, and Carton Number.',
-            'The bank account details for payment.',
-            'The shipping line vessel schedule.'
-          ],
           correctAnswers: ['1'],
           explanation: 'Export master cartons must show Consignee name/address, Country of Origin, Gross/Net weight, carton dimensions, and carton numbers. This is required for customs clearance at both origin and destination.'
         }
@@ -3714,9 +3708,81 @@ const cleanTopicName = (rawTitle: string): string => {
 };
 
 const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: number): QuizQuestion[] => {
-  const index = lessonIndex % 6;
   const topic = cleanTopicName(title);
 
+  // Detect if the lesson is a concept/role topic (mod-1 or mod-2)
+  // These are topics like "Buyer", "Supplier", "Import", "Export", etc.
+  const isConcept = lessonId.includes('mod-1') || lessonId.includes('mod-2');
+
+  if (isConcept) {
+    // Use concept-friendly question templates based on lesson index
+    const conceptIndex = lessonIndex % 6;
+    switch (conceptIndex) {
+      case 0:
+        return [{
+          id: `${lessonId}-q1`,
+          type: 'true-false',
+          question: `Is it true that ${topic} is a key participant in international import-export trade operations?`,
+          correctAnswers: ['true'],
+          explanation: `Yes, ${topic} plays an essential role in the global supply chain, ensuring goods move from origin to destination.`
+        }];
+      case 1:
+        return [{
+          id: `${lessonId}-q1`,
+          type: 'true-false',
+          question: `Does ${topic} have no responsibility in ensuring legal documentation compliance during international trade?`,
+          correctAnswers: ['false'],
+          explanation: `Incorrect. ${topic} is responsible for maintaining accurate documentation, making payments, and following customs compliance requirements.`
+        }];
+      case 2:
+        return [{
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: `In international trade, what is the primary role of a ${topic}?`,
+          options: [
+            `To randomly select products without any market research.`,
+            `To purchase goods from suppliers, manage payment, and handle import procedures.`,
+            `To only prepare shipping labels and port documents.`,
+            `To avoid paying customs duties on imported goods.`
+          ],
+          correctAnswers: ['1'],
+          explanation: `A ${topic} is responsible for sourcing goods, making payments, managing compliance, and ensuring smooth import procedures.`
+        }];
+      case 3:
+        return [{
+          id: `${lessonId}-q1`,
+          type: 'true-false',
+          question: `Is it true that understanding the role of ${topic} helps prevent costly trade disputes and payment failures?`,
+          correctAnswers: ['true'],
+          explanation: `Yes, clearly defining the responsibilities of each ${topic} prevents miscommunication, payment disputes, and legal problems in trade.`
+        }];
+      case 4:
+        return [{
+          id: `${lessonId}-q1`,
+          type: 'mcq',
+          question: `What is the most common mistake when dealing with a ${topic} in international trade?`,
+          options: [
+            `Asking for product samples before placing an order.`,
+            `Making advance payment without a signed agreement or verified documentation.`,
+            `Checking import duties before placing an order.`,
+            `Using a freight forwarder for customs clearance.`
+          ],
+          correctAnswers: ['1'],
+          explanation: `Paying advance amounts without proper written agreements or document verification is the most common and costly mistake when dealing with a ${topic}.`
+        }];
+      default:
+        return [{
+          id: `${lessonId}-q1`,
+          type: 'true-false',
+          question: `Can a ${topic} operate successfully in global trade without understanding customs compliance and documentation requirements?`,
+          correctAnswers: ['false'],
+          explanation: `No. A ${topic} must understand customs compliance, documentation requirements, and payment procedures to operate successfully in international trade.`
+        }];
+    }
+  }
+
+  // Operational/Logistics topic templates (mod-3 onwards)
+  const index = lessonIndex % 6;
   switch (index) {
     case 0:
       return [
@@ -3769,7 +3835,7 @@ const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: 
         {
           id: `${lessonId}-q1`,
           type: 'mcq',
-          question: `What is a common risk or mistake associated with mishandling ${topic}?`,
+          question: `What is a common problem that occurs when ${topic} is not handled correctly?`,
           options: [
             'Receiving discounts from the shipping line.',
             'Importers incurring heavy demurrage, port detention, and customs penalty charges.',
