@@ -3700,8 +3700,22 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
   return null;
 };
 
+const cleanTopicName = (rawTitle: string): string => {
+  if (!rawTitle) return '';
+  return rawTitle
+    .replace(/^what\s+is\s+/i, '')
+    .replace(/^what\s+are\s+/i, '')
+    .replace(/^why\s+is\s+/i, '')
+    .replace(/^how\s+to\s+/i, '')
+    .replace(/^overview\s+of\s+/i, '')
+    .replace(/^understanding\s+/i, '')
+    .replace(/\?+$/g, '')
+    .trim();
+};
+
 const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: number): QuizQuestion[] => {
   const index = lessonIndex % 6;
+  const topic = cleanTopicName(title);
 
   switch (index) {
     case 0:
@@ -3709,9 +3723,9 @@ const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: 
         {
           id: `${lessonId}-q1`,
           type: 'true-false',
-          question: `Is it true that ${title} plays a critical role in determining logistics timelines and cost allocations?`,
+          question: `Is it true that ${topic} plays a critical role in determining logistics timelines and cost allocations?`,
           correctAnswers: ['true'],
-          explanation: `Yes, ${title} is key to planning transit phases, customs duties, and overall pricing.`
+          explanation: `Yes, ${topic} is key to planning transit phases, customs duties, and overall pricing.`
         }
       ];
     case 1:
@@ -3719,9 +3733,9 @@ const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: 
         {
           id: `${lessonId}-q1`,
           type: 'true-false',
-          question: `Does ${title} have absolutely no impact on customs clearance or cargo risk allocation?`,
+          question: `Does ${topic} have absolutely no impact on customs clearance or cargo risk allocation?`,
           correctAnswers: ['false'],
-          explanation: `Incorrect. ${title} directly impacts customs compliance, port clearance fees, and cargo risk allocation.`
+          explanation: `Incorrect. ${topic} directly impacts customs compliance, port clearance fees, and cargo risk allocation.`
         }
       ];
     case 2:
@@ -3729,7 +3743,7 @@ const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: 
         {
           id: `${lessonId}-q1`,
           type: 'mcq',
-          question: `In international trade, which of the following best describes the main purpose of ${title}?`,
+          question: `In international trade, which of the following best describes the main purpose of ${topic}?`,
           options: [
             'To ignore custom duty calculations.',
             'To standardize operations, reduce port delays, and allocate freight risk/costs correctly.',
@@ -3737,7 +3751,7 @@ const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: 
             'To bypass international cargo inspection processes.'
           ],
           correctAnswers: ['1'],
-          explanation: `${title} standardizes logistics operations, ensures legal compliance, and clarifies cost/risk boundaries.`
+          explanation: `${topic} standardizes logistics operations, ensures legal compliance, and clarifies cost/risk boundaries.`
         }
       ];
     case 3:
@@ -3745,9 +3759,9 @@ const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: 
         {
           id: `${lessonId}-q1`,
           type: 'true-false',
-          question: `Is ${title} purely a local term that has no standard meaning in global shipping agreements?`,
+          question: `Is ${topic} purely a local term that has no standard meaning in global shipping agreements?`,
           correctAnswers: ['false'],
-          explanation: `${title} is governed by international trade regulations, customs protocols, or global standard practices.`
+          explanation: `${topic} is governed by international trade regulations, customs protocols, or global standard practices.`
         }
       ];
     case 4:
@@ -3755,7 +3769,7 @@ const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: 
         {
           id: `${lessonId}-q1`,
           type: 'mcq',
-          question: `What is a common risk or mistake associated with mishandling ${title}?`,
+          question: `What is a common risk or mistake associated with mishandling ${topic}?`,
           options: [
             'Receiving discounts from the shipping line.',
             'Importers incurring heavy demurrage, port detention, and customs penalty charges.',
@@ -3763,7 +3777,7 @@ const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: 
             'Shorter ocean transit routes.'
           ],
           correctAnswers: ['1'],
-          explanation: `Incorrectly handling ${title} often leads to severe customs inspection delays and substantial port penalty charges.`
+          explanation: `Incorrectly handling ${topic} often leads to severe customs inspection delays and substantial port penalty charges.`
         }
       ];
     default:
@@ -3771,9 +3785,9 @@ const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: 
         {
           id: `${lessonId}-q1`,
           type: 'true-false',
-          question: `Is a mismatch in documents related to ${title} a primary reason for customs holding shipments at the port of entry?`,
+          question: `Is a mismatch in documents related to ${topic} a primary reason for customs holding shipments at the port of entry?`,
           correctAnswers: ['true'],
-          explanation: `Yes, documentation inconsistencies regarding ${title} parameters will trigger manual audits and customs holds.`
+          explanation: `Yes, documentation inconsistencies regarding ${topic} parameters will trigger manual audits and customs holds.`
         }
       ];
   }
@@ -3782,7 +3796,9 @@ const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: 
 // Seeding engine to populate all 15 modules and their respective lessons
 
 // Helper to generate rich domain-specific content per module for all fallback topics
-const getModuleDomainInfo = (title: string, moduleId: string) => {
+const getModuleDomainInfo = (rawTitle: string, moduleId: string) => {
+  // Clean the title so "What is International Trade?" becomes "International Trade"
+  const title = cleanTopicName(rawTitle);
   // Direct topic-specific lookup for unique definitions across all modules
   const topicMap: { [key: string]: { def: string; imp: string; ex: string; tip: string; mistake: string } } = {
     'Freight': {
@@ -3978,6 +3994,7 @@ export const initialLessons: Lesson[] = (() => {
     titles.forEach((title, idx) => {
       const lessonId = `les-${moduleId}-${idx + 1}`;
       const order = idx + 1;
+      const cleanTitle = cleanTopicName(title);
       
       // Check if we have high-fidelity mock overrides
       const override = getHighFidelityContent(title, lessonId);
@@ -3987,7 +4004,7 @@ export const initialLessons: Lesson[] = (() => {
           id: lessonId,
           moduleId,
           title,
-          description: `Master the key concepts and application guidelines for ${title} in international trade.`,
+          description: `Master the key concepts and application guidelines for ${cleanTitle} in international trade.`,
           duration: 15,
           order,
           content: override
@@ -3999,7 +4016,7 @@ export const initialLessons: Lesson[] = (() => {
           id: lessonId,
           moduleId,
           title,
-          description: `Master the essential meaning, industry practices, and risk factors associated with ${title}.`,
+          description: `Master the essential meaning, industry practices, and risk factors associated with ${cleanTitle}.`,
           duration: 12,
           order,
           content: {
@@ -4009,7 +4026,7 @@ export const initialLessons: Lesson[] = (() => {
             images: [
               {
                 url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
-                caption: `Operational visualization of cargo handling and logistics planning for ${title}.`,
+                caption: `Operational visualization of cargo handling and logistics planning for ${cleanTitle}.`,
                 highResUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80'
               }
             ],
@@ -4020,31 +4037,31 @@ export const initialLessons: Lesson[] = (() => {
             },
             pdf: {
               pdfUrl: '#',
-              title: `${title} Reference Materials.pdf`,
+              title: `${cleanTitle} Reference Materials.pdf`,
               totalPages: 1,
               size: '300 KB',
               mockPagesText: [
-                `Page 1: Explains technical details, standard values, weight metrics, custom fees, and best practice models for handling ${title} during sea or air shipment.`
+                `Page 1: Explains technical details, standard values, weight metrics, custom fees, and best practice models for handling ${cleanTitle} during sea or air shipment.`
               ]
             },
             downloadOption: {
-              title: `${title} Reference Sheet`,
+              title: `${cleanTitle} Reference Sheet`,
               fileUrl: '#',
               size: '45 KB',
               type: 'pdf'
             },
             relatedTopics: ['FOB', 'EXW', 'Customs Clearance'],
             faqs: [
-              { question: `What is the role of ${title} in global transit?`, answer: `It clarifies handling protocols, standard documentation clearances, and freight quotes for cargo logistics.` }
+              { question: `What is the role of ${cleanTitle} in global transit?`, answer: `It clarifies handling protocols, standard documentation clearances, and freight quotes for cargo logistics.` }
             ],
             commonMistakes: [info.mistake, 'Failing to verify documentation details before vessel dispatch.'],
             practicalTips: [info.tip, 'Consult your customs broker (CHA) before finalizing purchase contracts.'],
-            summary: `This lesson covers the fundamental definition, business examples, FAQs, and risk assessments related to ${title}.`,
+            summary: `This lesson covers the fundamental definition, business examples, FAQs, and risk assessments related to ${cleanTitle}.`,
             quiz: generateProgrammaticQuiz(title, lessonId, idx),
-            objectives: [`Understand the operational definition of ${title}.`, `Analyze the trade importance of ${title}.`],
+            objectives: [`Understand the operational definition of ${cleanTitle}.`, `Analyze the trade importance of ${cleanTitle}.`],
             writtenExplanation: info.def,
-            importantNotes: [`Always check local compliance guides for ${title}.`],
-            keyPoints: [`Accurate execution of ${title} reduces demurrage risk.`, `Consolidate variables with forwarders beforehand.`]
+            importantNotes: [`Always check local compliance guides for ${cleanTitle}.`],
+            keyPoints: [`Accurate execution of ${cleanTitle} reduces demurrage risk.`, `Consolidate variables with forwarders beforehand.`]
           }
         });
       }
