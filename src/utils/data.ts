@@ -3740,10 +3740,10 @@ const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: 
           type: 'mcq',
           question: `In international trade, what is the primary role of a ${topic}?`,
           options: [
-            `To randomly select products without any market research.`,
+            `To set local retail sales targets and manage domestic marketing campaigns for the manufacturer.`,
             `To purchase goods from suppliers, manage payment, and handle import procedures.`,
-            `To only prepare shipping labels and port documents.`,
-            `To avoid paying customs duties on imported goods.`
+            `To only print shipping labels, manage domestic warehouse stock, and schedule local trucks.`,
+            `To bypass direct customs clearance and port terminal inspection processes for imported goods.`
           ],
           correctAnswers: ['1'],
           explanation: `A ${topic} is responsible for sourcing goods, making payments, managing compliance, and ensuring smooth import procedures.`
@@ -3762,10 +3762,10 @@ const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: 
           type: 'mcq',
           question: `What is the most common mistake when dealing with a ${topic} in international trade?`,
           options: [
-            `Asking for product samples before placing an order.`,
+            `Requesting detailed technical product samples and lab test reports before placing bulk orders.`,
             `Making advance payment without a signed agreement or verified documentation.`,
-            `Checking import duties before placing an order.`,
-            `Using a freight forwarder for customs clearance.`
+            `Verifying applicable import customs duties and HSN classification rates prior to factory dispatch.`,
+            `Appointing a licensed freight forwarder for smooth customs clearance at international ports.`
           ],
           correctAnswers: ['1'],
           explanation: `Paying advance amounts without proper written agreements or document verification is the most common and costly mistake when dealing with a ${topic}.`
@@ -3811,10 +3811,10 @@ const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: 
           type: 'mcq',
           question: `In international trade, which of the following best describes the main purpose of ${topic}?`,
           options: [
-            'To ignore custom duty calculations.',
+            'To bypass all customs declaration forms, import duty calculations, and safety inspection protocols.',
             'To standardize operations, reduce port delays, and allocate freight risk/costs correctly.',
-            'To double the retail price in domestic markets.',
-            'To bypass international cargo inspection processes.'
+            'To artificially inflate domestic market sales prices and limit import quotas for overseas distributors.',
+            'To revoke cargo insurance policies and ignore all customs regulations and documentation requirements.'
           ],
           correctAnswers: ['1'],
           explanation: `${topic} standardizes logistics operations, ensures legal compliance, and clarifies cost/risk boundaries.`
@@ -3837,10 +3837,10 @@ const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: 
           type: 'mcq',
           question: `What is a common problem that occurs when ${topic} is not handled correctly?`,
           options: [
-            'Receiving discounts from the shipping line.',
+            'Receiving additional rebates and automated freight rate discounts from shipping lines and agents.',
             'Importers incurring heavy demurrage, port detention, and customs penalty charges.',
-            'Automatic approval of all custom declarations.',
-            'Shorter ocean transit routes.'
+            'Instant automatic approval of all customs declaration forms without any inspection or paperwork.',
+            'Cutting ocean transit travel times in half and securing direct fast-track delivery to the destination.'
           ],
           correctAnswers: ['1'],
           explanation: `Incorrectly handling ${topic} often leads to severe customs inspection delays and substantial port penalty charges.`
