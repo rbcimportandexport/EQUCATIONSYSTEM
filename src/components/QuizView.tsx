@@ -44,12 +44,8 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
     if (questions && questions.length > 0) {
       const shuffled = shuffleArray(questions);
       setActiveQuestions(shuffled);
-      // Allocate exactly 40 seconds per question
-      const allocatedTime = shuffled.length * 40;
-      setTimeLeft(allocatedTime);
     } else {
       setActiveQuestions([]);
-      setTimeLeft(0);
     }
     setCurrentIdx(0);
     setSelectedOptions([]);
@@ -58,9 +54,17 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
     setIsCorrect(false);
     setScore(0);
     setQuizFinished(false);
+    setTimeLeft(40);
   }, [lessonId, questions]);
 
-  // Countdown Timer Interval Effect
+  // Reset timer to 40s whenever moving to a new question
+  useEffect(() => {
+    if (activeQuestions.length > 0) {
+      setTimeLeft(40);
+    }
+  }, [currentIdx]);
+
+  // Countdown Timer Interval Effect (40 seconds per question)
   useEffect(() => {
     if (quizFinished || timeLeft <= 0 || activeQuestions.length === 0) return;
 
@@ -68,18 +72,23 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
       setTimeLeft(prev => {
         if (prev <= 1) {
           clearInterval(timer);
-          setQuizFinished(true);
-          setShowCelebration(true);
-          setTimeout(() => setCelebrationVisible(true), 50);
-          if (onComplete) onComplete();
-          return 0;
+          if (currentIdx < activeQuestions.length - 1) {
+            handleNext();
+            return 40;
+          } else {
+            setQuizFinished(true);
+            setShowCelebration(true);
+            setTimeout(() => setCelebrationVisible(true), 50);
+            if (onComplete) onComplete();
+            return 0;
+          }
         }
         return prev - 1;
       });
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [quizFinished, timeLeft, activeQuestions.length, onComplete]);
+  }, [quizFinished, timeLeft, activeQuestions.length, currentIdx, onComplete]);
 
   const currentQuestion = activeQuestions[currentIdx];
 
@@ -165,8 +174,6 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
     if (questions && questions.length > 0) {
       const shuffled = shuffleArray(questions);
       setActiveQuestions(shuffled);
-      const allocatedTime = Math.max(60, shuffled.length * 45);
-      setTimeLeft(allocatedTime);
     }
     setCurrentIdx(0);
     setSelectedOptions([]);
@@ -177,6 +184,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
     setQuizFinished(false);
     setShowCelebration(false);
     setCelebrationVisible(false);
+    setTimeLeft(40);
   };
 
   const formatTimer = (totalSeconds: number) => {
@@ -379,7 +387,7 @@ export const QuizView: React.FC<QuizViewProps> = ({ lessonId, questions, onCompl
     );
   }
 
-  const isTimeLow = timeLeft < 30;
+  const isTimeLow = timeLeft <= 10;
 
   return (
     <div className="quiz-container card">
