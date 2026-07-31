@@ -45,15 +45,44 @@ export const getTranslatedLesson = (lesson: any, lang: 'en' | 'hi' | 'gu' | 'mr'
   if (cleanQuiz && cleanQuiz.length > 0) {
     cleanQuiz = cleanQuiz.map((q: any) => {
       let qText = q.question || '';
-      
-      // Clean embedded 'What is X?' or double ?? in question text
-      if (lesson?.title) {
-        qText = qText.replace(new RegExp(`purpose of ${lesson.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\?\\?`, 'gi'), `purpose of ${cleanTitle}?`);
-        qText = qText.replace(new RegExp(`purpose of ${lesson.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'gi'), `purpose of ${cleanTitle}`);
-        qText = qText.replace(new RegExp(`related to ${lesson.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'gi'), `related to ${cleanTitle}`);
-        qText = qText.replace(new RegExp(`mishandling ${lesson.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'gi'), `mishandling ${cleanTitle}`);
-        qText = qText.replace(new RegExp(`Is it true that ${lesson.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'gi'), `Is it true that ${cleanTitle}`);
-        qText = qText.replace(new RegExp(`Does ${lesson.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'gi'), `Does ${cleanTitle}`);
+      let qOpts = q.options ? [...q.options] : [];
+      let qExp = q.explanation || '';
+
+      if (lang !== 'en') {
+        // 1. Translate Question Text if in English
+        if (qText.startsWith('What does ') || qText.startsWith('What Does ')) {
+          const matchTerm = qText.replace(/^What [Dd]oes\s+/, '').replace(/\s+(mean|do)\??$/i, '').trim();
+          const translatedTerm = translateDynamicContent(matchTerm, matchTerm, lang);
+          if (lang === 'hi') {
+            qText = `${translatedTerm} का क्या मतलब/कार्य है?`;
+          } else if (lang === 'gu') {
+            qText = `${translatedTerm} નો શું અર્થ/કાર્ય છે?`;
+          } else if (lang === 'mr') {
+            qText = `${translatedTerm} ચા काय अर्थ/कार्य आहे?`;
+          }
+        } else {
+          qText = translateDynamicContent(qText, lesson?.title || '', lang);
+        }
+
+        // 2. Translate Options Array if in English
+        qOpts = qOpts.map((opt: string) => {
+          if (!opt) return opt;
+          if (opt === 'An illegal trade practice.') {
+            return lang === 'hi' ? 'एक अवैध व्यापार प्रथा।' : lang === 'gu' ? 'એક ગેરકાયદેસર વેપાર પદ્ધતિ.' : 'एक बेकायदेशीर व्यापार पद्धत.';
+          }
+          if (opt === 'A tax penalty.') {
+            return lang === 'hi' ? 'एक टैक्स जुर्माना।' : lang === 'gu' ? 'એક ટેક્સ દંડ.' : 'एक टॅक्स दंड.';
+          }
+          if (opt === 'A shipping carrier.') {
+            return lang === 'hi' ? 'एक शिपिंग वाहक (Shipping Carrier)।' : lang === 'gu' ? 'એક શિપિંગ કેરિયર.' : 'एक शिपिंग वाहक.';
+          }
+          return translateDynamicContent(opt, lesson?.title || '', lang);
+        });
+
+        // 3. Translate Explanation if in English
+        if (qExp) {
+          qExp = translateDynamicContent(qExp, lesson?.title || '', lang);
+        }
       }
 
       // Replace generic double question marks ?? -> ?
@@ -61,7 +90,9 @@ export const getTranslatedLesson = (lesson: any, lang: 'en' | 'hi' | 'gu' | 'mr'
 
       return {
         ...q,
-        question: qText
+        question: qText,
+        options: qOpts,
+        explanation: qExp
       };
     });
   }
