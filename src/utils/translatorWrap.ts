@@ -9,6 +9,16 @@ const cleanTopicTitle = (title: string): string => {
     .replace(/^how\s+to\s+/i, '')
     .replace(/^overview\s+of\s+/i, '')
     .replace(/^understanding\s+/i, '')
+    .replace(/\s*क्या\s+है\??/gi, '')
+    .replace(/\s*क्या\s+होता\s+है\??/gi, '')
+    .replace(/\s*क्या\s+होती\s+है\??/gi, '')
+    .replace(/\s*क्या\s+हैं\??/gi, '')
+    .replace(/\s*कौन\s+है\??/gi, '')
+    .replace(/\s*कौन\s+हैं\??/gi, '')
+    .replace(/\s*શું\s+છે\??/gi, '')
+    .replace(/\s*કોણ\s+છે\??/gi, '')
+    .replace(/\s*काय\s+आहे\??/gi, '')
+    .replace(/\s*कोण\s+आहे\??/gi, '')
     .replace(/\?+$/g, '')
     .trim();
 };
