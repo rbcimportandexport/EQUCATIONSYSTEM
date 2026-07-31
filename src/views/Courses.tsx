@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { moduleLessonsMap } from '../utils/data';
+import { translateModuleTitle, translateModuleDescription } from '../utils/translator';
 import { Search, ArrowRight, Lock } from 'lucide-react';
 
 interface ModuleImageData {
@@ -32,6 +33,7 @@ export const Courses: React.FC = () => {
     lessons,
     progress,
     userRole,
+    language,
     setSelectedCourseId, 
     setSelectedModuleId, 
     setSelectedLessonId,
@@ -42,11 +44,18 @@ export const Courses: React.FC = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Filter modules based on search
-  const filteredModules = modules.filter(mod => 
-    mod.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    mod.description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Filter modules based on search (checking both original and translated text)
+  const filteredModules = modules.filter(mod => {
+    const q = searchQuery.toLowerCase();
+    const tTitle = translateModuleTitle(mod.title, language).toLowerCase();
+    const tDesc = translateModuleDescription(mod.description, language).toLowerCase();
+    return (
+      mod.title.toLowerCase().includes(q) ||
+      mod.description.toLowerCase().includes(q) ||
+      tTitle.includes(q) ||
+      tDesc.includes(q)
+    );
+  });
 
   const getModuleQuizScore = (modId: string) => {
     const modLessons = lessons.filter(l => l.moduleId === modId);
@@ -85,9 +94,16 @@ export const Courses: React.FC = () => {
       const sortedMods = [...modules].sort((a, b) => a.order - b.order);
       const idx = sortedMods.findIndex(m => m.id === moduleId);
       const prevMod = sortedMods[idx - 1];
+      const prevTitle = translateModuleTitle(prevMod.title, language);
       showAlert(
-        "Module Locked",
-        `This module is locked! You must complete the final exam/quiz of Module ${prevMod.order} (${prevMod.title}) with a 100% score to unlock it.`,
+        language === 'hi' ? "मॉड्यूल लॉक है" : language === 'gu' ? "મોડ્યુલ લૉક છે" : language === 'mr' ? "मॉड्यूल लॉक आहे" : "Module Locked",
+        language === 'hi'
+          ? `यह मॉड्यूल लॉक है! इसे अनलॉक करने के लिए आपको मॉड्यूल ${prevMod.order} (${prevTitle}) की अंतिम परीक्षा/क्विज़ को 100% स्कोर से पूरा करना होगा।`
+          : language === 'gu'
+            ? `આ મોડ્યુલ લૉક છે! તેને અનલૉક કરવા માટે તમારે મોડ્યુલ ${prevMod.order} (${prevTitle}) ની અંતિમ પરીક્ષા/ક્વિઝ 100% સ્કોર સાથે પૂર્ણ કરવી આવશ્યક છે.`
+            : language === 'mr'
+              ? `हे मॉड्यूल लॉक आहे! ते अनलॉक करण्यासाठी तुम्हाला मॉड्यूल ${prevMod.order} (${prevTitle}) ची अंतिम परीक्षा/क्विझ 100% गुणांसह पूर्ण करणे आवश्यक आहे.`
+              : `This module is locked! You must complete the final exam/quiz of Module ${prevMod.order} (${prevMod.title}) with a 100% score to unlock it.`,
         "warning"
       );
       return;
@@ -148,8 +164,7 @@ export const Courses: React.FC = () => {
         }
 
         .modules-search-input:focus {
-          border-color: #0284c7;
-          box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+          border-color: #3b82f6;
         }
 
         .modules-search-icon {
@@ -162,141 +177,140 @@ export const Courses: React.FC = () => {
 
         .modules-grid-container {
           max-width: 1240px;
-          margin: 0 auto 60px auto;
-          padding: 0 48px;
+          margin: 0 auto;
+          padding: 0 48px 48px 48px;
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: 32px;
+          gap: 24px;
         }
 
         .varsity-module-card {
           background: #ffffff;
-          border-radius: 12px;
           border: 1px solid #e2e8f0;
+          border-radius: 16px;
           overflow: hidden;
           transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
           display: flex;
           flex-direction: column;
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+          position: relative;
         }
 
         .varsity-module-card:hover {
           transform: translateY(-4px);
-          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 16px 32px -8px rgba(15, 23, 42, 0.12);
           border-color: #cbd5e1;
         }
 
         .module-accent-bar {
-          height: 5px;
+          height: 4px;
           width: 100%;
         }
 
         .module-image-container {
           position: relative;
-          aspect-ratio: 16 / 9;
-          height: auto;
+          width: 100%;
+          height: 160px;
           overflow: hidden;
-          background: #ffffff;
+          background: #f8fafc;
         }
 
         .module-card-img {
           width: 100%;
           height: 100%;
-          object-fit: contain;
-          transition: transform 0.35s ease;
+          object-fit: cover;
+          transition: transform 0.3s ease;
         }
 
         .varsity-module-card:hover .module-card-img {
-          transform: scale(1.05);
+          transform: scale(1.03);
         }
 
         .module-number-badge {
           position: absolute;
           top: 12px;
           left: 14px;
-          background: rgba(15, 23, 42, 0.88);
+          background: rgba(15, 23, 42, 0.85);
           color: #ffffff;
-          font-size: 16px;
           font-weight: 800;
-          width: 36px;
-          height: 36px;
+          font-size: 13px;
+          padding: 4px 10px;
           border-radius: 8px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
           backdrop-filter: blur(4px);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .module-card-content {
-          padding: 20px 22px;
-          flex: 1;
+          padding: 20px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
+          flex: 1;
         }
 
         .module-card-header {
-          margin-bottom: 12px;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 12px;
+          margin-bottom: 8px;
         }
 
         .module-title-text {
-          font-size: 18px;
+          font-size: 17px;
           font-weight: 700;
           color: #0f172a;
-          margin: 0 0 6px 0;
-          line-height: 1.35;
+          margin: 0;
+          line-height: 1.3;
         }
 
         .module-chapter-count {
-          font-size: 13px;
-          color: #64748b;
+          font-size: 12px;
           font-weight: 600;
-          margin: 0;
+          color: #64748b;
+          white-space: nowrap;
+          background: #f1f5f9;
+          padding: 3px 8px;
+          border-radius: 6px;
         }
 
         .module-description-text {
-          font-size: 13.5px;
+          font-size: 13px;
           color: #475569;
-          line-height: 1.55;
-          margin-bottom: 20px;
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
+          line-height: 1.5;
+          margin: 0 0 16px 0;
         }
 
         .module-card-actions {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding-top: 14px;
+          padding-top: 12px;
           border-top: 1px solid #f1f5f9;
+          margin-top: auto;
         }
 
         .view-module-link {
-          font-size: 13.5px;
-          font-weight: 600;
-          color: #0284c7;
-          background: none;
-          border: none;
-          cursor: pointer;
-          padding: 0;
-          display: flex;
+          display: inline-flex;
           align-items: center;
           gap: 6px;
-          transition: color 0.15s ease;
+          font-size: 13px;
+          font-weight: 700;
+          color: #2563eb;
+          background: none;
+          border: none;
+          padding: 0;
+          cursor: pointer;
+          transition: gap 0.2s ease;
         }
 
-        .view-module-link:hover {
-          color: #0369a1;
-          text-decoration: underline;
+        .varsity-module-card:hover .view-module-link {
+          gap: 9px;
+          color: #1d4ed8;
         }
 
         .module-lang-tag {
-          font-size: 12px;
-          color: #64748b;
-          background: #f1f5f9;
+          font-size: 11px;
+          color: #94a3b8;
+          background: #f8fafc;
           padding: 3px 8px;
           border-radius: 4px;
           font-weight: 500;
@@ -329,15 +343,27 @@ export const Courses: React.FC = () => {
       {/* Header Bar */}
       <div className="modules-header-container">
         <div>
-          <h1 className="modules-page-title">Modules</h1>
-          <p className="modules-page-subtitle">Master global trade, container logistics, documentation, and customs step-by-step.</p>
+          <h1 className="modules-page-title">
+            {language === 'hi' ? 'मॉड्यूल्स' : language === 'gu' ? 'મોડ્યુલ્સ' : language === 'mr' ? 'मॉड्यूल्स' : 'Modules'}
+          </h1>
+          <p className="modules-page-subtitle">
+            {language === 'hi'
+              ? 'अंतर्राष्ट्रीय व्यापार, कंटेनर लॉजिस्टिक्स, दस्तावेज़ और कस्टम्स को चरण-दर-चरण सीखें।'
+              : language === 'gu'
+                ? 'આંતરરાષ્ટ્રીય વેપાર, કન્ટેનર લોજિસ્ટિક્સ, દસ્તાવેજીકરણ અને કસ્ટમ્સ શીખો.'
+                : language === 'mr'
+                  ? 'आंतरराष्ट्रीय व्यापार, कंटेनर लॉजिस्टिक्स, दस्तऐवज आणि कस्टम्स स्टेप-बाय-स्टेप शिका.'
+                  : 'Master global trade, container logistics, documentation, and customs step-by-step.'}
+          </p>
         </div>
 
         <div className="modules-search-wrapper">
           <Search size={16} className="modules-search-icon" />
           <input 
             type="text" 
-            placeholder="Search 15 trade modules..." 
+            placeholder={
+              language === 'hi' ? '15 ट्रेड मॉड्यूल खोजें...' : language === 'gu' ? '15 ટ્રેડ મોડ્યુલ શોધો...' : language === 'mr' ? '15 ट्रेड मॉड्यूल्स शोधा...' : 'Search 15 trade modules...'
+            } 
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             className="modules-search-input"
@@ -353,8 +379,10 @@ export const Courses: React.FC = () => {
             accentColor: '#0284c7'
           };
           const chapterCount = moduleLessonsMap[mod.id]?.length || 10;
-
           const isLocked = isModuleLocked(mod.id);
+
+          const translatedTitle = translateModuleTitle(mod.title, language);
+          const translatedDesc = translateModuleDescription(mod.description, language);
 
           return (
             <div 
@@ -376,7 +404,7 @@ export const Courses: React.FC = () => {
               <div className="module-image-container">
                 <img 
                   src={imgData.image} 
-                  alt={mod.title} 
+                  alt={translatedTitle} 
                   className="module-card-img" 
                   style={{
                     filter: isLocked ? 'grayscale(1) opacity(0.6)' : 'none'
@@ -408,21 +436,27 @@ export const Courses: React.FC = () => {
               <div className="module-card-content">
                 <div>
                   <div className="module-card-header">
-                    <h3 className="module-title-text">{mod.order}. {mod.title}</h3>
-                    <div className="module-chapter-count">{chapterCount} chapters</div>
+                    <h3 className="module-title-text">{mod.order}. {translatedTitle}</h3>
+                    <div className="module-chapter-count">
+                      {chapterCount} {language === 'hi' ? 'अध्याय' : language === 'gu' ? 'પ્રકરણો' : language === 'mr' ? 'धडे' : 'chapters'}
+                    </div>
                   </div>
 
                   <p className="module-description-text">
-                    {mod.description}
+                    {translatedDesc}
                   </p>
                 </div>
 
                 <div className="module-card-actions">
                   <button className="view-module-link">
-                    <span>View module</span>
+                    <span>
+                      {language === 'hi' ? 'मॉड्यूल देखें' : language === 'gu' ? 'મોડ્યુલ જુઓ' : language === 'mr' ? 'मॉड्यूल पहा' : 'View module'}
+                    </span>
                     <ArrowRight size={14} />
                   </button>
-                  <span className="module-lang-tag">Hindi / English</span>
+                  <span className="module-lang-tag">
+                    {language === 'hi' ? 'हिंदी / अंग्रेज़ी' : language === 'gu' ? 'હિન્દી / અંગ્રેજી' : language === 'mr' ? 'हिंदी / इंग्रजी' : 'Hindi / English'}
+                  </span>
                 </div>
               </div>
             </div>

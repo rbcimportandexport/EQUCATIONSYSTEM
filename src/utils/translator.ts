@@ -22,17 +22,55 @@ export const moduleDescriptionTranslations: {
   [language: string]: { [englishDesc: string]: string }
 } = {
   hi: {
-    "Master standard terminology of players and processes in international trade.": "इंटरनेशनल ट्रेड में काम आने वाले मुख्य शब्दों और प्रक्रियाओं की आसान जानकारी।",
-    "Understand core goods properties, custom classifications, and compliance metrics.": "प्रोडक्ट की मुख्य खूबियां, कस्टम क्लासिफिकेशन और नियमों की पूरी जानकारी।",
-    "Learn metrics, standards, and calculations for shipping weight and volume.": "शिपिंग में वजन, वॉल्यूम और उनके कैलकुलेशन के तरीकों को समझें।",
-    "Understand container types, dimensions, stuffing, and payload regulations.": "कंटेनर के प्रकार, साइज, लोडिंग और वजन से जुड़े नियमों की जानकारी।",
-    "Learn shipping terms, delivery methods, port logistics, and incoterms.": "शिपिंग टर्म्स, डिलीवरी के तरीके, पोर्ट लॉजिस्टिक्स और इन्कोटर्म्स के बारे में जानें।"
+    "Master standard terminology of players and processes in international trade.": "अंतर्राष्ट्रीय व्यापार में काम आने वाले मुख्य शब्दों और प्रक्रियाओं की आसान जानकारी।",
+    "Understand standard manufacturing, pricing models, and private labeling terms.": "उत्पाद निर्माण, मूल्य निर्धारण मॉडल और प्राइवेट लेबलिंग शर्तों को समझें।",
+    "Analyze volumetric properties of products, cartons, and loading pallets.": "उत्पादों, कार्टन और लोडिंग पैलेट के वजन व वॉल्यूम मापदंडों का विश्लेषण करें।",
+    "Understand container types, dimensions, stuffing, and payload regulations.": "कंटेनर के प्रकार, आयाम, स्टफिंग (लोडिंग) और वजन नियमों को समझें।",
+    "Master shipping terms, vessel transit times, ETD/ETA, and freight modes.": "शिपिंग टर्म्स, वेसल ट्रांजिट टाइम, ETD/ETA और फ्रेट मोड में महारत हासिल करें।",
+    "Learn essential Incoterms defining seller and buyer risk, cost, and logistics duties.": "विक्रेता और खरीदार के जोखिम, लागत व जिम्मेदारी तय करने वाले मुख्य इन्कोटर्म्स सीखें।",
+    "Understand port operations, ICD dry ports, CFS warehouses, and door delivery.": "पोर्ट ऑपरेशन्स, ICD ड्राई पोर्ट्स, CFS गोदाम और डोर डिलीवरी की प्रक्रिया समझें।",
+    "Master commercial invoices, packing lists, Bill of Lading, and certificates.": "कमर्शियल इनवॉइस, पैकिंग लिस्ट, बिल ऑफ लेडिंग और सर्टिफिकेट्स में महारत हासिल करें।",
+    "Learn customs clearance, HSN codes, BCD/IGST duty calculation, and compliance.": "कस्टम्स क्लीयरेंस, HSN कोड, BCD/IGST ड्यूटी की गणना और नियम सीखें।",
+    "Understand advance payment, LC letters of credit, SWIFT transfers, and banking.": "एडवांस पेमेंट, लेटर ऑफ क्रेडिट (LC), SWIFT ट्रांसफर और बैंकिंग प्रक्रियाओं को समझें।",
+    "Analyze ocean freight rates, THC terminal handling, demurrage, and port charges.": "समुद्री भाड़ा दरों, THC टर्मिनल हैंडलिंग, डेमरेज और पोर्ट शुल्कों का विश्लेषण करें।",
+    "Learn quality control, pre-shipment inspections, AQL standards, and testing.": "क्वालिटी कंट्रोल, प्री-शिपमेंट इंस्पेक्शन, AQL मानकों और टेस्टिंग के बारे में जानें।",
+    "Understand purchase order execution, quotation approvals, and order tracking.": "परचेज ऑर्डर निष्पादन, कोटेशन स्वीकृति और ऑर्डर ट्रैकिंग प्रक्रियाओं को समझें।",
+    "Learn cargo insurance, force majeure, damage claims, and dispute resolution.": "कार्गो बीमा, फ़ोर्स मेज्योर, नुकसान के दावों और विवाद समाधान के बारे में जानें।",
+    "Master RBC Import & Export end-to-end SOPs, workflows, and internal processes.": "RBC आयात एवं निर्यात की संपूर्ण SOPs, वर्कफ़्लो और आंतरिक प्रक्रियाओं में महारत हासिल करें।"
   },
   gu: {
-    "Master standard terminology of players and processes in international trade.": "આંતરરાષ્ટ્રીય વ્યાપારની મૂળભૂત શરતો અને પ્રક્રિયાઓની સરળ સમજ."
+    "Master standard terminology of players and processes in international trade.": "આંતરરાષ્ટ્રીય વ્યાપારમાં વપરાતા મુખ્ય શબ્દો અને પ્રક્રિયાઓની સરળ માહિતી.",
+    "Understand standard manufacturing, pricing models, and private labeling terms.": "ઉત્પાદન ઉત્પાદન, કિંમત મોડેલ અને પ્રાઇવેટ લેબલિંગ શરતો સમજો.",
+    "Analyze volumetric properties of products, cartons, and loading pallets.": "ઉત્પાદનો, કાર્ટન અને લોડિંગ પેલેટના વજન અને વોલ્યુમનું વિશ્લેષણ કરો.",
+    "Understand container types, dimensions, stuffing, and payload regulations.": "કન્ટેનરના પ્રકારો, પરિમાણો, સ્ટફિંગ અને વજનના નિયમો સમજો.",
+    "Master shipping terms, vessel transit times, ETD/ETA, and freight modes.": "શિપિંગ શરતો, વેસલ ટ્રાન્ઝિટ ટાઇમ, ETD/ETA અને ફ્રેઇટ મોડ્સ શીખો.",
+    "Learn essential Incoterms defining seller and buyer risk, cost, and logistics duties.": "વિક્રેતા અને ખરીદનારના જોખમ, ખર્ચ અને જવાબદારી નક્કી કરતા ઇન્કોટર્મ્સ શીખો.",
+    "Understand port operations, ICD dry ports, CFS warehouses, and door delivery.": "પોર્ટ કામગીરી, ICD ડ્રાય પોર્ટ્સ, CFS વેરહાઉસ અને ડોર ડિલિવરી પ્રક્રિયા સમજો.",
+    "Master commercial invoices, packing lists, Bill of Lading, and certificates.": "કોમર્શિયલ ઇન્વોઇસ, પેકિંગ લિસ્ટ, બિલ ઓફ લેડિંગ અને સર્ટિફિકેટ્સ શીખો.",
+    "Learn customs clearance, HSN codes, BCD/IGST duty calculation, and compliance.": "કસ્ટમ્સ ક્લિયરન્સ, HSN કોડ, BCD/IGST ડ્યુટી ગણતરી અને નિયમો શીખો.",
+    "Understand advance payment, LC letters of credit, SWIFT transfers, and banking.": "એડવાન્સ પેમેન્ટ, લેટર ઓફ ક્રેડિટ (LC), SWIFT ટ્રાન્સફર અને બેંકિંગ પ્રક્રિયાઓ સમજો.",
+    "Analyze ocean freight rates, THC terminal handling, demurrage, and port charges.": "દરિયાઈ ફ્રેઇટ દરો, THC ટર્મિનલ હેન્ડલિંગ, ડેમરેજ અને પોર્ટ ચાર્જીસનું વિશ્લેષણ કરો.",
+    "Learn quality control, pre-shipment inspections, AQL standards, and testing.": "ક્વોલિટી કંટ્રોલ, પ્રી-શિપમેન્ટ ઈન્સપેક્શન, AQL માનકો અને ટેસ્ટિંગ વિશે જાણો.",
+    "Understand purchase order execution, quotation approvals, and order tracking.": "પર્ચેઝ ઓર્ડર અમલીકરણ, ક્વોટેશન મંજૂરી અને ઓર્ડર ટ્રેકિંગ પ્રક્રિયાઓ સમજો.",
+    "Learn cargo insurance, force majeure, damage claims, and dispute resolution.": "કાર્ગો વીમો, ફોર્સ મેજ્યુઅર, નુકસાનના દાવાઓ અને વિવાદ નિવારણ વિશે જાણો.",
+    "Master RBC Import & Export end-to-end SOPs, workflows, and internal processes.": "RBC આયાત અને નિકાસની સંપૂર્ણ SOPs, વર્કફ્લો અને આંતરિક પ્રક્રિયાઓ શીખો."
   },
   mr: {
-    "Master standard terminology of players and processes in international trade.": "आंतरराष्ट्रीय व्यापारातील मूलभूत संज्ञा आणि प्रक्रियांची सोपी ओळख."
+    "Master standard terminology of players and processes in international trade.": "आंतरराष्ट्रीय व्यापारात वापरल्या जाणाऱ्या मुख्य संज्ञा आणि प्रक्रियांची सोपी माहिती.",
+    "Understand standard manufacturing, pricing models, and private labeling terms.": "उत्पादन निर्मिती, किंमत मॉडेल आणि प्रायव्हेट लेबलિંગ अटी समजून घ्या.",
+    "Analyze volumetric properties of products, cartons, and loading pallets.": "उत्पादने, पुठ्ठे आणि लोडिंग पॅलेटचे वजन व आकारमान विश्लेषण करा.",
+    "Understand container types, dimensions, stuffing, and payload regulations.": "कंटेनरचे प्रकार, आकार, स्टफિંગ आणि वजन नियमावली समजून घ्या.",
+    "Master shipping terms, vessel transit times, ETD/ETA, and freight modes.": "शिपिंग अटी, वेसल ट्रांझिट टाइम, ETD/ETA आणि फ्रेट मोड्स आत्मसात करा.",
+    "Learn essential Incoterms defining seller and buyer risk, cost, and logistics duties.": "विक्रेता आणि खरेदीदाराचे धोके, खर्च व जबाबदाऱ्या ठरवणाऱ्या इन्કોટર્મ્સ शिका.",
+    "Understand port operations, ICD dry ports, CFS warehouses, and door delivery.": "पोर्ट ऑपरेशन्स, ICD ड्राय पोर्ट्स, CFS वेअरहाઉસ आणि डोअर डिलिव્હરી પ્રક્રિયા સમજો.",
+    "Master commercial invoices, packing lists, Bill of Lading, and certificates.": "કમર્શિયલ ઇનવોઇસ, પેકિંગ લિસ્ટ, બિલ ઓફ લેડિંગ અને પ્રમાણપત્રોમાં પ્રભુત્વ મેળવો.",
+    "Learn customs clearance, HSN codes, BCD/IGST duty calculation, and compliance.": "કસ્ટમ્સ ક્લિઅરન્સ, HSN કોડ, BCD/IGST ડ્યુટી ગણતરી અને નિયમ શીખો.",
+    "Understand advance payment, LC letters of credit, SWIFT transfers, and banking.": "એડવાન્સ પેમેન્ટ, લેટર ઓફ ક્રેડિટ (LC), SWIFT ટ્રાન્સફર અને બેંકિંગ પ્રક્રિયા સમજો.",
+    "Analyze ocean freight rates, THC terminal handling, demurrage, and port charges.": "દરિયાઈ ફ્રેઇટ દર, THC ટર્મિનલ હેન્ડલિંગ, ડેમરેજ અને પોર્ટ શુલ્કનું વિશ્લેષણ કરો.",
+    "Learn quality control, pre-shipment inspections, AQL standards, and testing.": "ક્વોલિટી કંટ્રોલ, પ્રી-શિપમેન્ટ ઇન્સ્પેક્શન, AQL માનકો અને ચાચણ્યાઓ વિશે શીખો.",
+    "Understand purchase order execution, quotation approvals, and order tracking.": "પર્ચેસ ઓર્ડર અમલીકરણ, કોટેશન મંજૂરી અને ઓર્ડર ટ્રેકિંગ પ્રક્રિયા સમજો.",
+    "Learn cargo insurance, force majeure, damage claims, and dispute resolution.": "કાર્ગો વીમો, ફોર્સ મેજ્યુઅર, નુકસાનના દાવા અને વિવાદ નિવારણ વિશે શીખો.",
+    "Master RBC Import & Export end-to-end SOPs, workflows, and internal processes.": "RBC આયાત અને નિકાસના સંપૂર્ણ SOPs, વર્કફ્લો અને આંતરિક પ્રક્રિયાઓમાં પ્રભુત્વ મેળવો."
   }
 };
 

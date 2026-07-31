@@ -58,31 +58,64 @@ export const getTranslatedLesson = (lesson: any, lang: 'en' | 'hi' | 'gu' | 'mr'
           } else if (lang === 'gu') {
             qText = `${translatedTerm} નો શું અર્થ/કાર્ય છે?`;
           } else if (lang === 'mr') {
-            qText = `${translatedTerm} ચા काय अर्थ/कार्य आहे?`;
+            qText = `${translatedTerm} चा काय अर्थ/कार्य आहे?`;
           }
         } else {
           qText = translateDynamicContent(qText, lesson?.title || '', lang);
         }
+      }
 
-        // 2. Translate Options Array if in English
-        qOpts = qOpts.map((opt: string) => {
-          if (!opt) return opt;
-          if (opt === 'An illegal trade practice.') {
-            return lang === 'hi' ? 'एक अवैध व्यापार प्रथा।' : lang === 'gu' ? 'એક ગેરકાયદેસર વેપાર પદ્ધતિ.' : 'एक बेकायदेशीर व्यापार पद्धत.';
-          }
-          if (opt === 'A tax penalty.') {
-            return lang === 'hi' ? 'एक टैक्स जुर्माना।' : lang === 'gu' ? 'એક ટેક્સ દંડ.' : 'एक टॅक्स दंड.';
-          }
-          if (opt === 'A shipping carrier.') {
-            return lang === 'hi' ? 'एक शिपिंग वाहक (Shipping Carrier)।' : lang === 'gu' ? 'એક શિપિંગ કેરિયર.' : 'एक शिपिंग वाहक.';
-          }
-          return translateDynamicContent(opt, lesson?.title || '', lang);
-        });
+      // 2. Process & Translate Options Array for ALL languages
+      qOpts = qOpts.map((opt: string, optIdx: number) => {
+        if (!opt) return opt;
 
-        // 3. Translate Explanation if in English
-        if (qExp) {
-          qExp = translateDynamicContent(qExp, lesson?.title || '', lang);
+        const isDummy = (
+          opt.includes('illegal practice') ||
+          opt.includes('illegal trade') ||
+          opt.includes('trading practice') ||
+          opt.includes('tax penalty') ||
+          opt.includes('tax exemption') ||
+          opt.includes('carrier fine') ||
+          opt.includes('shipping carrier') ||
+          opt.includes('अवैध') ||
+          opt.includes('कर छूट') ||
+          opt.includes('टैक्स जुर्माना') ||
+          opt.includes('वाहक जुर्माना') ||
+          opt.includes('गैरकायदेसर') ||
+          opt.includes('દંડ') ||
+          opt.includes('बेकायदेशीर')
+        );
+
+        if (isDummy && optIdx > 0) {
+          if (optIdx === 1) {
+            if (lang === 'hi') return 'अंतर्देशीय निर्यात शिपमेंट के लिए एक सीमा शुल्क छूट नियम।';
+            if (lang === 'gu') return 'દેશી નિકાસ શિપમેન્ટ માટે કસ્ટમ્સ ડ્યુટી મુક્તિનો નિયમ.';
+            if (lang === 'mr') return 'देशांतर्गत निर्यात शिपमेंटसाठी सीमाशुल्क सवलत नियम.';
+            return 'An optional customs duty exemption rule for inland export shipments.';
+          }
+          if (optIdx === 2) {
+            if (lang === 'hi') return 'लोडिंग बंदरगाह पर कार्गो निरीक्षण को नियंत्रित करने वाला एक अनिवार्य शिपिंग प्रोटोकॉल।';
+            if (lang === 'gu') return 'લોડિંગ પોર્ટ પર કાર્ગો નિરીક્ષણને નિયંત્રિત કરતો ફરજિયાત શિપિંગ પ્રોટોકોલ.';
+            if (lang === 'mr') return 'लोडિંગ पोर्टवर कार्ગો तपासणी नियंत्रित करणारा अनिवार्य शिपિંગ પ્રોટોકોલ.';
+            return 'A mandatory shipping protocol regulating cargo inspection at loading port.';
+          }
+          if (optIdx === 3) {
+            if (lang === 'hi') return 'जहाज क्लीयरेंस से पहले पोर्ट स्टोरेज शुल्क के निपटान के लिए एक मानक व्यापार समझौता।';
+            if (lang === 'gu') return 'જહાજ ક્લિયરન્સ પહેલાં પોર્ટ સ્ટોરેજ ચાર્જ પતાવવા માટેનો પ્રમાણભૂત વેપાર કરાર.';
+            if (lang === 'mr') return 'जहाज निघण्यापूर्वी पोर्ट स्टोरेज शुल्क भरण्याचा एक मानक व्यापार करार.';
+            return 'A standardized trade agreement for settling port storage charges prior to vessel clearance.';
+          }
         }
+
+        if (lang !== 'en') {
+          return translateDynamicContent(opt, lesson?.title || '', lang);
+        }
+        return opt;
+      });
+
+      // 3. Translate Explanation if in English
+      if (lang !== 'en' && qExp) {
+        qExp = translateDynamicContent(qExp, lesson?.title || '', lang);
       }
 
       // Replace generic double question marks ?? -> ?

@@ -340,20 +340,6 @@ export const QuizView: React.FC<QuizViewProps> = ({
                 }} />
               </div>
 
-              {/* Progress bar */}
-              <div style={{ height: '8px', background: 'rgba(255,255,255,0.08)', borderRadius: '8px', overflow: 'hidden', marginBottom: '24px' }}>
-                <div style={{
-                  height: '100%',
-                  width: `${pct}%`,
-                  background: passed
-                    ? 'linear-gradient(90deg, #22c55e, #4ade80)'
-                    : 'linear-gradient(90deg, #fbbf24, #f97316)',
-                  borderRadius: '8px',
-                  transition: 'width 1s ease 0.5s',
-                  boxShadow: passed ? '0 0 12px rgba(34,197,94,0.5)' : '0 0 12px rgba(251,191,36,0.5)'
-                }} />
-              </div>
-
               {/* Module Unlocked Notification Banner - STRICTLY REQUIRE 100% SCORE */}
               {pct === 100 && nextModuleOrder && (
                 <div style={{
