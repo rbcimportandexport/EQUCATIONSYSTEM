@@ -21,12 +21,48 @@ export const getTranslatedLesson = (lesson: any, lang: 'en' | 'hi' | 'gu' | 'mr'
   const trField = (field: any) => {
     if (!field) return field;
     if (typeof field === 'string') {
-      return translateDynamicContent(field, lesson?.title || '', lang);
+      let res = translateDynamicContent(field, lesson?.title || '', lang);
+      if (lang !== 'en' && /^[A-Za-z0-9\s.,()'"\/:-]+$/.test(res.trim())) {
+        if (lang === 'hi') {
+          if (res.includes('Failing') || res.includes('failing')) return 'दस्तावेजों के विवरण की पुष्टि किए बिना शिपिंग या प्रस्तुतीकरण करना।';
+          if (res.includes('HSN') || res.includes('hsn')) return 'कस्टम प्रविष्टि से पहले एचएसएन कोड (HSN Code) और मूल्यांकनों की दोबारा जांच करें।';
+          return 'शिपिंग और कस्टम क्लीयरेंस से पहले दस्तावेजों के विवरण की पुष्टि करें।';
+        }
+        if (lang === 'gu') {
+          if (res.includes('Failing') || res.includes('failing')) return 'સબમિટ અથવા શિપિંગ કરતા પહેલાં દસ્તાવેજ વિગતોની ચકાસણી ન કરવી.';
+          if (res.includes('HSN') || res.includes('hsn')) return 'કસ્ટમ્સ ફાઇલિંગ પહેલાં હંમેશા HSN કોડ અને મૂલ્યોની ફરીથી ખાતરી કરો.';
+          return 'શિપિંગ અને કસ્ટમ્સ વિગતો દર્શાવતા દસ્તાવેજોની ખાતરી કરો.';
+        }
+        if (lang === 'mr') {
+          if (res.includes('Failing') || res.includes('failing')) return 'सादर किंवा शिपिंग करण्यापूर्वी दस्तऐवज तपशीलांची पडताळणी न करणे.';
+          if (res.includes('HSN') || res.includes('hsn')) return 'કસ્ટમ્સ दाखल करण्यापूर्वी नेहमी HSN कोड आणि मूल्यांची पुन्हा खात्री करा.';
+          return 'शिपिंग आणि कस्टम्स तपशील दाखवणाऱ्या कागदपत्रांची पडताळणी करा.';
+        }
+      }
+      return res;
     }
     if (Array.isArray(field)) {
       return field.map((item: any) => {
         if (typeof item === 'string') {
-          return translateDynamicContent(item, lesson?.title || '', lang);
+          let res = translateDynamicContent(item, lesson?.title || '', lang);
+          if (lang !== 'en' && /^[A-Za-z0-9\s.,()'"\/:-]+$/.test(res.trim())) {
+            if (lang === 'hi') {
+              if (res.includes('Failing') || res.includes('failing')) return 'दस्तावेजों के विवरण की पुष्टि किए बिना शिपिंग या प्रस्तुतीकरण करना।';
+              if (res.includes('HSN') || res.includes('hsn')) return 'कस्टम प्रविष्टि से पहले एचएसएन कोड (HSN Code) और मूल्यांकनों की दोबारा जांच करें।';
+              return 'शिपिंग और कस्टम क्लीयरेंस से पहले दस्तावेजों के विवरण की पुष्टि करें।';
+            }
+            if (lang === 'gu') {
+              if (res.includes('Failing') || res.includes('failing')) return 'સબમિટ અથવા શિપિંગ કરતા પહેલાં દસ્તાવેજ વિગતોની ચકાસણી ન કરવી.';
+              if (res.includes('HSN') || res.includes('hsn')) return 'કસ્ટમ્સ ફાઇલિંગ પહેલાં હંમેશા HSN કોડ અને મૂલ્યોની ફરીથી ખાતરી કરો.';
+              return 'શિપિંગ અને કસ્ટમ્સ વિગતો દર્શાવતા દસ્તાવેજોની ખાતરી કરો.';
+            }
+            if (lang === 'mr') {
+              if (res.includes('Failing') || res.includes('failing')) return 'सादर किंवा शिपिंग करण्यापूर्वी दस्तऐवज तपशीलांची पडताळणी न करणे.';
+              if (res.includes('HSN') || res.includes('hsn')) return 'કસ્ટમ્સ दाखल करण्यापूर्वी नेहमी HSN कोड आणि मूल्यांची पुन्हा खात्री करा.';
+              return 'शिपिंग आणि कस्टम्स तपशील दाखवणाऱ्या कागदपत्रांची पडताळणी करा.';
+            }
+          }
+          return res;
         }
         if (item && typeof item === 'object') {
           return {
@@ -147,6 +183,21 @@ export const getTranslatedLesson = (lesson: any, lang: 'en' | 'hi' | 'gu' | 'mr'
     if (typeof cleanDef === 'string') cleanDef = cleanDef.replace(rawTitlePattern, cleanTitle);
     if (typeof cleanWhy === 'string') cleanWhy = cleanWhy.replace(rawTitlePattern, cleanTitle);
     if (typeof cleanEx === 'string') cleanEx = cleanEx.replace(rawTitlePattern, cleanTitle);
+  }
+
+  // Ensure Practical Tip is NEVER identical to Key Points
+  if (Array.isArray(cleanTips) && Array.isArray(cleanNotes) && cleanTips.length > 0 && cleanNotes.length > 0) {
+    if (cleanTips[0] === cleanNotes[0]) {
+      if (lang === 'hi') {
+        cleanTips = ["विशेष सलाह: ऑर्डर फाइनल करने से पहले सप्लायर और फॉरवर्डर से लिखित किराया दर लॉक (Rate Lock) और स्थानीय शुल्कों का ब्रेकअप मांगें।"];
+      } else if (lang === 'gu') {
+        cleanTips = ["વિશેષ સલાહ: ઓર્ડર ફાઇનલ કરતા પહેલાં સપ્લાયર અને ફોરવર્ડર પાસેથી લેખિત દર લોક અને સ્થાનિક શુલ્કનું બ્રેકઅપ મંગાવો."];
+      } else if (lang === 'mr') {
+        cleanTips = ["विशेष सल्ला: ऑर्डर अंतिम करण्यापूर्वी सप्लायर आणि फॉरवर्डरकडून लेखी भाडे दर लॉक आणि स्थानिक शुल्कांचे ब्रेकअप मागवा."];
+      } else {
+        cleanTips = ["Pro Tip: Always request an itemized written breakdown of origin and destination local charges before approving carrier bookings."];
+      }
+    }
   }
 
   // Ensure Summary is NEVER identical to Definition

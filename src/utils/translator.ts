@@ -108,6 +108,15 @@ export const translateDynamicContent = (
   // 1. Replacements for Hindi (hi)
   if (lang === 'hi') {
     translated = translated
+      .replaceAll('Failing to verify document details before submission.', 'दस्तावेजों के विवरण की पुष्टि किए बिना जमा या शिपिंग करना।')
+      .replaceAll('Failing to verify document details before shipping.', 'दस्तावेजों के विवरण की पुष्टि किए बिना शिपिंग करना।')
+      .replaceAll('Always double-check HSN codes and values.', 'कस्टम प्रविष्टि से पहले हमेशा एचएसएन कोड (HSN Code) और टैक्स दरों की दोबारा जांच करें।')
+      .replaceAll('Always double-check HSN codes and values before filing.', 'फाइलिंग से पहले हमेशा एचएसएन कोड और मूल्यांकनों की दोबारा जांच करें।')
+      .replaceAll('Consult your customs broker (CHA) before finalizing purchase contracts.', 'खरीद अनुबंध को अंतिम रूप देने से पहले हमेशा अपने कस्टम ब्रोकर (CHA) से सलाह लें।')
+      .replaceAll('Verify all shipping document details prior to vessel departure.', 'जहाज प्रस्थान से पहले सभी शिपिंग दस्तावेजों के विवरण का मिलान करें।')
+      .replaceAll('Secure statutory compliance approvals before cargo arrival.', 'कार्गो आगमन से पहले सभी आवश्यक वैधानिक अनुपालन स्वीकृतियां प्राप्त करें।')
+      .replaceAll('Accurate shipping execution reduces demurrage risk.', 'सटीक शिपिंग निष्पादन से डेमरेज और पोर्ट जुर्माने का जोखिम कम होता है।')
+      .replaceAll('Confirm all local charges with forwarder beforehand.', 'ऑर्डर देने से पहले सप्लायर और फॉरवर्डर से सभी स्थानीय शुल्कों की पुष्टि करें।')
       .replaceAll('Supplier Verification is the formal process of vetting, auditing, and validating a foreign manufacturer\'s legality, capabilities, quality standards, and financial health prior to placing orders.', 'सप्लायर वेरिफिकेशन (Supplier Verification) ऑर्डर देने से पहले एक विदेशी निर्माता की वैधता, क्षमताओं, गुणवत्ता मानकों और वित्तीय स्थिति की जांच, ऑडिट और सत्यापन करने की औपचारिक प्रक्रिया है।')
       .replaceAll('Supplier Verification is the formal process of vetting, auditing, and validating a foreign manufacturer\'s legality, capabilities, quality standards, and financial health prior to placing orders.', 'सप्लायर वेरिफिकेशन (Supplier Verification) ऑर्डर देने से पहले एक विदेशी निर्माता की वैधता, क्षमताओं, गुणवत्ता मानकों और वित्तीय स्थिति की जांच, ऑडिट और सत्यापन करने की औपचारिक प्रक्रिया है।')
       .replaceAll('Supplier vetting involves validating licenses, auditing machine logs, checking legal accounts, and social compliance.', 'सप्लायर सत्यापन में लाइसेंसों की पुष्टि करना, मशीन लॉग का ऑडिट करना, कानूनी खातों और सामाजिक अनुपालन की जांच करना शामिल है।')
@@ -605,6 +614,15 @@ export const translateDynamicContent = (
   // 2. Replacements for Gujarati (gu)
   else if (lang === 'gu') {
     translated = translated
+      .replaceAll('Failing to verify document details before submission.', 'સબમિટ અથવા શિપિંગ કરતા પહેલાં દસ્તાવેજ વિગતોની ચકાસણી ન કરવી.')
+      .replaceAll('Failing to verify document details before shipping.', 'શિપિંગ કરતા પહેલાં દસ્તાવેજ વિગતોની ચકાસણી ન કરવી.')
+      .replaceAll('Always double-check HSN codes and values.', 'કસ્ટમ્સ સબમિશન પહેલાં હંમેશા HSN કોડ અને મૂલ્યોની ફરીથી ખાતરી કરો.')
+      .replaceAll('Always double-check HSN codes and values before filing.', 'ફાઇલિંગ કરતા પહેલાં હંમેશા HSN કોડ અને મૂલ્યોની ફરીથી ખાતરી કરો.')
+      .replaceAll('Consult your customs broker (CHA) before finalizing purchase contracts.', 'ખરીદી કરાર પૂર્ણ કરતા પહેલાં તમારા કસ્ટમ્સ બ્રોકર (CHA) ની સલાહ લો.')
+      .replaceAll('Verify all shipping document details prior to vessel departure.', 'જહાજ ઉપડતા પહેલાં તમામ શિપિંગ દસ્તાવેજ વિગતો ચકાસો.')
+      .replaceAll('Secure statutory compliance approvals before cargo arrival.', 'કાર્ગો આગમન પહેલાં તમામ વૈધાનિક મંજૂરીઓ મેળવો.')
+      .replaceAll('Accurate shipping execution reduces demurrage risk.', 'ચોક્કસ શિપિંગ અમલીકરણથી ડેમરેજનું જોખમ ઘટે છે.')
+      .replaceAll('Confirm all local charges with forwarder beforehand.', 'પહેલાથી ફોરવર્ડર સાથે તમામ સ્થાનિક ચાર્જીસની પુષ્ટિ કરો.')
       // Dynamic fallback translations for Gujarati (gu)
       .replaceAll('Failing to verify documentation details before vessel dispatch.', 'જહાજ રવાના થાય તે પહેલાં દસ્તાવેજોની વિગતોની ચકાસણી ન કરવી.')
       .replaceAll('Consult your customs broker (CHA) before finalizing purchase contracts.', 'ખરીદી કરારને આખરી ઓપ આપતા પહેલાં તમારા કસ્ટમ્સ બ્રોકર (CHA) ની સલાહ લો.')
@@ -832,6 +850,15 @@ export const translateDynamicContent = (
   // 3. Replacements for Marathi (mr)
   else if (lang === 'mr') {
     translated = translated
+      .replaceAll('Failing to verify document details before submission.', 'सादर किंवा शिपिंग करण्यापूर्वी दस्तऐवज तपशीलांची पडताळणी न करणे.')
+      .replaceAll('Failing to verify document details before shipping.', 'शिपिंग करण्यापूर्वी दस्तऐवज तपशीलांची पडताळणी न करणे.')
+      .replaceAll('Always double-check HSN codes and values.', 'कस्टम्स दाखल करण्यापूर्वी नेहमी HSN कोड आणि मूल्यांची पुन्हा खात्री करा.')
+      .replaceAll('Always double-check HSN codes and values before filing.', 'फाइल करण्यापूर्वी नेहमी HSN कोड आणि मूल्यांची पुन्हा खात्री करा.')
+      .replaceAll('Consult your customs broker (CHA) before finalizing purchase contracts.', 'खरेदी करार अंतिम करण्यापूर्वी नेहमी तुमच्या कस्टम ब्रोकरचा (CHA) सल्ला घ्या.')
+      .replaceAll('Verify all shipping document details prior to vessel departure.', 'जहाज निघण्यापूर्वी सर्व शिपिंग दस्तऐवज तपशील तपासा.')
+      .replaceAll('Secure statutory compliance approvals before cargo arrival.', 'कार्गो येण्यापूर्वी सर्व वैधानिक मान्यता मिळवा.')
+      .replaceAll('Accurate shipping execution reduces demurrage risk.', 'अचूक शिपिंग अंमलबजावणीमुळे डेमरेजचा धोका कमी होतो.')
+      .replaceAll('Confirm all local charges with forwarder beforehand.', 'फॉरवर्डरसह सर्व स्थानिक शुल्काची आधीच खात्री करा.')
       // Dynamic fallback translations for Marathi (mr)
       .replaceAll('Failing to verify documentation details before vessel dispatch.', 'जहाज निघण्यापूर्वी कागदपत्रांच्या तपशीलांची पडताळणी न करणे.')
       .replaceAll('Consult your customs broker (CHA) before finalizing purchase contracts.', 'खरेदी कराराला अंतिम रूप देण्यापूर्वी तुमच्या कस्टम्स ब्रोकर (CHA) चा सल्ला घ्या.')
@@ -1543,9 +1570,28 @@ export const getTranslatedLesson = (
         }
         return sum;
       })(),
-      importantNotes: override?.importantNotes || lesson.content.importantNotes?.map((n: string) => translateDynamicContent(n, lesson.title, lang)) || [],
+      importantNotes: (() => {
+        const notes = override?.importantNotes || lesson.content.importantNotes?.map((n: string) => translateDynamicContent(n, lesson.title, lang)) || [];
+        if (notes.length === 0) {
+          if (lang === 'hi') return ["शिपिंग रवानगी से पहले सभी व्यापारिक दस्तावेजों के विवरण का मिलान करें।", "कस्टम्स क्लीयरेंस में देरी से बचने के लिए आवश्यक नियामक अनुमतियां प्राप्त करें।"];
+          if (lang === 'gu') return ["શિપિંગ રવાનગી પહેલાં તમામ વેપારી દસ્તાવેજોની વિગતો ચકાસો.", "કસ્ટમ્સ કિલયરન્સમાં વિલંબ ટાળવા માટે જરૂરી મંજૂરીઓ મેળવો."];
+          if (lang === 'mr') return ["शिपिंग रवाना करण्यापूर्वी सर्व व्यावसायिक कागदपत्रांचे तपशील तपासा.", "सीमा शुल्क क्लिअरन्समध्ये विलंब टाळण्यासाठी आवश्यक परवानग्या मिळवा."];
+          return ["Verify that all shipping documents match your purchase order and customs declaration.", "Ensure statutory compliance approvals are secured prior to cargo arrival."];
+        }
+        return notes;
+      })(),
       commonMistakes: override?.commonMistakes || lesson.content.commonMistakes?.map((m: string) => translateDynamicContent(m, lesson.title, lang)) || [],
-      practicalTips: override?.practicalTips || lesson.content.practicalTips?.map((t: string) => translateDynamicContent(t, lesson.title, lang)) || [],
+      practicalTips: (() => {
+        const tips = override?.practicalTips || lesson.content.practicalTips?.map((t: string) => translateDynamicContent(t, lesson.title, lang)) || [];
+        const notes = override?.importantNotes || lesson.content.importantNotes || [];
+        if (tips.length === 0 || (notes.length > 0 && notes[0] === tips[0])) {
+          if (lang === 'hi') return ["विशेष सलाह: ऑर्डर फाइनल करने से पहले सप्लायर और फॉरवर्डर से लिखित किराया दर लॉक (Rate Lock) और स्थानीय शुल्कों का ब्रेकअप मांगें।"];
+          if (lang === 'gu') return ["વિશેષ સલાહ: ઓર્ડર ફાઇનલ કરતા પહેલાં સપ્લાયર અને ફોરવર્ડર પાસેથી લેખિત દર લોક અને સ્થાનિક શુલ્કનું બ્રેકઅપ મંગાવો."];
+          if (lang === 'mr') return ["विशेष सल्ला: ऑर्डर अंतिम करण्यापूर्वी सप्लायर आणि फॉरवर्डरकडून लेखी भाडे दर लॉक आणि स्थानिक शुल्कांचे ब्रेकअप मागवा."];
+          return ["Pro Tip: Always request an itemized written breakdown of origin and destination local charges before approving carrier bookings."];
+        }
+        return tips;
+      })(),
       quiz: translatedQuiz || lesson.content.quiz,
       relatedTopics: lesson.content.relatedTopics?.map((topic: string) => {
         if (lang === 'hi') {
