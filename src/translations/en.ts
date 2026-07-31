@@ -58,4 +58,6 @@ export const enTranslations = {
     "RBC Internal Process": "RBC Internal Process",
     "RBC Import & Export Internal Process": "RBC Import & Export Internal Process"
   }
+,
+  lessons: {}
 };
