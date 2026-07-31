@@ -21,48 +21,12 @@ export const getTranslatedLesson = (lesson: any, lang: 'en' | 'hi' | 'gu' | 'mr'
   const trField = (field: any) => {
     if (!field) return field;
     if (typeof field === 'string') {
-      let res = translateDynamicContent(field, lesson?.title || '', lang);
-      if (lang !== 'en' && /^[A-Za-z0-9\s.,()'"\/:-]+$/.test(res.trim())) {
-        if (lang === 'hi') {
-          if (res.includes('Failing') || res.includes('failing')) return 'दस्तावेजों के विवरण की पुष्टि किए बिना शिपिंग या प्रस्तुतीकरण करना।';
-          if (res.includes('HSN') || res.includes('hsn')) return 'कस्टम प्रविष्टि से पहले एचएसएन कोड (HSN Code) और मूल्यांकनों की दोबारा जांच करें।';
-          return 'शिपिंग और कस्टम क्लीयरेंस से पहले दस्तावेजों के विवरण की पुष्टि करें।';
-        }
-        if (lang === 'gu') {
-          if (res.includes('Failing') || res.includes('failing')) return 'સબમિટ અથવા શિપિંગ કરતા પહેલાં દસ્તાવેજ વિગતોની ચકાસણી ન કરવી.';
-          if (res.includes('HSN') || res.includes('hsn')) return 'કસ્ટમ્સ ફાઇલિંગ પહેલાં હંમેશા HSN કોડ અને મૂલ્યોની ફરીથી ખાતરી કરો.';
-          return 'શિપિંગ અને કસ્ટમ્સ વિગતો દર્શાવતા દસ્તાવેજોની ખાતરી કરો.';
-        }
-        if (lang === 'mr') {
-          if (res.includes('Failing') || res.includes('failing')) return 'सादर किंवा शिपिंग करण्यापूर्वी दस्तऐवज तपशीलांची पडताळणी न करणे.';
-          if (res.includes('HSN') || res.includes('hsn')) return 'કસ્ટમ્સ दाखल करण्यापूर्वी नेहमी HSN कोड आणि मूल्यांची पुन्हा खात्री करा.';
-          return 'शिपिंग आणि कस्टम्स तपशील दाखवणाऱ्या कागदपत्रांची पडताळणी करा.';
-        }
-      }
-      return res;
+      return translateDynamicContent(field, lesson?.title || '', lang);
     }
     if (Array.isArray(field)) {
       return field.map((item: any) => {
         if (typeof item === 'string') {
-          let res = translateDynamicContent(item, lesson?.title || '', lang);
-          if (lang !== 'en' && /^[A-Za-z0-9\s.,()'"\/:-]+$/.test(res.trim())) {
-            if (lang === 'hi') {
-              if (res.includes('Failing') || res.includes('failing')) return 'दस्तावेजों के विवरण की पुष्टि किए बिना शिपिंग या प्रस्तुतीकरण करना।';
-              if (res.includes('HSN') || res.includes('hsn')) return 'कस्टम प्रविष्टि से पहले एचएसएन कोड (HSN Code) और मूल्यांकनों की दोबारा जांच करें।';
-              return 'शिपिंग और कस्टम क्लीयरेंस से पहले दस्तावेजों के विवरण की पुष्टि करें।';
-            }
-            if (lang === 'gu') {
-              if (res.includes('Failing') || res.includes('failing')) return 'સબમિટ અથવા શિપિંગ કરતા પહેલાં દસ્તાવેજ વિગતોની ચકાસણી ન કરવી.';
-              if (res.includes('HSN') || res.includes('hsn')) return 'કસ્ટમ્સ ફાઇલિંગ પહેલાં હંમેશા HSN કોડ અને મૂલ્યોની ફરીથી ખાતરી કરો.';
-              return 'શિપિંગ અને કસ્ટમ્સ વિગતો દર્શાવતા દસ્તાવેજોની ખાતરી કરો.';
-            }
-            if (lang === 'mr') {
-              if (res.includes('Failing') || res.includes('failing')) return 'सादर किंवा शिपिंग करण्यापूर्वी दस्तऐवज तपशीलांची पडताळणी न करणे.';
-              if (res.includes('HSN') || res.includes('hsn')) return 'કસ્ટમ્સ दाखल करण्यापूर्वी नेहमी HSN कोड आणि मूल्यांची पुन्हा खात्री करा.';
-              return 'शिपिंग आणि कस्टम्स तपशील दाखवणाऱ्या कागदपत्रांची पडताळणी करा.';
-            }
-          }
-          return res;
+          return translateDynamicContent(item, lesson?.title || '', lang);
         }
         if (item && typeof item === 'object') {
           return {
