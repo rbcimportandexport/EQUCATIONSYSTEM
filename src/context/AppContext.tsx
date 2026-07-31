@@ -343,8 +343,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const savedCurrentUser = localStorage.getItem('lms_current_user_v2_ie');
     if (savedCurrentUser) {
       try {
-        setCurrentUserState(JSON.parse(savedCurrentUser));
+        const parsedUser = JSON.parse(savedCurrentUser);
+        setCurrentUserState(parsedUser);
+        if (parsedUser && parsedUser.email) {
+          const userProgKey = `lms_progress_${parsedUser.email.toLowerCase().trim()}`;
+          const userProgStr = localStorage.getItem(userProgKey);
+          if (userProgStr) {
+            setProgress(JSON.parse(userProgStr));
+          } else if (savedProgress) {
+            setProgress(JSON.parse(savedProgress));
+          }
+        }
       } catch (e) {}
+    } else if (savedProgress) {
+      setProgress(JSON.parse(savedProgress));
     }
 
     // Fetch real users from MongoDB Atlas backend
@@ -576,6 +588,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         localStorage.setItem(key, JSON.stringify(sanitized));
       } else {
         localStorage.setItem(key, JSON.stringify(data));
+        if (key === 'lms_progress_ie' && currentUser && currentUser.email) {
+          try {
+            const userProgKey = `lms_progress_${currentUser.email.toLowerCase().trim()}`;
+            localStorage.setItem(userProgKey, JSON.stringify(data));
+          } catch (err) {}
+        }
       }
     } catch (e) {
       console.warn(`localStorage write failed for key "${key}":`, e);
@@ -1029,16 +1047,35 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const loginUser = (name: string, email: string, role: RoleType, id?: string) => {
+    const cleanEmail = email.toLowerCase().trim();
     const newUser: User = {
       id: id || `u-${Date.now()}`,
       name,
-      email,
+      email: cleanEmail,
       role,
       progressPercentage: 0
     };
     
+    const userProgKey = `lms_progress_${cleanEmail}`;
+    const savedUserProg = localStorage.getItem(userProgKey);
+    if (savedUserProg) {
+      try {
+        const parsedProg = JSON.parse(savedUserProg);
+        setProgress(parsedProg);
+        saveToLocal('lms_progress_ie', parsedProg);
+      } catch (e) {}
+    } else {
+      const globalProg = localStorage.getItem('lms_progress_ie');
+      if (globalProg) {
+        try {
+          const parsedGlobal = JSON.parse(globalProg);
+          saveToLocal(userProgKey, parsedGlobal);
+        } catch (e) {}
+      }
+    }
+
     setUsers(prev => {
-      const updated = [...prev.filter(u => u.email !== email), newUser];
+      const updated = [...prev.filter(u => u.email.toLowerCase().trim() !== cleanEmail), newUser];
       saveToLocal('lms_users_v2_ie', updated);
       return updated;
     });
