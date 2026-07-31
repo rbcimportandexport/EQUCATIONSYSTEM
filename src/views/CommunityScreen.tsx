@@ -5,7 +5,15 @@ import { chatApi } from '../utils/api';
 import type { ChatMessage } from '../utils/api';
 
 export const CommunityScreen: React.FC = () => {
-  const { users, currentUser, language, fetchAllUsers } = useApp();
+  const { users, currentUser, language, fetchAllUsers, progress, lessons } = useApp();
+
+  const calculateLiveProgressPct = () => {
+    if (!lessons || lessons.length === 0) return 0;
+    const courseLessons = lessons.filter(l => l.moduleId);
+    if (courseLessons.length === 0) return 0;
+    const completedCount = courseLessons.filter(l => progress[l.id]?.completed).length;
+    return Math.round((completedCount / courseLessons.length) * 100);
+  };
 
   const [activeChatUser, setActiveChatUser] = React.useState<any>(null);
   const [messages, setMessages] = React.useState<ChatMessage[]>([]);
@@ -205,9 +213,10 @@ export const CommunityScreen: React.FC = () => {
           gap: '16px'
         }}>
           {users.map(u => {
-            const isMe = u.email === currentUser?.email;
+            const isMe = u.email?.toLowerCase().trim() === currentUser?.email?.toLowerCase().trim();
             const initials = u.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-            const pct = u.progressPercentage || 0;
+            const livePct = isMe ? calculateLiveProgressPct() : 0;
+            const pct = Math.max(u.progressPercentage || 0, livePct);
             const lvl = getLevelDetails(pct, language);
 
             return (

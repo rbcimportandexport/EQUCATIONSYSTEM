@@ -386,6 +386,30 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, [currentUser?.email]);
 
+  // Auto-sync overall progress percentage when progress state or currentUser initializes/changes
+  useEffect(() => {
+    if (currentUser && lessons && lessons.length > 0) {
+      const courseLessons = lessons.filter(l => l.moduleId);
+      if (courseLessons.length > 0) {
+        const completedCount = courseLessons.filter(l => progress[l.id]?.completed).length;
+        const pct = Math.round((completedCount / courseLessons.length) * 100);
+        if (currentUser.progressPercentage !== pct) {
+          setCurrentUserState(prev => {
+            if (!prev) return null;
+            const updated = { ...prev, progressPercentage: pct };
+            localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(updated));
+            return updated;
+          });
+          setUsers(prev => {
+            const updated = prev.map(u => u.email.toLowerCase().trim() === currentUser.email.toLowerCase().trim() ? { ...u, progressPercentage: pct } : u);
+            saveToLocal('lms_users_v2_ie', updated);
+            return updated;
+          });
+        }
+      }
+    }
+  }, [progress, lessons.length, currentUser?.email]);
+
   // Load all custom video thumbnails on app mount (from IndexedDB & API)
   useEffect(() => {
     const fetchAllCustomVideos = async () => {
