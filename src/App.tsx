@@ -6,20 +6,21 @@ import { LoginPage } from './views/LoginPage';
 import { authApi } from './utils/api';
 import type { AuthUser } from './utils/api';
 
-// Import Views
-import { Dashboard } from './views/Dashboard';
-import { Courses } from './views/Courses';
-import { ModuleScreen } from './views/ModuleScreen';
-import { Bookmarks } from './views/Bookmarks';
-import { Downloads } from './views/Downloads';
-import { Search } from './views/Search';
-import { Profile } from './views/Profile';
-import { Settings } from './views/Settings';
-import { AdminPanel } from './views/AdminPanel';
-import { QuizScreen } from './views/QuizScreen';
-import { CommunityScreen } from './views/CommunityScreen';
-import { VideosScreen } from './views/VideosScreen';
+// Dynamic Lazy Import Views for Code-Splitting & Instant Load Performance
+const Dashboard = React.lazy(() => import('./views/Dashboard').then(m => ({ default: m.Dashboard })));
+const Courses = React.lazy(() => import('./views/Courses').then(m => ({ default: m.Courses })));
+const ModuleScreen = React.lazy(() => import('./views/ModuleScreen').then(m => ({ default: m.ModuleScreen })));
+const Bookmarks = React.lazy(() => import('./views/Bookmarks').then(m => ({ default: m.Bookmarks })));
+const Downloads = React.lazy(() => import('./views/Downloads').then(m => ({ default: m.Downloads })));
+const Search = React.lazy(() => import('./views/Search').then(m => ({ default: m.Search })));
+const Profile = React.lazy(() => import('./views/Profile').then(m => ({ default: m.Profile })));
+const Settings = React.lazy(() => import('./views/Settings').then(m => ({ default: m.Settings })));
+const AdminPanel = React.lazy(() => import('./views/AdminPanel').then(m => ({ default: m.AdminPanel })));
+const QuizScreen = React.lazy(() => import('./views/QuizScreen').then(m => ({ default: m.QuizScreen })));
+const CommunityScreen = React.lazy(() => import('./views/CommunityScreen').then(m => ({ default: m.CommunityScreen })));
+const VideosScreen = React.lazy(() => import('./views/VideosScreen').then(m => ({ default: m.VideosScreen })));
 import { PencilLoader } from './components/PencilLoader';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 const AppShell: React.FC = () => {
   const { 
@@ -460,7 +461,15 @@ const AppShell: React.FC = () => {
       <div className="main-content-panel" style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%' }}>
         <TopAppBar onMenuClick={() => setIsLeftDrawerOpen(true)} onLogout={handleLogout} />
         <main className="main-viewport-container" style={{ flex: 1, width: '100%', background: '#ffffff' }}>
-          {renderActiveView()}
+          <ErrorBoundary>
+            <React.Suspense fallback={
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', flexDirection: 'column' }}>
+                <PencilLoader text="Loading view..." color="#1E3A8A" textColor="#1E3A8A" />
+              </div>
+            }>
+              {renderActiveView()}
+            </React.Suspense>
+          </ErrorBoundary>
         </main>
       </div>
 

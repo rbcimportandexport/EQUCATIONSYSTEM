@@ -81,12 +81,19 @@ const apiRequest = async <T>(
     config.body = JSON.stringify(body);
   }
   
-  const separator = endpoint.includes('?') ? '&' : '?';
-  const url = `${API_BASE_URL}${endpoint}${method === 'GET' ? `${separator}_t=${Date.now()}` : ''}`;
-  const response = await fetch(url, config);
-  const data = await response.json();
-  
-  return data;
+  try {
+    const separator = endpoint.includes('?') ? '&' : '?';
+    const url = `${API_BASE_URL}${endpoint}${method === 'GET' ? `${separator}_t=${Date.now()}` : ''}`;
+    const response = await fetch(url, config);
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    console.warn(`API Error [${endpoint}]:`, error);
+    return {
+      success: false,
+      message: error?.message || 'Network error or server unavailable'
+    };
+  }
 };
 
 // ─── Auth API functions ──────────────────────────────────────────────────────
