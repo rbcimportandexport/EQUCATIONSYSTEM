@@ -599,24 +599,7 @@ export const translateDynamicContent = (
       .replaceAll('Always check local compliance guides for', 'हमेशा लोकल कंप्लायंस गाइड देखें -')
       .replaceAll('Always double-check outer carton dimensions and total scale weight before signing the final Packing List and VGM declaration.',
         'अंतिम पैकिंग सूची (Packing List) और VGM घोषणा पर हस्ताक्षर करने से पहले हमेशा बाहरी कार्टन आयामों और कुल वजन की दोबारा जांच करें।')
-      .replaceAll('Inspect container floor integrity, door seal gaskets, and bolt seal numbers before signing container loading reports.',
-        'कंटेनर लोडिंग रिपोर्ट पर हस्ताक्षर करने से पहले कंटेनर के फर्श, दरवाजे की सील और बोल्ट सील नंबर का निरीक्षण करें।')
-      .replaceAll('Request regular milestone updates (ETD, ETA, transshipment logs) from your freight forwarder to manage supply chain expectations.',
-        'आपूर्ति श्रृंखला अपेक्षाओं को प्रबंधित करने के लिए अपने फ्रेट फारवर्डर से नियमित मील के पत्थर अपडेट (ETD, ETA) का अनुरोध करें।')
-      .replaceAll('Always specify the exact named port or place alongside', 'हमेशा निर्दिष्ट पोर्ट या स्थान का नाम स्पष्ट रूप से लिखें -')
-      .replaceAll('Ensure descriptions, values, HSN codes, and party names match identically across all trade documents',
-        'सुनिश्चित करें कि विवरण, मूल्य, HSN कोड और पार्टियों के नाम सभी व्यापारिक दस्तावेजों पर समान रूप से मेल खाते हैं -')
-      .replaceAll('Verify HSN code classification and duty structure under current customs tariff schedules before placing import orders.',
-        'आयात ऑर्डर देने से पहले वर्तमान सीमा शुल्क टैरिफ अनुसूचियों के तहत HSN कोड वर्गीकरण और शुल्क संरचना की पुष्टि करें।')
-      .replaceAll('Always use audited corporate bank accounts and verified bank SWIFT codes for',
-        'हमेशा बैंक SWIFT कोड और पंजीकृत कॉर्पोरेट खातों का उपयोग करें -')
-      .replaceAll('Request an itemized break-up of all origin and destination', 'हमेशा सभी मूल और गंतव्य प्रभारों का विवरण मांगें -')
-      .replaceAll('Define acceptable quality limits (AQL) and defect criteria in writing within your Purchase Order before production starts.',
-        'उत्पादन शुरू होने से पहले अपने खरीद आदेश (PO) में लिखित रूप में स्वीकार्य गुणवत्ता सीमाओं (AQL) को परिभाषित करें।')
-      .replaceAll('Confirm all terms (pricing, lead time, specs, terms) in writing during', 'लिखित रूप में सभी शर्तों की पुष्टि करें -')
-      .replaceAll('Document cargo damage or shortages immediately with photos and written notices to carriers upon container opening.',
-        'कंटेनर खोलते ही तस्वीरों और लिखित नोटिस के साथ कार्गो क्षति या कमी का तुरंत दस्तावेजीकरण करें।')
-      .replaceAll('Complete all required checklist items in', 'हमेशा चेकलिस्ट पूरा करें -');
+      .replaceAll('Inspect container floor integrity, door seal gaskets, and bolt seal numbers before signing container loading reports.', 'कंटेनर लोडिंग रिपोर्ट पर हस्ताक्षर करने से पहले कंटेनर के फर्श, दरवाजे की सील और बोल्ट सील नंबर का निरीक्षण करें।');
   }
 
   // 2. Replacements for Gujarati (gu)

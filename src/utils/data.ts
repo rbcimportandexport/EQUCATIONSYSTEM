@@ -3707,91 +3707,17 @@ const cleanTopicName = (rawTitle: string): string => {
     .trim();
 };
 
-const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: number): QuizQuestion[] => {
-  const topic = cleanTopicName(title);
-
-  // Detect if the lesson is a concept/role topic (mod-1 or mod-2)
-  // These are topics like "Buyer", "Supplier", "Import", "Export", etc.
-  const isConcept = lessonId.includes('mod-1') || lessonId.includes('mod-2');
-
-  if (isConcept) {
-    // Use concept-friendly question templates based on lesson index
-    const conceptIndex = lessonIndex % 6;
-    switch (conceptIndex) {
-      case 0:
-        return [{
-          id: `${lessonId}-q1`,
-          type: 'true-false',
-          question: `Is it true that ${topic} is a key participant in international import-export trade operations?`,
-          correctAnswers: ['true'],
-          explanation: `Yes, ${topic} plays an essential role in the global supply chain, ensuring goods move from origin to destination.`
-        }];
-      case 1:
-        return [{
-          id: `${lessonId}-q1`,
-          type: 'true-false',
-          question: `Does ${topic} have no responsibility in ensuring legal documentation compliance during international trade?`,
-          correctAnswers: ['false'],
-          explanation: `Incorrect. ${topic} is responsible for maintaining accurate documentation, making payments, and following customs compliance requirements.`
-        }];
-      case 2:
-        return [{
-          id: `${lessonId}-q1`,
-          type: 'mcq',
-          question: `In international trade, what is the primary role of a ${topic}?`,
-          options: [
-            `To set local retail sales targets and manage domestic marketing campaigns for the manufacturer.`,
-            `To purchase goods from suppliers, manage payment, and handle import procedures.`,
-            `To only print shipping labels, manage domestic warehouse stock, and schedule local trucks.`,
-            `To bypass direct customs clearance and port terminal inspection processes for imported goods.`
-          ],
-          correctAnswers: ['1'],
-          explanation: `A ${topic} is responsible for sourcing goods, making payments, managing compliance, and ensuring smooth import procedures.`
-        }];
-      case 3:
-        return [{
-          id: `${lessonId}-q1`,
-          type: 'true-false',
-          question: `Is it true that understanding the role of ${topic} helps prevent costly trade disputes and payment failures?`,
-          correctAnswers: ['true'],
-          explanation: `Yes, clearly defining the responsibilities of each ${topic} prevents miscommunication, payment disputes, and legal problems in trade.`
-        }];
-      case 4:
-        return [{
-          id: `${lessonId}-q1`,
-          type: 'mcq',
-          question: `What is the most common mistake when dealing with a ${topic} in international trade?`,
-          options: [
-            `Requesting detailed technical product samples and lab test reports before placing bulk orders.`,
-            `Making advance payment without a signed agreement or verified documentation.`,
-            `Verifying applicable import customs duties and HSN classification rates prior to factory dispatch.`,
-            `Appointing a licensed freight forwarder for smooth customs clearance at international ports.`
-          ],
-          correctAnswers: ['1'],
-          explanation: `Paying advance amounts without proper written agreements or document verification is the most common and costly mistake when dealing with a ${topic}.`
-        }];
-      default:
-        return [{
-          id: `${lessonId}-q1`,
-          type: 'true-false',
-          question: `Can a ${topic} operate successfully in global trade without understanding customs compliance and documentation requirements?`,
-          correctAnswers: ['false'],
-          explanation: `No. A ${topic} must understand customs compliance, documentation requirements, and payment procedures to operate successfully in international trade.`
-        }];
-    }
-  }
-
-  // Operational/Logistics topic templates (mod-3 onwards)
-  const index = lessonIndex % 6;
-  switch (index) {
+const generateProgrammaticQuiz = (topic: string, lessonId: string, idx: number): QuizQuestion[] => {
+  const mod = idx % 4;
+  switch (mod) {
     case 0:
       return [
         {
           id: `${lessonId}-q1`,
           type: 'true-false',
-          question: `Is it true that ${topic} plays a critical role in determining logistics timelines and cost allocations?`,
+          question: `Is it true that ${topic} plays a critical role in trade operations and workflow efficiency?`,
           correctAnswers: ['true'],
-          explanation: `Yes, ${topic} is key to planning transit phases, customs duties, and overall pricing.`
+          explanation: `Yes, ${topic} is essential to planning, executing, and managing international trade workflows.`
         }
       ];
     case 1:
@@ -3799,51 +3725,19 @@ const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: 
         {
           id: `${lessonId}-q1`,
           type: 'true-false',
-          question: `Does ${topic} have absolutely no impact on customs clearance or cargo risk allocation?`,
+          question: `Is ${topic} an optional, unnecessary concept that has no real application in global supply chains?`,
           correctAnswers: ['false'],
-          explanation: `Incorrect. ${topic} directly impacts customs compliance, port clearance fees, and cargo risk allocation.`
+          explanation: `Incorrect. ${topic} is a core component used actively across international trade and supply chain logistics.`
         }
       ];
     case 2:
       return [
         {
           id: `${lessonId}-q1`,
-          type: 'mcq',
-          question: `In international trade, which of the following best describes the main purpose of ${topic}?`,
-          options: [
-            'To bypass all customs declaration forms, import duty calculations, and safety inspection protocols.',
-            'To standardize operations, reduce port delays, and allocate freight risk/costs correctly.',
-            'To artificially inflate domestic market sales prices and limit import quotas for overseas distributors.',
-            'To revoke cargo insurance policies and ignore all customs regulations and documentation requirements.'
-          ],
-          correctAnswers: ['1'],
-          explanation: `${topic} standardizes logistics operations, ensures legal compliance, and clarifies cost/risk boundaries.`
-        }
-      ];
-    case 3:
-      return [
-        {
-          id: `${lessonId}-q1`,
           type: 'true-false',
-          question: `Is ${topic} purely a local term that has no standard meaning in global shipping agreements?`,
+          question: `Is ${topic} purely a local term with no relevance in global business transactions?`,
           correctAnswers: ['false'],
-          explanation: `${topic} is governed by international trade regulations, customs protocols, or global standard practices.`
-        }
-      ];
-    case 4:
-      return [
-        {
-          id: `${lessonId}-q1`,
-          type: 'mcq',
-          question: `What is a common problem that occurs when ${topic} is not handled correctly?`,
-          options: [
-            'Receiving additional rebates and automated freight rate discounts from shipping lines and agents.',
-            'Importers incurring heavy demurrage, port detention, and customs penalty charges.',
-            'Instant automatic approval of all customs declaration forms without any inspection or paperwork.',
-            'Cutting ocean transit travel times in half and securing direct fast-track delivery to the destination.'
-          ],
-          correctAnswers: ['1'],
-          explanation: `Incorrectly handling ${topic} often leads to severe customs inspection delays and substantial port penalty charges.`
+          explanation: `Incorrect. ${topic} is widely recognized and applied in global shipping and trade operations.`
         }
       ];
     default:
@@ -3851,9 +3745,9 @@ const generateProgrammaticQuiz = (title: string, lessonId: string, lessonIndex: 
         {
           id: `${lessonId}-q1`,
           type: 'true-false',
-          question: `Is a mismatch in documents related to ${topic} a primary reason for customs holding shipments at the port of entry?`,
+          question: `Is ${topic} an essential component or concept in international trade workflows?`,
           correctAnswers: ['true'],
-          explanation: `Yes, documentation inconsistencies regarding ${topic} parameters will trigger manual audits and customs holds.`
+          explanation: `Yes, ${topic} plays a key operational role in global trade and supply chain logistics.`
         }
       ];
   }
