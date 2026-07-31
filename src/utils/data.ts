@@ -1057,7 +1057,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
         }
       ],
       objectives: ['Understand operational meaning of Freight.', 'Apply rules in trade management.'],
-      writtenExplanation: "Freight refers to the transportation charge paid to a shipping line, airline, or logistics carrier for moving cargo from origin to destination.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Request an itemized freight quote showing ocean freight, BAF (bunker fuel), and CAF (currency adjustment)."],
       keyPoints: ["Freight is the carrier fee for transporting cargo by sea, air, or land."]
     };
@@ -1100,7 +1100,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
         }
       ],
       objectives: ['Understand operational meaning of Sea Freight.', 'Apply rules in trade management.'],
-      writtenExplanation: "Sea Freight is the transportation of goods in shipping containers or bulk vessels across ocean routes between international seaports.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Book sea freight space 2-3 weeks in advance during peak import seasons (like Pre-Diwali or Chinese New Year)."],
       keyPoints: ["Sea Freight is ocean vessel transport for containers and bulk cargo at lowest unit cost."]
     };
@@ -1143,7 +1143,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
         }
       ],
       objectives: ['Understand operational meaning of Air Freight.', 'Apply rules in trade management.'],
-      writtenExplanation: "Air Freight is the rapid transport of cargo via dedicated freighter aircraft or passenger plane belly holds.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Calculate Chargeable Weight (Max of scale weight vs volume weight ÷ 6000) before booking air freight."],
       keyPoints: ["Air Freight is fast air cargo transport ideal for high-value or time-sensitive goods."]
     };
@@ -1186,7 +1186,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
         }
       ],
       objectives: ['Understand operational meaning of POL.', 'Apply rules in trade management.'],
-      writtenExplanation: "POL stands for Port of Loading — the designated seaport in the exporting country where container cargo is loaded onto the vessel.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Verify origin POL terminal cutoff dates (CY Cutoff) to ensure container is gated in before ship departs."],
       keyPoints: ["POL = Port of Loading (Origin seaport where ship is loaded with container)."]
     };
@@ -1229,7 +1229,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
         }
       ],
       objectives: ['Understand operational meaning of POD.', 'Apply rules in trade management.'],
-      writtenExplanation: "POD stands for Port of Discharge — the destination seaport in the importing country where the container is unloaded from the vessel.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["File advance Bill of Entry 2 days before vessel ETA at POD to clear customs immediately upon discharge."],
       keyPoints: ["POD = Port of Discharge (Destination seaport where container is unloaded from vessel)."]
     };
@@ -1272,7 +1272,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
         }
       ],
       objectives: ['Understand operational meaning of ICD.', 'Apply rules in trade management.'],
-      writtenExplanation: "ICD stands for Inland Container Depot (Dry Port) — an inland customs-bonded container handling facility located away from ocean ports.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Specify your local ICD code as final destination on Bill of Lading (e.g., Destination: ICD Ahmedabad - SBIAD)."],
       keyPoints: ["ICD = Inland Container Depot (Dry Port). Inland customs facility for local clearance away from seaports."]
     };
@@ -1315,7 +1315,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
         }
       ],
       objectives: ['Understand operational meaning of CFS.', 'Apply rules in trade management.'],
-      writtenExplanation: "CFS stands for Container Freight Station — a customs-bonded warehouse at port or ICD where LCL cargo is consolidated or de-consolidated.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Verify CFS handling charges and free storage days (usually 5 days) before container arrival at CFS."],
       keyPoints: ["CFS = Container Freight Station. Customs warehouse for consolidating and sorting LCL cargo."]
     };
@@ -1358,7 +1358,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
         }
       ],
       objectives: ['Understand operational meaning of Proforma Invoice.', 'Apply rules in trade management.'],
-      writtenExplanation: "Proforma Invoice (PI) is a preliminary billing document sent by the seller before order confirmation, detailing product specs, prices, terms, and bank details.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Check that PI explicitly lists Incoterms (FOB/CIF), HSN codes, payment terms, and factory bank SWIFT details before paying."],
       keyPoints: ["Proforma Invoice is a preliminary sales agreement used for advance deposit payment and LC opening."]
     };
@@ -1401,7 +1401,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
         }
       ],
       objectives: ['Understand operational meaning of Commercial Invoice.', 'Apply rules in trade management.'],
-      writtenExplanation: "Commercial Invoice (CI) is the legal billing document issued by seller upon dispatch, serving as the official record of sale and primary basis for customs valuation.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Ensure Invoice Number, Date, Buyer/Seller Tax IDs, Incoterms, HSN Codes, and Currency are accurately stated."],
       keyPoints: ["Commercial Invoice is the legal billing document for cargo valuation, customs duty calculation, and banking settlement."]
     };
@@ -1444,7 +1444,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
         }
       ],
       objectives: ['Understand operational meaning of Packing List.', 'Apply rules in trade management.'],
-      writtenExplanation: "Packing List (PL) is a detailed transport document created by the exporter specifying box count, dimensions, gross weight, net weight, and exact contents of every master carton.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Attach a copy of the Packing List inside Container Box #1 and paste pouch copies on outer carton walls."],
       keyPoints: ["Packing List details total cartons, weights (Gross/Net), dimensions (CBM), and item contents for customs verification."]
     };
@@ -1487,7 +1487,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
         }
       ],
       objectives: ['Understand operational meaning of Bill of Lading.', 'Apply rules in trade management.'],
-      writtenExplanation: "Bill of Lading (B/L) is the official ocean transport document issued by shipping line serving as a cargo receipt, contract of carriage, and legal document of title (ownership).",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Request Telex Release (Surrender B/L) from supplier to avoid mailing physical original paper documents via international courier."],
       keyPoints: ["Bill of Lading (B/L) is the primary document of title and ocean transport contract issued by shipping line."]
     };
@@ -1509,7 +1509,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Courier Shipment is rapid door-to-door express parcel delivery managed by global integrators like DHL, FedEx, and UPS.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Courier Shipment?', options: ["Courier Shipment is rapid door-to-door express parcel delivery managed by global integrators like DHL, FedEx, and UPS.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Courier Shipment is rapid door-to-door express parcel delivery managed by global integrators like DHL, FedEx, and UPS." }],
       objectives: ['Understand operational meaning of Courier Shipment.'],
-      writtenExplanation: "Courier Shipment is rapid door-to-door express parcel delivery managed by global integrators like DHL, FedEx, and UPS.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for Courier Shipment.'],
       keyPoints: ["Courier Shipment is rapid door-to-door express parcel delivery managed by global integrators like DHL, FedEx, and UPS."]
     };
@@ -1531,7 +1531,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Transit Time is the total elapsed time in days required for cargo to travel from port of origin (POL) to port of destination (POD).",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Transit Time?', options: ["Transit Time is the total elapsed time in days required for cargo to travel from port of origin (POL) to port of destination (POD).", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Transit Time is the total elapsed time in days required for cargo to travel from port of origin (POL) to port of destination (POD)." }],
       objectives: ['Understand operational meaning of Transit Time.'],
-      writtenExplanation: "Transit Time is the total elapsed time in days required for cargo to travel from port of origin (POL) to port of destination (POD).",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for Transit Time.'],
       keyPoints: ["Transit Time is the total elapsed time in days required for cargo to travel from port of origin (POL) to port of destination (POD)."]
     };
@@ -1553,7 +1553,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "ETD (Estimated Time of Departure) is the scheduled date and time when a shipping vessel or cargo plane departs from origin port.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes ETD?', options: ["ETD (Estimated Time of Departure) is the scheduled date and time when a shipping vessel or cargo plane departs from origin port.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "ETD (Estimated Time of Departure) is the scheduled date and time when a shipping vessel or cargo plane departs from origin port." }],
       objectives: ['Understand operational meaning of ETD.'],
-      writtenExplanation: "ETD (Estimated Time of Departure) is the scheduled date and time when a shipping vessel or cargo plane departs from origin port.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for ETD.'],
       keyPoints: ["ETD (Estimated Time of Departure) is the scheduled date and time when a shipping vessel or cargo plane departs from origin port."]
     };
@@ -1575,7 +1575,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "ETA (Estimated Time of Arrival) is the anticipated date and time when vessel or aircraft arrives at destination port.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes ETA?', options: ["ETA (Estimated Time of Arrival) is the anticipated date and time when vessel or aircraft arrives at destination port.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "ETA (Estimated Time of Arrival) is the anticipated date and time when vessel or aircraft arrives at destination port." }],
       objectives: ['Understand operational meaning of ETA.'],
-      writtenExplanation: "ETA (Estimated Time of Arrival) is the anticipated date and time when vessel or aircraft arrives at destination port.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for ETA.'],
       keyPoints: ["ETA (Estimated Time of Arrival) is the anticipated date and time when vessel or aircraft arrives at destination port."]
     };
@@ -1597,7 +1597,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Vessel is a commercial ocean-going cargo ship (container carrier, bulk vessel, tanker) used to transport goods internationally.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Vessel?', options: ["Vessel is a commercial ocean-going cargo ship (container carrier, bulk vessel, tanker) used to transport goods internationally.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Vessel is a commercial ocean-going cargo ship (container carrier, bulk vessel, tanker) used to transport goods internationally." }],
       objectives: ['Understand operational meaning of Vessel.'],
-      writtenExplanation: "Vessel is a commercial ocean-going cargo ship (container carrier, bulk vessel, tanker) used to transport goods internationally.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for Vessel.'],
       keyPoints: ["Vessel is a commercial ocean-going cargo ship (container carrier, bulk vessel, tanker) used to transport goods internationally."]
     };
@@ -1619,7 +1619,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Voyage is the unique alphanumeric identification code assigned to a specific ocean journey of a cargo vessel.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Voyage?', options: ["Voyage is the unique alphanumeric identification code assigned to a specific ocean journey of a cargo vessel.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Voyage is the unique alphanumeric identification code assigned to a specific ocean journey of a cargo vessel." }],
       objectives: ['Understand operational meaning of Voyage.'],
-      writtenExplanation: "Voyage is the unique alphanumeric identification code assigned to a specific ocean journey of a cargo vessel.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for Voyage.'],
       keyPoints: ["Voyage is the unique alphanumeric identification code assigned to a specific ocean journey of a cargo vessel."]
     };
@@ -1641,7 +1641,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Mother Vessel is a large mainline ocean container ship operating on major intercontinental routes between global hub ports.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Mother Vessel?', options: ["Mother Vessel is a large mainline ocean container ship operating on major intercontinental routes between global hub ports.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Mother Vessel is a large mainline ocean container ship operating on major intercontinental routes between global hub ports." }],
       objectives: ['Understand operational meaning of Mother Vessel.'],
-      writtenExplanation: "Mother Vessel is a large mainline ocean container ship operating on major intercontinental routes between global hub ports.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for Mother Vessel.'],
       keyPoints: ["Mother Vessel is a large mainline ocean container ship operating on major intercontinental routes between global hub ports."]
     };
@@ -1663,7 +1663,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Feeder Vessel is a smaller regional cargo ship carrying containers between regional ports and major ocean hub ports.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Feeder Vessel?', options: ["Feeder Vessel is a smaller regional cargo ship carrying containers between regional ports and major ocean hub ports.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Feeder Vessel is a smaller regional cargo ship carrying containers between regional ports and major ocean hub ports." }],
       objectives: ['Understand operational meaning of Feeder Vessel.'],
-      writtenExplanation: "Feeder Vessel is a smaller regional cargo ship carrying containers between regional ports and major ocean hub ports.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for Feeder Vessel.'],
       keyPoints: ["Feeder Vessel is a smaller regional cargo ship carrying containers between regional ports and major ocean hub ports."]
     };
@@ -1685,7 +1685,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "EXW (Ex Works) means seller makes goods available at factory floor. Buyer assumes 100% transport cost, risk, and customs clearance.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes EXW?', options: ["EXW (Ex Works) means seller makes goods available at factory floor. Buyer assumes 100% transport cost, risk, and customs clearance.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "EXW (Ex Works) means seller makes goods available at factory floor. Buyer assumes 100% transport cost, risk, and customs clearance." }],
       objectives: ['Understand operational meaning of EXW.'],
-      writtenExplanation: "EXW (Ex Works) means seller makes goods available at factory floor. Buyer assumes 100% transport cost, risk, and customs clearance.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for EXW.'],
       keyPoints: ["EXW (Ex Works) means seller makes goods available at factory floor. Buyer assumes 100% transport cost, risk, and customs clearance."]
     };
@@ -1707,7 +1707,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "FCA (Free Carrier) means seller delivers goods to buyer\'s named carrier warehouse at origin port or inland depot.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes FCA?', options: ["FCA (Free Carrier) means seller delivers goods to buyer\'s named carrier warehouse at origin port or inland depot.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "FCA (Free Carrier) means seller delivers goods to buyer\'s named carrier warehouse at origin port or inland depot." }],
       objectives: ['Understand operational meaning of FCA.'],
-      writtenExplanation: "FCA (Free Carrier) means seller delivers goods to buyer\'s named carrier warehouse at origin port or inland depot.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for FCA.'],
       keyPoints: ["FCA (Free Carrier) means seller delivers goods to buyer\'s named carrier warehouse at origin port or inland depot."]
     };
@@ -1729,7 +1729,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "CIF (Cost, Insurance, Freight) means seller pays ocean freight and marine insurance to destination port. Buyer pays import customs duty & port unloading.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes CIF?', options: ["CIF (Cost, Insurance, Freight) means seller pays ocean freight and marine insurance to destination port. Buyer pays import customs duty & port unloading.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "CIF (Cost, Insurance, Freight) means seller pays ocean freight and marine insurance to destination port. Buyer pays import customs duty & port unloading." }],
       objectives: ['Understand operational meaning of CIF.'],
-      writtenExplanation: "CIF (Cost, Insurance, Freight) means seller pays ocean freight and marine insurance to destination port. Buyer pays import customs duty & port unloading.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for CIF.'],
       keyPoints: ["CIF (Cost, Insurance, Freight) means seller pays ocean freight and marine insurance to destination port. Buyer pays import customs duty & port unloading."]
     };
@@ -1751,7 +1751,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "CFR (Cost and Freight) means seller pays ocean freight to destination port, but buyer purchases marine cargo insurance.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes CFR?', options: ["CFR (Cost and Freight) means seller pays ocean freight to destination port, but buyer purchases marine cargo insurance.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "CFR (Cost and Freight) means seller pays ocean freight to destination port, but buyer purchases marine cargo insurance." }],
       objectives: ['Understand operational meaning of CFR.'],
-      writtenExplanation: "CFR (Cost and Freight) means seller pays ocean freight to destination port, but buyer purchases marine cargo insurance.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for CFR.'],
       keyPoints: ["CFR (Cost and Freight) means seller pays ocean freight to destination port, but buyer purchases marine cargo insurance."]
     };
@@ -1773,7 +1773,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "DDP (Delivered Duty Paid) means seller handles entire logistics including ocean freight, customs duty, taxes, and final door delivery. Maximum seller risk.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes DDP?', options: ["DDP (Delivered Duty Paid) means seller handles entire logistics including ocean freight, customs duty, taxes, and final door delivery. Maximum seller risk.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "DDP (Delivered Duty Paid) means seller handles entire logistics including ocean freight, customs duty, taxes, and final door delivery. Maximum seller risk." }],
       objectives: ['Understand operational meaning of DDP.'],
-      writtenExplanation: "DDP (Delivered Duty Paid) means seller handles entire logistics including ocean freight, customs duty, taxes, and final door delivery. Maximum seller risk.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for DDP.'],
       keyPoints: ["DDP (Delivered Duty Paid) means seller handles entire logistics including ocean freight, customs duty, taxes, and final door delivery. Maximum seller risk."]
     };
@@ -1795,7 +1795,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "DAP (Delivered At Place) means seller delivers cargo to buyer door, but buyer pays import customs duties and taxes.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes DAP?', options: ["DAP (Delivered At Place) means seller delivers cargo to buyer door, but buyer pays import customs duties and taxes.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "DAP (Delivered At Place) means seller delivers cargo to buyer door, but buyer pays import customs duties and taxes." }],
       objectives: ['Understand operational meaning of DAP.'],
-      writtenExplanation: "DAP (Delivered At Place) means seller delivers cargo to buyer door, but buyer pays import customs duties and taxes.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for DAP.'],
       keyPoints: ["DAP (Delivered At Place) means seller delivers cargo to buyer door, but buyer pays import customs duties and taxes."]
     };
@@ -1817,7 +1817,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "CIP (Carriage and Insurance Paid to) is multimodal Incoterm where seller pays carriage + all-risk insurance to destination place.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes CIP?', options: ["CIP (Carriage and Insurance Paid to) is multimodal Incoterm where seller pays carriage + all-risk insurance to destination place.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "CIP (Carriage and Insurance Paid to) is multimodal Incoterm where seller pays carriage + all-risk insurance to destination place." }],
       objectives: ['Understand operational meaning of CIP.'],
-      writtenExplanation: "CIP (Carriage and Insurance Paid to) is multimodal Incoterm where seller pays carriage + all-risk insurance to destination place.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for CIP.'],
       keyPoints: ["CIP (Carriage and Insurance Paid to) is multimodal Incoterm where seller pays carriage + all-risk insurance to destination place."]
     };
@@ -1839,7 +1839,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "CPT (Carriage Paid To) is multimodal Incoterm where seller pays main freight carriage to named destination place.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes CPT?', options: ["CPT (Carriage Paid To) is multimodal Incoterm where seller pays main freight carriage to named destination place.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "CPT (Carriage Paid To) is multimodal Incoterm where seller pays main freight carriage to named destination place." }],
       objectives: ['Understand operational meaning of CPT.'],
-      writtenExplanation: "CPT (Carriage Paid To) is multimodal Incoterm where seller pays main freight carriage to named destination place.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for CPT.'],
       keyPoints: ["CPT (Carriage Paid To) is multimodal Incoterm where seller pays main freight carriage to named destination place."]
     };
@@ -1861,7 +1861,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Warehouse is a commercial facility designed for storage of raw materials, inventory management, order picking, and distribution.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Warehouse?', options: ["Warehouse is a commercial facility designed for storage of raw materials, inventory management, order picking, and distribution.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Warehouse is a commercial facility designed for storage of raw materials, inventory management, order picking, and distribution." }],
       objectives: ['Understand operational meaning of Warehouse.'],
-      writtenExplanation: "Warehouse is a commercial facility designed for storage of raw materials, inventory management, order picking, and distribution.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for Warehouse.'],
       keyPoints: ["Warehouse is a commercial facility designed for storage of raw materials, inventory management, order picking, and distribution."]
     };
@@ -1883,7 +1883,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Bonded Warehouse is a customs-controlled storage building where imported goods can be stored duty-free until cleared for domestic sale.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Bonded Warehouse?', options: ["Bonded Warehouse is a customs-controlled storage building where imported goods can be stored duty-free until cleared for domestic sale.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Bonded Warehouse is a customs-controlled storage building where imported goods can be stored duty-free until cleared for domestic sale." }],
       objectives: ['Understand operational meaning of Bonded Warehouse.'],
-      writtenExplanation: "Bonded Warehouse is a customs-controlled storage building where imported goods can be stored duty-free until cleared for domestic sale.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for Bonded Warehouse.'],
       keyPoints: ["Bonded Warehouse is a customs-controlled storage building where imported goods can be stored duty-free until cleared for domestic sale."]
     };
@@ -1905,7 +1905,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Last Mile Delivery is the final transportation leg moving cleared cargo from regional warehouse to final customer door.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Last Mile Delivery?', options: ["Last Mile Delivery is the final transportation leg moving cleared cargo from regional warehouse to final customer door.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Last Mile Delivery is the final transportation leg moving cleared cargo from regional warehouse to final customer door." }],
       objectives: ['Understand operational meaning of Last Mile Delivery.'],
-      writtenExplanation: "Last Mile Delivery is the final transportation leg moving cleared cargo from regional warehouse to final customer door.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for Last Mile Delivery.'],
       keyPoints: ["Last Mile Delivery is the final transportation leg moving cleared cargo from regional warehouse to final customer door."]
     };
@@ -1927,7 +1927,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Door Delivery is an end-to-end shipping service where logistics provider handles pickup at factory door and delivery to importer door.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'Which statement accurately describes Door Delivery?', options: ["Door Delivery is an end-to-end shipping service where logistics provider handles pickup at factory door and delivery to importer door.", 'An illegal practice.', 'A tax exemption.', 'A carrier fine.'], correctAnswers: ['0'], explanation: "Door Delivery is an end-to-end shipping service where logistics provider handles pickup at factory door and delivery to importer door." }],
       objectives: ['Understand operational meaning of Door Delivery.'],
-      writtenExplanation: "Door Delivery is an end-to-end shipping service where logistics provider handles pickup at factory door and delivery to importer door.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Always check compliance rules for Door Delivery.'],
       keyPoints: ["Door Delivery is an end-to-end shipping service where logistics provider handles pickup at factory door and delivery to importer door."]
     };
@@ -1949,7 +1949,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Fumigation Certificate is an official pest control document certifying that wooden packaging materials (pallets, crates) have been chemically treated (ISPM-15) to kill timber pests before shipment.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Fumigation Certificate?', options: ["Fumigation Certificate is an official pest control document certifying that wooden packaging materials (pallets, crates) have been chemically treated (ISPM-15) to kill timber pests before shipment.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Fumigation Certificate is an official pest control document certifying that wooden packaging materials (pallets, crates) have been chemically treated (ISPM-15) to kill timber pests before shipment." }],
       objectives: ['Understand operational meaning of Fumigation Certificate.'],
-      writtenExplanation: "Fumigation Certificate is an official pest control document certifying that wooden packaging materials (pallets, crates) have been chemically treated (ISPM-15) to kill timber pests before shipment.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Verify all details on Fumigation Certificate.'],
       keyPoints: ["Fumigation Certificate is an official pest control document certifying that wooden packaging materials (pallets, crates) have been chemically treated (ISPM-15) to kill timber pests before shipment."]
     };
@@ -1971,7 +1971,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Inspection Certificate is a quality, quantity, and technical compliance audit report issued by an independent inspection agency (such as SGS, Intertek, or TÜV) after physically auditing finished goods at the factory.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Inspection Certificate?', options: ["Inspection Certificate is a quality, quantity, and technical compliance audit report issued by an independent inspection agency (such as SGS, Intertek, or TÜV) after physically auditing finished goods at the factory.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Inspection Certificate is a quality, quantity, and technical compliance audit report issued by an independent inspection agency (such as SGS, Intertek, or TÜV) after physically auditing finished goods at the factory." }],
       objectives: ['Understand operational meaning of Inspection Certificate.'],
-      writtenExplanation: "Inspection Certificate is a quality, quantity, and technical compliance audit report issued by an independent inspection agency (such as SGS, Intertek, or TÜV) after physically auditing finished goods at the factory.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Verify all details on Inspection Certificate.'],
       keyPoints: ["Inspection Certificate is a quality, quantity, and technical compliance audit report issued by an independent inspection agency (such as SGS, Intertek, or TÜV) after physically auditing finished goods at the factory."]
     };
@@ -1993,7 +1993,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Air Way Bill (AWB) is the official non-negotiable transport document issued by an airline for cargo transported by air, serving as a carriage contract and receipt of goods.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Air Way Bill?', options: ["Air Way Bill (AWB) is the official non-negotiable transport document issued by an airline for cargo transported by air, serving as a carriage contract and receipt of goods.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Air Way Bill (AWB) is the official non-negotiable transport document issued by an airline for cargo transported by air, serving as a carriage contract and receipt of goods." }],
       objectives: ['Understand operational meaning of Air Way Bill.'],
-      writtenExplanation: "Air Way Bill (AWB) is the official non-negotiable transport document issued by an airline for cargo transported by air, serving as a carriage contract and receipt of goods.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Verify all details on Air Way Bill.'],
       keyPoints: ["Air Way Bill (AWB) is the official non-negotiable transport document issued by an airline for cargo transported by air, serving as a carriage contract and receipt of goods."]
     };
@@ -2015,7 +2015,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Delivery Order (DO) is a release document issued by the shipping line or freight forwarder to the port terminal/CFS authorizing the surrender of cargo to the importer after freight and local charges are settled.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Delivery Order?', options: ["Delivery Order (DO) is a release document issued by the shipping line or freight forwarder to the port terminal/CFS authorizing the surrender of cargo to the importer after freight and local charges are settled.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Delivery Order (DO) is a release document issued by the shipping line or freight forwarder to the port terminal/CFS authorizing the surrender of cargo to the importer after freight and local charges are settled." }],
       objectives: ['Understand operational meaning of Delivery Order.'],
-      writtenExplanation: "Delivery Order (DO) is a release document issued by the shipping line or freight forwarder to the port terminal/CFS authorizing the surrender of cargo to the importer after freight and local charges are settled.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Verify all details on Delivery Order.'],
       keyPoints: ["Delivery Order (DO) is a release document issued by the shipping line or freight forwarder to the port terminal/CFS authorizing the surrender of cargo to the importer after freight and local charges are settled."]
     };
@@ -2059,7 +2059,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Bill of Entry (BOE) is a statutory import declaration document filed by an importer/CHA with Customs (via ICEGATE) detailing imported cargo value, HSN codes, and duty calculations for clearance.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Bill of Entry?', options: ["Bill of Entry (BOE) is a statutory import declaration document filed by an importer/CHA with Customs (via ICEGATE) detailing imported cargo value, HSN codes, and duty calculations for clearance.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Bill of Entry (BOE) is a statutory import declaration document filed by an importer/CHA with Customs (via ICEGATE) detailing imported cargo value, HSN codes, and duty calculations for clearance." }],
       objectives: ['Understand operational meaning of Bill of Entry.'],
-      writtenExplanation: "Bill of Entry (BOE) is a statutory import declaration document filed by an importer/CHA with Customs (via ICEGATE) detailing imported cargo value, HSN codes, and duty calculations for clearance.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Verify all details on Bill of Entry.'],
       keyPoints: ["Bill of Entry (BOE) is a statutory import declaration document filed by an importer/CHA with Customs (via ICEGATE) detailing imported cargo value, HSN codes, and duty calculations for clearance."]
     };
@@ -2081,7 +2081,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Certificate of Origin (COO) is an official document issued by a Chamber of Commerce or government authority certifying the country where the imported product was manufactured.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Certificate of Origin?', options: ["Certificate of Origin (COO) is an official document issued by a Chamber of Commerce or government authority certifying the country where the imported product was manufactured.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Certificate of Origin (COO) is an official document issued by a Chamber of Commerce or government authority certifying the country where the imported product was manufactured." }],
       objectives: ['Understand operational meaning of Certificate of Origin.'],
-      writtenExplanation: "Certificate of Origin (COO) is an official document issued by a Chamber of Commerce or government authority certifying the country where the imported product was manufactured.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Verify all details on Certificate of Origin.'],
       keyPoints: ["Certificate of Origin (COO) is an official document issued by a Chamber of Commerce or government authority certifying the country where the imported product was manufactured."]
     };
@@ -2103,7 +2103,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Insurance Certificate is an official policy document issued by a marine insurance underwriter confirming that cargo is insured against loss, damage, theft, or vessel sinking during transit.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Insurance Certificate?', options: ["Insurance Certificate is an official policy document issued by a marine insurance underwriter confirming that cargo is insured against loss, damage, theft, or vessel sinking during transit.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Insurance Certificate is an official policy document issued by a marine insurance underwriter confirming that cargo is insured against loss, damage, theft, or vessel sinking during transit." }],
       objectives: ['Understand operational meaning of Insurance Certificate.'],
-      writtenExplanation: "Insurance Certificate is an official policy document issued by a marine insurance underwriter confirming that cargo is insured against loss, damage, theft, or vessel sinking during transit.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Verify all details on Insurance Certificate.'],
       keyPoints: ["Insurance Certificate is an official policy document issued by a marine insurance underwriter confirming that cargo is insured against loss, damage, theft, or vessel sinking during transit."]
     };
@@ -2125,7 +2125,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Customs is the government border authority enforcing import/export trade laws, inspecting international shipments, and collecting customs duties and taxes.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Customs?', options: ["Customs is the government border authority enforcing import/export trade laws, inspecting international shipments, and collecting customs duties and taxes.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Customs is the government border authority enforcing import/export trade laws, inspecting international shipments, and collecting customs duties and taxes." }],
       objectives: ['Understand operational meaning of Customs.'],
-      writtenExplanation: "Customs is the government border authority enforcing import/export trade laws, inspecting international shipments, and collecting customs duties and taxes.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Verify all details on Customs.'],
       keyPoints: ["Customs is the government border authority enforcing import/export trade laws, inspecting international shipments, and collecting customs duties and taxes."]
     };
@@ -2147,7 +2147,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Customs Clearance is the official administrative procedure of obtaining permission from customs authorities to import or export cargo across international borders.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Customs Clearance?', options: ["Customs Clearance is the official administrative procedure of obtaining permission from customs authorities to import or export cargo across international borders.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Customs Clearance is the official administrative procedure of obtaining permission from customs authorities to import or export cargo across international borders." }],
       objectives: ['Understand operational meaning of Customs Clearance.'],
-      writtenExplanation: "Customs Clearance is the official administrative procedure of obtaining permission from customs authorities to import or export cargo across international borders.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Verify all details on Customs Clearance.'],
       keyPoints: ["Customs Clearance is the official administrative procedure of obtaining permission from customs authorities to import or export cargo across international borders."]
     };
@@ -2169,7 +2169,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "CHA (Customs House Agent) or Customs Broker is a licensed professional authorized by Customs to handle import/export documentation, tariff classification, and cargo clearance for trade clients.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is CHA?', options: ["CHA (Customs House Agent) or Customs Broker is a licensed professional authorized by Customs to handle import/export documentation, tariff classification, and cargo clearance for trade clients.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "CHA (Customs House Agent) or Customs Broker is a licensed professional authorized by Customs to handle import/export documentation, tariff classification, and cargo clearance for trade clients." }],
       objectives: ['Understand operational meaning of CHA.'],
-      writtenExplanation: "CHA (Customs House Agent) or Customs Broker is a licensed professional authorized by Customs to handle import/export documentation, tariff classification, and cargo clearance for trade clients.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Verify all details on CHA.'],
       keyPoints: ["CHA (Customs House Agent) or Customs Broker is a licensed professional authorized by Customs to handle import/export documentation, tariff classification, and cargo clearance for trade clients."]
     };
@@ -2191,7 +2191,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "HSN Code (Harmonized System of Nomenclature) is an international 6-to-8 digit standardized numerical code used worldwide to classify traded commodities for customs duty calculation.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is HSN Code?', options: ["HSN Code (Harmonized System of Nomenclature) is an international 6-to-8 digit standardized numerical code used worldwide to classify traded commodities for customs duty calculation.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "HSN Code (Harmonized System of Nomenclature) is an international 6-to-8 digit standardized numerical code used worldwide to classify traded commodities for customs duty calculation." }],
       objectives: ['Understand operational meaning of HSN Code.'],
-      writtenExplanation: "HSN Code (Harmonized System of Nomenclature) is an international 6-to-8 digit standardized numerical code used worldwide to classify traded commodities for customs duty calculation.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Verify all details on HSN Code.'],
       keyPoints: ["HSN Code (Harmonized System of Nomenclature) is an international 6-to-8 digit standardized numerical code used worldwide to classify traded commodities for customs duty calculation."]
     };
@@ -2213,7 +2213,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Ocean Freight is the main ocean transport fee charged by shipping lines to transport containerized or bulk cargo across international sea routes.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Ocean Freight?', options: ["Ocean Freight is the main ocean transport fee charged by shipping lines to transport containerized or bulk cargo across international sea routes.", 'A tax exemption.', 'An illegal fee.', 'A vessel penalty.'], correctAnswers: ['0'], explanation: "Ocean Freight is the main ocean transport fee charged by shipping lines to transport containerized or bulk cargo across international sea routes." }],
       objectives: ['Understand operational meaning of Ocean Freight.'],
-      writtenExplanation: "Ocean Freight is the main ocean transport fee charged by shipping lines to transport containerized or bulk cargo across international sea routes.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Audit all charges for Ocean Freight.'],
       keyPoints: ["Ocean Freight is the main ocean transport fee charged by shipping lines to transport containerized or bulk cargo across international sea routes."]
     };
@@ -2235,7 +2235,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Local Charges are origin and destination port handling fees charged by forwarders and port terminals (such as THC, documentation, and gate fees) outside of main ocean freight.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Local Charges?', options: ["Local Charges are origin and destination port handling fees charged by forwarders and port terminals (such as THC, documentation, and gate fees) outside of main ocean freight.", 'A tax exemption.', 'An illegal fee.', 'A vessel penalty.'], correctAnswers: ['0'], explanation: "Local Charges are origin and destination port handling fees charged by forwarders and port terminals (such as THC, documentation, and gate fees) outside of main ocean freight." }],
       objectives: ['Understand operational meaning of Local Charges.'],
-      writtenExplanation: "Local Charges are origin and destination port handling fees charged by forwarders and port terminals (such as THC, documentation, and gate fees) outside of main ocean freight.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Audit all charges for Local Charges.'],
       keyPoints: ["Local Charges are origin and destination port handling fees charged by forwarders and port terminals (such as THC, documentation, and gate fees) outside of main ocean freight."]
     };
@@ -2257,7 +2257,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Terminal Handling Charge (THC) is the port fee charged by terminal operators for using port cranes and equipment to load or unload containers between vessel and port yard.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is THC?', options: ["Terminal Handling Charge (THC) is the port fee charged by terminal operators for using port cranes and equipment to load or unload containers between vessel and port yard.", 'A tax exemption.', 'An illegal fee.', 'A vessel penalty.'], correctAnswers: ['0'], explanation: "Terminal Handling Charge (THC) is the port fee charged by terminal operators for using port cranes and equipment to load or unload containers between vessel and port yard." }],
       objectives: ['Understand operational meaning of THC.'],
-      writtenExplanation: "Terminal Handling Charge (THC) is the port fee charged by terminal operators for using port cranes and equipment to load or unload containers between vessel and port yard.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Audit all charges for THC.'],
       keyPoints: ["Terminal Handling Charge (THC) is the port fee charged by terminal operators for using port cranes and equipment to load or unload containers between vessel and port yard."]
     };
@@ -2279,7 +2279,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "CFS Charges are handling, de-stuffing, sorting, and ground storage fees billed by Container Freight Stations for processing LCL cargo shipments.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is CFS Charges?', options: ["CFS Charges are handling, de-stuffing, sorting, and ground storage fees billed by Container Freight Stations for processing LCL cargo shipments.", 'A tax exemption.', 'An illegal fee.', 'A vessel penalty.'], correctAnswers: ['0'], explanation: "CFS Charges are handling, de-stuffing, sorting, and ground storage fees billed by Container Freight Stations for processing LCL cargo shipments." }],
       objectives: ['Understand operational meaning of CFS Charges.'],
-      writtenExplanation: "CFS Charges are handling, de-stuffing, sorting, and ground storage fees billed by Container Freight Stations for processing LCL cargo shipments.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Audit all charges for CFS Charges.'],
       keyPoints: ["CFS Charges are handling, de-stuffing, sorting, and ground storage fees billed by Container Freight Stations for processing LCL cargo shipments."]
     };
@@ -2301,7 +2301,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "DO Charges are administrative fees billed by shipping lines or forwarders for issuing the electronic Delivery Order (DO) authorizing cargo release.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is DO Charges?', options: ["DO Charges are administrative fees billed by shipping lines or forwarders for issuing the electronic Delivery Order (DO) authorizing cargo release.", 'A tax exemption.', 'An illegal fee.', 'A vessel penalty.'], correctAnswers: ['0'], explanation: "DO Charges are administrative fees billed by shipping lines or forwarders for issuing the electronic Delivery Order (DO) authorizing cargo release." }],
       objectives: ['Understand operational meaning of DO Charges.'],
-      writtenExplanation: "DO Charges are administrative fees billed by shipping lines or forwarders for issuing the electronic Delivery Order (DO) authorizing cargo release.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Audit all charges for DO Charges.'],
       keyPoints: ["DO Charges are administrative fees billed by shipping lines or forwarders for issuing the electronic Delivery Order (DO) authorizing cargo release."]
     };
@@ -2323,7 +2323,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Detention is a penalty fee charged by shipping lines when an importer holds an empty container outside the port beyond agreed free days (usually 7-14 days).",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Detention?', options: ["Detention is a penalty fee charged by shipping lines when an importer holds an empty container outside the port beyond agreed free days (usually 7-14 days).", 'A tax exemption.', 'An illegal fee.', 'A vessel penalty.'], correctAnswers: ['0'], explanation: "Detention is a penalty fee charged by shipping lines when an importer holds an empty container outside the port beyond agreed free days (usually 7-14 days)." }],
       objectives: ['Understand operational meaning of Detention.'],
-      writtenExplanation: "Detention is a penalty fee charged by shipping lines when an importer holds an empty container outside the port beyond agreed free days (usually 7-14 days).",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Audit all charges for Detention.'],
       keyPoints: ["Detention is a penalty fee charged by shipping lines when an importer holds an empty container outside the port beyond agreed free days (usually 7-14 days)."]
     };
@@ -2345,7 +2345,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Demurrage is a daily penalty fee charged by ports or shipping lines when a loaded container stays inside the port terminal beyond free storage days (usually 3-5 days).",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Demurrage?', options: ["Demurrage is a daily penalty fee charged by ports or shipping lines when a loaded container stays inside the port terminal beyond free storage days (usually 3-5 days).", 'A tax exemption.', 'An illegal fee.', 'A vessel penalty.'], correctAnswers: ['0'], explanation: "Demurrage is a daily penalty fee charged by ports or shipping lines when a loaded container stays inside the port terminal beyond free storage days (usually 3-5 days)." }],
       objectives: ['Understand operational meaning of Demurrage.'],
-      writtenExplanation: "Demurrage is a daily penalty fee charged by ports or shipping lines when a loaded container stays inside the port terminal beyond free storage days (usually 3-5 days).",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Audit all charges for Demurrage.'],
       keyPoints: ["Demurrage is a daily penalty fee charged by ports or shipping lines when a loaded container stays inside the port terminal beyond free storage days (usually 3-5 days)."]
     };
@@ -2367,7 +2367,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Port Charges are statutory pilotage, berth hire, anchorage, and port entry fees levied by port trusts on vessels and cargo handling.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Port Charges?', options: ["Port Charges are statutory pilotage, berth hire, anchorage, and port entry fees levied by port trusts on vessels and cargo handling.", 'A tax exemption.', 'An illegal fee.', 'A vessel penalty.'], correctAnswers: ['0'], explanation: "Port Charges are statutory pilotage, berth hire, anchorage, and port entry fees levied by port trusts on vessels and cargo handling." }],
       objectives: ['Understand operational meaning of Port Charges.'],
-      writtenExplanation: "Port Charges are statutory pilotage, berth hire, anchorage, and port entry fees levied by port trusts on vessels and cargo handling.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Audit all charges for Port Charges.'],
       keyPoints: ["Port Charges are statutory pilotage, berth hire, anchorage, and port entry fees levied by port trusts on vessels and cargo handling."]
     };
@@ -2389,7 +2389,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Documentation Charges are administrative processing fees billed by freight forwarders or shipping lines for creating B/L, HBL, manifest filings, and EDI entries.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What is Documentation Charges?', options: ["Documentation Charges are administrative processing fees billed by freight forwarders or shipping lines for creating B/L, HBL, manifest filings, and EDI entries.", 'A tax exemption.', 'An illegal fee.', 'A vessel penalty.'], correctAnswers: ['0'], explanation: "Documentation Charges are administrative processing fees billed by freight forwarders or shipping lines for creating B/L, HBL, manifest filings, and EDI entries." }],
       objectives: ['Understand operational meaning of Documentation Charges.'],
-      writtenExplanation: "Documentation Charges are administrative processing fees billed by freight forwarders or shipping lines for creating B/L, HBL, manifest filings, and EDI entries.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ['Audit all charges for Documentation Charges.'],
       keyPoints: ["Documentation Charges are administrative processing fees billed by freight forwarders or shipping lines for creating B/L, HBL, manifest filings, and EDI entries."]
     };
@@ -2411,7 +2411,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Quality Control is operational inspection during production to detect and correct manufacturing defects.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Quality Control do?', options: ["Quality Control (QC) refers to the operational inspection checks performed on raw materials, components, and assembly lines during production to identify and fix defects.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Quality Control (QC) refers to the operational inspection checks performed on raw materials, components, and assembly lines during production to identify and fix defects." }],
       objectives: ['Understand operational meaning of Quality Control.'],
-      writtenExplanation: "Quality Control (QC) refers to the operational inspection checks performed on raw materials, components, and assembly lines during production to identify and fix defects.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Define inline inspection checkpoints at 20%, 50%, and 80% production stages."],
       keyPoints: ["Quality Control is operational inspection during production to detect and correct manufacturing defects."]
     };
@@ -2433,7 +2433,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Quality Assurance is systematic process management preventing defects prior to manufacturing.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Quality Assurance do?', options: ["Quality Assurance (QA) is the systematic organizational framework of quality management protocols, ISO standards, and factory operating procedures that prevents product defects from occurring in the first place.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Quality Assurance (QA) is the systematic organizational framework of quality management protocols, ISO standards, and factory operating procedures that prevents product defects from occurring in the first place." }],
       objectives: ['Understand operational meaning of Quality Assurance.'],
-      writtenExplanation: "Quality Assurance (QA) is the systematic organizational framework of quality management protocols, ISO standards, and factory operating procedures that prevents product defects from occurring in the first place.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Audit factory ISO certifications and standard operating procedures (SOPs) before placing orders."],
       keyPoints: ["Quality Assurance is systematic process management preventing defects prior to manufacturing."]
     };
@@ -2455,7 +2455,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Pre-Shipment Inspection is a final third-party factory audit verifying goods prior to balance payment and dispatch.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Pre-Shipment Inspection do?', options: ["Pre-Shipment Inspection (PSI) is a comprehensive physical audit performed by an independent third-party agency (like SGS or Intertek) when production is 100% completed and at least 80% packed into master cartons.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Pre-Shipment Inspection (PSI) is a comprehensive physical audit performed by an independent third-party agency (like SGS or Intertek) when production is 100% completed and at least 80% packed into master cartons." }],
       objectives: ['Understand operational meaning of Pre-Shipment Inspection.'],
-      writtenExplanation: "Pre-Shipment Inspection (PSI) is a comprehensive physical audit performed by an independent third-party agency (like SGS or Intertek) when production is 100% completed and at least 80% packed into master cartons.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Define AQL Level II inspection standards in writing inside your Purchase Order."],
       keyPoints: ["Pre-Shipment Inspection is a final third-party factory audit verifying goods prior to balance payment and dispatch."]
     };
@@ -2477,7 +2477,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Random Inspection evaluates batch quality by sampling random boxes using AQL statistical tables.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Random Inspection do?', options: ["Random Inspection is an auditing technique where an inspector randomly selects sample cartons from different pallets in the warehouse using statistical AQL (Acceptable Quality Limit) tables to evaluate overall batch quality.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Random Inspection is an auditing technique where an inspector randomly selects sample cartons from different pallets in the warehouse using statistical AQL (Acceptable Quality Limit) tables to evaluate overall batch quality." }],
       objectives: ['Understand operational meaning of Random Inspection.'],
-      writtenExplanation: "Random Inspection is an auditing technique where an inspector randomly selects sample cartons from different pallets in the warehouse using statistical AQL (Acceptable Quality Limit) tables to evaluate overall batch quality.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Ensure sampling covers boxes from front, middle, and back of the warehouse pallet stacks."],
       keyPoints: ["Random Inspection evaluates batch quality by sampling random boxes using AQL statistical tables."]
     };
@@ -2499,7 +2499,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Defect Rate measures the percentage of non-conforming units in a batch.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Defect Rate do?', options: ["Defect Rate is the percentage of failed or non-conforming items identified within an inspected sample lot during quality control testing.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Defect Rate is the percentage of failed or non-conforming items identified within an inspected sample lot during quality control testing." }],
       objectives: ['Understand operational meaning of Defect Rate.'],
-      writtenExplanation: "Defect Rate is the percentage of failed or non-conforming items identified within an inspected sample lot during quality control testing.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Include clear penalty clauses requiring factory re-inspection fees if defect rate fails AQL limits."],
       keyPoints: ["Defect Rate measures the percentage of non-conforming units in a batch."]
     };
@@ -2521,7 +2521,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Product Testing certifies safety, toxicity, and electrical standards in accredited laboratories.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Product Testing do?', options: ["Product Testing involves sending product samples to accredited laboratories (such as UL, TÜV, or Intertek) to run rigorous electrical safety, chemical toxicity, waterproof, or drop tests.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Product Testing involves sending product samples to accredited laboratories (such as UL, TÜV, or Intertek) to run rigorous electrical safety, chemical toxicity, waterproof, or drop tests." }],
       objectives: ['Understand operational meaning of Product Testing.'],
-      writtenExplanation: "Product Testing involves sending product samples to accredited laboratories (such as UL, TÜV, or Intertek) to run rigorous electrical safety, chemical toxicity, waterproof, or drop tests.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Verify lab test certificate authenticity directly on testing agency verification portals."],
       keyPoints: ["Product Testing certifies safety, toxicity, and electrical standards in accredited laboratories."]
     };
@@ -2543,7 +2543,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Compliance is full legal, environmental, and safety adherence to destination country import laws.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Compliance do?', options: ["Compliance is the strict adherence of imported goods to all mandatory health, safety, environmental, labeling, and legal standards established by the destination government.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Compliance is the strict adherence of imported goods to all mandatory health, safety, environmental, labeling, and legal standards established by the destination government." }],
       objectives: ['Understand operational meaning of Compliance.'],
-      writtenExplanation: "Compliance is the strict adherence of imported goods to all mandatory health, safety, environmental, labeling, and legal standards established by the destination government.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Check current customs tariff regulations and mandatory certification rules before placing purchase orders."],
       keyPoints: ["Compliance is full legal, environmental, and safety adherence to destination country import laws."]
     };
@@ -2565,7 +2565,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Lead is an initial potential sales opportunity representing prospective buyer interest.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Lead mean?', options: ["Lead is a potential business contact or customer inquiry indicating interest in purchasing or importing specific products.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Lead is a potential business contact or customer inquiry indicating interest in purchasing or importing specific products." }],
       objectives: ['Understand operational meaning of Lead.'],
-      writtenExplanation: "Lead is a potential business contact or customer inquiry indicating interest in purchasing or importing specific products.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Use a CRM tool to log lead source, contact details, and initial product specifications."],
       keyPoints: ["Lead is an initial potential sales opportunity representing prospective buyer interest."]
     };
@@ -2587,7 +2587,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Inquiry is a formal written request sent to suppliers detailing product requirements and quantities.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Inquiry mean?', options: ["Inquiry is a formal written request sent by a buyer to a supplier detailing required product specifications, target quantity, packaging preferences, and delivery terms.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Inquiry is a formal written request sent by a buyer to a supplier detailing required product specifications, target quantity, packaging preferences, and delivery terms." }],
       objectives: ['Understand operational meaning of Inquiry.'],
-      writtenExplanation: "Inquiry is a formal written request sent by a buyer to a supplier detailing required product specifications, target quantity, packaging preferences, and delivery terms.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Attach a detailed Product Specification Sheet to your inquiry email to receive precise quotes."],
       keyPoints: ["Inquiry is a formal written request sent to suppliers detailing product requirements and quantities."]
     };
@@ -2609,7 +2609,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Quotation is a formal price and terms proposal submitted by a supplier.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Quotation mean?', options: ["Quotation (Proforma Offer) is a formal commercial document issued by a supplier detailing unit prices, bulk discounts, MOQ, payment terms, Incoterms, and price validity period.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Quotation (Proforma Offer) is a formal commercial document issued by a supplier detailing unit prices, bulk discounts, MOQ, payment terms, Incoterms, and price validity period." }],
       objectives: ['Understand operational meaning of Quotation.'],
-      writtenExplanation: "Quotation (Proforma Offer) is a formal commercial document issued by a supplier detailing unit prices, bulk discounts, MOQ, payment terms, Incoterms, and price validity period.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Request quotation break-ups showing raw material cost, packaging cost, and export inland freight."],
       keyPoints: ["Quotation is a formal price and terms proposal submitted by a supplier."]
     };
@@ -2631,7 +2631,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Purchase Order is a legally binding order contract issued by buyer to supplier.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Purchase Order mean?', options: ["Purchase Order (PO) is a legally binding contract issued by a buyer to a supplier confirming product specs, exact order quantity, agreed unit price, payment terms, and delivery deadline.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Purchase Order (PO) is a legally binding contract issued by a buyer to a supplier confirming product specs, exact order quantity, agreed unit price, payment terms, and delivery deadline." }],
       objectives: ['Understand operational meaning of Purchase Order.'],
-      writtenExplanation: "Purchase Order (PO) is a legally binding contract issued by a buyer to a supplier confirming product specs, exact order quantity, agreed unit price, payment terms, and delivery deadline.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Include quality inspection pass requirements and penalty clauses for late delivery inside the PO."],
       keyPoints: ["Purchase Order is a legally binding order contract issued by buyer to supplier."]
     };
@@ -2653,7 +2653,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Sales Order is a seller confirmation acknowledging PO receipt and locking production scheduling.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Sales Order mean?', options: ["Sales Order (SO) is an internal sales confirmation document issued by the seller to acknowledge receipt of the buyer's Purchase Order and schedule factory production.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Sales Order (SO) is an internal sales confirmation document issued by the seller to acknowledge receipt of the buyer's Purchase Order and schedule factory production." }],
       objectives: ['Understand operational meaning of Sales Order.'],
-      writtenExplanation: "Sales Order (SO) is an internal sales confirmation document issued by the seller to acknowledge receipt of the buyer's Purchase Order and schedule factory production.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Cross-check the Sales Order line items against your original PO to verify zero price or spec discrepancies."],
       keyPoints: ["Sales Order is a seller confirmation acknowledging PO receipt and locking production scheduling."]
     };
@@ -2675,7 +2675,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Follow-up is continuous production tracking ensuring manufacturing milestones stay on schedule.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Follow-up mean?', options: ["Follow-up is the continuous operational tracking of factory production progress, raw material sourcing, and quality checkpoints to ensure on-time delivery.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Follow-up is the continuous operational tracking of factory production progress, raw material sourcing, and quality checkpoints to ensure on-time delivery." }],
       objectives: ['Understand operational meaning of Follow-up.'],
-      writtenExplanation: "Follow-up is the continuous operational tracking of factory production progress, raw material sourcing, and quality checkpoints to ensure on-time delivery.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Request weekly photo and video updates showing raw material inventory and assembly progress."],
       keyPoints: ["Follow-up is continuous production tracking ensuring manufacturing milestones stay on schedule."]
     };
@@ -2697,7 +2697,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Order Confirmation is the final signed bilateral agreement triggering active manufacturing.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Order Confirmation mean?', options: ["Order Confirmation is the final signed bilateral agreement between buyer and seller locking product specs, final pricing, deposit payment receipt, and estimated shipping date.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Order Confirmation is the final signed bilateral agreement between buyer and seller locking product specs, final pricing, deposit payment receipt, and estimated shipping date." }],
       objectives: ['Understand operational meaning of Order Confirmation.'],
-      writtenExplanation: "Order Confirmation is the final signed bilateral agreement between buyer and seller locking product specs, final pricing, deposit payment receipt, and estimated shipping date.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Ensure Order Confirmation states exact bank SWIFT details and deposit currency."],
       keyPoints: ["Order Confirmation is the final signed bilateral agreement triggering active manufacturing."]
     };
@@ -2719,7 +2719,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Production Timeline maps out manufacturing milestones from raw material sourcing to packing.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Production Timeline mean?', options: ["Production Timeline is a detailed schedule mapping out every manufacturing phase — raw material procurement, component assembly, testing, quality inspection, and export packing.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Production Timeline is a detailed schedule mapping out every manufacturing phase — raw material procurement, component assembly, testing, quality inspection, and export packing." }],
       objectives: ['Understand operational meaning of Production Timeline.'],
-      writtenExplanation: "Production Timeline is a detailed schedule mapping out every manufacturing phase — raw material procurement, component assembly, testing, quality inspection, and export packing.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Add a 7-day buffer time to the production timeline for unforeseen material shortages."],
       keyPoints: ["Production Timeline maps out manufacturing milestones from raw material sourcing to packing."]
     };
@@ -2741,7 +2741,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Dispatch is the physical handover of finished goods from factory to port transport.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Dispatch mean?', options: ["Dispatch is the official handover of packed export cartons from the factory warehouse to the logistics transporter for carriage to the port.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Dispatch is the official handover of packed export cartons from the factory warehouse to the logistics transporter for carriage to the port." }],
       objectives: ['Understand operational meaning of Dispatch.'],
-      writtenExplanation: "Dispatch is the official handover of packed export cartons from the factory warehouse to the logistics transporter for carriage to the port.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Require factory to send photos of container seal lock and loaded truck before gate-out."],
       keyPoints: ["Dispatch is the physical handover of finished goods from factory to port transport."]
     };
@@ -2763,7 +2763,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Delivery Confirmation is the final buyer sign-off confirming successful cargo receipt at warehouse.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Delivery Confirmation mean?', options: ["Delivery Confirmation is the final signed receipt issued by the buyer upon physically receiving, inspecting, and unloading the container at their warehouse.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Delivery Confirmation is the final signed receipt issued by the buyer upon physically receiving, inspecting, and unloading the container at their warehouse." }],
       objectives: ['Understand operational meaning of Delivery Confirmation.'],
-      writtenExplanation: "Delivery Confirmation is the final signed receipt issued by the buyer upon physically receiving, inspecting, and unloading the container at their warehouse.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Note any outer box damages or broken seals directly on the trucker delivery proof before signing."],
       keyPoints: ["Delivery Confirmation is the final buyer sign-off confirming successful cargo receipt at warehouse."]
     };
@@ -2785,7 +2785,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Cargo Insurance is marine policy protection covering financial loss against transit damage or theft.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Cargo Insurance mean?', options: ["Cargo Insurance is a commercial marine policy protecting buyers and sellers against financial loss if goods are lost, damaged, stolen, or destroyed during sea, air, or road transit.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Cargo Insurance is a commercial marine policy protecting buyers and sellers against financial loss if goods are lost, damaged, stolen, or destroyed during sea, air, or road transit." }],
       objectives: ['Understand operational meaning of Cargo Insurance.'],
-      writtenExplanation: "Cargo Insurance is a commercial marine policy protecting buyers and sellers against financial loss if goods are lost, damaged, stolen, or destroyed during sea, air, or road transit.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Insure cargo for 110% of CIF value to cover expected profit margins in case of loss."],
       keyPoints: ["Cargo Insurance is marine policy protection covering financial loss against transit damage or theft."]
     };
@@ -2807,7 +2807,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Force Majeure exempts contractual liability during extraordinary acts of God or uncontrollable events.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Force Majeure mean?', options: ["Force Majeure is a standard legal contract clause exempting both buyer and seller from contractual liability during unavoidable natural disasters, wars, port strikes, or government lockdowns.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Force Majeure is a standard legal contract clause exempting both buyer and seller from contractual liability during unavoidable natural disasters, wars, port strikes, or government lockdowns." }],
       objectives: ['Understand operational meaning of Force Majeure.'],
-      writtenExplanation: "Force Majeure is a standard legal contract clause exempting both buyer and seller from contractual liability during unavoidable natural disasters, wars, port strikes, or government lockdowns.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Specify explicit notice timelines (e.g. 7 days written notice) inside Force Majeure contract clauses."],
       keyPoints: ["Force Majeure exempts contractual liability during extraordinary acts of God or uncontrollable events."]
     };
@@ -2829,7 +2829,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Delay represents transit or production schedule slowdowns extending delivery deadlines.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Delay mean?', options: ["Delay refers to unscheduled disruptions in raw material sourcing, factory assembly, or carrier shipping routes that push cargo arrival past agreed delivery dates.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Delay refers to unscheduled disruptions in raw material sourcing, factory assembly, or carrier shipping routes that push cargo arrival past agreed delivery dates." }],
       objectives: ['Understand operational meaning of Delay.'],
-      writtenExplanation: "Delay refers to unscheduled disruptions in raw material sourcing, factory assembly, or carrier shipping routes that push cargo arrival past agreed delivery dates.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Maintain a 10-day buffer stock in local warehouses to absorb international transit delays."],
       keyPoints: ["Delay represents transit or production schedule slowdowns extending delivery deadlines."]
     };
@@ -2851,7 +2851,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Damage Claim is a formal compensation claim filed for transit-damaged cargo.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Damage Claim mean?', options: ["Damage Claim is a formal legal compensation claim filed by an importer against a shipping line, port authority, or insurance underwriter for physical cargo damage occurring during transit.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Damage Claim is a formal legal compensation claim filed by an importer against a shipping line, port authority, or insurance underwriter for physical cargo damage occurring during transit." }],
       objectives: ['Understand operational meaning of Damage Claim.'],
-      writtenExplanation: "Damage Claim is a formal legal compensation claim filed by an importer against a shipping line, port authority, or insurance underwriter for physical cargo damage occurring during transit.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Document cargo damage immediately with photos and written notice upon container opening."],
       keyPoints: ["Damage Claim is a formal compensation claim filed for transit-damaged cargo."]
     };
@@ -2873,7 +2873,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Shortage is a physical carton count discrepancy between delivered cargo and packing documents.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Shortage mean?', options: ["Shortage is a physical discrepancy where the actual number of delivered master cartons or units received at the warehouse is less than declared on the Commercial Invoice and Packing List.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Shortage is a physical discrepancy where the actual number of delivered master cartons or units received at the warehouse is less than declared on the Commercial Invoice and Packing List." }],
       objectives: ['Understand operational meaning of Shortage.'],
-      writtenExplanation: "Shortage is a physical discrepancy where the actual number of delivered master cartons or units received at the warehouse is less than declared on the Commercial Invoice and Packing List.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Conduct box tallying immediately upon container unloading at port CFS or warehouse."],
       keyPoints: ["Shortage is a physical carton count discrepancy between delivered cargo and packing documents."]
     };
@@ -2895,7 +2895,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Misdeclaration is filing false values or HSN codes on customs entries leading to seizure and fines.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Misdeclaration mean?', options: ["Misdeclaration is the illegal or erroneous declaration of incorrect product values, HSN tariff codes, cargo weights, or country of origin on customs import documents.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Misdeclaration is the illegal or erroneous declaration of incorrect product values, HSN tariff codes, cargo weights, or country of origin on customs import documents." }],
       objectives: ['Understand operational meaning of Misdeclaration.'],
-      writtenExplanation: "Misdeclaration is the illegal or erroneous declaration of incorrect product values, HSN tariff codes, cargo weights, or country of origin on customs import documents.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Verify HSN codes and assessable values with licensed CHA brokers prior to ICEGATE filing."],
       keyPoints: ["Misdeclaration is filing false values or HSN codes on customs entries leading to seizure and fines."]
     };
@@ -2917,7 +2917,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Dispute Resolution is contractual arbitration or litigation settling commercial buyer-seller conflicts.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Dispute Resolution mean?', options: ["Dispute Resolution is the formal contractual arbitration or court litigation procedure used by buyer and seller to settle commercial disagreements over quality defects, delayed shipments, or unpaid invoices.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Dispute Resolution is the formal contractual arbitration or court litigation procedure used by buyer and seller to settle commercial disagreements over quality defects, delayed shipments, or unpaid invoices." }],
       objectives: ['Understand operational meaning of Dispute Resolution.'],
-      writtenExplanation: "Dispute Resolution is the formal contractual arbitration or court litigation procedure used by buyer and seller to settle commercial disagreements over quality defects, delayed shipments, or unpaid invoices.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Include SIAC or ICA arbitration clauses in all overseas Purchase Orders for fast resolution."],
       keyPoints: ["Dispute Resolution is contractual arbitration or litigation settling commercial buyer-seller conflicts."]
     };
@@ -2939,7 +2939,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Inquiry Form is the internal document recording client product requirements and target pricing.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Inquiry Form mean?', options: ["Inquiry Form is the internal RBC workflow document used by account managers to record customer product requirements, target landed costs, and quantity specifications.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Inquiry Form is the internal RBC workflow document used by account managers to record customer product requirements, target landed costs, and quantity specifications." }],
       objectives: ['Understand operational meaning of Inquiry Form.'],
-      writtenExplanation: "Inquiry Form is the internal RBC workflow document used by account managers to record customer product requirements, target landed costs, and quantity specifications.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Require clients to sign off on the Inquiry Form before initiating supplier sourcing."],
       keyPoints: ["Inquiry Form is the internal document recording client product requirements and target pricing."]
     };
@@ -2961,7 +2961,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Product Approval is internal technical sample evaluation validating specs before mass production.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Product Approval mean?', options: ["Product Approval is RBC's internal technical verification phase where engineering teams evaluate pre-production factory samples for design, durability, and compliance.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Product Approval is RBC's internal technical verification phase where engineering teams evaluate pre-production factory samples for design, durability, and compliance." }],
       objectives: ['Understand operational meaning of Product Approval.'],
-      writtenExplanation: "Product Approval is RBC's internal technical verification phase where engineering teams evaluate pre-production factory samples for design, durability, and compliance.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Store signed Golden Samples in RBC warehouse to serve as reference benchmarks for PSI inspections."],
       keyPoints: ["Product Approval is internal technical sample evaluation validating specs before mass production."]
     };
@@ -2983,7 +2983,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Quotation Approval is internal management sign-off validating landed costs and profit margins.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Quotation Approval mean?', options: ["Quotation Approval is RBC's internal financial review process where management evaluates supplier landed cost quotes and validates target profit margins.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Quotation Approval is RBC's internal financial review process where management evaluates supplier landed cost quotes and validates target profit margins." }],
       objectives: ['Understand operational meaning of Quotation Approval.'],
-      writtenExplanation: "Quotation Approval is RBC's internal financial review process where management evaluates supplier landed cost quotes and validates target profit margins.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Use automated landed cost calculators accounting for customs duties, freight, and local logistics."],
       keyPoints: ["Quotation Approval is internal management sign-off validating landed costs and profit margins."]
     };
@@ -3005,7 +3005,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Purchase Process executes legally binding PO drafting and advance deposit transfers.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Purchase Process mean?', options: ["Purchase Process covers RBC's operational workflow for drafting binding Purchase Orders, negotiating payment terms, and remitting 30% advance deposits to factories.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Purchase Process covers RBC's operational workflow for drafting binding Purchase Orders, negotiating payment terms, and remitting 30% advance deposits to factories." }],
       objectives: ['Understand operational meaning of Purchase Process.'],
-      writtenExplanation: "Purchase Process covers RBC's operational workflow for drafting binding Purchase Orders, negotiating payment terms, and remitting 30% advance deposits to factories.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Require factory sign-off on Purchase Order terms before executing bank wire transfers."],
       keyPoints: ["Purchase Process executes legally binding PO drafting and advance deposit transfers."]
     };
@@ -3027,7 +3027,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Payment Process audits shipping documents before releasing final vendor balance payments.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Payment Process mean?', options: ["Payment Process is RBC's finance workflow auditing shipping documents (B/L, Commercial Invoice, Packing List, PSI Report) before releasing balance 70% payments.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Payment Process is RBC's finance workflow auditing shipping documents (B/L, Commercial Invoice, Packing List, PSI Report) before releasing balance 70% payments." }],
       objectives: ['Understand operational meaning of Payment Process.'],
-      writtenExplanation: "Payment Process is RBC's finance workflow auditing shipping documents (B/L, Commercial Invoice, Packing List, PSI Report) before releasing balance 70% payments.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Implement dual-authorization sign-off inside finance software for international TT wire transfers."],
       keyPoints: ["Payment Process audits shipping documents before releasing final vendor balance payments."]
     };
@@ -3049,7 +3049,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Production Tracking monitors factory assembly milestones to guarantee on-time completion.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Production Tracking mean?', options: ["Production Tracking is RBC's operational monitoring protocol tracking factory raw material dyeing, assembly milestones, and completion percentages weekly.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Production Tracking is RBC's operational monitoring protocol tracking factory raw material dyeing, assembly milestones, and completion percentages weekly." }],
       objectives: ['Understand operational meaning of Production Tracking.'],
-      writtenExplanation: "Production Tracking is RBC's operational monitoring protocol tracking factory raw material dyeing, assembly milestones, and completion percentages weekly.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Use digital production tracking dashboards updated directly by factory quality managers."],
       keyPoints: ["Production Tracking monitors factory assembly milestones to guarantee on-time completion."]
     };
@@ -3071,7 +3071,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Shipment Tracking monitors real-time vessel location and container ETA milestones.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Shipment Tracking mean?', options: ["Shipment Tracking is RBC's logistics monitoring process following vessel location, container transshipment ports, and updated ETD/ETA milestones in real time.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Shipment Tracking is RBC's logistics monitoring process following vessel location, container transshipment ports, and updated ETD/ETA milestones in real time." }],
       objectives: ['Understand operational meaning of Shipment Tracking.'],
-      writtenExplanation: "Shipment Tracking is RBC's logistics monitoring process following vessel location, container transshipment ports, and updated ETD/ETA milestones in real time.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Integrate automated container tracking APIs inside RBC ERP for real-time vessel alerts."],
       keyPoints: ["Shipment Tracking monitors real-time vessel location and container ETA milestones."]
     };
@@ -3093,7 +3093,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Customs Process coordinates CHA filing, duty payments, and ICEGATE clearance release.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Customs Process mean?', options: ["Customs Process is RBC's clearance workflow coordinating with CHA brokers to file Bill of Entry, pay customs duties (BCD/IGST), and obtain Out-of-Charge release.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Customs Process is RBC's clearance workflow coordinating with CHA brokers to file Bill of Entry, pay customs duties (BCD/IGST), and obtain Out-of-Charge release." }],
       objectives: ['Understand operational meaning of Customs Process.'],
-      writtenExplanation: "Customs Process is RBC's clearance workflow coordinating with CHA brokers to file Bill of Entry, pay customs duties (BCD/IGST), and obtain Out-of-Charge release.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Maintain sufficient balance in ICEGATE e-cash ledger for instant one-click duty payments."],
       keyPoints: ["Customs Process coordinates CHA filing, duty payments, and ICEGATE clearance release."]
     };
@@ -3115,7 +3115,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Warehouse Process manages container de-stuffing, box count tallying, and ERP inventory stocking.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Warehouse Process mean?', options: ["Warehouse Process is RBC's inbound logistics workflow for container de-stuffing, carton physical count tallying, quality damage inspection, and inventory SKU stocking.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Warehouse Process is RBC's inbound logistics workflow for container de-stuffing, carton physical count tallying, quality damage inspection, and inventory SKU stocking." }],
       objectives: ['Understand operational meaning of Warehouse Process.'],
-      writtenExplanation: "Warehouse Process is RBC's inbound logistics workflow for container de-stuffing, carton physical count tallying, quality damage inspection, and inventory SKU stocking.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Use barcode handheld scanners during container unloading for automated inventory logging."],
       keyPoints: ["Warehouse Process manages container de-stuffing, box count tallying, and ERP inventory stocking."]
     };
@@ -3137,7 +3137,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "Customer Delivery Process manages final-mile truck transport, E-Way bills, and client delivery proof.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does Customer Delivery Process mean?', options: ["Customer Delivery Process is RBC's outbound logistics workflow scheduling local truck transport, issuing GST tax invoices, and delivering goods to client doors.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "Customer Delivery Process is RBC's outbound logistics workflow scheduling local truck transport, issuing GST tax invoices, and delivering goods to client doors." }],
       objectives: ['Understand operational meaning of Customer Delivery Process.'],
-      writtenExplanation: "Customer Delivery Process is RBC's outbound logistics workflow scheduling local truck transport, issuing GST tax invoices, and delivering goods to client doors.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Require truck drivers to obtain signed and stamped Delivery Proof (POD) upon client receipt."],
       keyPoints: ["Customer Delivery Process manages final-mile truck transport, E-Way bills, and client delivery proof."]
     };
@@ -3159,7 +3159,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
       summary: "After Sales Support provides warranty service, technical spare parts, and repeat order management.",
       quiz: [{ id: `${lessonId}-q1`, type: 'mcq', question: 'What does After Sales Support mean?', options: ["After Sales Support is RBC's customer service framework managing warranty claims, technical usage assistance, spare parts replacement, and repeat import reorders.", 'A tax penalty.', 'An illegal trade practice.', 'A shipping carrier.'], correctAnswers: ['0'], explanation: "After Sales Support is RBC's customer service framework managing warranty claims, technical usage assistance, spare parts replacement, and repeat import reorders." }],
       objectives: ['Understand operational meaning of After Sales Support.'],
-      writtenExplanation: "After Sales Support is RBC's customer service framework managing warranty claims, technical usage assistance, spare parts replacement, and repeat import reorders.",
+      writtenExplanation: "In simple terms, this concept serves as a core operational safeguard, streamlining cargo execution and preventing trade errors.",
       importantNotes: ["Conduct a follow-up feedback call 14 days post-delivery to measure customer satisfaction."],
       keyPoints: ["After Sales Support provides warranty service, technical spare parts, and repeat order management."]
     };

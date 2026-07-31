@@ -1488,10 +1488,36 @@ export const getTranslatedLesson = (
     description: translateDynamicContent(lesson.description, lesson.title, lang),
     content: {
       ...lesson.content,
-      definition: override?.definition || translateDynamicContent(lesson.content.definition, lesson.title, lang),
+      definition: (() => {
+        return override?.definition || translateDynamicContent(lesson.content.definition, lesson.title, lang);
+      })(),
       whyImportant: override?.whyImportant || translateDynamicContent(lesson.content.whyImportant, lesson.title, lang),
       businessExample: override?.businessExample || translateDynamicContent(lesson.content.businessExample, lesson.title, lang),
-      writtenExplanation: override?.writtenExplanation || translateDynamicContent(lesson.content.writtenExplanation, lesson.title, lang),
+      writtenExplanation: (() => {
+        const def = override?.definition || translateDynamicContent(lesson.content.definition, lesson.title, lang);
+        let written = override?.writtenExplanation || translateDynamicContent(lesson.content.writtenExplanation, lesson.title, lang);
+        if (!written || written.trim() === def.trim()) {
+          const cleanTitleTerm = translatedTitle
+            .replace(/^what\s+is\s+/i, '')
+            .replace(/^what\s+are\s+/i, '')
+            .replace(/\s*क्या\s*है\s*\??/gi, '')
+            .replace(/\s*શું\s*છે\s*\??/gi, '')
+            .replace(/\s*म्हणजे\s*काय\s*\??/gi, '')
+            .replace(/\?+$/g, '')
+            .trim();
+
+          if (lang === 'hi') {
+            return `आसान शब्दों में कहें तो, ${cleanTitleTerm} आपके व्यापारिक संचालन का एक प्रमुख सुरक्षात्मक माध्यम है जो आवश्यकताओं को स्पष्ट करता है, प्रक्रिया को सरल बनाता है और नुकसान से बचाता है।`;
+          } else if (lang === 'gu') {
+            return `સરળ શબ્દોમાં કહીએ તો, ${cleanTitleTerm} એ તમારા આંતરરાષ્ટ્રીય વેપારનું મહત્વપૂર્ણ સુરક્ષા માધ્યમ છે જે કામગીરીને સરળ બનાવે છે અને જોખમ રક્ષણ આપે છે.`;
+          } else if (lang === 'mr') {
+            return `सोप्या शब्दांत सांगायचे तर, ${cleanTitleTerm} हे आंतरराष्ट्रीय व्यापाराचे एक महत्त्वाचे सुरक्षा माध्यम आहे जे ऑपरेशन्स सुलभ करते आणि नुकसान टाळते.`;
+          } else {
+            return `In simple terms, ${cleanTitleTerm} serves as an essential operational safeguard for international trade, streamlining cargo workflows and preventing logistical errors.`;
+          }
+        }
+        return written;
+      })(),
       summary: override?.summary || translateDynamicContent(lesson.content.summary, lesson.title, lang),
       importantNotes: override?.importantNotes || lesson.content.importantNotes?.map((n: string) => translateDynamicContent(n, lesson.title, lang)) || [],
       commonMistakes: override?.commonMistakes || lesson.content.commonMistakes?.map((m: string) => translateDynamicContent(m, lesson.title, lang)) || [],
