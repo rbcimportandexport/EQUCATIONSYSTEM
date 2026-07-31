@@ -543,6 +543,20 @@ export const translateDynamicContent = (
       .replaceAll(`RBC team members execute ${title} according to standard operating procedures, ensuring every step from supplier check to delivery is audited.`,
         `RBC टीम के सदस्य मानक संचालन प्रक्रियाओं के अनुसार ${title} निष्पादित करते हैं, यह सुनिश्चित करते हुए कि सप्लायर चेक से लेकर डिलीवरी तक के हर कदम का ऑडिट किया जाता है।`)
 
+      
+      .replaceAll('Failing to verify documentation details before vessel dispatch.', 'जहाज प्रस्थान से पहले दस्तावेज़ विवरण सत्यापित न करना।')
+      .replaceAll('Consult your customs broker (CHA) before finalizing purchase contracts.', 'खरीद अनुबंध को अंतिम रूप देने से पहले अपने सीमा शुल्क दलाल (CHA) से परामर्श करें।')
+      .replaceAll(`This lesson covers the fundamental definition, business examples, FAQs, and risk assessments related to ${title}.`, `इस पाठ में ${title} से संबंधित मूलभूत परिभाषा, व्यावसायिक उदाहरण, अक्सर पूछे जाने वाले प्रश्न (FAQs) और जोखिम आकलन शामिल हैं।`)
+      .replaceAll(`Always check local compliance guides for ${title}.`, `हमेशा ${title} के लिए स्थानीय अनुपालन गाइड की जांच करें।`)
+      .replaceAll(`Ignoring standard regulations for ${title}, leading to port delays or unexpected costs.`, `${title} के लिए मानक नियमों की अनदेखी करना, जिससे बंदरगाह पर देरी या अप्रत्याशित लागत आती है।`)
+      .replaceAll(`Always verify documentation details and compliance rules for ${title} with your logistics agent before shipping.`, `शिपिंग से पहले हमेशा अपने लॉजिस्टिक्स एजेंट के साथ ${title} के लिए दस्तावेज़ विवरण और अनुपालन नियमों को सत्यापित करें।`)
+      .replaceAll(`What is the role of ${title} in global transit?`, `वैश्विक पारगमन में ${title} की क्या भूमिका है?`)
+      .replaceAll('It clarifies handling protocols, standard documentation clearances, and freight quotes for cargo logistics.', 'यह कार्गो लॉजिस्टिक्स के लिए हैंडलिंग प्रोटोकॉल, मानक दस्तावेज़ क्लीयरेंस और फ्रेट उद्धरण को स्पष्ट करता है।')
+      .replaceAll(`Accurate execution of ${title} reduces demurrage risk.`, `${title} का सटीक निष्पादन विलंब शुल्क जोखिम को कम करता है।`)
+      .replaceAll('Consolidate variables with forwarders beforehand.', 'फ्रेट फारवर्डर्स के साथ पहले से ही सभी चर (variables) को स्पष्ट करें।')
+      .replaceAll(`Understand the operational definition of ${title}.`, `${title} की परिचालन परिभाषा को समझें।`)
+      .replaceAll(`Analyze the trade importance of ${title}.`, `${title} के व्यापारिक महत्व का विश्लेषण करें।`)
+
       // Common phrase fallbacks
       .replaceAll('Always check local compliance guides for', 'हमेशा लोकल कंप्लायंस गाइड देखें -')
       .replaceAll('Always double-check outer carton dimensions and total scale weight before signing the final Packing List and VGM declaration.',
@@ -583,6 +597,12 @@ export const translateDynamicContent = (
       .replaceAll(`What is the role of ${title} in global transit?`, `વૈશ્વિક પરિવહનમાં ${title} ની ભૂમિકા શું છે?`)
       .replaceAll('It clarifies handling protocols, standard documentation clearances, and freight quotes for cargo logistics.',
         'તે કાર્ગો લોજિસ્ટિક્સ માટે હેન્ડલિંગ પ્રોટોકોલ, દસ્તાવેજ મંજૂરી અને નૂર દર સ્પષ્ટ કરે છે.')
+
+      
+      .replaceAll(`Accurate execution of ${title} reduces demurrage risk.`, `${title} નો સચોટ અમલ ડેમરેજ જોખમને ઘટાડે છે.`)
+      .replaceAll('Consolidate variables with forwarders beforehand.', 'ફ્રેટ ફોરવર્ડર્સ સાથે અગાઉથી જ તમામ બાબતો સ્પષ્ટ કરો.')
+      .replaceAll(`Understand the operational definition of ${title}.`, `${title} ની કાર્યકારી વ્યાખ્યા સમજો.`)
+      .replaceAll(`Analyze the trade importance of ${title}.`, `${title} ના વ્યાપારિક મહત્વનું વિશ્લેષણ કરો.`)
 
       // Model Number specific translations for Gujarati (gu)
       .replaceAll('Include model number on PO, invoice, and packing list.', 'PO, ઇનવોઇસ અને પેકિંગ લિસ્ટ પર મોડેલ નંબરનો સમાવેશ કરો.')
@@ -804,6 +824,20 @@ export const translateDynamicContent = (
       .replaceAll(`What is the role of ${title} in global transit?`, `जागतिक वाहतुकीमध्ये ${title} ची भूमिका काय आहे?`)
       .replaceAll('It clarifies handling protocols, standard documentation clearances, and freight quotes for cargo logistics.',
         'हे कार्गो लॉजिस्टिक्ससाठी हाताळणीचे नियम, कागदपत्रे आणि मालवाहतूक दर स्पष्ट करते.')
+
+      
+      .replaceAll('Failing to verify documentation details before vessel dispatch.', 'जहाज सुटण्यापूर्वी कागदपत्रांचे तपशील तपासण्यात अपयश.')
+      .replaceAll('Consult your customs broker (CHA) before finalizing purchase contracts.', 'खरेदी करार अंतिम करण्यापूर्वी तुमच्या कस्टम ब्रोकरचा (CHA) सल्ला घ्या.')
+      .replaceAll(`This lesson covers the fundamental definition, business examples, FAQs, and risk assessments related to ${title}.`, `या पाठामध्ये ${title} शी संबंधित मूलभूत व्याख्या, व्यावसायिक उदाहरणे, वारंवार विचारले जाणारे प्रश्न आणि जोखीम मूल्यांकन समाविष्ट आहे.`)
+      .replaceAll(`Always check local compliance guides for ${title}.`, `नेहमी ${title} साठी स्थानिक अनुपालन मार्गदर्शक तपासा.`)
+      .replaceAll(`Ignoring standard regulations for ${title}, leading to port delays or unexpected costs.`, `${title} साठी मानक नियमांकडे दुर्लक्ष केल्याने बंदरावर विलंब होतो किंवा अनपेक्षित खर्च येतो.`)
+      .replaceAll(`Always verify documentation details and compliance rules for ${title} with your logistics agent before shipping.`, `शिपिंग करण्यापूर्वी नेहमी तुमच्या लॉजिस्टिक एजंटसोबत ${title} साठी कागदपत्रांचे तपशील आणि अनुपालन नियम तपासा.`)
+      .replaceAll(`What is the role of ${title} in global transit?`, `जागतिक वाहतुकीमध्ये ${title} ची भूमिका काय आहे?`)
+      .replaceAll('It clarifies handling protocols, standard documentation clearances, and freight quotes for cargo logistics.', 'हे कार्गो लॉजिस्टिक्ससाठी हाताळणी प्रोटोकॉल, मानक दस्तऐवज मंजुरी आणि फ्रेट कोट्स स्पष्ट करते.')
+      .replaceAll(`Accurate execution of ${title} reduces demurrage risk.`, `${title} ची अचूक अंमलबजावणी डेमरेज जोखीम कमी करते.`)
+      .replaceAll('Consolidate variables with forwarders beforehand.', 'फ्रेट फॉरवर्डर्ससोबत अगोदरच सर्व गोष्टी स्पष्ट करा.')
+      .replaceAll(`Understand the operational definition of ${title}.`, `${title} ची कार्यशील व्याख्या समजून घ्या.`)
+      .replaceAll(`Analyze the trade importance of ${title}.`, `${title} चे व्यापारी महत्त्व विश्लेषित करा.`)
 
       // Model Number specific translations for Marathi (mr)
       .replaceAll('Include model number on PO, invoice, and packing list.', 'PO, इनव्हॉइस आणि पॅकिंग लिस्टवर मॉडेल नंबरचा समावेश करा.')

@@ -340,6 +340,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const savedRole = localStorage.getItem('lms_user_role_ie');
     if (savedRole) setUserRole(savedRole as RoleType);
 
+    const savedLang = localStorage.getItem('lms_language_ie');
+    if (savedLang && ['en', 'hi', 'gu', 'mr'].includes(savedLang)) {
+      setLanguageState(savedLang as 'en' | 'hi' | 'gu' | 'mr');
+    }
+
     const savedCurrentUser = localStorage.getItem('lms_current_user_v2_ie');
     if (savedCurrentUser) {
       try {

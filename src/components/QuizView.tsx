@@ -419,7 +419,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                     color: '#fff', fontWeight: '700', fontSize: '14px', cursor: 'pointer'
                   }}
                 >
-                  {language === 'hi' ? 'परिणाम देखें' : language === 'gu' ? 'પરિણામ જુઓ' : 'View Result'}
+                  {language === 'hi' ? 'परिणाम देखें' : language === 'gu' ? 'પરિણામ જુઓ' : language === 'mr' ? 'निकाल पहा' : 'View Result'}
                 </button>
                 <button
                   onClick={resetQuiz}
@@ -432,7 +432,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                   }}
                 >
                   <RotateCcw size={15} />
-                  {language === 'hi' ? 'दोबारा खेलें' : language === 'gu' ? 'ફરી રમો' : 'Play Again'}
+                  {language === 'hi' ? 'दोबारा खेलें' : language === 'gu' ? 'ફરી રમો' : language === 'mr' ? 'पुन्हा प्रयत्न करा' : 'Play Again'}
                 </button>
               </div>
             </div>
