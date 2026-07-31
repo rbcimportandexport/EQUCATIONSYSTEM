@@ -161,6 +161,23 @@ app.get('/', (req, res) => {
   });
 });
 
+// Serve static React build files if present (e.g. Docker / Production)
+const path = require('path');
+const publicPath = path.join(__dirname, 'public');
+if (require('fs').existsSync(publicPath)) {
+  app.use(express.static(publicPath));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api') || req.path.startsWith('/auth') || req.path.startsWith('/videos') || req.path.startsWith('/lessons') || req.path.startsWith('/chat') || req.path.startsWith('/tts') || req.path.startsWith('/health')) {
+      return next();
+    }
+    const indexPath = path.join(publicPath, 'index.html');
+    if (require('fs').existsSync(indexPath)) {
+      return res.sendFile(indexPath);
+    }
+    next();
+  });
+}
+
 // 404 Handler
 app.use((req, res) => {
   res.status(404).json({
