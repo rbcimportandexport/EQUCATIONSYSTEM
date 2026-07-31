@@ -149,6 +149,19 @@ export const getTranslatedLesson = (lesson: any, lang: 'en' | 'hi' | 'gu' | 'mr'
     if (typeof cleanEx === 'string') cleanEx = cleanEx.replace(rawTitlePattern, cleanTitle);
   }
 
+  // Ensure Summary is NEVER identical to Definition
+  if (!cleanSummary || cleanSummary.trim() === cleanDef.trim()) {
+    if (lang === 'hi') {
+      cleanSummary = `मुख्य बातें: इस अध्याय में ${cleanTitle} से जुड़े मुख्य नियम, दस्तावेज प्रक्रिया, लागत पैरामीटर और जोखिम सीमाओं का पूरा विवरण शामिल है।`;
+    } else if (lang === 'gu') {
+      cleanSummary = `મુખ્ય બાબતો: આ પ્રકરણમાં ${cleanTitle} સાથે જોડાયેલા મુખ્ય નિયમો, દસ્તાવેજીકરણના પગલાં અને જોખમ સીમાઓ આવરી લેવામાં આવી છે.`;
+    } else if (lang === 'mr') {
+      cleanSummary = `महत्त्वाचे मुद्दे: या प्रकरणात ${cleanTitle} शी संबंधित मुख्य नियम, दस्तऐवजीकरण टप्पे आणि जोखीम मर्यादा समाविष्ट आहेत.`;
+    } else {
+      cleanSummary = `Key Takeaways: This lesson covers the operational definition, compliance guidelines, cost structure, and risk boundaries associated with ${cleanTitle}.`;
+    }
+  }
+
   // Ensure Simple Explanation (writtenExplanation) is NEVER identical to Definition
   if (!cleanWritten || cleanWritten.trim() === cleanDef.trim()) {
     if (lang === 'hi') {

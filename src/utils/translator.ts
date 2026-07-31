@@ -1518,7 +1518,31 @@ export const getTranslatedLesson = (
         }
         return written;
       })(),
-      summary: override?.summary || translateDynamicContent(lesson.content.summary, lesson.title, lang),
+      summary: (() => {
+        const def = override?.definition || translateDynamicContent(lesson.content.definition, lesson.title, lang);
+        let sum = override?.summary || translateDynamicContent(lesson.content.summary, lesson.title, lang);
+        if (!sum || sum.trim() === def.trim()) {
+          const cleanTitleTerm = translatedTitle
+            .replace(/^what\s+is\s+/i, '')
+            .replace(/^what\s+are\s+/i, '')
+            .replace(/\s*क्या\s*है\s*\??/gi, '')
+            .replace(/\s*શું\s*છે\s*\??/gi, '')
+            .replace(/\s*म्हणजे\s*काय\s*\??/gi, '')
+            .replace(/\?+$/g, '')
+            .trim();
+
+          if (lang === 'hi') {
+            return `मुख्य बातें: इस अध्याय में ${cleanTitleTerm} से जुड़े मुख्य नियम, दस्तावेज प्रक्रिया, लागत पैरामीटर और जोखिम सीमाओं का पूरा विवरण शामिल है।`;
+          } else if (lang === 'gu') {
+            return `મુખ્ય બાબતો: આ પ્રકરણમાં ${cleanTitleTerm} સાથે જોડાયેલા મુખ્ય નિયમો, દસ્તાવેજીકરણના પગલાં અને જોખમ સીમાઓ આવરી લેવામાં આવી છે.`;
+          } else if (lang === 'mr') {
+            return `महत्त्वाचे मुद्दे: या प्रकरणात ${cleanTitleTerm} शी संबंधित मुख्य नियम, दस्तऐवजीकरण टप्पे आणि जोखीम मर्यादा समाविष्ट आहेत.`;
+          } else {
+            return `Key Takeaways: This lesson covers the operational definition, compliance guidelines, cost structure, and risk boundaries associated with ${cleanTitleTerm}.`;
+          }
+        }
+        return sum;
+      })(),
       importantNotes: override?.importantNotes || lesson.content.importantNotes?.map((n: string) => translateDynamicContent(n, lesson.title, lang)) || [],
       commonMistakes: override?.commonMistakes || lesson.content.commonMistakes?.map((m: string) => translateDynamicContent(m, lesson.title, lang)) || [],
       practicalTips: override?.practicalTips || lesson.content.practicalTips?.map((t: string) => translateDynamicContent(t, lesson.title, lang)) || [],
