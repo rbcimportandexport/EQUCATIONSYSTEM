@@ -80,6 +80,16 @@ export const ModuleScreen: React.FC = () => {
 
   const handleNextModule = () => {
     if (nextModule) {
+      if (isModuleLocked(nextModule.id)) {
+        showAlert(
+          "Module Locked",
+          language === 'hi'
+            ? `अगला मॉड्यूल (${nextModule.title}) बंद है! इसे खोलने के लिए आपको पहले पिछले मॉड्यूल (मॉड्यूल ${activeModule?.order || 1}) का क्विज़/टेस्ट देना होगा और 70% या अधिक अंक प्राप्त करने होंगे।`
+            : `Module ${nextModule.order} (${nextModule.title}) is locked! You must complete the final quiz/test of Module ${activeModule?.order || 1} with a passing score (>= 70%) to unlock it.`,
+          "warning"
+        );
+        return;
+      }
       handleGoToModule(nextModule.id);
     }
   };
@@ -135,13 +145,6 @@ export const ModuleScreen: React.FC = () => {
   const getModuleQuizScore = (modId: string) => {
     const modLessons = lessons.filter(l => l.moduleId === modId);
     const questions = modLessons.flatMap(l => l.content.quiz || []);
-    
-    // Check lesson reading completion fallback
-    const completedCount = modLessons.filter(l => progress[l.id]?.completed).length;
-    if (modLessons.length > 0 && completedCount === modLessons.length) {
-      return 100;
-    }
-
     if (questions.length === 0) return 100;
 
     const quizProgress = progress[`mod-quiz-${modId}`];
@@ -1050,7 +1053,7 @@ export const ModuleScreen: React.FC = () => {
                                   {playingLessonId === lesson.id
                                     ? (language === 'hi' ? 'रोकें' : language === 'gu' ? 'અટકાવો' : language === 'mr' ? 'थांबवा' : 'Pause')
                                     : (ttsChunkIndexMapRef.current[lesson.id] > 0
-                                        ? (language === 'hi' ? 'आगे सुनें' : language === 'gu' ? 'આગળ સાંભળો' : language === 'mr' ? 'पुढे ऐકા' : 'Resume')
+                                        ? (language === 'hi' ? 'आगे सुनें' : language === 'gu' ? 'આગળ સાંભળો' : language === 'mr' ? 'पुढे ऐका' : 'Resume')
                                         : (language === 'hi' ? 'सुनें' : language === 'gu' ? 'સાંભળો' : language === 'mr' ? 'ऐका' : 'Listen'))}
                                 </span>
                               </button>
@@ -1060,7 +1063,30 @@ export const ModuleScreen: React.FC = () => {
                             <div onClick={e => e.stopPropagation()}>
                               <button
                                 className={`topic-complete-checkbox-btn ${isDone ? 'checked' : ''}`}
-                                onClick={() => markLessonComplete(lesson.id, !isDone)}
+                                onClick={() => {
+                                  const nextState = !isDone;
+                                  markLessonComplete(lesson.id, nextState);
+                                  if (nextState) {
+                                    const otherUncompleted = moduleLessons.filter(l => l.id !== lesson.id && !progress[l.id]?.completed);
+                                    if (otherUncompleted.length === 0) {
+                                      const modQuizScore = getModuleQuizScore(activeModule?.id || '');
+                                      if (modQuizScore < 70) {
+                                        showAlert(
+                                          "Reading Completed - Take Quiz",
+                                          language === 'hi'
+                                            ? `शाबाश! आपने मॉड्यूल ${activeModule?.order || 1} के सभी टॉपिक पढ़ लिए हैं। अगला मॉड्यूल अनलॉक करने के लिए अब क्विज़ (परीक्षा) दें और कम से कम 70% अंक प्राप्त करें।`
+                                            : language === 'gu'
+                                              ? `શાબાશ! તમે મોડ્યુલ ${activeModule?.order || 1} ના તમામ વિષયો વાંચી લીધા છે. આગલું મોડ્યુલ અનલૉક કરવા માટે હવે ક્વિઝ લો અને ઓછામાં ઓછા 70% ગુણ મેળવો.`
+                                              : language === 'mr'
+                                                ? `छान! आपण मॉड्यूल ${activeModule?.order || 1} चे सर्व विषय वाचले आहेत. पुढील मॉड्यूल अनलॉक करण्यासाठी आता क्विझ द्या आणि किमान 70% गुण मिळवा.`
+                                                : `Great job! You have read all topics in Module ${activeModule?.order || 1}. You must now take the Module Final Quiz and score at least 70% to unlock the next module.`,
+                                          "info"
+                                        );
+                                        setActiveView('Quiz');
+                                      }
+                                    }
+                                  }
+                                }}
                                 title={isDone ? "Mark as Incomplete" : "Mark as completed"}
                                 style={{ padding: '4px 8px', fontSize: '12px' }}
                               >

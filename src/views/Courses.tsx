@@ -51,13 +51,6 @@ export const Courses: React.FC = () => {
   const getModuleQuizScore = (modId: string) => {
     const modLessons = lessons.filter(l => l.moduleId === modId);
     const questions = modLessons.flatMap(l => l.content.quiz || []);
-    
-    // Check lesson reading completion fallback
-    const completedCount = modLessons.filter(l => progress[l.id]?.completed).length;
-    if (modLessons.length > 0 && completedCount === modLessons.length) {
-      return 100;
-    }
-
     if (questions.length === 0) return 100;
 
     const quizProgress = progress[`mod-quiz-${modId}`];
