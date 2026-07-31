@@ -149,6 +149,19 @@ export const getTranslatedLesson = (lesson: any, lang: 'en' | 'hi' | 'gu' | 'mr'
     if (typeof cleanEx === 'string') cleanEx = cleanEx.replace(rawTitlePattern, cleanTitle);
   }
 
+  // Ensure Simple Explanation (writtenExplanation) is NEVER identical to Definition
+  if (!cleanWritten || cleanWritten.trim() === cleanDef.trim()) {
+    if (lang === 'hi') {
+      cleanWritten = `आसान शब्दों में कहें तो, ${cleanTitle} आपके व्यापारिक संचालन का सुरक्षात्मक माध्यम है, जो कार्गो हैंडलिंग को सरल बनाता है और वित्तीय नुकसान से बचाता है।`;
+    } else if (lang === 'gu') {
+      cleanWritten = `સરળ શબ્દોમાં કહીએ તો, ${cleanTitle} એ તમારા આંતરરાષ્ટ્રીય વેપારનું મહત્વપૂર્ણ સુરક્ષા માધ્યમ છે જે કન્સાઇનમેન્ટ અને ખર્ચનું રક્ષણ કરે છે.`;
+    } else if (lang === 'mr') {
+      cleanWritten = `सोप्या शब्दांत सांगायचे तर, ${cleanTitle} हे आंतरराष्ट्रीय व्यापाराचे एक महत्त्वाचे सुरक्षा माध्यम आहे जे कार्गो हाताळणी सुलभ करते आणि नुकसान टाळते.`;
+    } else {
+      cleanWritten = `In simple terms, ${cleanTitle} acts as a key protective operational mechanism for international trade, simplifying cargo handling and preventing logistics errors.`;
+    }
+  }
+
   return {
     ...translated,
     content: {

@@ -4047,7 +4047,7 @@ export const initialLessons: Lesson[] = (() => {
             summary: `This lesson covers the fundamental definition, business examples, FAQs, and risk assessments related to ${cleanTitle}.`,
             quiz: generateProgrammaticQuiz(title, lessonId, idx),
             objectives: [`Understand the operational definition of ${cleanTitle}.`, `Analyze the trade importance of ${cleanTitle}.`],
-            writtenExplanation: info.def,
+            writtenExplanation: `In simple terms, ${cleanTitle} acts as a key protective operational mechanism for international trade, simplifying cargo handling and preventing logistics errors.`,
             importantNotes: [`Always check local compliance guides for ${cleanTitle}.`],
             keyPoints: [`Accurate execution of ${cleanTitle} reduces demurrage risk.`, `Consolidate variables with forwarders beforehand.`]
           }
