@@ -944,8 +944,32 @@ const EXPLICIT_GU_MAP: Record<string, string> = {
   "Never import counterfeit brands": "Never import counterfeit brands",
   "Packaging = Protection + Compliance + Presentation": "Packaging = Protection + Compliance + Presentation",
   "Specify packaging in Purchase Order": "Specify packaging in परचेज ऑर्डर",
-  "Inspect carton quality before container loading": "Inspect carton quality before container loading"
-};
+  "Inspect carton quality before container loading": "Inspect carton quality before container loading",
+
+  "Confusing OEM with ODM — in OEM, the buyer owns the design; in ODM, factory owns the design.": "OEM અને ODM માં મૂંઝવણ અનુભવવી — OEM માં ખરીદદાર પાસે ડિઝાઇન હોય છે; જ્યારે ODM માં ફેક્ટરી પાસે ડિઝાઇન હોય છે.",
+  "Not specifying all technical requirements in writing, leading to products that don't match your design.": "લખિતમાં તમામ ટેકનિકલ જરૂરિયાતો દર્શાવવી નહીં, જેનાથી તમારી ડિઝાઇન સાથે મેળ ન ખાતા ઉત્પાદનો બને છે.",
+  "OEM allows creating products with your brand and design without establishing your own factory.": "OEM તમારી પોતાની ફેક્ટરી સ્થાપ્યા વગર તમારી બ્રાન્ડ અને ડિઝાઇન સાથે ઉત્પાદનો તૈયાર કરવાની તક આપે છે.",
+  "OEM (Original Equipment Manufacturer) is a company that manufactures products based on the buyer's design and specifications.": "OEM (ઓરિજિનલ ઇક્વિપમેન્ટ મેન્યુફેક્ચરર) એ એક કંપની છે જે ખરીદદારની ડિઝાઇન અને સ્પેસિફિકેશનના આધારે સામાન બનાવે છે.",
+  "OEM enables companies to brand and sell custom-designed products without investing in manufacturing infrastructure.": "OEM કંપનીઓને ઉત્પાદન ઇન્ફ્રાસ્ટ્રક્ચરમાં રોકાણ કર્યા વિના કસ્ટમ-ડિઝાઇન કરેલી વસ્તુઓ બ્રાન્ડ અને વેચવામાં સક્ષમ બનાવે છે.",
+  "Apple designs the iPhone, and Foxconn manufactures it as an OEM partner.": "Apple iPhone ડિઝાઇન કરે છે, અને Foxconn એક OEM પાર્ટનર તરીકે તેનું ઉત્પાદન કરે છે.",
+  "ODM (Original Design Manufacturer) designs and manufactures products that are rebranded by the buyer.": "ODM (ઓરિજિનલ ડિઝાઇન મેન્યુફેક્ચરર) એવા ઉત્પાદનો ડિઝાઇન અને તૈયાર કરે છે જેને ખરીદદાર પોતાની બ્રાન્ડનું નામ આપીને વેચે છે.",
+  "counterfeit branded products — customs worldwide actively seize fake branded goods and impose heavy penalties.": "બનાવટી બ્રાન્ડેડ ઉત્પાદનો — વિશ્વભરની કસ્ટમ્સ ઓફિસ નકલી બ્રાન્ડેડ માલ જપ્ત કરે છે અને ભારે દંડ લગાવે છે.",
+  "poor quality packaging for branded products — it undermines the brand value customers perceive.": "બ્રાન્ડેડ ઉત્પાદનો માટે નબળી ગુણવત્તાનું પેકેજિંગ — તે ગ્રાહકોની નજરમાં બ્રાન્ડ વેલ્યુ ઘટાડે છે.",
+  "Good branding allows higher pricing and customer loyalty.": "સારી બ્રાન્ડિંગથી પ્રોડક્ટની ઊંચી કિંમત અને ગ્રાહક વફાદારી મળે છે.",
+  "A brand represents the identity, logo, reputation, and customer perception of a business or product.": "બ્રાન્ડ એ વ્યવસાય અથવા ઉત્પાદનની ઓળખ, લોગો, પ્રતિષ્ઠા અને ગ્રાહક દ્રષ્ટિકોણનું પ્રતિનિધિત્વ કરે છે.",
+  "Building a strong brand creates pricing power and customer trust.": "મજબૂત બ્રાન્ડનું નિર્માણ કરવાથી ભાવ શક્તિ અને ગ્રાહક વિશ્વાસ ઊભો થાય છે.",
+  "Verify supplier business license and export registration before paying deposit.": "ડિપોઝિટ ચૂકવતા પહેલા સપ્લાયરનું બિઝનેસ લાયસન્સ અને નિકાસ રજીસ્ટ્રેશન ચકાસો.",
+  "Always request sample evaluation before mass production order.": "બલ્ક ઓર્ડર આપતા પહેલા હંમેશા સેમ્પલ ચકાસણીની માંગ કરો.",
+  "A Supplier is an individual or business that provides goods or services to another entity.": "સપ્લાયર એ એક વ્યક્તિ અથવા વ્યવસાય છે જે અન્ય સંસ્થાને સામાન અથવા સેવાઓ પૂરી પાડે છે.",
+  "A Buyer is an entity that purchases goods or services from a supplier.": "બાયર (ખરીદદાર) એ સંસ્થા છે જે સપ્લાયર પાસેથી સામાન અથવા સેવાઓ ખરીદે છે.",
+  "A Manufacturer is a company that produces finished goods from raw materials.": "મેન્યુફેક્ચરર (ઉત્પાદક) એ એક કંપની છે જે કાચા માલમાંથી તૈયાર માલનું ઉત્પાદન કરે છે.",
+  "A Trading Company buys products from manufacturers and resells them to buyers.": "ટ્રેડિંગ કંપની ઉત્પાદકો પાસેથી ઉત્પાદનો ખરીદે છે અને ખરીદદારોને ફરીથી વેચે છે.",
+  "Specify packaging requirements in purchase order explicitly.": "પરચેજ ઓર્ડરમાં પેકેજિંગ જરૂરિયાતો સ્પષ્ટ રીતે દર્શાવો.",
+  "Inspect outer cartons for moisture and transit damage at port.": "બંદર પર બાહ્ય કાર્ટનમાં ભેજ અને પરિવહન નુકસાનની તપાસ કરો.",
+  "Calculate landed cost inclusive of customs duty, freight, and local transport.": "કસ્ટમ્સ ડ્યુટી, ફ્રેઇટ અને સ્થાનિક ટ્રાન્સપોર્ટ સહિત લેન્ડેડ કોસ્ટની ગણતરી કરો.",
+  "Failing to double-check HSN codes before filing customs Bill of Entry.": "કસ્ટમ્સ બિલ ઓફ એન્ટ્રી ભાઇલ કરતા પહેલા HSN કોડ ચકાસવામાં નિષ્ફળ જવું.",
+  "Failing to inspect cargo before container loading.": "કન્ટેનર લોડ કરતા પહેલા કાર્ગોનું નિરીક્ષણ ન કરવું.",
+  "Always insure your cargo under All-Risk Marine Insurance.": "હંમેશા ઓલ-રિસ્ક મરીન ઈન્સ્યોરન્સ હેઠળ તમારા કાર્ગોનો વીમો લો.",};
 const EXPLICIT_MR_MAP: Record<string, string> = {
   "Calculating profits based only on the supplier’s FOB invoice price without factoring in custom duty taxes and sea freight charges.": "सीमा शुल्क और समुद्री भाड़े के खर्चों को जोड़े बिना केवल सप्लायर की FOB इनवॉइस कीमत के आधार पर लाभ की गणना करना।",
   "Importing branded or regulated items without checking local quality certificates (like BIS or FDA).": "स्थानीय गुणवत्ता प्रमाणपत्र (जैसे BIS या FDA) की जांच किए बिना ब्रांडेड या विनियमित वस्तुओं का आयात करना।",
@@ -1382,30 +1406,28 @@ export const translateDynamicContent = (
     if (EXPLICIT_GU_MAP[text]) return EXPLICIT_GU_MAP[text];
 
     let res = text;
+    // Dynamic translations for OEM, ODM, Brand, Trademark
+    if (res.includes('Always sign NDA before sharing designs with any factory.')) return 'કોઈપણ ફેક્ટરી સાથે ડિઝાઇન શેર કરતા પહેલાં હંમેશા NDA પર સહી કરો.';
+    if (res.includes('OEM buyer owns the design; ODM buyer only owns the brand.')) return 'OEM ખરીદદાર પાસે ડિઝાઇનની માલિકી હોય છે; જ્યારે ODM ખરીદદાર પાસે માત્ર બ્રાન્ડની માલિકી હોય છે.';
+    if (res.includes('Sharing full product design files without signing an NDA')) return 'NDA સહી કર્યા વિના સંપૂર્ણ પ્રોડક્ટ ડિઝાઇન ફાઇલો શેર કરવી — ફેક્ટરીઓ તમારી ડિઝાઇનની નકલ કરી શકે છે અને હરીફોને વેચી શકે છે.';
+    if (res.includes('Confusing OEM with ODM')) return 'OEM અને ODM માં મૂંઝવણ અનુભવવી — OEM માં ખરીદદાર પાસે ડિઝાઇન હોય છે; જ્યારે ODM માં ફેક્ટરી પાસે ડિઝાઇન હોય છે.';
+    if (res.includes('Not specifying all technical requirements in writing')) return 'લખિતમાં તમામ ટેકનિકલ જરૂરિયાતો દર્શાવવી નહીં, જેનાથી તમારી ડિઝાઇન સાથે મેળ ન ખાતા ઉત્પાદનો બને છે.';
+    if (res.includes('Always sign an NDA before sending any product designs')) return 'ફેક્ટરીને કોઈ પણ પ્રોડક્ટ ડિઝાઇન અથવા સ્પેસિફિકેશન મોકલતા પહેલાં હંમેશા NDA પર સહી કરો.';
+    if (res.includes('Register trademark before first commercial import.')) return 'પ્રથમ વ્યાપારી આયાત પહેલાં ટ્રેડમાર્ક રજીસ્ટર કરો.';
+    if (res.includes('Never import counterfeit branded products')) return 'ક્યારેય પણ બનાવટી કે નકલી બ્રાન્ડેડ સામાન આયાત કરશો નહીં — તે ગેરકાયદેસર છે.';
+    if (res.includes('counterfeit branded products — customs worldwide')) return 'બનાવટી બ્રાન્ડેડ ઉત્પાદનો — વિશ્વભરની કસ્ટમ્સ ઓફિસ નકલી બ્રાન્ડેડ માલ જપ્ત કરે છે અને ભારે દંડ લગાવે છે.';
+    if (res.includes('Launching a brand without trademark registration')) return 'ટ્રેડમાર્ક રજીસ્ટ્રેશન વગર બ્રાન્ડ શરૂ કરવી — હરીફો કાનૂની રીતે તમારી બ્રાન્ડની નકલ કરી શકે છે.';
+    if (res.includes('poor quality packaging for branded products')) return 'બ્રાન્ડેડ ઉત્પાદનો માટે નબળી ગુણવત્તાનું પેકેજિંગ — તે ગ્રાહકોની નજરમાં બ્રાન્ડ વેલ્યુ ઘટાડે છે.';
+    if (res.includes('Register your trademark before your first import shipment')) return 'તમારા પ્રથમ આયાત શિપમેન્ટ પહેલાં તમારો ટ્રેડમાર્ક રજીસ્ટર કરો — ટ્રેડમાર્ક વિવાદો ઉકેલવા ખૂબ ખર્ચાળ હોય છે.';
+
+    // Clean Hindi phrases
     res = res
-      .replace(/Register trademark before first commercial import\./gi, 'પ્રથમ વ્યાપારી આયાત પહેલાં ટ્રેડમાર્ક રજીસ્ટર કરો.')
-      .replace(/Never import counterfeit branded products — it is illegal\./gi, 'ક્યારેય પણ બનાવટી કે નકલી બ્રાન્ડેડ સામાન આયાત કરશો નહીં — તે ગેરકાયદેસર છે.')
-      .replace(/counterfeit branded products — customs worldwide actively seize fake branded goods and impose heavy penalties\./gi, 'બનાવટી બ્રાન્ડેડ ઉત્પાદનો — વિશ્વભરની કસ્ટમ્સ ઓફિસ નકલી બ્રાન્ડેડ માલ જપ્ત કરે છે અને ભારે દંડ લગાવે છે.')
-      .replace(/Launching a brand without trademark registration — competitors can copy your brand legally\./gi, 'ટ્રેડમાર્ક રજીસ્ટ્રેશન વગર બ્રાન્ડ શરૂ કરવી — હરીફો કાનૂની રીતે તમારી બ્રાન્ડની નકલ કરી શકે છે.')
-      .replace(/poor quality packaging for branded products — it undermines the brand value customers perceive\./gi, 'બ્રાન્ડેડ ઉત્પાદનો માટે નબળી ગુણવત્તાનું પેકેજિંગ — તે ગ્રાહકોની નજરમાં બ્રાન્ડ વેલ્યુ ઘટાડે છે.')
-      .replace(/Register your trademark before your first import shipment — trademark disputes are expensive to fight\./gi, 'તમારા પ્રથમ આયાત શિપમેન્ટ પહેલાં તમારો ટ્રેડમાર્ક રજીસ્ટર કરો — ટ્રેડમાર્ક વિવાદો ઉકેલવા ખૂબ ખર્ચાળ હોય છે.')
-      .replace(/Good branding allows higher pricing and customer loyalty\./gi, 'સારી બ્રાન્ડિંગથી પ્રોડક્ટની ઊંચી કિંમત અને ગ્રાહક વફાદારી મળે છે.')
-      .replace(/A brand represents the identity, logo, reputation, and customer perception of a business or product\./gi, 'બ્રાન્ડ એ વ્યવસાય અથવા ઉત્પાદનની ઓળખ, લોગો, પ્રતિષ્ઠા અને ગ્રાહક દ્રષ્ટિકોણનું પ્રતિનિધિત્વ કરે છે.')
-      .replace(/Building a strong brand creates pricing power and customer trust\./gi, 'મજબૂત બ્રાન્ડનું નિર્માણ કરવાથી ભાવ શક્તિ અને ગ્રાહક વિશ્વાસ ઊભો થાય છે.')
-      .replace(/Ignoring trademark search before spending on marketing\./gi, 'માર્કેટિંગ પર ખર્ચ કરતા પહેલા ટ્રેડમાર્ક સર્ચને અવગણવું.')
-      .replace(/Perform a free trademark search on the government portal before finalizing your brand name\./gi, 'તમારું બ્રાન્ડ નામ ફાઇનલ કરતા પહેલા સરકારી પોર્ટલ પર મફત ટ્રેડમાર્ક સર્ચ કરો.')
-      .replace(/अच्छे ब्रांड से प्रोडक्ट की कीमत और कस्टमर रॉयल्टी बढ़ती है।/g, 'સારી બ્રાન્ડથી પ્રોડક્ટની કિંમત અને ગ્રાહક વફાદારી વધે છે.')
-      .replace(/अच्छे ब्रांड से प्रोडक्ट की कीमत और कस्टमर लॉयल्टी बढ़ती है।/g, 'સારી બ્રાન્ડથી પ્રોડક્ટની કિંમત અને ગ્રાહક વફાદારી વધે છે.')
-      .replace(/अच्छे ब्रांड से/g, 'સારી બ્રાન્ડથી')
-      .replace(/की कीमत और/g, 'ની કિંમત અને')
-      .replace(/कस्टमर लॉयल्टी/g, 'ગ્રાહક વફાદારી')
-      .replace(/बढ़ती है।/g, 'વધે છે.')
-      .replace(/बढ़ती है/g, 'વધે છે')
-      .replace(/बिना आवश्यक दस्तावेज आयात करना:/g, 'જરૂરી દસ્તાવેજો વગર આયાત કરવું:')
-      .replace(/अनुचित तरीके से उपयोग करना:/g, 'અયોગ્ય રીતે ઉપયોગ કરવો:')
-      .replace(/अनुचित तरीके से उपयोग करना/g, 'અયોગ્ય રીતે ઉપયોગ કરવો')
-      .replace(/बिना आवश्यक दस्तावेज/g, 'જરૂરી દસ્તાવેજો વગર')
-      .replace(/आयात करना/g, 'આયાત કરવું');
+      .replace(/OEM સે બિના અપની ફેક્ટ્રી લગાએ અપને બ્રાંડ ઔર ડિઝાઇન કા પ્રોડક્ટ તૈયાર કરાયા જા શકે છે।/g, 'OEM દ્વારા પોતાની ફેક્ટરી સ્થાપ્યા વગર તમારી બ્રાન્ડ અને ડિઝાઇનનો સામાન તૈયાર કરી શકાય છે.')
+      .replace(/OEM સે બિના અપની ફેક્ટ્રી લગાએ અપને બ્રાંડ ઔર ડિઝાઇન કા પ્રોડક્ટ તૈયાર કરાયા જા શકે છે/g, 'OEM દ્વારા પોતાની ફેક્ટરી સ્થાપ્યા વગર તમારી બ્રાન્ડ અને ડિઝાઇનનો સામાન તૈયાર કરી શકાય છે')
+      .replace(/અચ્છે બ્રાંડ સે પ્રોડક્ટ કી કીમત ઔર કસ્ટમર લોયલ્ટી બઢ઼તી છે।/g, 'સારી બ્રાન્ડથી પ્રોડક્ટની કિંમત અને ગ્રાહક વફાદારી વધે છે.')
+      .replace(/અચ્છે બ્રાંડ સે પ્રોડક્ટ કી કીમત ઔર કસ્ટમર લોયલ્ટી બઢ઼તી છે/g, 'સારી બ્રાન્ડથી પ્રોડક્ટની કિંમત અને ગ્રાહક વફાદારી વધે છે')
+      .replace(/નિયમો મેં મૂંઝવણ અનુભવવી/g, 'નિયમોમાં મૂંઝવણ અનુભવવી')
+      .replace(/નિયમો મેં/g, 'નિયમોમાં');
 
     let cleanGu = '';
     for (let i = 0; i < res.length; i++) {
