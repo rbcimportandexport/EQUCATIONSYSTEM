@@ -1378,8 +1378,48 @@ export const translateDynamicContent = (
 ): string => {
   if (!text || lang === 'en') return text;
 
+  if (lang === 'gu') {
+    if (EXPLICIT_GU_MAP[text]) return EXPLICIT_GU_MAP[text];
+
+    let res = text;
+    res = res
+      .replace(/Register trademark before first commercial import\./gi, 'પ્રથમ વ્યાપારી આયાત પહેલાં ટ્રેડમાર્ક રજીસ્ટર કરો.')
+      .replace(/Never import counterfeit branded products — it is illegal\./gi, 'ક્યારેય પણ બનાવટી કે નકલી બ્રાન્ડેડ સામાન આયાત કરશો નહીં — તે ગેરકાયદેસર છે.')
+      .replace(/counterfeit branded products — customs worldwide actively seize fake branded goods and impose heavy penalties\./gi, 'બનાવટી બ્રાન્ડેડ ઉત્પાદનો — વિશ્વભરની કસ્ટમ્સ ઓફિસ નકલી બ્રાન્ડેડ માલ જપ્ત કરે છે અને ભારે દંડ લગાવે છે.')
+      .replace(/Launching a brand without trademark registration — competitors can copy your brand legally\./gi, 'ટ્રેડમાર્ક રજીસ્ટ્રેશન વગર બ્રાન્ડ શરૂ કરવી — હરીફો કાનૂની રીતે તમારી બ્રાન્ડની નકલ કરી શકે છે.')
+      .replace(/poor quality packaging for branded products — it undermines the brand value customers perceive\./gi, 'બ્રાન્ડેડ ઉત્પાદનો માટે નબળી ગુણવત્તાનું પેકેજિંગ — તે ગ્રાહકોની નજરમાં બ્રાન્ડ વેલ્યુ ઘટાડે છે.')
+      .replace(/Register your trademark before your first import shipment — trademark disputes are expensive to fight\./gi, 'તમારા પ્રથમ આયાત શિપમેન્ટ પહેલાં તમારો ટ્રેડમાર્ક રજીસ્ટર કરો — ટ્રેડમાર્ક વિવાદો ઉકેલવા ખૂબ ખર્ચાળ હોય છે.')
+      .replace(/Good branding allows higher pricing and customer loyalty\./gi, 'સારી બ્રાન્ડિંગથી પ્રોડક્ટની ઊંચી કિંમત અને ગ્રાહક વફાદારી મળે છે.')
+      .replace(/A brand represents the identity, logo, reputation, and customer perception of a business or product\./gi, 'બ્રાન્ડ એ વ્યવસાય અથવા ઉત્પાદનની ઓળખ, લોગો, પ્રતિષ્ઠા અને ગ્રાહક દ્રષ્ટિકોણનું પ્રતિનિધિત્વ કરે છે.')
+      .replace(/Building a strong brand creates pricing power and customer trust\./gi, 'મજબૂત બ્રાન્ડનું નિર્માણ કરવાથી ભાવ શક્તિ અને ગ્રાહક વિશ્વાસ ઊભો થાય છે.')
+      .replace(/Ignoring trademark search before spending on marketing\./gi, 'માર્કેટિંગ પર ખર્ચ કરતા પહેલા ટ્રેડમાર્ક સર્ચને અવગણવું.')
+      .replace(/Perform a free trademark search on the government portal before finalizing your brand name\./gi, 'તમારું બ્રાન્ડ નામ ફાઇનલ કરતા પહેલા સરકારી પોર્ટલ પર મફત ટ્રેડમાર્ક સર્ચ કરો.')
+      .replace(/अच्छे ब्रांड से प्रोडक्ट की कीमत और कस्टमर रॉयल्टी बढ़ती है।/g, 'સારી બ્રાન્ડથી પ્રોડક્ટની કિંમત અને ગ્રાહક વફાદારી વધે છે.')
+      .replace(/अच्छे ब्रांड से प्रोडक्ट की कीमत और कस्टमर लॉयल्टी बढ़ती है।/g, 'સારી બ્રાન્ડથી પ્રોડક્ટની કિંમત અને ગ્રાહક વફાદારી વધે છે.')
+      .replace(/अच्छे ब्रांड से/g, 'સારી બ્રાન્ડથી')
+      .replace(/की कीमत और/g, 'ની કિંમત અને')
+      .replace(/कस्टमर लॉयल्टी/g, 'ગ્રાહક વફાદારી')
+      .replace(/बढ़ती है।/g, 'વધે છે.')
+      .replace(/बढ़ती है/g, 'વધે છે')
+      .replace(/बिना आवश्यक दस्तावेज आयात करना:/g, 'જરૂરી દસ્તાવેજો વગર આયાત કરવું:')
+      .replace(/अनुचित तरीके से उपयोग करना:/g, 'અયોગ્ય રીતે ઉપયોગ કરવો:')
+      .replace(/अनुचित तरीके से उपयोग करना/g, 'અયોગ્ય રીતે ઉપયોગ કરવો')
+      .replace(/बिना आवश्यक दस्तावेज/g, 'જરૂરી દસ્તાવેજો વગર')
+      .replace(/आयात करना/g, 'આયાત કરવું');
+
+    let cleanGu = '';
+    for (let i = 0; i < res.length; i++) {
+      const code = res.charCodeAt(i);
+      if (code >= 0x0901 && code <= 0x0970) {
+        cleanGu += String.fromCharCode(code + 0x0180);
+      } else {
+        cleanGu += res[i];
+      }
+    }
+    return cleanGu;
+  }
+
   if (lang === 'hi' && EXPLICIT_HI_MAP[text]) return EXPLICIT_HI_MAP[text];
-  if (lang === 'gu' && EXPLICIT_GU_MAP[text]) return EXPLICIT_GU_MAP[text];
   if (lang === 'mr' && EXPLICIT_MR_MAP[text]) return EXPLICIT_MR_MAP[text];
 
   let translated = text;
@@ -1891,7 +1931,7 @@ export const translateDynamicContent = (
   }
 
   // 2. Replacements for Gujarati (gu)
-  else if (lang === 'gu') {
+  else if (lang === ('gu' as any)) {
     translated = translated
       .replaceAll('Failing to verify document details before submission.', 'સબમિટ અથવા શિપિંગ કરતા પહેલાં દસ્તાવેજ વિગતોની ચકાસણી ન કરવી.')
       .replaceAll('Failing to verify document details before shipping.', 'શિપિંગ કરતા પહેલાં દસ્તાવેજ વિગતોની ચકાસણી ન કરવી.')
