@@ -969,7 +969,30 @@ const EXPLICIT_GU_MAP: Record<string, string> = {
   "Calculate landed cost inclusive of customs duty, freight, and local transport.": "કસ્ટમ્સ ડ્યુટી, ફ્રેઇટ અને સ્થાનિક ટ્રાન્સપોર્ટ સહિત લેન્ડેડ કોસ્ટની ગણતરી કરો.",
   "Failing to double-check HSN codes before filing customs Bill of Entry.": "કસ્ટમ્સ બિલ ઓફ એન્ટ્રી ભાઇલ કરતા પહેલા HSN કોડ ચકાસવામાં નિષ્ફળ જવું.",
   "Failing to inspect cargo before container loading.": "કન્ટેનર લોડ કરતા પહેલા કાર્ગોનું નિરીક્ષણ ન કરવું.",
-  "Always insure your cargo under All-Risk Marine Insurance.": "હંમેશા ઓલ-રિસ્ક મરીન ઈન્સ્યોરન્સ હેઠળ તમારા કાર્ગોનો વીમો લો.",};
+  "Always insure your cargo under All-Risk Marine Insurance.": "હંમેશા ઓલ-રિસ્ક મરીન ઈન્સ્યોરન્સ હેઠળ તમારા કાર્ગોનો વીમો લો.",
+  "Always include \"Country of Origin\" on export cartons.": "નિકાસ કાર્ટન પર હંમેશા \"ઉત્પાદનનો દેશ (Country of Origin)\" દર્શાવો.",
+  "thin single-walled cartons for heavy or fragile goods in sea freight — they collapse under stack weight.": "સમુદ્રી નૂર માટે ભારે અથવા નાજુક માલ માટે પાતળા સિંગલ-વોલ્ડ કાર્ટનનો ઉપયોગ કરવો — તેઓ સ્ટેક વજન હેઠળ દબાઈ જાય છે.",
+  "Not specifying carton strength requirements (ECT/burst test rating) on Purchase Orders.": "પરચેજ ઓર્ડર પર કાર્ટન તાકાત જરૂરિયાતો (ECT/બર્સ્ટ ટેસ્ટ રેટિંગ) દર્શાવવી નહીં.",
+  "Forgetting to include \"Country of Origin\" on export cartons — required by customs in most countries.": "નિકાસ કાર્ટન પર \"ઉત્પાદનનો દેશ\" શામેલ કરવાનું ભૂલી જવું — મોટાભાગના દેશોમાં કસ્ટમ્સ દ્વારા જરૂરી છે.",
+  "અનુચિત તરીકે સે ઉપયોગ કરવો": "અયોગ્ય રીતે ઉપયોગ કરવો",
+  "પરચેજ ઓર્ડરs": "પરચેજ ઓર્ડર",
+  "સમુદ્રી ભાડા": "સમુદ્રી નૂર (Sea Freight)",
+  "નિયમો મેં મૂંઝવણ અનુભવવી": "નિયમોમાં મૂંઝવણ અનુભવવી",
+  "બિના આવશ્યક દસ્તાવેજ આયાત કરના": "જરૂરી દસ્તાવેજો વગર આયાત કરવું",
+  "Always verify vessel ETA with freight forwarders before port arrival.": "પોર્ટ આગમન પહેલાં ફ્રેટ ફોરવર્ડર સાથે જહાજના ETA ની ખાતરી કરો.",
+  "Ensure Bill of Lading descriptions match commercial invoice exactly.": "ખાતરી કરો કે બિલ ઓફ લેડિંગ વિગતો કમર્શિયલ ઈનવોઈસ સાથે બરાબર મેળ ખાય છે.",
+  "Always check container seal numbers before loading onto trucks.": "ટ્રકમાં લોડ કરતા પહેલા કન્ટેનર સીલ નંબર હંમેશા ચકાસો.",
+  "Failure to obtain Marine Insurance before vessel sails.": "જહાજ ઉપડે તે પહેલાં મરીન ઈન્સ્યોરન્સ મેળવવામાં નિષ્ફળતા.",
+  "Failing to verify container gross mass (VGM) before gate cut-off.": "ગેટ કટ-ઓફ પહેલાં કન્ટેનર ગ્રોસ માસ (VGM) ની ચકાસણી ન કરવી.",
+  "Always submit VGM declaration prior to container terminal cut-off time.": "કન્ટેનર ટર્મિનલ કટ-ઓફ સમય પહેલાં હંમેશા VGM ડીકલેરેશન સબમિટ કરો.",
+  "Verify HSN code classification with CHA before shipment dispatch.": "શિપમેન્ટ રવાના કરતા પહેલા CHA સાથે HSN કોડ વર્ગીકરણ ચકાસો.",
+  "Incorrect HSN code declaration leading to customs penalty.": "ખોટું HSN કોડ ડિકલેરેશન કસ્ટમ્સ દંડ તરફ દોરી જાય છે.",
+  "Under-invoicing cargo value during customs declaration — illegal practice.": "કસ્ટમ્સ ડિકલેરેશન વખતે કાર્ગો મૂલ્ય ઓછું દર્શાવવું — ગેરકાયદેસર પ્રથા.",
+  "Always maintain accurate commercial invoice and packing list for customs.": "કસ્ટમ્સ માટે હંમેશા સચોટ કમર્શિયલ ઈનવોઈસ અને પેકિંગ લિસ્ટ જાળવો.",
+  "Review L/C terms carefully with bank before opening credit line.": "ક્રેડિટ લાઇન ખોલતા પહેલાં બેંક સાથે L/C ની શરતો કાળજીપૂર્વક ચકાસો.",
+  "Discrepant documents under Letter of Credit leading to bank rejection.": "લેટર ઓફ ક્રેડિટ હેઠળ વિસંગત દસ્તાવેજો બેંક અસ્વીકાર તરફ દોરી જાય છે.",
+  "Always select appropriate Incoterms (FOB, CIF, DDP) matching your risk profile.": "તમારા જોખમ પ્રોફાઇલ સાથે મેળ ખાતી યોગ્ય ઇન્કોટર્મ્સ (FOB, CIF, DDP) હંમેશા પસંદ કરો.",
+  "Not obtaining Bill of Lading with \"Clean on Board\" status under L/C.": "L/C હેઠળ \"ક્લીન ઓન બોર્ડ\" સ્ટેટસવાળું બિલ ઓફ લેડિંગ ના મેળવવું.",};
 const EXPLICIT_MR_MAP: Record<string, string> = {
   "Calculating profits based only on the supplier’s FOB invoice price without factoring in custom duty taxes and sea freight charges.": "सीमा शुल्क और समुद्री भाड़े के खर्चों को जोड़े बिना केवल सप्लायर की FOB इनवॉइस कीमत के आधार पर लाभ की गणना करना।",
   "Importing branded or regulated items without checking local quality certificates (like BIS or FDA).": "स्थानीय गुणवत्ता प्रमाणपत्र (जैसे BIS या FDA) की जांच किए बिना ब्रांडेड या विनियमित वस्तुओं का आयात करना।",
@@ -1406,28 +1429,52 @@ export const translateDynamicContent = (
     if (EXPLICIT_GU_MAP[text]) return EXPLICIT_GU_MAP[text];
 
     let res = text;
-    // Dynamic translations for OEM, ODM, Brand, Trademark
-    if (res.includes('Always sign NDA before sharing designs with any factory.')) return 'કોઈપણ ફેક્ટરી સાથે ડિઝાઇન શેર કરતા પહેલાં હંમેશા NDA પર સહી કરો.';
-    if (res.includes('OEM buyer owns the design; ODM buyer only owns the brand.')) return 'OEM ખરીદદાર પાસે ડિઝાઇનની માલિકી હોય છે; જ્યારે ODM ખરીદદાર પાસે માત્ર બ્રાન્ડની માલિકી હોય છે.';
-    if (res.includes('Sharing full product design files without signing an NDA')) return 'NDA સહી કર્યા વિના સંપૂર્ણ પ્રોડક્ટ ડિઝાઇન ફાઇલો શેર કરવી — ફેક્ટરીઓ તમારી ડિઝાઇનની નકલ કરી શકે છે અને હરીફોને વેચી શકે છે.';
-    if (res.includes('Confusing OEM with ODM')) return 'OEM અને ODM માં મૂંઝવણ અનુભવવી — OEM માં ખરીદદાર પાસે ડિઝાઇન હોય છે; જ્યારે ODM માં ફેક્ટરી પાસે ડિઝાઇન હોય છે.';
-    if (res.includes('Not specifying all technical requirements in writing')) return 'લખિતમાં તમામ ટેકનિકલ જરૂરિયાતો દર્શાવવી નહીં, જેનાથી તમારી ડિઝાઇન સાથે મેળ ન ખાતા ઉત્પાદનો બને છે.';
-    if (res.includes('Always sign an NDA before sending any product designs')) return 'ફેક્ટરીને કોઈ પણ પ્રોડક્ટ ડિઝાઇન અથવા સ્પેસિફિકેશન મોકલતા પહેલાં હંમેશા NDA પર સહી કરો.';
-    if (res.includes('Register trademark before first commercial import.')) return 'પ્રથમ વ્યાપારી આયાત પહેલાં ટ્રેડમાર્ક રજીસ્ટર કરો.';
-    if (res.includes('Never import counterfeit branded products')) return 'ક્યારેય પણ બનાવટી કે નકલી બ્રાન્ડેડ સામાન આયાત કરશો નહીં — તે ગેરકાયદેસર છે.';
-    if (res.includes('counterfeit branded products — customs worldwide')) return 'બનાવટી બ્રાન્ડેડ ઉત્પાદનો — વિશ્વભરની કસ્ટમ્સ ઓફિસ નકલી બ્રાન્ડેડ માલ જપ્ત કરે છે અને ભારે દંડ લગાવે છે.';
-    if (res.includes('Launching a brand without trademark registration')) return 'ટ્રેડમાર્ક રજીસ્ટ્રેશન વગર બ્રાન્ડ શરૂ કરવી — હરીફો કાનૂની રીતે તમારી બ્રાન્ડની નકલ કરી શકે છે.';
-    if (res.includes('poor quality packaging for branded products')) return 'બ્રાન્ડેડ ઉત્પાદનો માટે નબળી ગુણવત્તાનું પેકેજિંગ — તે ગ્રાહકોની નજરમાં બ્રાન્ડ વેલ્યુ ઘટાડે છે.';
-    if (res.includes('Register your trademark before your first import shipment')) return 'તમારા પ્રથમ આયાત શિપમેન્ટ પહેલાં તમારો ટ્રેડમાર્ક રજીસ્ટર કરો — ટ્રેડમાર્ક વિવાદો ઉકેલવા ખૂબ ખર્ચાળ હોય છે.';
 
-    // Clean Hindi phrases
+    // Direct dictionary checks
+    for (const [key, val] of Object.entries(EXPLICIT_GU_MAP)) {
+      if (res === key) return val;
+      if (key.length > 15 && res.includes(key)) {
+        res = res.replaceAll(key, val);
+      }
+    }
+
+    // Packaging specific fallbacks
     res = res
-      .replace(/OEM સે બિના અપની ફેક્ટ્રી લગાએ અપને બ્રાંડ ઔર ડિઝાઇન કા પ્રોડક્ટ તૈયાર કરાયા જા શકે છે।/g, 'OEM દ્વારા પોતાની ફેક્ટરી સ્થાપ્યા વગર તમારી બ્રાન્ડ અને ડિઝાઇનનો સામાન તૈયાર કરી શકાય છે.')
-      .replace(/OEM સે બિના અપની ફેક્ટ્રી લગાએ અપને બ્રાંડ ઔર ડિઝાઇન કા પ્રોડક્ટ તૈયાર કરાયા જા શકે છે/g, 'OEM દ્વારા પોતાની ફેક્ટરી સ્થાપ્યા વગર તમારી બ્રાન્ડ અને ડિઝાઇનનો સામાન તૈયાર કરી શકાય છે')
-      .replace(/અચ્છે બ્રાંડ સે પ્રોડક્ટ કી કીમત ઔર કસ્ટમર લોયલ્ટી બઢ઼તી છે।/g, 'સારી બ્રાન્ડથી પ્રોડક્ટની કિંમત અને ગ્રાહક વફાદારી વધે છે.')
-      .replace(/અચ્છે બ્રાંડ સે પ્રોડક્ટ કી કીમત ઔર કસ્ટમર લોયલ્ટી બઢ઼તી છે/g, 'સારી બ્રાન્ડથી પ્રોડક્ટની કિંમત અને ગ્રાહક વફાદારી વધે છે')
-      .replace(/નિયમો મેં મૂંઝવણ અનુભવવી/g, 'નિયમોમાં મૂંઝવણ અનુભવવી')
-      .replace(/નિયમો મેં/g, 'નિયમોમાં');
+      .replaceAll('Always include "Country of Origin" on export cartons.', 'નિકાસ કાર્ટન પર હંમેશા "ઉત્પાદનનો દેશ (Country of Origin)" દર્શાવો.')
+      .replaceAll('For fragile goods, specify double-walled cartons with foam inserts.', 'નાજુક માલસામાન માટે, ફોમ ઇન્સર્ટ્સ સાથે ડબલ-વોલ્ડ કાર્ટન દર્શાવો.')
+      .replaceAll('thin single-walled cartons for heavy or fragile goods in સમુદ્રી ભાડા — they collapse under stack weight.', 'સમુદ્રી નૂર માટે ભારે અથવા નાજુક માલ માટે પાતળા સિંગલ-વોલ્ડ કાર્ટનનો ઉપયોગ કરવો — તેઓ સ્ટેક વજન હેઠળ દબાઈ જાય છે.')
+      .replaceAll('thin single-walled cartons for heavy or fragile goods in sea freight — they collapse under stack weight.', 'સમુદ્રી નૂર માટે ભારે અથવા નાજુક માલ માટે પાતળા સિંગલ-વોલ્ડ કાર્ટનનો ઉપયોગ કરવો — તેઓ સ્ટેક વજન હેઠળ દબાઈ જાય છે.')
+      .replaceAll('Not specifying carton strength requirements (ECT/burst test rating) on પરચેજ ઓર્ડરs.', 'પરચેજ ઓર્ડર પર કાર્ટન તાકાત જરૂરિયાતો (ECT/બર્સ્ટ ટેસ્ટ રેટિંગ) દર્શાવવી નહીં.')
+      .replaceAll('Not specifying carton strength requirements (ECT/burst test rating) on Purchase Orders.', 'પરચેજ ઓર્ડર પર કાર્ટન તાકાત જરૂરિયાતો (ECT/બર્સ્ટ ટેસ્ટ રેટિંગ) દર્શાવવી નહીં.')
+      .replaceAll('Forgetting to include "Country of Origin" on export cartons — required by customs in most countries.', 'નિકાસ કાર્ટન પર "ઉત્પાદનનો દેશ" શામેલ કરવાનું ભૂલી જવું — મોટાભાગના દેશોમાં કસ્ટમ્સ દ્વારા જરૂરી છે.')
+      .replaceAll('For fragile goods (ceramics, glass, electronics), always request double-walled corrugated cartons with foam inserts.', 'નાજુક માલસામાન (સિરામિક્સ, કાચ, ઇલેક્ટ્રોનિક્સ) માટે, હંમેશા ફોમ ઇન્સર્ટ્સ સાથે ડબલ-વોલ્ડ કોરુગેટેડ કાર્ટનનો જ આગ્રહ રાખો.')
+      .replaceAll('અનુચિત તરીકે સે ઉપયોગ કરવો:', 'અયોગ્ય રીતે ઉપયોગ કરવો:')
+      .replaceAll('પરચેજ ઓર્ડરs', 'પરચેજ ઓર્ડર')
+      .replaceAll('સમુદ્રી ભાડા', 'સમુદ્રી નૂર')
+      .replaceAll('નિયમો મેં', 'નિયમોમાં')
+      .replaceAll('સે બિના', 'વગર')
+      .replaceAll('કરના:', 'કરવું:');
+
+    // Dynamic phrase translation if English remains
+    if (/[a-zA-Z]{3,}/.test(res)) {
+      // General dynamic words mapping
+      res = res
+        .replace(/Always include/g, 'હંમેશા શામેલ કરો')
+        .replace(/Country of Origin/g, 'ઉત્પાદનનો દેશ (Country of Origin)')
+        .replace(/export cartons/g, 'નિકાસ કાર્ટન')
+        .replace(/fragile goods/g, 'નાજુક માલસામાન')
+        .replace(/double-walled corrugated cartons/g, 'ડબલ-વોલ્ડ કોરુગેટેડ કાર્ટન')
+        .replace(/double-walled cartons/g, 'ડબલ-વોલ્ડ કાર્ટન')
+        .replace(/foam inserts/g, 'ફોમ ઇન્સર્ટ્સ')
+        .replace(/single-walled cartons/g, 'સિંગલ-વોલ્ડ કાર્ટન')
+        .replace(/heavy or fragile goods/g, 'ભારે અથવા નાજુક માલસામાન')
+        .replace(/sea freight/g, 'સમુદ્રી નૂર')
+        .replace(/Purchase Orders/g, 'પરચેજ ઓર્ડર')
+        .replace(/required by customs/g, 'કસ્ટમ્સ દ્વારા જરૂરી')
+        .replace(/in most countries/g, 'મોટાભાગના દેશોમાં')
+        .replace(/ceramics, glass, electronics/g, 'સિરામિક્સ, કાચ, ઇલેક્ટ્રોનિક્સ')
+        .replace(/always request/g, 'હંમેશા આગ્રહ રાખો');
+    }
 
     let cleanGu = '';
     for (let i = 0; i < res.length; i++) {
