@@ -1,3 +1,106 @@
+
+// UNIVERSAL STRICT SCRIPT SANITIZER
+
+export const sanitizeDeep = (data: any, lang: 'en' | 'hi' | 'gu' | 'mr'): any => {
+  if (typeof data === 'string') {
+    return sanitizeTextForLanguage(data, lang);
+  }
+  if (Array.isArray(data)) {
+    return data.map(item => sanitizeDeep(item, lang));
+  }
+  if (data && typeof data === 'object') {
+    const res: any = {};
+    for (const key of Object.keys(data)) {
+      res[key] = sanitizeDeep(data[key], lang);
+    }
+    return res;
+  }
+  return data;
+};
+
+export const sanitizeTextForLanguage = (text: string, lang: 'en' | 'hi' | 'gu' | 'mr'): string => {
+  if (!text || typeof text !== 'string') return text;
+
+  let str = text;
+
+  if (lang === 'en') {
+    // Strip any Devanagari or Gujarati characters completely
+    return str
+      .replace(/[\u0900-\u097F\u0A80-\u0AFF]/g, '')
+      .replace(/\s+/g, ' ')
+      .replace(/\(\s*\)/g, '')
+      .trim();
+  }
+
+  if (lang === 'hi') {
+    // Completely strip any English terms in parentheses for 100% pure Hindi
+    str = str
+      .replace(/\s*\([^)]*[a-zA-Z]+[^)]*\)/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    // Convert any Gujarati unicode characters to Devanagari
+    let cleanHi = '';
+    for (let i = 0; i < str.length; i++) {
+      const code = str.charCodeAt(i);
+      if (code >= 0x0A81 && code <= 0x0AF0) {
+        cleanHi += String.fromCharCode(code - 0x0180);
+      } else {
+        cleanHi += str[i];
+      }
+    }
+    return cleanHi.replace(/\s+/g, ' ').trim();
+  }
+
+  if (lang === 'gu') {
+    // Completely strip any English terms in parentheses for 100% pure Gujarati
+    str = str
+      .replace(/\s*\([^)]*[a-zA-Z]+[^)]*\)/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    // Convert any Devanagari unicode characters to Gujarati script
+    let cleanGu = '';
+    for (let i = 0; i < str.length; i++) {
+      const code = str.charCodeAt(i);
+      if (code >= 0x0901 && code <= 0x0970) {
+        cleanGu += String.fromCharCode(code + 0x0180);
+      } else {
+        cleanGu += str[i];
+      }
+    }
+    return cleanGu.replace(/\s+/g, ' ').trim();
+  }
+
+  if (lang === 'mr') {
+    // Completely strip any English terms in parentheses for 100% pure Marathi
+    str = str
+      .replace(/\s*\([^)]*[a-zA-Z]+[^)]*\)/g, '')
+      .replace(/\bहोता है\b/g, 'होते')
+      .replace(/\bहोती है\b/g, 'होते')
+      .replace(/\bकरता है\b/g, 'करतो')
+      .replace(/\bकरती है\b/g, 'करते')
+      .replace(/\bहै\b/g, 'आहे')
+      .replace(/\bहैं\b/g, 'आहेत')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    // Convert Gujarati characters to Devanagari
+    let cleanMr = '';
+    for (let i = 0; i < str.length; i++) {
+      const code = str.charCodeAt(i);
+      if (code >= 0x0A81 && code <= 0x0AF0) {
+        cleanMr += String.fromCharCode(code - 0x0180);
+      } else {
+        cleanMr += str[i];
+      }
+    }
+    return cleanMr.replace(/\s+/g, ' ').trim();
+  }
+
+  return str;
+};
+
 import { getTranslatedLesson as originalGetTranslatedLesson, translateDynamicContent } from './translator';
 
 const cleanTopicTitle = (title: string): string => {
@@ -200,7 +303,7 @@ export const getTranslatedLesson = (lesson: any, lang: 'en' | 'hi' | 'gu' | 'mr'
     }
   }
 
-  return {
+  return sanitizeDeep({
     ...translated,
     content: {
       ...translated?.content,
@@ -217,5 +320,5 @@ export const getTranslatedLesson = (lesson: any, lang: 'en' | 'hi' | 'gu' | 'mr'
       faqs: cleanFaqs,
       quiz: (lang !== 'en' && lesson?.translations?.[lang]?.quiz) ? lesson.translations[lang].quiz : cleanQuiz
     }
-  };
+  }, lang);
 };

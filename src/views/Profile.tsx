@@ -43,7 +43,7 @@ export const Profile: React.FC = () => {
   const getLevelDetails = (pct: number, lang: string) => {
     if (pct === 100) {
       return {
-        name: lang === 'hi' ? 'डायमंड (Diamond)' : lang === 'gu' ? 'ડાયમંડ' : 'Diamond',
+        name: lang === 'hi' ? 'डायमंड' : lang === 'gu' ? 'ડાયમંડ' : lang === 'mr' ? 'डायमंड' : 'Diamond',
         bg: 'linear-gradient(135deg, #e0f7fa 0%, #80deea 100%)',
         color: '#006064',
         border: '1px solid #4dd0e1',
@@ -51,7 +51,7 @@ export const Profile: React.FC = () => {
       };
     } else if (pct >= 70) {
       return {
-        name: lang === 'hi' ? 'प्लेटिनम (Platinum)' : lang === 'gu' ? 'પ્લેટિનમ' : 'Platinum',
+        name: lang === 'hi' ? 'प्लेटिनम' : lang === 'gu' ? 'પ્લેટિનમ' : lang === 'mr' ? 'प्लॅटિનમ' : 'Platinum',
         bg: 'linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%)',
         color: '#0f172a',
         border: '1px solid #94a3b8',
@@ -59,7 +59,7 @@ export const Profile: React.FC = () => {
       };
     } else if (pct >= 30) {
       return {
-        name: lang === 'hi' ? 'गोल्ड (Gold)' : lang === 'gu' ? 'ગોલ્ડ' : 'Gold',
+        name: lang === 'hi' ? 'गोल्ड' : lang === 'gu' ? 'ગોલ્ડ' : lang === 'mr' ? 'ગોલ્ડ' : 'Gold',
         bg: 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)',
         color: '#92400e',
         border: '1px solid #fde047',
@@ -67,7 +67,7 @@ export const Profile: React.FC = () => {
       };
     } else {
       return {
-        name: lang === 'hi' ? 'सिल्वर (Silver)' : lang === 'gu' ? 'સિલ્વર' : 'Silver',
+        name: lang === 'hi' ? 'सिल्वर' : lang === 'gu' ? 'સિલ્વર' : lang === 'mr' ? 'સિલ્વર' : 'Silver',
         bg: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
         color: '#475569',
         border: '1px solid #cbd5e1',

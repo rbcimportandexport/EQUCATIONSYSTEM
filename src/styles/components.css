@@ -2521,3 +2521,46 @@
   gap: 16px;
 }
 
+/* ==========================================================================
+   HORIZONTAL SCROLLVIEW & OVERFLOW PROTECTION
+   ========================================================================== */
+.topic-expanded-details,
+.topic-segment,
+.callout,
+.segment-bullet-list,
+.segment-body-text,
+.horizontal-scrollview {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  -webkit-overflow-scrolling: touch;
+}
+
+.segment-bullet-list li,
+.segment-body-text,
+.topic-title-text,
+.callout p {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  white-space: normal;
+}
+
+.scrollable-content-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+
+table, code, pre, .diagram-container {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+
