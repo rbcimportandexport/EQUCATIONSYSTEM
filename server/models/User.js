@@ -46,6 +46,10 @@ const UserSchema = new mongoose.Schema({
     min: 0,
     max: 100
   },
+  totalStudyTime: {
+    type: Number,
+    default: 0
+  },
   isActive: {
     type: Boolean,
     default: true
@@ -86,6 +90,7 @@ UserSchema.methods.toPublicJSON = function() {
     role: this.role,
     avatar: this.avatar,
     progressPercentage: this.progressPercentage,
+    totalStudyTime: this.totalStudyTime,
     isActive: this.isActive,
     lastLogin: this.lastLogin,
     createdAt: this.createdAt

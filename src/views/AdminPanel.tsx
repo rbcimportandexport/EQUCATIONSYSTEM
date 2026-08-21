@@ -825,6 +825,17 @@ export const AdminPanel = () => {
                                 <Trash2 size={12} />
                               </button>
                             </div>
+                            {/* Study Time Tracking */}
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px', fontSize: '12px', fontWeight: 600, color: '#475569' }}>
+                              <span>Active Study Time</span>
+                              <span style={{ fontWeight: 800, color: '#10b981' }}>
+                                {user.totalStudyTime ? (
+                                  user.totalStudyTime >= 3600 
+                                    ? `${Math.floor(user.totalStudyTime / 3600)}h ${Math.floor((user.totalStudyTime % 3600) / 60)}m` 
+                                    : `${Math.floor(user.totalStudyTime / 60)} mins`
+                                ) : '0 mins'}
+                              </span>
+                            </div>
                           </div>
                         ))
                       )}

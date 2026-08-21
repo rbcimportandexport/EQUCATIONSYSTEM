@@ -116,6 +116,7 @@ export interface UserProgress {
   lessonId: string;
   completed: boolean;
   watchTime: number; // in seconds
+    studyTime: number; // in seconds (active reading/watching)
   readingProgress: number; // 0 - 100
   quizScores: { [questionId: string]: number };
 }
@@ -145,6 +146,7 @@ export interface User {
   email: string;
   role: 'student' | 'admin';
   progressPercentage: number;
+    totalStudyTime?: number; // total time in seconds
 }
 
 export interface Certificate {

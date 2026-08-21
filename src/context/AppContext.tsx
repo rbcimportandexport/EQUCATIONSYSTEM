@@ -867,11 +867,54 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   // STUDENT PROGRESS ACTIONS
+
+  // Active Study Time Tracker
+  useEffect(() => {
+    if (activeView !== 'Chapters' || !selectedLessonId || !currentUser) return;
+
+    const timer = setInterval(() => {
+      if (document.visibilityState === 'visible') {
+        setProgress(prev => {
+          const current = prev[selectedLessonId] || getInitProgress(selectedLessonId);
+          const updated = {
+            ...prev,
+            [selectedLessonId]: {
+              ...current,
+              studyTime: (current.studyTime || 0) + 10
+            }
+          };
+          saveToLocal('lms_progress_ie', updated);
+          return updated;
+        });
+
+        setCurrentUserState(prev => {
+          if (!prev) return null;
+          const updated = {
+            ...prev,
+            totalStudyTime: (prev.totalStudyTime || 0) + 10
+          };
+          localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(updated));
+          
+          setUsers(uPrev => {
+            const upUsers = uPrev.map(u => u.id === prev.id ? { ...u, totalStudyTime: updated.totalStudyTime } : u);
+            saveToLocal('lms_users_v2_ie', upUsers);
+            return upUsers;
+          });
+          
+          return updated;
+        });
+      }
+    }, 10000); // Record every 10 seconds
+
+    return () => clearInterval(timer);
+  }, [activeView, selectedLessonId, currentUser?.id]);
+
   const getInitProgress = (lessonId: string): UserProgress => {
     return progress[lessonId] || {
       lessonId,
       completed: false,
       watchTime: 0,
+      studyTime: 0,
       readingProgress: 0,
       quizScores: {}
     };
