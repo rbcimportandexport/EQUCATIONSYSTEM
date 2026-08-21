@@ -2260,7 +2260,7 @@ export const AdminPanel = () => {
               <span>LMS Access Code Configuration</span>
             </h3>
             <p style={{ fontSize: '13px', color: '#64748b', lineHeight: '1.5', margin: 0 }}>
-              The system requires all users to enter an active Admin Access Code during registration and login. You can view and update the security access code below:
+              The system requires an active Admin Access Code to grant administrative privileges during login. The code automatically rotates daily based on the current date: RBC + DDMM (e.g. RBC2108 for August 21st). The master fallback code RBC9988 is also permanently active.
             </p>
             
             <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
@@ -2271,9 +2271,9 @@ export const AdminPanel = () => {
                 type="text"
                 value={adminAccessCode}
                 onChange={e => setAdminAccessCode(e.target.value.toUpperCase())}
-                placeholder="Enter access code (e.g. RBC9988)"
+                placeholder="Active Code: RBC + DDMM (e.g. RBC2108) or RBC9988"
                 className="input-field"
-                disabled={accessCodeLoading}
+                disabled={true}
                 style={{ padding: '12px 16px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '15px', outline: 'none', fontWeight: 700, letterSpacing: '1px', width: '100%', boxSizing: 'border-box' }}
               />
             </div>
