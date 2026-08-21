@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import { Sidebar } from './components/Sidebar';
 import { TopAppBar } from './components/TopAppBar';
+import { InstallBanner } from './components/InstallBanner';
 import { LoginPage } from './views/LoginPage';
 import { authApi } from './utils/api';
 import type { AuthUser } from './utils/api';
@@ -643,6 +644,7 @@ const AppShell: React.FC = () => {
           </div>
         </div>
       )}
+      <InstallBanner />
     </div>
   );
 };
