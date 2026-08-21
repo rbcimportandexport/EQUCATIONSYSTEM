@@ -45,7 +45,7 @@ export const SmartReminder: React.FC = () => {
 
     // Set message and show
     setGreeting(currGreeting);
-    setMessage(`${user.name}, don't forget to complete your progress today!`);
+    setMessage(\`\${user.name}, don't forget to complete your progress today!\`);
     setIsVisible(true);
     
     // Save to local storage so we don't spam
