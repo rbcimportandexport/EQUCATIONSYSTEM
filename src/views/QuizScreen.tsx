@@ -69,6 +69,7 @@ export const QuizScreen: React.FC = () => {
             onComplete={() => {
               // Completed callback
             }}
+            onBackToChapter={() => setActiveView('Chapters')}
           />
         ) : (
           <div className="empty-quiz-card card">
