@@ -3,14 +3,14 @@ import { useApp } from '../context/AppContext';
 import { Bell, X } from 'lucide-react';
 
 export const SmartReminder: React.FC = () => {
-  const { user } = useApp();
+  const { currentUser } = useApp();
   const [isVisible, setIsVisible] = useState(false);
   const [message, setMessage] = useState('');
   const [greeting, setGreeting] = useState('');
 
   useEffect(() => {
     // Only show if user is logged in
-    if (!user) return;
+    if (!currentUser) return;
 
     // Check last time reminder was shown to prevent spamming
     const lastShown = localStorage.getItem('rbc_last_reminder');
@@ -45,7 +45,7 @@ export const SmartReminder: React.FC = () => {
 
     // Set message and show
     setGreeting(currGreeting);
-    setMessage(`${user.name}, don't forget to complete your progress today!`);
+    setMessage(`${currentUser.name}, don't forget to complete your progress today!`);
     setIsVisible(true);
     
     // Save to local storage so we don't spam
@@ -57,7 +57,7 @@ export const SmartReminder: React.FC = () => {
     }, 8000);
 
     return () => clearTimeout(timer);
-  }, [user]);
+  }, [currentUser]);
 
   if (!isVisible) return null;
 
