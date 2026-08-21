@@ -284,7 +284,7 @@ export const LessonScreen: React.FC = () => {
 
           {/* 5. Images with Captions */}
           {activeLesson.content.images && activeLesson.content.images.length > 0 && (
-            <ImageViewer images={activeLesson.content.images} />
+            <ImageViewer images={activeLesson.content.images} lessonId={activeLesson.id} />
           )}
 
           {/* 6. Embedded Video Player */}

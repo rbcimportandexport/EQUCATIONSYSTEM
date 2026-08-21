@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ZoomIn, ZoomOut, Maximize2, Minimize2, ChevronLeft, ChevronRight, X, Image as ImageIcon } from 'lucide-react';
+import { ZoomIn, ZoomOut, Maximize2, Minimize2, ChevronLeft, ChevronRight, X, Image as ImageIcon, Download } from 'lucide-react';
+import { useApp } from '../context/AppContext';
 
 interface ImageItem {
   url: string;
@@ -9,9 +10,11 @@ interface ImageItem {
 
 interface ImageViewerProps {
   images: ImageItem[];
+  lessonId: string;
 }
 
-export const ImageViewer: React.FC<ImageViewerProps> = ({ images }) => {
+export const ImageViewer: React.FC<ImageViewerProps> = ({ images, lessonId }) => {
+  const { downloads, addDownload, removeDownload, showToast } = useApp();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [zoom, setZoom] = useState(100);
   const [useHighRes, setUseHighRes] = useState(false);
@@ -65,6 +68,28 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({ images }) => {
 
   const activeImage = activeIndex !== null ? images[activeIndex] : null;
 
+  const isImageDownloaded = activeImage ? downloads.some(d => d.lessonId === lessonId && d.type === 'image' && d.url === activeImage.url) : false;
+
+  const handleDownloadToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!activeImage) return;
+
+    if (isImageDownloaded) {
+      const match = downloads.find(d => d.lessonId === lessonId && d.type === 'image' && d.url === activeImage.url);
+      if (match) removeDownload(match.id);
+      showToast('Image removed from offline downloads', 'info');
+    } else {
+      addDownload({
+        type: 'image',
+        title: activeImage.caption || 'Image Asset',
+        size: '0.8 MB',
+        url: activeImage.url,
+        lessonId
+      });
+      showToast('Image available offline in Downloads', 'success');
+    }
+  };
+
   return (
     <div className="image-gallery-section">
       <h3 className="section-subtitle">
@@ -116,7 +141,15 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({ images }) => {
                 <button className="lightbox-btn" onClick={() => setIsFullscreen(!isFullscreen)}>
                   {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
                 </button>
-                <button className="lightbox-btn close-btn" onClick={closeLightbox}>
+                <button 
+                    className="lightbox-btn" 
+                    onClick={handleDownloadToggle}
+                    title={isImageDownloaded ? "Remove from downloads" : "Download image for offline"}
+                    style={{ color: isImageDownloaded ? '#10b981' : 'inherit' }}
+                  >
+                    <Download size={16} />
+                  </button>
+                  <button className="lightbox-btn close-btn" onClick={closeLightbox}>
                   <X size={16} />
                 </button>
               </div>

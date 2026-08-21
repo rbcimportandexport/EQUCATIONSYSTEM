@@ -133,7 +133,7 @@ export interface Bookmark {
 
 export interface Download {
   id: string;
-  type: 'video' | 'pdf' | 'note';
+  type: 'video' | 'pdf' | 'note' | 'image';
   title: string;
   size: string;
   url: string;

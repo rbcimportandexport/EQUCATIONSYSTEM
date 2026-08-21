@@ -5,7 +5,7 @@ import type { Lesson, User } from '../utils/data';
 import { 
   Edit2, Trash2, Save, Video, Settings,
   Layers, BookOpen, FileText, Users as UsersIcon, Award, ArrowLeft, Eye,
-  Search, Download, RefreshCw, Database, ShieldAlert
+  Search, Download, RefreshCw, Database
 } from 'lucide-react';
 
 interface ModuleImageData {
@@ -825,17 +825,7 @@ export const AdminPanel = () => {
                                 <Trash2 size={12} />
                               </button>
                             </div>
-                            {/* Study Time Tracking */}
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px', fontSize: '12px', fontWeight: 600, color: '#475569' }}>
-                              <span>Active Study Time</span>
-                              <span style={{ fontWeight: 800, color: '#10b981' }}>
-                                {user.totalStudyTime ? (
-                                  user.totalStudyTime >= 3600 
-                                    ? `${Math.floor(user.totalStudyTime / 3600)}h ${Math.floor((user.totalStudyTime % 3600) / 60)}m` 
-                                    : `${Math.floor(user.totalStudyTime / 60)} mins`
-                                ) : '0 mins'}
-                              </span>
-                            </div>
+
                           </div>
                         ))
                       )}
@@ -2052,7 +2042,7 @@ export const AdminPanel = () => {
                       const newRole: User['role'] = isAdmin ? 'student' : 'admin';
                       saveUser({ ...user, role: newRole });
                       try {
-                        await usersApi.update(user.id, { role: newRole });
+                        await usersApi.update(user.id, { name: user.name, email: user.email, role: newRole });
                         await fetchAllUsers();
                         showAlert('Role Updated', `Changed role for ${user.name} to ${newRole.toUpperCase()}`, 'success');
                       } catch (err) {
@@ -2217,7 +2207,7 @@ export const AdminPanel = () => {
                 </div>
 
                 <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <label className="form-label" style={{ fontSize: '13px', fontWeight 700, color: '#334155' }}>Role Privilege</label>
+                  <label className="form-label" style={{ fontSize: '13px', fontWeight: 700, color: '#334155' }}>Role Privilege</label>
                   <select
                     value={userForm.role}
                     onChange={e => setUserForm({ ...userForm, role: e.target.value as User['role'] })}

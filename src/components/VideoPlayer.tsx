@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { 
   Play, Pause, Volume2, RotateCcw, CheckCircle, 
-  Maximize, Minimize, Settings, Bookmark
+  Maximize, Minimize, Settings, Bookmark, Download
 } from 'lucide-react';
 
 interface VideoPlayerProps {
@@ -19,8 +19,9 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ lessonId, videoUrl, th
     markLessonComplete, 
     toggleBookmark,
     bookmarks,
-    currentUser
-  } = useApp();
+    currentUser,
+      showToast,
+  downloads, addDownload, removeDownload } = useApp();
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const playerRef = useRef<HTMLDivElement>(null);
@@ -180,6 +181,24 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ lessonId, videoUrl, th
       lessonId,
       refData: Math.floor(currentTime).toString()
     });
+  };
+
+  const isVideoDownloaded = downloads.some(d => d.lessonId === lessonId && d.type === 'video');
+  const handleDownloadToggle = () => {
+    if (isVideoDownloaded) {
+      const match = downloads.find(d => d.lessonId === lessonId && d.type === 'video');
+      if (match) removeDownload(match.id);
+      showToast('Video removed from offline downloads', 'info');
+    } else {
+      addDownload({
+        type: 'video',
+        title: `Video Lesson`,
+        size: '15.4 MB',
+        url: videoUrl,
+        lessonId
+      });
+      showToast('Video available offline in Downloads', 'success');
+    }
   };
 
   const isCompleted = progress[lessonId]?.completed || false;
@@ -414,6 +433,15 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ lessonId, videoUrl, th
           </div>
 
           <div className="controls-right">
+              {/* Offline Download */}
+              <button
+                className="control-btn"
+                onClick={handleDownloadToggle}
+                style={{ color: isVideoDownloaded ? '#10b981' : 'inherit' }}
+                title={isVideoDownloaded ? "Remove from downloads" : "Download for offline viewing"}
+              >
+                <Download size={18} />
+              </button>
             <button
               className={`control-btn bookmark-btn ${isVideoBookmarked ? 'active' : ''}`}
               onClick={handleBookmarkTimestamp}
