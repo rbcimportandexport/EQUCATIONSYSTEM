@@ -167,7 +167,7 @@ const publicPath = path.join(__dirname, 'public');
 if (require('fs').existsSync(publicPath)) {
   app.use(express.static(publicPath));
   app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api') || req.path.startsWith('/auth') || req.path.startsWith('/videos') || req.path.startsWith('/lessons') || req.path.startsWith('/chat') || req.path.startsWith('/tts') || req.path.startsWith('/health')) {
+    if (req.path.startsWith('/api') || req.path.startsWith('/auth') || req.path.startsWith('/videos') || req.path.startsWith('/lessons') || req.path.startsWith('/chat') || req.path.startsWith('/notifications') || req.path.startsWith('/tts') || req.path.startsWith('/health')) {
       return next();
     }
     const indexPath = path.join(publicPath, 'index.html');

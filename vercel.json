@@ -9,5 +9,19 @@
   "env": {
     "MONGODB_URI": "mongodb+srv://inquiryrbcimport_db_user:fHtMYCe7zhYWeviv@cluster0.fz1axed.mongodb.net/education_system?retryWrites=true&w=majority",
     "JWT_SECRET": "rbc_import_export_academy_super_secret_2026"
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/notifications/trigger",
+      "schedule": "30 3 * * *"
+    },
+    {
+      "path": "/api/notifications/trigger",
+      "schedule": "30 8 * * *"
+    },
+    {
+      "path": "/api/notifications/trigger",
+      "schedule": "30 13 * * *"
+    }
+  ]
 }

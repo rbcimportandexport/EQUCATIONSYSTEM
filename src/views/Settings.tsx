@@ -1,10 +1,38 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { RefreshCw, Cpu, HardDrive } from 'lucide-react';
+import { RefreshCw, Cpu, HardDrive, Bell } from 'lucide-react';
+import { subscribeUserToPush, requestNotificationPermission } from '../utils/push';
 
 export const Settings: React.FC = () => {
-  const { resetDatabase, offlineMode, setOfflineMode, showConfirm } = useApp();
+  const { resetDatabase, offlineMode, setOfflineMode, showConfirm, currentUser, showAlert } = useApp();
+
+  const handleToggleNotifications = async () => {
+    if (notificationsEnabled) {
+      // Browsers don't let you un-request permissions programmatically.
+      showAlert('Notice', 'To disable notifications, please change your browser site settings.', 'info');
+      return;
+    }
+    
+    const granted = await requestNotificationPermission();
+    if (granted) {
+      setNotificationsEnabled(true);
+      if (currentUser?.email) {
+        const subscribed = await subscribeUserToPush(currentUser.email);
+        if (subscribed) {
+          showAlert('Success', 'Push Notifications enabled! You will receive daily reminders.', 'success');
+        } else {
+          showAlert('Warning', 'Permission granted, but failed to subscribe to push server.', 'warning');
+        }
+      } else {
+        showAlert('Error', 'Please login to enable Push Notifications.', 'error');
+      }
+    } else {
+      showAlert('Error', 'Notification permission was denied.', 'error');
+    }
+  };
+
   const [slowCache, setSlowCache] = useState(false);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(Notification.permission === 'granted');
 
   // Calculate simulated local storage size
   const getLocalStorageUsage = () => {
@@ -23,6 +51,20 @@ export const Settings: React.FC = () => {
         <h3 className="card-title">Simulated Storage & Connectivity</h3>
         <p className="card-subtitle">Test and review caching constraints</p>
         
+
+        <div className="setting-row">
+          <div className="setting-info">
+            <span className="setting-label">Daily Push Reminders</span>
+            <span className="setting-desc">Get notified 3 times a day to complete your learning progress.</span>
+          </div>
+          <button 
+            className={`btn ${notificationsEnabled ? 'btn-primary' : 'btn-outlined'}`}
+            onClick={handleToggleNotifications}
+          >
+            {notificationsEnabled ? 'ENABLED' : 'ENABLE'}
+          </button>
+        </div>
+
         <div className="setting-row">
           <div className="setting-info">
             <span className="setting-label">Offline Simulation</span>
