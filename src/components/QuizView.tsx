@@ -10,6 +10,7 @@ interface QuizViewProps {
   onNextModule?: () => void;
   nextModuleTitle?: string;
   nextModuleOrder?: number;
+  onBackToChapter?: () => void;
 }
 
 // Fisher-Yates array shuffling utility
@@ -30,7 +31,8 @@ export const QuizView: React.FC<QuizViewProps> = ({
   onComplete,
   onNextModule,
   nextModuleTitle,
-  nextModuleOrder
+  nextModuleOrder,
+  onBackToChapter
 }) => {
   const { saveQuizScore, language, currentUser } = useApp();
   const [showCelebration, setShowCelebration] = useState(false);
