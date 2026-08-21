@@ -91,7 +91,32 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => 
             </button>
           );
         })}
+
+        <div style={{ height: '1px', background: '#e2e8f0', margin: '8px 0' }}></div>
+        <button 
+          onClick={handleDownloadApp}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            width: '100%',
+            padding: '10px 14px',
+            borderRadius: '8px',
+            border: 'none',
+            background: 'rgba(76, 208, 225, 0.15)',
+            color: '#006064',
+            fontSize: '13.5px',
+            fontWeight: 700,
+            cursor: 'pointer',
+            textAlign: 'left',
+            transition: 'all 0.15s ease'
+          }}
+        >
+          <Download size={18} color="#006064" />
+          <span>Download App</span>
+        </button>
       </nav>
+
     </aside>
   );
 };
