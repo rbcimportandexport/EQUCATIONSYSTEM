@@ -1437,6 +1437,8 @@ a:hover {
   align-items: center;
   border-top: 1px dashed #E5E7EB;
   padding-top: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 /* 8. Right Sticky Topic Sidebar */
