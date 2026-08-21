@@ -452,6 +452,12 @@ export const QuizView: React.FC<QuizViewProps> = ({
               <RotateCcw size={16} />
               <span>{language === 'hi' ? 'पुनः प्रयास करें' : language === 'gu' ? 'ફરીથી પ્રયાસ કરો' : language === 'mr' ? 'पुन्हा प्रयत्न करा' : 'Retry Quiz'}</span>
             </button>
+              {onBackToChapter && (
+                <button className="btn btn-outlined" onClick={onBackToChapter} style={{ marginLeft: '10px' }}>
+                  <BookOpen size={16} />
+                  <span>{language === 'hi' ? 'अध्याय पर वापस जाएं' : 'Back to Chapter'}</span>
+                </button>
+              )}
           </div>
         </div>
       </>
