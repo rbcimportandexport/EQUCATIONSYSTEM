@@ -106,11 +106,22 @@ router.post('/register', async (req, res) => {
       });
     }
 
+
     const AccessCode = require('../models/AccessCode');
     const dbCodeRecord = await AccessCode.findOne();
     const systemCode = dbCodeRecord ? dbCodeRecord.code : 'RBC9988';
 
-    if (!accessCode || accessCode.trim().toUpperCase() !== systemCode.toUpperCase()) {
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dynamicCode = `RBC${dd}${mm}`;
+
+    const inputCode = accessCode ? accessCode.trim().toUpperCase() : '';
+    const isMasterCode = inputCode === systemCode.toUpperCase();
+    const isDynamicCode = inputCode === dynamicCode.toUpperCase();
+
+    if (!isMasterCode && !isDynamicCode) {
+
       return res.status(400).json({
         success: false,
         message: 'Invalid or missing Admin Access Code'
