@@ -55,7 +55,7 @@ interface LoginData {
   accessCode?: string;
 }
 
-const apiRequest = async <T>(
+export const apiRequest = async <T>(
   endpoint: string,
   method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
   body?: any

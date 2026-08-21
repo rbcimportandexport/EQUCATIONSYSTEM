@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { RefreshCw, Cpu, HardDrive, Bell } from 'lucide-react';
+import { RefreshCw, Cpu, HardDrive } from 'lucide-react';
 import { subscribeUserToPush, requestNotificationPermission } from '../utils/push';
 
 export const Settings: React.FC = () => {
