@@ -40,10 +40,7 @@ export const subscribeUserToPush = async (userEmail: string): Promise<boolean> =
     }
 
     // Send subscription to backend
-    const response = await apiRequest('/notifications/subscribe', {
-      method: 'POST',
-      body: JSON.stringify({ subscription, email: userEmail })
-    });
+    const response = await apiRequest<any>('/notifications/subscribe', 'POST', { subscription, email: userEmail });
 
     return !!response.success;
   } catch (error) {
