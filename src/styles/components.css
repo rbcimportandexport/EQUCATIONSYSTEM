@@ -1696,6 +1696,7 @@
 /* Footer Nav Buttons */
 .lesson-navigation-footer {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--spacing-4);
   border-top: 1px solid var(--md-sys-color-outline-variant);

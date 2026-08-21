@@ -31,7 +31,7 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
           alt="RBC Logo" 
           className="top-bar-logo-img" 
           onClick={() => setActiveView('Dashboard')}
-          style={{ height: '150px', width: 'auto', objectFit: 'contain', cursor: 'pointer' }} 
+          style={{ width: 'auto', objectFit: 'contain', cursor: 'pointer' }} 
         />
       </div>
 
