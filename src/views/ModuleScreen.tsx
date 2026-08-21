@@ -793,7 +793,7 @@ export const ModuleScreen: React.FC = () => {
                 a.click(); URL.revokeObjectURL(url);
                 setIsDownloadOpen(false);
               }}>
-                {t.downloadImages}
+                <span>{language === 'hi' ? 'मुख्य बिंदु डाउनलोड करें (Download Notes)' : language === 'gu' ? 'મુખ્ય મુદ્દા ડાઉનલોડ કરો (Download Notes)' : language === 'mr' ? 'मुख्य मुद्दे डाउनलोड करा (Download Notes)' : 'Download Key Points (Notes)'}</span>
               </button>
               <button onClick={() => {
                 const moduleTitle = activeModule ? translateModuleTitle(activeModule.title, language) : 'Module';
