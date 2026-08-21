@@ -459,7 +459,9 @@ const AppShell: React.FC = () => {
       )}
 
       <div className="main-content-panel" style={{ flex: 1, display: 'flex', flexDirection: 'column', width: '100%' }}>
-        <TopAppBar onMenuClick={() => setIsLeftDrawerOpen(true)} onLogout={handleLogout} />
+        {activeView !== 'Quiz' && (
+          <TopAppBar onMenuClick={() => setIsLeftDrawerOpen(true)} onLogout={handleLogout} />
+        )}
         <main className="main-viewport-container" style={{ flex: 1, width: '100%', background: '#ffffff' }}>
           <ErrorBoundary>
             <React.Suspense fallback={
