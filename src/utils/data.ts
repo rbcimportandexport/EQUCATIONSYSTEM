@@ -3468,7 +3468,7 @@ const getHighFidelityContent = (title: string, lessonId: string): LessonContent 
             'It tells the shipping company which route to take while minimizing potential regulatory delays at the port.',
             'It defines exact product requirements and serves as legal reference if factory delivers wrong products.',
             'It sets the import duty rate for customs clearance according to the documented commercial invoice requirements.',
-            'It confirms the buyer\ as governed by standard international commercial terms.'s payment terms with the bank.'
+            'It confirms the buyer\'s payment terms with the bank as governed by standard international commercial terms.'
           ],
           correctAnswers: ['1'],
           explanation: 'Product Specification defines every product requirement. If a factory deviates from it, the buyer can legally reject the goods and demand replacement or refund.'
