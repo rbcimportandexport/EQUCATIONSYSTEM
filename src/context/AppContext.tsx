@@ -382,7 +382,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         email: currentUser.email.toLowerCase().trim(),
         password: 'rbcuser123',
         role: currentUser.role || 'student',
-        otp: '123456'
+        otp: '123456',
+        accessCode: 'RBC9988'
       }).then(() => {
         fetchAllUsers();
       }).catch(() => {
