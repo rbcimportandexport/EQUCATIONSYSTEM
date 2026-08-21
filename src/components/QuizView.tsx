@@ -124,7 +124,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
     } else {
       setShuffledOptions([]);
     }
-  }, [currentIdx, currentQuestion]);
+  }, [currentIdx, currentQuestion, language]);
 
   if (!activeQuestions || activeQuestions.length === 0 || !currentQuestion) return null;
 
