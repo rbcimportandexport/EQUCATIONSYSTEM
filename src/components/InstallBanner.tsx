@@ -3,6 +3,13 @@ import { X, Download } from 'lucide-react';
 import logoEmblem from '../assets/logo_emblem.png';
 import { useApp } from '../context/AppContext';
 
+declare global {
+  interface Window {
+    pwaDeferredPrompt: any;
+    pwaInstallAction: () => void;
+  }
+}
+
 export const InstallBanner: React.FC = () => {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [showBanner, setShowBanner] = useState(false);
@@ -21,6 +28,8 @@ export const InstallBanner: React.FC = () => {
     const handleBeforeInstallPrompt = (e: any) => {
       e.preventDefault();
       setDeferredPrompt(e);
+      window.pwaDeferredPrompt = e;
+      window.pwaInstallAction = handleInstall; window.pwaDeferredPrompt = e;
       setShowBanner(true);
     };
 
@@ -38,6 +47,7 @@ export const InstallBanner: React.FC = () => {
   }, []);
 
   const handleInstall = async () => {
+    if (window.pwaDeferredPrompt && !deferredPrompt) setDeferredPrompt(window.pwaDeferredPrompt);
     if (deferredPrompt) {
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;

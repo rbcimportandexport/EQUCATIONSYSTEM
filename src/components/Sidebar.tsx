@@ -18,6 +18,22 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => 
     userRole
   } = useApp();
 
+
+  const handleDownloadApp = () => {
+    if (window.pwaInstallAction) {
+      window.pwaInstallAction();
+    } else {
+      // iOS fallback or already installed
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      if (isIOS) {
+        alert('To install on iPhone/iPad: Tap the Share button at the bottom of Safari and select "Add to Home Screen".');
+      } else {
+        alert('App is already installed or your browser does not support it.');
+      }
+    }
+    if (onClose) onClose();
+  };
+
   const handleNav = (view: any) => {
     setActiveView(view);
     if (onClose) onClose();
