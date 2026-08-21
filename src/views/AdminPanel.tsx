@@ -4,7 +4,8 @@ import { authApi, usersApi } from '../utils/api';
 import type { Lesson, User } from '../utils/data';
 import { 
   Edit2, Trash2, Save, Video, Settings,
-  Layers, BookOpen, FileText, Users as UsersIcon, Award, ArrowLeft, Eye 
+  Layers, BookOpen, FileText, Users as UsersIcon, Award, ArrowLeft, Eye,
+  Search, Download, RefreshCw, Database, ShieldAlert
 } from 'lucide-react';
 
 interface ModuleImageData {
@@ -248,6 +249,8 @@ export const AdminPanel = () => {
     email: '',
     role: 'student'
   });
+  const [userSearchQuery, setUserSearchQuery] = useState('');
+  const [userRoleFilter, setUserRoleFilter] = useState<'all' | 'student' | 'admin'>('all');
 
   // Quiz Translation States
   const [quizLang, setQuizLang] = useState<'en' | 'hi' | 'gu' | 'mr'>('en');
@@ -711,7 +714,7 @@ export const AdminPanel = () => {
               const filteredLessons = lessons.filter(l => l.moduleId === selectedAdminModuleId).sort((a,b) => a.order - b.order);
 
               return (
-                <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '24px' }}>
+                <div className="admin-split-layout">
                   <div className="card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1px solid #cbd5e1' }}>
                     {/* Header */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '20px' }}>
@@ -831,7 +834,7 @@ export const AdminPanel = () => {
                   {/* Text Editor Form on the Right */}
                   <div className="card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1px solid #cbd5e1' }}>
                     <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', marginBottom: '16px' }}>
-                      {editingLessonId ? '✏️ Edit Lesson Text' : '📝 Create New Lesson (Text)'}
+                      {editingLessonId ? 'Edit Lesson Text' : 'Create New Lesson (Text)'}
                     </h3>
                     <form 
                       onSubmit={(e) => {
@@ -941,7 +944,7 @@ export const AdminPanel = () => {
                         marginBottom: '20px'
                       }}>
                         <h4 style={{ fontSize: '14px', fontWeight: 800, color: '#0f172a', margin: '0 0 12px 0', borderBottom: '1.5px solid #cbd5e1', paddingBottom: '6px' }}>
-                          ❓ Lesson Quiz Question Customization
+                          Lesson Quiz Question Customization
                         </h4>
 
                         {/* Language tabs */}
@@ -1349,7 +1352,7 @@ export const AdminPanel = () => {
               const filteredLessons = lessons.filter(l => l.moduleId === selectedDiagramModuleId).sort((a,b) => a.order - b.order);
 
               return (
-                <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '24px' }}>
+                <div className="admin-split-layout">
                   <div className="card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1px solid #cbd5e1' }}>
                     {/* Header */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '20px' }}>
@@ -1427,7 +1430,7 @@ export const AdminPanel = () => {
                                 }}
                                 style={{ marginTop: '10px', width: '100%', fontSize: '11.5px', fontWeight: 700 }}
                               >
-                                ✏️ Edit Diagram / Photo
+                                Edit Diagram / Photo
                               </button>
                             </div>
                           </div>
@@ -1451,7 +1454,7 @@ export const AdminPanel = () => {
                         return (
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                             <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0f172a', margin: 0 }}>
-                              🖼️ Edit Diagram: {targetLesObj.title}
+                              Edit Diagram: {targetLesObj.title}
                             </h3>
 
                             <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
@@ -1495,7 +1498,7 @@ export const AdminPanel = () => {
                                 <div style={{ marginTop: '10px' }}>
                                   <img src={diagramImageUrl} style={{ width: '100%', maxHeight: '180px', objectFit: 'contain', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#f8fafc', padding: '6px' }} alt="Preview" />
                                   {diagramImageUrl.startsWith('data:') && (
-                                    <span style={{ fontSize: '11px', color: '#ea580c', display: 'block', marginTop: '4px', fontWeight: 600 }}>⚠️ Storing locally as Base64. Google Drive link is highly recommended!</span>
+                                    <span style={{ fontSize: '11px', color: '#ea580c', display: 'block', marginTop: '4px', fontWeight: 600 }}>Storing locally as Base64. Google Drive link is highly recommended!</span>
                                   )}
                                 </div>
                               )}
@@ -1685,7 +1688,7 @@ export const AdminPanel = () => {
               const hasVideo = !!firstVideoLesson?.content?.video?.videoUrl;
 
               return (
-                <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '24px' }}>
+                <div className="admin-split-layout">
                   <div className="card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1px solid #cbd5e1' }}>
                     {/* Header */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '20px' }}>
@@ -1794,7 +1797,7 @@ export const AdminPanel = () => {
                         <div>
                           <span style={{ fontSize: '11px', color: '#16a34a', fontWeight: 800, display: 'block', marginTop: '4px' }}>✓ Video URL Loaded (Ready to apply)</span>
                           {moduleVideoUrl.startsWith('data:') && (
-                            <span style={{ fontSize: '11px', color: '#ea580c', display: 'block', marginTop: '4px', fontWeight: 600 }}>⚠️ Storing locally as Base64. Google Drive link is highly recommended!</span>
+                            <span style={{ fontSize: '11px', color: '#ea580c', display: 'block', marginTop: '4px', fontWeight: 600 }}>Storing locally as Base64. Google Drive link is highly recommended!</span>
                           )}
                         </div>
                       )}
@@ -1841,7 +1844,7 @@ export const AdminPanel = () => {
                         <div>
                           <img src={moduleVideoCover} style={{ width: '100px', height: 'auto', borderRadius: '4px', marginTop: '6px', border: '1px solid #cbd5e1' }} alt="Poster" />
                           {moduleVideoCover.startsWith('data:') && (
-                            <span style={{ fontSize: '11px', color: '#ea580c', display: 'block', marginTop: '4px', fontWeight: 600 }}>⚠️ Storing locally as Base64. Google Drive link is highly recommended!</span>
+                            <span style={{ fontSize: '11px', color: '#ea580c', display: 'block', marginTop: '4px', fontWeight: 600 }}>Storing locally as Base64. Google Drive link is highly recommended!</span>
                           )}
                         </div>
                       )}
@@ -1940,247 +1943,327 @@ export const AdminPanel = () => {
       )}
 
       {/* ====================================================================
-         4. USER TRACKING & CERTIFICATES MANAGEMENT
-         ==================================================================== */}
-      {/* ====================================================================
-         4. USER TRACKING & CERTIFICATES MANAGEMENT
+         4. USER PERMISSION & ROLE ACCESS MANAGEMENT
          ==================================================================== */}
       {activeTab === 'users' && (
-        <div className="admin-content-grid grid-2">
-          {/* Student Progress List */}
-          <div className="card admin-list-card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1.5px solid #e2e8f0', boxShadow: '0 4px 16px rgba(0,0,0,0.02)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-              <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <UsersIcon size={20} color="#2563eb" />
-                <span>Enrolled Students Registry ({users.length})</span>
-              </h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* User Metrics Overview Cards */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            gap: '16px'
+          }}>
+            <div style={{ background: '#ffffff', padding: '16px 20px', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
+              <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Total Registered Users</div>
+              <div style={{ fontSize: '24px', fontWeight: 800, color: '#102A56', marginTop: '4px' }}>{users.length}</div>
             </div>
-
-            <div className="admin-items-stack" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {users.map(user => {
-                const hasCertificate = certificates.some(c => c.userId === user.id && c.courseId === 'import-export-master');
-                const isAdmin = user.role === 'admin';
-                return (
-                  <div 
-                    key={user.id} 
-                    className="student-admin-row-item"
-                    style={{ 
-                      background: '#ffffff', 
-                      border: '1.5px solid #e2e8f0', 
-                      borderRadius: '12px', 
-                      padding: '20px', 
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
-                      transition: 'all 0.2s ease'
-                    }}
-                  >
-                    <div className="student-profile-info" style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
-                      <div 
-                        className="avatar" 
-                        style={{ 
-                          width: '46px', 
-                          height: '46px', 
-                          borderRadius: '50%', 
-                          background: isAdmin ? 'linear-gradient(135deg, #0f172a, #334155)' : 'linear-gradient(135deg, #2563eb, #0284c7)', 
-                          color: '#ffffff', 
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          justifyContent: 'center', 
-                          fontWeight: 800, 
-                          fontSize: '16px',
-                          letterSpacing: '0.5px',
-                          boxShadow: '0 3px 10px rgba(0,0,0,0.12)',
-                          flexShrink: 0 
-                        }}
-                      >
-                        {user.name.substring(0, 2).toUpperCase()}
-                      </div>
-                      <div className="student-details" style={{ flex: 1 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', margin: 0 }}>{user.name}</h4>
-                          <span 
-                            style={{ 
-                              fontSize: '11px', 
-                              fontWeight: 700, 
-                              padding: '2px 8px', 
-                              borderRadius: '12px', 
-                              background: isAdmin ? '#f1f5f9' : '#eff6ff', 
-                              color: isAdmin ? '#334155' : '#2563eb',
-                              border: `1px solid ${isAdmin ? '#cbd5e1' : '#bfdbfe'}`,
-                              textTransform: 'uppercase',
-                              letterSpacing: '0.5px'
-                            }}
-                          >
-                            {user.role}
-                          </span>
-                        </div>
-                        <span className="student-email-span" style={{ fontSize: '13px', color: '#64748b', fontWeight: '500' }}>{user.email}</span>
-                      </div>
-                    </div>
-
-                    {/* Progress tracking */}
-                    <div className="student-progress-meter" style={{ background: '#f8fafc', borderRadius: '10px', padding: '12px 14px', border: '1px solid #f1f5f9', marginBottom: '16px' }}>
-                      <div className="progress-labels" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', fontSize: '13px', fontWeight: 600, color: '#475569' }}>
-                        <span>Course Study Progress</span>
-                        <span className="bold" style={{ fontWeight: 800, color: '#2563eb' }}>{user.progressPercentage}%</span>
-                      </div>
-                      <div className="progress-bar-container" style={{ height: '8px', width: '100%', background: '#e2e8f0', borderRadius: '999px', overflow: 'hidden' }}>
-                        <div 
-                          className="progress-bar-fill" 
-                          style={{ width: `${user.progressPercentage}%`, height: '100%', background: 'linear-gradient(90deg, #2563eb, #0284c7)', borderRadius: '999px', transition: 'width 0.4s ease' }}
-                        ></div>
-                      </div>
-                    </div>
-
-                    <div className="student-cert-action-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', paddingTop: '12px', borderTop: '1px dashed #e2e8f0' }}>
-                      {hasCertificate ? (
-                        <span className="badge badge-success cert-badge-status" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '20px', background: '#f0fdf4', color: '#16a34a', border: '1px solid #bbf7d0', fontSize: '12px', fontWeight: 700 }}>
-                          <Award size={14} />
-                          <span>Certificate Issued</span>
-                        </span>
-                      ) : (
-                        <button
-                          type="button"
-                          className="btn btn-primary btn-mini"
-                          onClick={() => {
-                            issueCertificate(user.id, 'import-export-master');
-                            showAlert('Certificate Approved', `Approved and Issued Certificate of Completion to ${user.name}!`, 'success');
-                          }}
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '6px',
-                            padding: '8px 16px',
-                            borderRadius: '8px',
-                            background: 'linear-gradient(135deg, #ea580c, #c2410c)',
-                            color: '#ffffff',
-                            fontWeight: 700,
-                            fontSize: '13px',
-                            border: 'none',
-                            cursor: 'pointer',
-                            boxShadow: '0 2px 6px rgba(234, 88, 12, 0.25)',
-                            transition: 'all 0.15s ease'
-                          }}
-                        >
-                          <Award size={14} />
-                          <span>Approve & Issue Certificate</span>
-                        </button>
-                      )}
-
-                      <button 
-                        type="button"
-                        className="btn btn-outlined btn-mini"
-                        onClick={() => handleEditUser(user)}
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '6px',
-                          padding: '8px 14px',
-                          borderRadius: '8px',
-                          background: '#ffffff',
-                          color: '#475569',
-                          border: '1.5px solid #cbd5e1',
-                          fontWeight: 600,
-                          fontSize: '13px',
-                          cursor: 'pointer',
-                          transition: 'all 0.15s ease'
-                        }}
-                      >
-                        <Edit2 size={13} />
-                        <span>Edit User</span>
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
+            <div style={{ background: '#ffffff', padding: '16px 20px', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
+              <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Enrolled Students</div>
+              <div style={{ fontSize: '24px', fontWeight: 800, color: '#0284c7', marginTop: '4px' }}>{users.filter(u => u.role !== 'admin').length}</div>
+            </div>
+            <div style={{ background: '#ffffff', padding: '16px 20px', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
+              <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Administrators</div>
+              <div style={{ fontSize: '24px', fontWeight: 800, color: '#0f172a', marginTop: '4px' }}>{users.filter(u => u.role === 'admin').length}</div>
+            </div>
+            <div style={{ background: '#ffffff', padding: '16px 20px', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 2px 6px rgba(0,0,0,0.02)' }}>
+              <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Certificates Issued</div>
+              <div style={{ fontSize: '24px', fontWeight: 800, color: '#16a34a', marginTop: '4px' }}>{certificates.length}</div>
             </div>
           </div>
 
-          {/* User Vetting Form */}
-          <div className="card admin-form-card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1.5px solid #e2e8f0', boxShadow: '0 4px 16px rgba(0,0,0,0.02)' }}>
-            <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', marginBottom: '20px' }}>
-              {editingUserId ? 'Edit User Credentials' : 'Enroll New User'}
-            </h3>
-            <form onSubmit={handleUserSubmit} className="admin-form" style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-              <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <label className="form-label" style={{ fontSize: '13px', fontWeight: 700, color: '#334155' }}>Full Name</label>
-                <input
-                  type="text"
-                  required
-                  value={userForm.name}
-                  onChange={e => setUserForm({ ...userForm, name: e.target.value })}
-                  className="input-field"
-                  placeholder="Enter your name"
-                  style={{ padding: '11px 14px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '14px', outline: 'none' }}
-                />
+          <div className="admin-content-grid grid-2">
+            {/* Student Progress & Permission List */}
+            <div className="card admin-list-card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1.5px solid #e2e8f0', boxShadow: '0 4px 16px rgba(0,0,0,0.02)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
+                <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <UsersIcon size={20} color="#2563eb" />
+                  <span>Enrolled Users Registry ({users.length})</span>
+                </h3>
               </div>
 
-              <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <label className="form-label" style={{ fontSize: '13px', fontWeight: 700, color: '#334155' }}>Email Address</label>
-                <input
-                  type="email"
-                  required
-                  value={userForm.email}
-                  onChange={e => setUserForm({ ...userForm, email: e.target.value })}
-                  className="input-field"
-                  placeholder="Enter your email"
-                  style={{ padding: '11px 14px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '14px', outline: 'none' }}
-                />
+              {/* Search & Filter Controls */}
+              <div style={{ display: 'flex', gap: '10px', marginBottom: '16px', flexWrap: 'wrap' }}>
+                <div style={{ position: 'relative', flex: 1, minWidth: '180px' }}>
+                  <Search size={15} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+                  <input
+                    type="text"
+                    placeholder="Search by name or email..."
+                    value={userSearchQuery}
+                    onChange={e => setUserSearchQuery(e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '8px 10px 8px 32px',
+                      borderRadius: '8px',
+                      border: '1px solid #cbd5e1',
+                      fontSize: '12.5px',
+                      outline: 'none'
+                    }}
+                  />
+                </div>
+
+                <div style={{ display: 'flex', gap: '4px', background: '#f1f5f9', padding: '3px', borderRadius: '8px' }}>
+                  {(['all', 'student', 'admin'] as const).map(r => (
+                    <button
+                      key={r}
+                      onClick={() => setUserRoleFilter(r)}
+                      style={{
+                        padding: '4px 10px',
+                        borderRadius: '6px',
+                        fontSize: '11px',
+                        fontWeight: 700,
+                        border: 'none',
+                        cursor: 'pointer',
+                        background: userRoleFilter === r ? '#ffffff' : 'transparent',
+                        color: userRoleFilter === r ? '#0f172a' : '#64748b',
+                        textTransform: 'capitalize'
+                      }}
+                    >
+                      {r === 'all' ? 'All Roles' : r}
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <label className="form-label" style={{ fontSize: '13px', fontWeight: 700, color: '#334155' }}>Role Privilege</label>
-                <select
-                  value={userForm.role}
-                  onChange={e => setUserForm({ ...userForm, role: e.target.value as User['role'] })}
-                  className="input-field"
-                  style={{ padding: '11px 14px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '14px', outline: 'none', background: '#ffffff', cursor: 'pointer' }}
+              <div className="admin-items-stack" style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxHeight: '560px', overflowY: 'auto' }}>
+                {users
+                  .filter(u => {
+                    const matchesSearch = !userSearchQuery || 
+                      u.name.toLowerCase().includes(userSearchQuery.toLowerCase()) || 
+                      u.email.toLowerCase().includes(userSearchQuery.toLowerCase());
+                    const matchesRole = userRoleFilter === 'all' || u.role === userRoleFilter;
+                    return matchesSearch && matchesRole;
+                  })
+                  .map(user => {
+                    const hasCertificate = certificates.some(c => c.userId === user.id && c.courseId === 'import-export-master');
+                    const isAdmin = user.role === 'admin';
+
+                    const handleToggleRole = async () => {
+                      const newRole: User['role'] = isAdmin ? 'student' : 'admin';
+                      saveUser({ ...user, role: newRole });
+                      try {
+                        await usersApi.update(user.id, { role: newRole });
+                        await fetchAllUsers();
+                        showAlert('Role Updated', `Changed role for ${user.name} to ${newRole.toUpperCase()}`, 'success');
+                      } catch (err) {
+                        console.error(err);
+                      }
+                    };
+
+                    return (
+                      <div 
+                        key={user.id} 
+                        className="student-admin-row-item"
+                        style={{ 
+                          background: '#ffffff', 
+                          border: '1.5px solid #e2e8f0', 
+                          borderRadius: '12px', 
+                          padding: '16px', 
+                          boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
+                        }}
+                      >
+                        <div className="student-profile-info" style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '12px' }}>
+                          <div 
+                            className="avatar" 
+                            style={{ 
+                              width: '42px', 
+                              height: '42px', 
+                              borderRadius: '50%', 
+                              background: isAdmin ? '#0f172a' : '#2563eb', 
+                              color: '#ffffff', 
+                              display: 'flex', 
+                              alignItems: 'center', 
+                              justifyContent: 'center', 
+                              fontWeight: 800, 
+                              fontSize: '15px',
+                              flexShrink: 0 
+                            }}
+                          >
+                            {user.name.substring(0, 2).toUpperCase()}
+                          </div>
+                          <div className="student-details" style={{ flex: 1 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              <h4 style={{ fontSize: '15px', fontWeight: 700, color: '#0f172a', margin: 0 }}>{user.name}</h4>
+                              <span 
+                                style={{ 
+                                  fontSize: '10px', 
+                                  fontWeight: 800, 
+                                  padding: '2px 8px', 
+                                  borderRadius: '12px', 
+                                  background: isAdmin ? '#f1f5f9' : '#eff6ff', 
+                                  color: isAdmin ? '#334155' : '#2563eb',
+                                  border: `1px solid ${isAdmin ? '#cbd5e1' : '#bfdbfe'}`,
+                                  textTransform: 'uppercase'
+                                }}
+                              >
+                                {user.role}
+                              </span>
+                            </div>
+                            <span style={{ fontSize: '12px', color: '#64748b' }}>{user.email}</span>
+                          </div>
+
+                          {/* Quick Role Toggle Switcher */}
+                          <button
+                            onClick={handleToggleRole}
+                            style={{
+                              padding: '5px 10px',
+                              borderRadius: '6px',
+                              border: '1px solid #cbd5e1',
+                              background: '#f8fafc',
+                              fontSize: '11px',
+                              fontWeight: 700,
+                              color: '#334155',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            Set as {isAdmin ? 'Student' : 'Admin'}
+                          </button>
+                        </div>
+
+                        {/* Progress tracking */}
+                        <div style={{ background: '#f8fafc', borderRadius: '8px', padding: '10px 12px', border: '1px solid #f1f5f9', marginBottom: '12px' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', fontSize: '12px', fontWeight: 600, color: '#475569' }}>
+                            <span>Course Study Progress</span>
+                            <span style={{ fontWeight: 800, color: '#2563eb' }}>{user.progressPercentage}%</span>
+                          </div>
+                          <div style={{ height: '6px', width: '100%', background: '#e2e8f0', borderRadius: '999px', overflow: 'hidden' }}>
+                            <div style={{ width: `${user.progressPercentage}%`, height: '100%', background: 'linear-gradient(90deg, #2563eb, #0284c7)', borderRadius: '999px' }} />
+                          </div>
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', paddingTop: '10px', borderTop: '1px dashed #e2e8f0' }}>
+                          {hasCertificate ? (
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 10px', borderRadius: '16px', background: '#f0fdf4', color: '#16a34a', border: '1px solid #bbf7d0', fontSize: '11px', fontWeight: 700 }}>
+                              <Award size={13} />
+                              <span>Certificate Issued</span>
+                            </span>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                issueCertificate(user.id, 'import-export-master');
+                                showAlert('Certificate Approved', `Approved and Issued Certificate of Completion to ${user.name}!`, 'success');
+                              }}
+                              style={{
+                                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                                padding: '6px 12px', borderRadius: '6px', background: '#ea580c',
+                                color: '#ffffff', fontWeight: 700, fontSize: '12px', border: 'none', cursor: 'pointer'
+                              }}
+                            >
+                              <Award size={13} />
+                              <span>Issue Certificate</span>
+                            </button>
+                          )}
+
+                          <button 
+                            type="button"
+                            onClick={() => handleEditUser(user)}
+                            style={{
+                              display: 'inline-flex', alignItems: 'center', gap: '4px',
+                              padding: '6px 12px', borderRadius: '6px', background: '#ffffff',
+                              color: '#475569', border: '1px solid #cbd5e1', fontWeight: 600, fontSize: '12px', cursor: 'pointer'
+                            }}
+                          >
+                            <Edit2 size={13} />
+                            <span>Edit</span>
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+
+            {/* User Vetting & Credentials Form */}
+            <div className="card admin-form-card" style={{ padding: '24px', background: '#ffffff', borderRadius: '16px', border: '1.5px solid #e2e8f0', boxShadow: '0 4px 16px rgba(0,0,0,0.02)' }}>
+              <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', marginBottom: '20px' }}>
+                {editingUserId ? 'Edit User Credentials' : 'Enroll New User'}
+              </h3>
+              <form onSubmit={handleUserSubmit} className="admin-form" style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+                <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <label className="form-label" style={{ fontSize: '13px', fontWeight: 700, color: '#334155' }}>Full Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={userForm.name}
+                    onChange={e => setUserForm({ ...userForm, name: e.target.value })}
+                    className="input-field"
+                    placeholder="Enter your name"
+                    style={{ padding: '11px 14px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '14px', outline: 'none' }}
+                  />
+                </div>
+
+                <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <label className="form-label" style={{ fontSize: '13px', fontWeight: 700, color: '#334155' }}>Email Address</label>
+                  <input
+                    type="email"
+                    required
+                    value={userForm.email}
+                    onChange={e => setUserForm({ ...userForm, email: e.target.value })}
+                    className="input-field"
+                    placeholder="Enter your email"
+                    style={{ padding: '11px 14px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '14px', outline: 'none' }}
+                  />
+                </div>
+
+                <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <label className="form-label" style={{ fontSize: '13px', fontWeight 700, color: '#334155' }}>Role Privilege</label>
+                  <select
+                    value={userForm.role}
+                    onChange={e => setUserForm({ ...userForm, role: e.target.value as User['role'] })}
+                    className="input-field"
+                    style={{ padding: '11px 14px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '14px', outline: 'none', background: '#ffffff', cursor: 'pointer' }}
+                  >
+                    <option value="student">Student Account</option>
+                    <option value="admin">Administrator</option>
+                  </select>
+                </div>
+
+                <button 
+                  type="submit" 
+                  className="btn btn-primary btn-full"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    padding: '13px',
+                    borderRadius: '10px',
+                    background: 'linear-gradient(135deg, #ea580c, #c2410c)',
+                    color: '#ffffff',
+                    fontWeight: 800,
+                    fontSize: '14px',
+                    border: 'none',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 12px rgba(234, 88, 12, 0.25)',
+                    marginTop: '8px'
+                  }}
                 >
-                  <option value="student">Student Account</option>
-                  <option value="admin">Administrator</option>
-                </select>
-              </div>
-
-              <button 
-                type="submit" 
-                className="btn btn-primary btn-full"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  padding: '13px',
-                  borderRadius: '10px',
-                  background: 'linear-gradient(135deg, #ea580c, #c2410c)',
-                  color: '#ffffff',
-                  fontWeight: 800,
-                  fontSize: '14px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 12px rgba(234, 88, 12, 0.25)',
-                  marginTop: '8px'
-                }}
-              >
-                <Save size={16} />
-                <span>Save User Settings</span>
-              </button>
-            </form>
+                  <Save size={16} />
+                  <span>Save User Credentials</span>
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       )}
 
+      {/* ====================================================================
+         5. SYSTEM SETTINGS & MAINTENANCE UTILITIES
+         ==================================================================== */}
       {activeTab === 'settings' && (
-        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-          <div className="card" style={{ padding: '32px', background: '#ffffff', borderRadius: '16px', border: '1.5px solid #cbd5e1', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Settings size={22} color="#0284c7" />
-              <span>LMS Access Code Settings</span>
+        <div style={{ maxWidth: '640px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          {/* Security Access Code Card */}
+          <div className="card" style={{ padding: '28px', background: '#ffffff', borderRadius: '16px', border: '1.5px solid #cbd5e1', display: 'flex', flexDirection: 'column', gap: '18px' }}>
+            <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Settings size={20} color="#0284c7" />
+              <span>LMS Access Code Configuration</span>
             </h3>
-            <p style={{ fontSize: '14px', color: '#64748b', lineHeight: '1.5', margin: 0 }}>
-              The system requires all users to enter an active "Admin Access Code" during registration and login. You can view and update the current security access code below:
+            <p style={{ fontSize: '13px', color: '#64748b', lineHeight: '1.5', margin: 0 }}>
+              The system requires all users to enter an active Admin Access Code during registration and login. You can view and update the security access code below:
             </p>
             
             <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <label className="form-label" style={{ fontSize: '13px', fontWeight: 700, color: '#475569' }}>
+              <label className="form-label" style={{ fontSize: '12px', fontWeight: 700, color: '#475569' }}>
                 Active Security Access Code
               </label>
               <input
@@ -2212,15 +2295,72 @@ export const AdminPanel = () => {
                 gap: '8px',
                 fontSize: '14px',
                 boxShadow: '0 4px 12px rgba(2, 132, 199, 0.25)',
-                transition: 'all 0.2s',
                 width: '100%'
               }}
-              onMouseOver={(e) => { if (!accessCodeLoading) e.currentTarget.style.background = '#0369a1'; }}
-              onMouseOut={(e) => { if (!accessCodeLoading) e.currentTarget.style.background = '#0284c7'; }}
             >
               <Save size={16} />
-              <span>{accessCodeLoading ? 'Saving...' : 'Save Settings'}</span>
+              <span>{accessCodeLoading ? 'Saving...' : 'Save Access Code'}</span>
             </button>
+          </div>
+
+          {/* Database Maintenance & Backup Section */}
+          <div className="card" style={{ padding: '28px', background: '#ffffff', borderRadius: '16px', border: '1.5px solid #cbd5e1', display: 'flex', flexDirection: 'column', gap: '18px' }}>
+            <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Database size={20} color="#102A56" />
+              <span>System Data Maintenance & Backup</span>
+            </h3>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px', background: '#f8fafc', borderRadius: '10px', border: '1px solid #e2e8f0' }}>
+                <div>
+                  <div style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a' }}>Export Catalog Backup (JSON)</div>
+                  <div style={{ fontSize: '12px', color: '#64748b' }}>Download a complete JSON export of modules, lessons, and user registries.</div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const catalogData = { modules, lessons, usersCount: users.length, exportDate: new Date().toISOString() };
+                    const blob = new Blob([JSON.stringify(catalogData, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `RBC-System-Backup-${Date.now()}.json`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                  }}
+                  style={{
+                    padding: '8px 14px', borderRadius: '8px', border: 'none',
+                    background: '#102A56', color: '#ffffff', fontSize: '12px', fontWeight: 700,
+                    cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px'
+                  }}
+                >
+                  <Download size={14} />
+                  <span>Export JSON</span>
+                </button>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px', background: '#fff7ed', borderRadius: '10px', border: '1px solid #ffedd5' }}>
+                <div>
+                  <div style={{ fontSize: '14px', fontWeight: 700, color: '#9a3412' }}>Purge Progress Storage Cache</div>
+                  <div style={{ fontSize: '12px', color: '#c2410c' }}>Clear offline progress cache stored in local browser storage.</div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    localStorage.removeItem('rbc_user_progress');
+                    showAlert('Cache Purged', 'Successfully purged local progress cache', 'info');
+                  }}
+                  style={{
+                    padding: '8px 14px', borderRadius: '8px', border: 'none',
+                    background: '#ea580c', color: '#ffffff', fontSize: '12px', fontWeight: 700,
+                    cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px'
+                  }}
+                >
+                  <RefreshCw size={14} />
+                  <span>Purge Cache</span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
