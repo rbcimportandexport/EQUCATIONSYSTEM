@@ -19,6 +19,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => 
   } = useApp();
 
 
+  const isStandalone = typeof window !== 'undefined' && (window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone);
+
   const handleDownloadApp = async () => {
     if ((window as any).pwaDeferredPrompt) {
       (window as any).pwaDeferredPrompt.prompt();

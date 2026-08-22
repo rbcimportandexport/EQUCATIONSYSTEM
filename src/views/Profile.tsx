@@ -391,7 +391,10 @@ export const Profile: React.FC = () => {
           </div>
         </div>
 
-                {/* App Download Section */}
+                  const isStandalone = typeof window !== 'undefined' && (window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone);
+
+        {!isStandalone && (
+        {/* App Download Section */}
         <div style={{
           background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
           borderRadius: '20px', padding: '24px',
@@ -441,6 +444,7 @@ export const Profile: React.FC = () => {
             Install App
           </button>
         </div>
+        )}
 
         {/* Certificates Section */}
         <div style={{
