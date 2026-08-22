@@ -153,7 +153,7 @@ export const Profile: React.FC = () => {
         <div style={{ position: 'absolute', top: '-40px', right: '-40px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(255,255,255,0.06)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: '-60px', left: '30%', width: '160px', height: '160px', borderRadius: '50%', background: 'rgba(255,255,255,0.04)', pointerEvents: 'none' }} />
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '28px', position: 'relative', zIndex: 1, flexWrap: 'wrap' }}>
+        <div className="profile-header-top-row" style={{ display: 'flex', alignItems: 'center', gap: '28px', position: 'relative', zIndex: 1, width: '100%' }}>
           {/* Avatar */}
           <div style={{
             width: '96px', height: '96px', borderRadius: '50%',
