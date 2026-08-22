@@ -404,8 +404,14 @@ export const Profile: React.FC = () => {
             <p style={{ margin: 0, color: '#94a3b8', fontSize: '14px' }}>Install the app on your phone or desktop for faster access.</p>
           </div>
           <button
-            onClick={() => {
-              if ((window as any).pwaInstallAction) {
+            onClick={async () => {
+              if ((window as any).pwaDeferredPrompt) {
+                (window as any).pwaDeferredPrompt.prompt();
+                const { outcome } = await (window as any).pwaDeferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                  (window as any).pwaDeferredPrompt = null;
+                }
+              } else if ((window as any).pwaInstallAction) {
                 (window as any).pwaInstallAction();
               } else {
                 const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);

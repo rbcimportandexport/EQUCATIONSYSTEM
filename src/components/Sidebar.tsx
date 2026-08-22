@@ -19,9 +19,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => 
   } = useApp();
 
 
-  const handleDownloadApp = () => {
-    if (window.pwaInstallAction) {
-      window.pwaInstallAction();
+  const handleDownloadApp = async () => {
+    if ((window as any).pwaDeferredPrompt) {
+      (window as any).pwaDeferredPrompt.prompt();
+      const { outcome } = await (window as any).pwaDeferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        (window as any).pwaDeferredPrompt = null;
+      }
+    } else if ((window as any).pwaInstallAction) {
+      (window as any).pwaInstallAction();
     } else {
       // iOS fallback or already installed
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
