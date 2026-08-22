@@ -221,27 +221,30 @@ export const Profile: React.FC = () => {
                 </p>
                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
                   <span style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '5px',
-                    padding: '4px 12px', borderRadius: '20px',
-                    background: 'rgba(251,191,36,0.2)', border: '1px solid rgba(251,191,36,0.4)',
-                    color: '#fff', fontSize: '12px', fontWeight: '600'
+                    display: 'inline-flex', alignItems: 'center', gap: '6px',
+                    padding: '6px 14px', borderRadius: '24px',
+                    background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.25)',
+                    color: '#f8fafc', fontSize: '12px', fontWeight: '600',
+                    backdropFilter: 'blur(12px)', boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
                   }}>
-                    <User size={11} /> RBC Academy Student
+                    <User size={13} color="#fbbf24" /> RBC Academy Student
                   </span>
                   <span style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '5px',
-                    padding: '4px 12px', borderRadius: '20px',
-                    background: 'rgba(59,130,246,0.2)', border: '1px solid rgba(59,130,246,0.4)',
-                    color: '#fff', fontSize: '12px', fontWeight: '600'
+                    display: 'inline-flex', alignItems: 'center', gap: '6px',
+                    padding: '6px 14px', borderRadius: '24px',
+                    background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.25)',
+                    color: '#f8fafc', fontSize: '12px', fontWeight: '600',
+                    backdropFilter: 'blur(12px)', boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
                   }}>
-                    <Shield size={11} /> Import & Export Master
+                    <Shield size={13} color="#60a5fa" /> Import & Export Master
                   </span>
                   <span style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '5px',
-                    padding: '4px 12px', borderRadius: '20px',
+                    display: 'inline-flex', alignItems: 'center', gap: '6px',
+                    padding: '6px 16px', borderRadius: '24px',
                     background: userLevel.bg, border: userLevel.border,
                     color: userLevel.color, fontSize: '12px', fontWeight: '800',
-                    textTransform: 'uppercase', letterSpacing: '0.5px'
+                    textTransform: 'uppercase', letterSpacing: '1px',
+                    backdropFilter: 'blur(12px)', boxShadow: userLevel.shadow
                   }}>
                     {userLevel.name}
                   </span>
