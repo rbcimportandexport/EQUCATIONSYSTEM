@@ -2281,3 +2281,83 @@ body.header-hidden .top-app-bar-varsity {
     transform: translate(100px,100px) rotate(112deg);
   }
 }
+
+
+/* --- MOBILE FIXES --- */
+@media (max-width: 768px) {
+  .top-app-bar-varsity {
+    padding: 0 12px;
+    height: 64px !important;
+    gap: 8px;
+  }
+  .top-bar-brand-box {
+    gap: 6px;
+  }
+  .top-bar-logo-img {
+    height: 40px !important;
+  }
+  .top-bar-right-group {
+    gap: 8px !important;
+    overflow-x: auto;
+    padding-bottom: 0px;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .top-bar-right-group::-webkit-scrollbar {
+    display: none;
+  }
+  .top-bar-nav-links {
+    display: none !important; /* Hide standard links, rely on menu */
+  }
+  .top-bar-lang-select {
+    width: 60px !important;
+    font-size: 11px !important;
+    padding: 4px !important;
+  }
+  .top-bar-icon-btn span {
+    display: none !important; /* Hide text like Open Account */
+  }
+  .top-bar-icon-btn {
+    padding: 8px !important;
+    min-width: 36px;
+  }
+  
+  /* Profile Mobile Layout */
+  .profile-container {
+    padding: 16px !important;
+    overflow-x: hidden;
+  }
+  .profile-header-card {
+    border-radius: 16px !important;
+    padding: 20px 16px !important;
+    width: 100% !important;
+    box-sizing: border-box;
+    margin: 0 0 16px 0 !important;
+  }
+  .profile-header-top-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+  .profile-edit-btn {
+    align-self: flex-start !important;
+    width: 100%;
+    justify-content: center;
+  }
+  .profile-stats-grid {
+    grid-template-columns: 1fr !important;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* App Download Section wrapper on profile */
+  .profile-container > div[style*="linear-gradient"] {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+  .profile-container > div[style*="linear-gradient"] button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) { .mobile-menu-toggle { display: block !important; } }

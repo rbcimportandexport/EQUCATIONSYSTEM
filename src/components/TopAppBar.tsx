@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { Search, Bookmark, User, ShieldAlert, Globe, LogOut } from 'lucide-react';
+import { Search, Bookmark, User, ShieldAlert, Globe, LogOut, Menu } from 'lucide-react';
 import logoEmblem from '../assets/logo_emblem.png';
 
 interface TopAppBarProps {
@@ -20,6 +20,15 @@ export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
 
   return (
     <header className="top-app-bar-varsity" style={{ height: '88px' }}>
+      {/* Mobile Menu Toggle */}
+      <button 
+        className="mobile-menu-toggle"
+        onClick={onMenuClick}
+        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px', color: '#1e293b', display: 'none' }}
+      >
+        <Menu size={24} />
+      </button>
+
       {/* Brand Logo & Title */}
       <div
         className="top-bar-brand-box"
