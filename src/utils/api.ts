@@ -271,6 +271,9 @@ export const chatApi = {
       chatMessage: (result as any).chatMessage
     };
   },
+  markChatAsRead: async (senderId: string, receiverId: string): Promise<{ success: boolean }> => {
+    return await apiRequest('/chat/read', 'POST', { senderId, receiverId });
+  },
   getNotifications: async (receiverId: string): Promise<{ success: boolean; senderIds: string[] }> => {
     const result = await apiRequest<{ success: boolean; senderIds: string[] }>(`/chat/notifications?receiverId=${receiverId}`);
     return {

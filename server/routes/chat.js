@@ -62,7 +62,8 @@ router.get('/notifications', async (req, res) => {
       $or: [
         { receiverId: receiverStr },
         { receiverId: receiverObj }
-      ]
+      ],
+      isRead: false
     });
     const senderIds = [...new Set(messages.map(m => m.senderId.toString()))];
 
@@ -101,6 +102,39 @@ router.post('/send', async (req, res) => {
   } catch (error) {
     console.error('Send chat message error:', error);
     res.status(500).json({ success: false, message: 'Server error. Could not send message.' });
+  }
+});
+
+
+// POST /api/chat/read
+// Mark all messages from sender to receiver as read
+router.post('/read', async (req, res) => {
+  try {
+    const { senderId, receiverId } = req.body;
+    if (!senderId || !receiverId) {
+      return res.status(400).json({ success: false, message: 'senderId and receiverId are required' });
+    }
+
+    const senderStr = String(senderId);
+    const receiverStr = String(receiverId);
+    const senderObj = toObjectId(senderId);
+    const receiverObj = toObjectId(receiverId);
+
+    await ChatMessage.updateMany(
+      {
+        $or: [
+          { senderId: senderStr, receiverId: receiverStr },
+          { senderId: senderObj, receiverId: receiverObj }
+        ],
+        isRead: false
+      },
+      { $set: { isRead: true } }
+    );
+
+    res.json({ success: true, message: 'Messages marked as read' });
+  } catch (error) {
+    console.error('Mark as read error:', error);
+    res.status(500).json({ success: false, message: 'Server error.' });
   }
 });
 

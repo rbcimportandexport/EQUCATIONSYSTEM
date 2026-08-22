@@ -21,6 +21,13 @@ export const CommunityScreen: React.FC = () => {
   const [isChatOpen, setIsChatOpen] = React.useState(false);
   const [unreadSenders, setUnreadSenders] = React.useState<string[]>([]);
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
+  const previousSendersRef = React.useRef<string[]>([]);
+
+  React.useEffect(() => {
+    if ('Notification' in window && Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+      Notification.requestPermission();
+    }
+  }, []);
 
   // Poll for message notifications (which users have messaged the current user)
   React.useEffect(() => {
