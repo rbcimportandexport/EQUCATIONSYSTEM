@@ -260,7 +260,7 @@ export const Profile: React.FC = () => {
               setEditEmail(currentUser?.email || fallbackEmail);
               setIsEditing(true);
             }} style={{
-              marginLeft: 'auto',
+              position: 'absolute', top: '0', right: '0',
               display: 'flex', alignItems: 'center', gap: '6px',
               padding: '10px 20px', borderRadius: '10px',
               border: '1px solid rgba(255,255,255,0.4)',
