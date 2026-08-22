@@ -178,7 +178,7 @@ export const authApi = {
   },
 
   // Get active access code (Admin only)
-  getAccessCode: async (): Promise<{ success: boolean; code?: string; message?: string }> => {
+  getAccessCode: async (): Promise<{ success: boolean; code?: string; message?: string; isActive?: boolean }> => {
     return await apiRequest('/auth/access-code');
   },
 
