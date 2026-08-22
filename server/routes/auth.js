@@ -408,13 +408,14 @@ router.get('/me', protect, async (req, res) => {
 // Update user profile
 router.put('/update-profile', protect, async (req, res) => {
   try {
-    const { name, phone, country, avatar } = req.body;
+    const { name, phone, country, avatar, progressPercentage } = req.body;
     
     const updateFields = {};
     if (name) updateFields.name = name.trim();
     if (phone !== undefined) updateFields.phone = phone;
     if (country) updateFields.country = country;
     if (avatar !== undefined) updateFields.avatar = avatar;
+    if (progressPercentage !== undefined) updateFields.progressPercentage = progressPercentage;
 
     const user = await db.updateUser(req.user.id || req.user._id, updateFields);
 

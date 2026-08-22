@@ -938,6 +938,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       progressPercentage: pct
     });
 
+    try {
+      authApi.updateProfile({ progressPercentage: pct }).catch(() => {});
+    } catch(e) {}
+
     setCurrentUserState(prev => {
       if (!prev) return null;
       const updated = { ...prev, progressPercentage: pct };
