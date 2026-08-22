@@ -23,6 +23,7 @@ export const ModuleScreen: React.FC = () => {
     setSelectedLessonId,
     setActiveView,
     markLessonComplete,
+    updateStudyTime,
     bookmarks,
     toggleBookmark,
     language,

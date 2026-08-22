@@ -99,6 +99,7 @@ interface AppContextType {
   markLessonComplete: (lessonId: string, completed: boolean) => void;
   updateReadingProgress: (lessonId: string, progressPercentage: number) => void;
   updateWatchTime: (lessonId: string, seconds: number) => void;
+  updateStudyTime: (lessonId: string, seconds: number) => void;
   saveQuizScore: (lessonId: string, questionId: string, isCorrect: boolean) => void;
   getCourseCompletionPercentage: (courseId: string) => number;
   getModuleCompletionPercentage: (moduleId: string) => number;
@@ -869,46 +870,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // STUDENT PROGRESS ACTIONS
 
-  // Active Study Time Tracker
-  useEffect(() => {
-    if (activeView !== 'Chapters' || !selectedLessonId || !currentUser) return;
-
-    const timer = setInterval(() => {
-      if (document.visibilityState === 'visible') {
-        setProgress(prev => {
-          const current = prev[selectedLessonId] || getInitProgress(selectedLessonId);
-          const updated = {
-            ...prev,
-            [selectedLessonId]: {
-              ...current,
-              studyTime: (current.studyTime || 0) + 10
-            }
-          };
-          saveToLocal('lms_progress_ie', updated);
-          return updated;
-        });
-
-        setCurrentUserState(prev => {
-          if (!prev) return null;
-          const updated = {
-            ...prev,
-            totalStudyTime: (prev.totalStudyTime || 0) + 10
-          };
-          localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(updated));
-          
-          setUsers(uPrev => {
-            const upUsers = uPrev.map(u => u.id === prev.id ? { ...u, totalStudyTime: updated.totalStudyTime } : u);
-            saveToLocal('lms_users_v2_ie', upUsers);
-            return upUsers;
-          });
-          
-          return updated;
-        });
-      }
-    }, 10000); // Record every 10 seconds
-
-    return () => clearInterval(timer);
-  }, [activeView, selectedLessonId, currentUser?.id]);
+  
 
   const getInitProgress = (lessonId: string): UserProgress => {
     return progress[lessonId] || {
@@ -983,6 +945,39 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       };
       saveToLocal('lms_progress_ie', updated);
       syncStudentProgressPercentage(updated);
+      return updated;
+    });
+  };
+
+  const updateStudyTime = (lessonId: string, seconds: number) => {
+    if (!currentUser) return;
+    setProgress(prev => {
+      const current = prev[lessonId] || getInitProgress(lessonId);
+      const updated = {
+        ...prev,
+        [lessonId]: {
+          ...current,
+          studyTime: (current.studyTime || 0) + seconds
+        }
+      };
+      saveToLocal('lms_progress_ie', updated);
+      return updated;
+    });
+
+    setCurrentUserState(prev => {
+      if (!prev) return null;
+      const updated = {
+        ...prev,
+        totalStudyTime: (prev.totalStudyTime || 0) + seconds
+      };
+      localStorage.setItem('lms_current_user_v2_ie', JSON.stringify(updated));
+      
+      setUsers(uPrev => {
+        const upUsers = uPrev.map(u => u.id === prev.id ? { ...u, totalStudyTime: updated.totalStudyTime } : u);
+        saveToLocal('lms_users_v2_ie', upUsers);
+        return upUsers;
+      });
+      
       return updated;
     });
   };
@@ -1258,6 +1253,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       markLessonComplete,
       updateReadingProgress,
       updateWatchTime,
+      updateStudyTime,
       saveQuizScore,
       getCourseCompletionPercentage,
       getModuleCompletionPercentage,

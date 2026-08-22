@@ -222,7 +222,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
     if (mode === 'register' && password !== confirmPassword) {
       e.confirmPassword = 'Passwords do not match';
     }
-    // accessCode is now optional
+    if (!accessCode.trim()) {
+      e.accessCode = 'Access Code is required to login/register';
+    }
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -1132,7 +1134,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
 
             {/* Admin Access Code */}
             <div className="input-group">
-              <label className="input-label">Admin Access Code (Optional)</label>
+              <label className="input-label">App Access Code</label>
               <input 
                 type="text" 
                 value={accessCode} 
@@ -1152,7 +1154,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
             {mode === 'register' && (
               <div className="access-info-box">
                 <Info size={14} style={{ marginRight: '6px', flexShrink: 0, color: '#2563eb' }} />
-                <span>Admin Access Code is only required if you want to register as an Administrator.</span>
+                <span>An exclusive Access Code is required to use this application.</span>
               </div>
             )}
 
