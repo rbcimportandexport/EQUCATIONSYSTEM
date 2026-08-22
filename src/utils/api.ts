@@ -183,8 +183,8 @@ export const authApi = {
   },
 
   // Update active access code (Admin only)
-  updateAccessCode: async (code: string): Promise<{ success: boolean; message?: string; code?: string }> => {
-    return await apiRequest('/auth/access-code', 'POST', { code });
+  updateAccessCode: async (code?: string, isActive?: boolean): Promise<{ success: boolean; message?: string; code?: string; isActive?: boolean }> => {
+    return await apiRequest('/auth/access-code', 'POST', { code, isActive });
   }
 };
 

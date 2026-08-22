@@ -121,6 +121,7 @@ export const AdminPanel = () => {
 
   // Access Code State
   const [adminAccessCode, setAdminAccessCode] = useState('');
+  const [isMasterActive, setIsMasterActive] = useState(false);
   const [accessCodeLoading, setAccessCodeLoading] = useState(false);
 
   // Fetch access code when settings tab is clicked
@@ -132,6 +133,7 @@ export const AdminPanel = () => {
           const res = await authApi.getAccessCode();
           if (res.success && res.code) {
             setAdminAccessCode(res.code);
+              setIsMasterActive(res.isActive || false);
           }
         } catch (err) {
           console.error(err);
@@ -150,7 +152,7 @@ export const AdminPanel = () => {
     }
     setAccessCodeLoading(true);
     try {
-      const res = await authApi.updateAccessCode(adminAccessCode.trim());
+      const res = await authApi.updateAccessCode(adminAccessCode.trim(), isMasterActive);
       if (res.success && res.code) {
         setAdminAccessCode(res.code);
         showAlert('Updated Successfully', 'Access code successfully updated!', 'success');

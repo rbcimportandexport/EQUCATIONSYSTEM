@@ -6,6 +6,10 @@ const AccessCodeSchema = new mongoose.Schema({
     required: true,
     default: 'RBC9988'
   },
+  isActive: {
+    type: Boolean,
+    default: false
+  },
   updatedAt: {
     type: Date,
     default: Date.now

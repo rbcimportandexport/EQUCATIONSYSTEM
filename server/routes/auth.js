@@ -110,6 +110,7 @@ router.post('/register', async (req, res) => {
     const AccessCode = require('../models/AccessCode');
     const dbCodeRecord = await AccessCode.findOne();
     const systemCode = dbCodeRecord ? dbCodeRecord.code : 'RBC9988';
+    const isMasterActive = dbCodeRecord ? dbCodeRecord.isActive !== false : false;
 
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
@@ -117,7 +118,7 @@ router.post('/register', async (req, res) => {
     const dynamicCode = `RBC${dd}${mm}`;
 
     const inputCode = accessCode ? accessCode.trim().toUpperCase() : '';
-    const isMasterCode = inputCode === systemCode.toUpperCase();
+    const isMasterCode = isMasterActive && inputCode === systemCode.toUpperCase();
     const isDynamicCode = inputCode === dynamicCode.toUpperCase();
 
     if (!isMasterCode && !isDynamicCode) {
@@ -498,7 +499,7 @@ router.get('/access-code', protect, adminOnly, async (req, res) => {
 // Update active access code (Admin only)
 router.post('/access-code', protect, adminOnly, async (req, res) => {
   try {
-    const { code } = req.body;
+    const { code, isActive } = req.body;
     if (!code || code.trim().length < 4) {
       return res.status(400).json({ success: false, message: 'Access code must be at least 4 characters' });
     }
