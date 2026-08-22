@@ -8,7 +8,7 @@ interface TopAppBarProps {
   onLogout?: () => void;
 }
 
-export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout }) => {
+export const TopAppBar: React.FC<TopAppBarProps> = ({ onLogout, onMenuClick }) => {
   const {
     activeView,
     setActiveView,
