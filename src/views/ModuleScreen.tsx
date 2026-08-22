@@ -246,6 +246,18 @@ export const ModuleScreen: React.FC = () => {
     }
   }, [selectedModuleId, modules, setSelectedModuleId]);
 
+  useEffect(() => {
+    if (!activeTopicId) return;
+
+    const timer = setInterval(() => {
+      if (document.visibilityState === 'visible') {
+        updateStudyTime(activeTopicId, 10);
+      }
+    }, 10000); // Record every 10 seconds
+
+    return () => clearInterval(timer);
+  }, [activeTopicId, updateStudyTime]);
+
   // Pre-load speech synthesis voices on mount
   const ttsSessionRef = useRef<number>(0);
   const ttsActiveRef = useRef<boolean>(false);
