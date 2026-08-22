@@ -133,6 +133,8 @@ export const Profile: React.FC = () => {
   const avatarInitials = (currentUser?.name || fallbackName)
     .split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
 
+  const isStandalone = typeof window !== "undefined" && (window.matchMedia("(display-mode: standalone)").matches || navigator.standalone);
+
   return (
     <div style={{
       height: '100%',
@@ -391,8 +393,9 @@ export const Profile: React.FC = () => {
           </div>
         </div>
 
-        {/* App Download Section */}
         {!isStandalone && (
+        <>
+        {/* App Download Section */}
         <div style={{
           background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
           borderRadius: '20px', padding: '24px',
@@ -442,6 +445,7 @@ export const Profile: React.FC = () => {
             Install App
           </button>
         </div>
+        </>
         )}
 
         {/* Certificates Section */}
