@@ -133,7 +133,7 @@ export const Profile: React.FC = () => {
   const avatarInitials = (currentUser?.name || fallbackName)
     .split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
 
-  const isStandalone = typeof window !== "undefined" && (window.matchMedia("(display-mode: standalone)").matches || navigator.standalone);
+  const isStandalone = typeof window !== "undefined" && (window.matchMedia("(display-mode: standalone)").matches || (navigator as any).standalone);
 
   return (
     <div style={{
