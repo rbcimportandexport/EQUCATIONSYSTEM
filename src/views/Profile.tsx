@@ -391,8 +391,8 @@ export const Profile: React.FC = () => {
           </div>
         </div>
 
-        {!isStandalone && (
         {/* App Download Section */}
+        {!isStandalone && (
         <div style={{
           background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
           borderRadius: '20px', padding: '24px',
