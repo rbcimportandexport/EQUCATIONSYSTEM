@@ -43,7 +43,7 @@ export const CommunityScreen: React.FC = () => {
           if ('Notification' in window && Notification.permission === 'granted') {
             const newSenders = res.senderIds.filter(id => !previousSendersRef.current.includes(id));
             if (newSenders.length > 0) {
-              newSenders.forEach(senderId => {
+              newSenders.forEach(() => {
                 new Notification('New Message on RBC Education 💬', {
                   body: `You have received a new message!`,
                 });
