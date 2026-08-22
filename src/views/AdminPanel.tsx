@@ -2271,7 +2271,7 @@ export const AdminPanel = () => {
             <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <span style={{ fontSize: '13px', fontWeight: 700, color: '#334155' }}>
-                  📅 Today's Active Dynamic Code
+                  Today's Active Dynamic Code
                 </span>
                 <span style={{ fontSize: '11px', fontWeight: 700, padding: '2px 8px', background: '#dcfce7', color: '#16a34a', borderRadius: '6px' }}>
                   ALWAYS ACTIVE
@@ -2292,7 +2292,7 @@ export const AdminPanel = () => {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
                 <div>
                   <div style={{ fontSize: '14px', fontWeight: 800, color: isMasterActive ? '#166534' : '#991b1b', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span>🔑 Master Backup Code (RBC9988)</span>
+                    <span>Master Backup Code (RBC9988)</span>
                   </div>
                   <div style={{ fontSize: '12px', color: isMasterActive ? '#15803d' : '#b91c1c', marginTop: '2px' }}>
                     {isMasterActive ? 'RBC9988 is currently ENABLED and can be used to login.' : 'RBC9988 is DISABLED. No one can use it to login.'}
@@ -2319,7 +2319,7 @@ export const AdminPanel = () => {
                     transition: 'all 0.2s ease'
                   }}
                 >
-                  <span>{isMasterActive ? 'ACTIVE 🟢' : 'INACTIVE 🔴'}</span>
+                  <span>{isMasterActive ? 'ACTIVE' : 'INACTIVE'}</span>
                   <div style={{ width: '32px', height: '18px', background: '#ffffff', borderRadius: '20px', position: 'relative' }}>
                     <div style={{ width: '14px', height: '14px', background: isMasterActive ? '#16a34a' : '#dc2626', borderRadius: '50%', position: 'absolute', top: '2px', left: isMasterActive ? '16px' : '2px', transition: 'all 0.2s ease' }} />
                   </div>
