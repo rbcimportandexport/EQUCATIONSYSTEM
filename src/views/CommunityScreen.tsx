@@ -38,6 +38,19 @@ export const CommunityScreen: React.FC = () => {
         const res = await chatApi.getNotifications(currentUser.id);
         if (res.success) {
           setUnreadSenders(res.senderIds);
+          
+          // Push Notification Logic
+          if ('Notification' in window && Notification.permission === 'granted') {
+            const newSenders = res.senderIds.filter(id => !previousSendersRef.current.includes(id));
+            if (newSenders.length > 0) {
+              newSenders.forEach(senderId => {
+                new Notification('New Message on RBC Education 💬', {
+                  body: `You have received a new message!`,
+                });
+              });
+            }
+          }
+          previousSendersRef.current = res.senderIds;
         }
       } catch (err) {
         console.error('Error fetching chat notifications:', err);
