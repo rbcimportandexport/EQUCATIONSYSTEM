@@ -3,6 +3,21 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const ChatMessage = require('../models/ChatMessage');
 const User = require('../models/User');
+const webpush = require('web-push');
+const PushSubscription = require('../models/PushSubscription');
+
+const publicVapidKey = process.env.VITE_VAPID_PUBLIC_KEY;
+const privateVapidKey = process.env.VAPID_PRIVATE_KEY;
+
+if (publicVapidKey && privateVapidKey) {
+  webpush.setVapidDetails(
+    'mailto:inquiryrbcimport@gmail.com',
+    publicVapidKey,
+    privateVapidKey
+  );
+} else {
+  console.warn('VAPID keys not configured in chat.js');
+}
 
 // Helper to convert to ObjectId safely
 const toObjectId = (id) => {
@@ -93,6 +108,42 @@ router.post('/send', async (req, res) => {
     });
 
     await newMessage.save();
+
+    // Trigger Push Notification asynchronously
+    try {
+      // Find the receiver user to get their email
+      const receiverObj = toObjectId(receiverId);
+      const receiver = await User.findById(receiverObj) || await User.findOne({ email: receiverId });
+      
+      if (receiver && receiver.email) {
+        // Find their push subscription
+        const sub = await PushSubscription.findOne({ userEmail: receiver.email.toLowerCase().trim() });
+        if (sub) {
+          // Find sender name for notification
+          const senderObj = toObjectId(senderId);
+          const sender = await User.findById(senderObj) || await User.findOne({ email: senderId });
+          const senderName = sender ? sender.name : 'Someone';
+          
+          const pushPayload = JSON.stringify({
+            title: `New message from ${senderName}`,
+            body: text.trim().length > 50 ? text.trim().substring(0, 50) + '...' : text.trim(),
+            url: '/chat',
+            icon: '/logo_emblem.png'
+          });
+
+          await webpush.sendNotification(
+            { endpoint: sub.endpoint, keys: sub.keys },
+            pushPayload
+          ).catch(async (err) => {
+            if (err.statusCode === 404 || err.statusCode === 410) {
+              await PushSubscription.deleteOne({ _id: sub._id });
+            }
+          });
+        }
+      }
+    } catch (pushErr) {
+      console.error('Failed to send chat push notification:', pushErr);
+    }
 
     res.status(201).json({
       success: true,
