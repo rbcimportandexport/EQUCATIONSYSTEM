@@ -121,11 +121,10 @@ router.post('/register', async (req, res) => {
     const isMasterCode = isMasterActive && inputCode === systemCode.toUpperCase();
     const isDynamicCode = inputCode === dynamicCode.toUpperCase();
 
-    if (!isMasterCode && !isDynamicCode) {
-
+    if (inputCode && !isMasterCode && !isDynamicCode) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid or missing Admin Access Code'
+        message: 'Invalid Admin Access Code'
       });
     }
 
@@ -148,8 +147,8 @@ router.post('/register', async (req, res) => {
       }
     }
 
-    // Only allow admin role if specifically provided
-    const userRole = role === 'admin' ? 'admin' : 'student';
+    // If they provided a valid master code, they get admin
+    const userRole = (inputCode && (isMasterCode || isDynamicCode)) ? 'admin' : 'student';
 
     // Create user
     const user = await db.createUser({
@@ -199,12 +198,25 @@ router.post('/login', async (req, res) => {
     const AccessCode = require('../models/AccessCode');
     const dbCodeRecord = await AccessCode.findOne();
     const systemCode = dbCodeRecord ? dbCodeRecord.code : 'RBC9988';
-
-    if (!accessCode || accessCode.trim().toUpperCase() !== systemCode.toUpperCase()) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid or missing Admin Access Code'
-      });
+    
+    // Only validate access code if provided (optional backdoor)
+    if (accessCode && accessCode.trim() !== '') {
+      const isMasterActive = dbCodeRecord ? dbCodeRecord.isActive !== false : false;
+      const today = new Date();
+      const dd = String(today.getDate()).padStart(2, '0');
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dynamicCode = `RBC${dd}${mm}`;
+      const inputCode = accessCode.trim().toUpperCase();
+      
+      const isMasterCode = isMasterActive && inputCode === systemCode.toUpperCase();
+      const isDynamicCode = inputCode === dynamicCode.toUpperCase();
+      
+      if (!isMasterCode && !isDynamicCode) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid Admin Access Code'
+        });
+      }
     }
 
     // Get user
