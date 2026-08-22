@@ -2361,3 +2361,5 @@ body.header-hidden .top-app-bar-varsity {
 }
 
 @media (max-width: 768px) { .mobile-menu-toggle { display: block !important; } }
+@media (max-width: 768px) { .sidebar-redesign.mobile-open { display: flex !important; flex-direction: column; } }
+@media (max-width: 768px) { .sidebar-backdrop-active { display: block !important; } }
