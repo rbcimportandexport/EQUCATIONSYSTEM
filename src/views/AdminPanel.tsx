@@ -2256,28 +2256,75 @@ export const AdminPanel = () => {
       {activeTab === 'settings' && (
         <div style={{ maxWidth: '640px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
           {/* Security Access Code Card */}
-          <div className="card" style={{ padding: '28px', background: '#ffffff', borderRadius: '16px', border: '1.5px solid #cbd5e1', display: 'flex', flexDirection: 'column', gap: '18px' }}>
-            <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Settings size={20} color="#0284c7" />
-              <span>LMS Access Code Configuration</span>
-            </h3>
-            <p style={{ fontSize: '13px', color: '#64748b', lineHeight: '1.5', margin: 0 }}>
-              The system requires an active Admin Access Code to grant administrative privileges during login. The code automatically rotates daily based on the current date: RBC + DDMM (e.g. RBC2108 for August 21st). The master fallback code RBC9988 is also permanently active.
-            </p>
-            
-            <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <label className="form-label" style={{ fontSize: '12px', fontWeight: 700, color: '#475569' }}>
-                Active Security Access Code
-              </label>
-              <input
-                type="text"
-                value={adminAccessCode}
-                onChange={e => setAdminAccessCode(e.target.value.toUpperCase())}
-                placeholder="Active Code: RBC + DDMM (e.g. RBC2108) or RBC9988"
-                className="input-field"
-                disabled={true}
-                style={{ padding: '12px 16px', borderRadius: '8px', border: '1.5px solid #cbd5e1', fontSize: '15px', outline: 'none', fontWeight: 700, letterSpacing: '1px', width: '100%', boxSizing: 'border-box' }}
-              />
+          <div className="card" style={{ padding: '28px', background: '#ffffff', borderRadius: '16px', border: '1.5px solid #cbd5e1', display: 'flex', flexDirection: 'column', gap: '20px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #f1f5f9', paddingBottom: '16px' }}>
+              <h3 style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Settings size={20} color="#0284c7" />
+                <span>Admin Access Code Configuration</span>
+              </h3>
+              <span style={{ fontSize: '11px', fontWeight: 700, padding: '4px 10px', background: '#e0f2fe', color: '#0284c7', borderRadius: '20px', letterSpacing: '0.5px' }}>
+                SUPER ADMIN
+              </span>
+            </div>
+
+            {/* Today's Daily Dynamic Code Card */}
+            <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: '13px', fontWeight: 700, color: '#334155' }}>
+                  📅 Today's Active Dynamic Code
+                </span>
+                <span style={{ fontSize: '11px', fontWeight: 700, padding: '2px 8px', background: '#dcfce7', color: '#16a34a', borderRadius: '6px' }}>
+                  ALWAYS ACTIVE
+                </span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ fontSize: '20px', fontWeight: 900, color: '#0284c7', letterSpacing: '2px', background: '#ffffff', padding: '8px 16px', borderRadius: '8px', border: '1.5px dashed #93c5fd', display: 'inline-block' }}>
+                  {`RBC${String(new Date().getDate()).padStart(2, '0')}${String(new Date().getMonth() + 1).padStart(2, '0')}`}
+                </div>
+                <span style={{ fontSize: '12px', color: '#64748b' }}>
+                  (Rotates automatically every night at 12:00 AM)
+                </span>
+              </div>
+            </div>
+
+            {/* Master Backup Code (RBC9988) Toggle Switch */}
+            <div style={{ background: isMasterActive ? '#f0fdf4' : '#fef2f2', padding: '16px', borderRadius: '12px', border: `1.5px solid ${isMasterActive ? '#86efac' : '#fca5a5'}`, transition: 'all 0.3s ease' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                <div>
+                  <div style={{ fontSize: '14px', fontWeight: 800, color: isMasterActive ? '#166534' : '#991b1b', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span>🔑 Master Backup Code (RBC9988)</span>
+                  </div>
+                  <div style={{ fontSize: '12px', color: isMasterActive ? '#15803d' : '#b91c1c', marginTop: '2px' }}>
+                    {isMasterActive ? 'RBC9988 is currently ENABLED and can be used to login.' : 'RBC9988 is DISABLED. No one can use it to login.'}
+                  </div>
+                </div>
+
+                {/* Big Interactive Toggle Switch Button */}
+                <button
+                  type="button"
+                  onClick={() => setIsMasterActive(!isMasterActive)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    padding: '8px 14px',
+                    borderRadius: '30px',
+                    border: `1.5px solid ${isMasterActive ? '#16a34a' : '#dc2626'}`,
+                    background: isMasterActive ? '#16a34a' : '#dc2626',
+                    color: '#ffffff',
+                    fontWeight: 800,
+                    fontSize: '13px',
+                    cursor: 'pointer',
+                    boxShadow: isMasterActive ? '0 2px 8px rgba(22, 163, 74, 0.3)' : '0 2px 8px rgba(220, 38, 38, 0.3)',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  <span>{isMasterActive ? 'ACTIVE 🟢' : 'INACTIVE 🔴'}</span>
+                  <div style={{ width: '32px', height: '18px', background: '#ffffff', borderRadius: '20px', position: 'relative' }}>
+                    <div style={{ width: '14px', height: '14px', background: isMasterActive ? '#16a34a' : '#dc2626', borderRadius: '50%', position: 'absolute', top: '2px', left: isMasterActive ? '16px' : '2px', transition: 'all 0.2s ease' }} />
+                  </div>
+                </button>
+              </div>
             </div>
 
             <button
@@ -2285,24 +2332,25 @@ export const AdminPanel = () => {
               onClick={handleSaveAccessCode}
               disabled={accessCodeLoading}
               style={{
-                padding: '12px',
+                padding: '14px',
                 background: '#0284c7',
                 color: '#ffffff',
                 border: 'none',
-                borderRadius: '8px',
-                fontWeight: 700,
+                borderRadius: '10px',
+                fontWeight: 800,
                 cursor: accessCodeLoading ? 'not-allowed' : 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
-                fontSize: '14px',
-                boxShadow: '0 4px 12px rgba(2, 132, 199, 0.25)',
-                width: '100%'
+                fontSize: '15px',
+                boxShadow: '0 4px 14px rgba(2, 132, 199, 0.3)',
+                width: '100%',
+                marginTop: '4px'
               }}
             >
-              <Save size={16} />
-              <span>{accessCodeLoading ? 'Saving...' : 'Save Access Code'}</span>
+              <Save size={18} />
+              <span>{accessCodeLoading ? 'Saving Settings...' : 'Save Configuration Changes'}</span>
             </button>
           </div>
 
