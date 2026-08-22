@@ -101,6 +101,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => 
         })}
 
         <div style={{ height: '1px', background: '#e2e8f0', margin: '8px 0' }}></div>
+        {!isStandalone && (
         <button 
           onClick={handleDownloadApp}
           style={{
@@ -123,6 +124,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => 
           <Download size={18} color="#006064" />
           <span>Download App</span>
         </button>
+        )}
       </nav>
 
     </aside>
