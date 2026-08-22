@@ -18,7 +18,7 @@ export const InstallBanner: React.FC = () => {
   useEffect(() => {
     // Check if already installed or dismissed
     const hasDismissed = localStorage.getItem('rbc_pwa_dismissed');
-    if (hasDismissed === 'true') return;
+    // if (hasDismissed === 'true') return;
 
     // Check if running in standalone mode (already installed)
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true;
