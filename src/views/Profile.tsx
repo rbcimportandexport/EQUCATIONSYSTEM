@@ -412,7 +412,7 @@ export const Profile: React.FC = () => {
                 if (isIOS) {
                   alert('To install on iPhone/iPad:\n1. Tap the Share button at the bottom of Safari.\n2. Scroll down and tap "Add to Home Screen".');
                 } else {
-                  alert('App is either already installed, or your browser does not support it.');
+                  alert('Chrome ne automatic download ko block kar diya hai, ya app pehle se installed hai.\n\nManual Download ke liye:\n1. Chrome ke upar right side me 3 dots (⋮) par click karein.\n2. \'Install app\' ya \'Add to Home screen\' select karein.');
                 }
               }
             }}

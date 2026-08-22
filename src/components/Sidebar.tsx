@@ -28,7 +28,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen = false, onClose }) => 
       if (isIOS) {
         alert('To install on iPhone/iPad: Tap the Share button at the bottom of Safari and select "Add to Home Screen".');
       } else {
-        alert('App is already installed or your browser does not support it.');
+        alert('Chrome ne automatic download ko block kar diya hai, ya app pehle se installed hai.\n\nManual Download ke liye:\n1. Chrome ke upar right side me 3 dots (⋮) par click karein.\n2. \'Install app\' ya \'Add to Home screen\' select karein.');
       }
     }
     if (onClose) onClose();
