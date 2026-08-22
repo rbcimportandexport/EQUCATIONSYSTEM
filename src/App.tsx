@@ -38,7 +38,7 @@ const AppShell: React.FC = () => {
     closeConfirm
   } = useApp();
   const [isLeftDrawerOpen, setIsLeftDrawerOpen] = useState(false);
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
