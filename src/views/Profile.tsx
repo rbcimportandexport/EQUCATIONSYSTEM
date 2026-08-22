@@ -391,8 +391,6 @@ export const Profile: React.FC = () => {
           </div>
         </div>
 
-                  const isStandalone = typeof window !== 'undefined' && (window.matchMedia('(display-mode: standalone)').matches || (navigator as any).standalone);
-
         {!isStandalone && (
         {/* App Download Section */}
         <div style={{
